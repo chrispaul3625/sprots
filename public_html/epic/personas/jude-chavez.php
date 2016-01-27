@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!--
 *created by phpstorm
 * User: jchavez790
@@ -30,3 +31,5 @@
 		</p>
 	</body>
 </html>
+=======
+>>>>>>> origin/master
