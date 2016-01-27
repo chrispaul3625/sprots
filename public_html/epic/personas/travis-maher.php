@@ -2,10 +2,10 @@
 	<head>
 		<meta charset="utf-8"/>
 
-		<h1>PERSONA</h1>
+		<title>PERSONA</title>
 	</head>
 	<body>
-		<h2>Travis Maher</h2>
+		<h1>Travis Maher</h1>
 		<p>
 			Travis Maher is a soccer player who follows both soccer and football very closely. Travis has been into sports
 			his whole life. He is 29 years old and lives in Denver. He works IT but so he has ample access to a HP running windows 10
