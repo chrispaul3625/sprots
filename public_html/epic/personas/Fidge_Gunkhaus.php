@@ -16,7 +16,7 @@
 	<ul> <li>Male</li>
 		<li> age 37</li>
 		<li> white </li>
-		<li> He is a assistant distric attorny </li>
+		<li> He is an assistant distric attorny </li>
 		<li> Married 14 years </li>
 		<li>He has 2 kids named Ellie and chalupa batman</li>
 	</ul>
