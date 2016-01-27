@@ -5,10 +5,9 @@
 		</head>
 	<body>
 		<ul>
-			<li><a href="personas/travis-maher.php"> Travis Maher Persona.</a></li>
 			<li><a href="personas/jude-chavez.php"> Jude Chavez Persona. </a>
 			<li><a href="personas/brandon-ploshay.php"> Fidge Gunkhaus Persona.</a></li>
-			<li><a href="personas/chuck-miles.php"> Chuck Miles Persona.</a></li>
+			<li><a href="personas/bill_pruitt.php"> Chuck Miles Persona.</a></li>
 			<li><a href="data-design/conceptual-model.php"> Conceptual Model.</a></li>
 			<li><a href="data-design/erd.php"> ERD Model.</a></li>
 			<li><a href="system-goals.php"> System Goals.</a></li>
