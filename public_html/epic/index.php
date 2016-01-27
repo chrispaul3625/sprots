@@ -16,7 +16,6 @@
 			<li><a href="user-stories.php"> User Stories.</a></li>
 		</ul>
 		<h1> Executive Summary </h1>
-		<h1>SYSTEM GOALS</h1>
 		<p>
 			Sprots is going to be designed to give the team and individual players stats for these four professional teams NFL, NBA, MLB, and MLS.
 		</p>
