@@ -8,17 +8,22 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	<meta charset="utf-8"/> <!-- the head is for meta data -->
-	<title> My web page </title>
+	<meta charset="utf-8"/>
+	<title> capstone persona </title>
 	</head>
 	<body>
-	<h1>Fidge Gunkhaus<h1>
-	<ul> <li>Male</li>
-		<li> age 37</li>
-		<li> white </li>
-		<li> He is an assistant distric attorny </li>
-		<li> Married 14 years </li>
-		<li>He has 2 kids named Ellie and chalupa batman</li>
-	</ul>
+		<h3>Persona</h3>
+
+		<h2>Gunkhaus</h2>
+	<p> Fidge Gunkhaus is a 37 year old whiteman he is an assitant District attorney. He is married with two kids he uses his phone and computers constantly. He has a work laptop that he takes everywhere and another one at home. Huge football fan he watches every week and he is the commissioner of his fantasy football league. He is obsessed with fantasy football and so is the rest of  his league.He needs access to information about his lineup instantly even if he is at work or home or  on a vacation.</p>
+		<h3>User Story </h3>
+		<ul>
+			<li> The user needs to be able to create a fantasy lineup and change it accordingly </li>
+			<li> Should get updates about his or her lineup as we get the information. </li>
+			<li> Can tell them who in their lineup is playing what team. </li>
+			<li> Will keep the user updated about the scores and injures during games. </li>
+			<li> Can comapre show score between different linups</li>
+		</ul>
+
 	</body>
 	</html>
