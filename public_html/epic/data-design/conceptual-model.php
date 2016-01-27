@@ -18,10 +18,10 @@
 			Professional Sport i.e. NFL, NBA, etc, will be an entity, that will have a 1 to many teams. The teams of each sport will also be an entity.
 		</p>
 		<p>
-			The team entity will be 1 to many as well, and will link directly to the teams roster. Each team will have attributes, in the form of overall team statistics.
+			The team entity will be 1 to many as well, and will link directly to the teams roster. Each team will have attributes, in the form of overall team statistics, and team rankings.
 		</p>
 		<p>
-			The players of the team(s) will be a weak entity, considering we're only focusing on current team rosters. The attributes will be the individual players statistics. Player's current condition, player rankings (amongst piers in particular sport), Player bio.
+			The players of the team(s) will be a weak entity, considering we're only focusing on current team rosters. The attributes will be the individual players statistics, player's current condition, player rankings (amongst piers in particular sport), players bio.
 		</p>
 		<img src="images/sprotsConceptualModel.svg" alt="Visual Conceptual Model">
 	</body>
