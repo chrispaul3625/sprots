@@ -13,8 +13,11 @@
 						<li>Bill sees content about his team that interests him and he clicks on the link.</li>
 						<li>The site brings up the content about the team</li>
 					</ul>
-				<p> Fidge Gunkhaus will primarily be using his phone to access the site. Fide will create a profile so he can have the most up to the moment info about the memebers of his line up.</p>
-				<p>Fidge will create a profile to access the premium services. He will click on the sign up button creating a menu for his firstname,lastname,  email, billing address, mailing address,card information </p>
+				<h2>Fidge Gunkhaus</H2>
+						<li>Fidge accesses the site on his android phone.</li>
+						<li>Fidge will have a profile that will send him allow him to see up to date information about the teams he follows, i.e. Vikings, Twins.</li>
+						<li>Fidge will create a profile to access premium information by clicking the "sign up" button, which will create a form for him to enter his firstname, lastname, email, billing address, mailing address,and card
+							information.</li>
 				<h2>Jude Chavez</h2>
 					<ul>
 						<li>Jude accesses the site on his work computer that runs IE.</li>
