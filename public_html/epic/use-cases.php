@@ -13,13 +13,14 @@
 						<li>Bill sees content about his team that interests him and he clicks on the link.</li>
 						<li>The site brings up the content about the team</li>
 					</ul>
-		<h3> Brandon Ploshay </h3>
-		<ul>
-			<li>Brandon needs instant  access on all his devices iphone 10 and PC with windows 10 </li>
-			<li>Needs accurate stats for every player and team.</li>
-			<li>Notifications about player injures and game wins/loses </li>
-			<li>Needs to have a list of his players and team.</li>
-		</ul>
+				<p> Fidge Gunkhaus will primarily be using his phone to access the site. Fide will create a profile so he can have the most up to the moment info about the memebers of his line up.</p>
+				<p>Fidge will create a profile to access the premium services. He will click on the sign up button creating a menu for his firstname,lastname,  email, billing address, mailing address,card information </p>
+				<h2>Jude Chavez</h2>
+					<ul>
+						<li>Jude accesses the site on his work computer that runs IE.</li>
+						<li>Jude does not have a profile to bring up the content for the teams he follows, i.e. Viking, Twins. but he can see and search content anyway.</li>
+						<li>JUde sees content about his query and he clicks on the link.</li>
+						<li>The site brings up the content about the team.</li>
 	</body>
 
 </html>
