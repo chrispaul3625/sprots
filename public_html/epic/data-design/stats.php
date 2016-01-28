@@ -9,16 +9,13 @@
 		<body>
 			<h1> Sport Stats being used.</h1>
 			<h2>Soccer Stats</h2>
-			<p>
 				<ul>
 				<li> Live Score Feed of the EPL Live Matches.</li>
 				<li> Live Commentary on important matches including events, line-ups, substitutions and others.</li>
 				<li> Standing table of the league.</li>
 				<li> Fixtures for the current day and for the next and past 7 days.</li>
 			</ul>
-			</p>
-			<h3> Football </h3>
-			<p>
+			<h2> Football </h2>
 			<ul>
 				<li> Schedules </li>
 				<li> Scores </li>
@@ -38,9 +35,7 @@
 				<li> Projected Fantasy Points </li>
 				<li> Fantasy D/ST Stats </li>
 			</ul>
-			</p>
-			<h4> Baseball </h4>
-			<p>
+			<h2> Baseball </h2>
 				<ul>
 				<li> Schedules </li>
 				<li> Scores </li>
@@ -59,9 +54,7 @@
 				<li> Fantasy Points </li>
 				<li> Projected Fantasy Points </li>
 			</ul>
-			</p>
-			<h5> Basketball </h5>
-			<p>
+			<h2> Basketball </h2>
 				<ul>
 				<li> Schedule </li>
 				<li> Scores </li>
@@ -77,6 +70,5 @@
 				<li> Fantasy Points </li>
 				<li> Projected Fantasy Points </li>
 			</ul>
-			</p>
 		</body>
 	</html>
