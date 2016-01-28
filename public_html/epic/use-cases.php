@@ -15,10 +15,9 @@
 					</ul>
 				<h2>Fidge Gunkhaus</H2>
 						<li>Fidge accesses the site on his android phone.</li>
-						<li>Fidge will have a premium profile that will allow him to see up to date information about the teams he follows, i.e. Vikings, Twins.</li>
+						<li>Fidge will have a profile that will send him allow him to see up to date information about the teams he follows, i.e. Vikings, Twins.</li>
 						<li>Fidge will create a profile to access premium information by clicking the "sign up" button, which will create a form for him to enter his firstname, lastname, email, billing address, mailing address,and card
 							information.</li>
-						<li>Fidge will now have a profile that will bring up information about his queries.</li>
 				<h2>Jude Chavez</h2>
 					<ul>
 						<li>Jude accesses the site on his work computer that runs IE.</li>
