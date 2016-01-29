@@ -16,8 +16,8 @@
 			<li> As a registered user I want to be able to look at stats of players and my favorite teams. </li>
 			<li> As a registered user I want to be able to save favortie teams to my profile and view stats of those teams.</li>
 			<li> As a registered user I want to be able to remove favorite teams from my profile. </li>
-			<li> As a user I want to be able to search and look at stats for all teams in the NFL, MLB, MLS, and NBA.</li>
-			<li> As a user I want to be able to look at upcomming fixtures for teams in the NFL, MLB, MLS, and NBA. </li>
+			<li> As a user I want to be able to search and look at stats for all teams in the NFL, MLB, EPL, and NBA.</li>
+			<li> As a user I want to be able to look at upcomming fixtures for teams in the NFL, MLB, EPL, and NBA. </li>
 		</ul>
 	</body
 

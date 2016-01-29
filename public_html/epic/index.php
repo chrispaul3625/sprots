@@ -16,7 +16,7 @@
 		</ul>
 		<h1> Executive Summary </h1>
 		<p>
-			Sprots is going to be designed to give the team and individual players stats for these four professional teams NFL, NBA, MLB, and MLS.
+			Sprots is going to be designed to give the team and individual players stats for these four professional teams NFL, NBA, MLB, and EPL.
 		</p>
 		<p>
 			The conceptual design is going to be one that will essentially reference outside libraries for the data, but provide it in a clear, easily searchable format.

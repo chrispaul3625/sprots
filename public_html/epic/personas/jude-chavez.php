@@ -19,7 +19,7 @@
 			with individuals having conversations about sports and wants to be able look informed despite no following
 			the sports in question. Jude wishes to keep track of the main sports being talked about (football, basketball, and
 			soccer). Jude want to be able to quickly check stats of a certain team and sport quickly enough to be able to keep
-			up with any conversation. Jude will use the site both on his smart phone and on his desktop.
+			up with any conversation. Jude will use the site both on his android 4.2 and on his desktop.
 		</p>
 	</body>
 </html>
