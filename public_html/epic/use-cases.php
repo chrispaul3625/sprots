@@ -17,14 +17,14 @@
 					<ul>
 						<li>Brandon accesses the site on his iphone.</li>
 						<li>Brandon will have a profile that will send him allow him to see up to date information about his fantasy line up</li>
-						<li>Notifiactions tell Brandon about injuries and win/loses.</li>
-						<li>Brandon has a premium profile  that has  teh most up to the minute information.</li>
+						<li>Notifications tell Brandon about injuries and win/loses.</li>
+						<li>Brandon has a premium profile that has the most up to the minute information.</li>
 					</ul>
 				<h2>Jude Chavez</h2>
 					<ul>
 						<li>Jude accesses the site on his work computer that runs IE.</li>
 						<li>Jude does not have a profile to bring up the content for the teams he follows, i.e. Viking, Twins. but he can see and search content anyway.</li>
-						<li>JUde sees content about his query and he clicks on the link.</li>
+						<li>Jude sees content about his query and he clicks on the link.</li>
 						<li>The site brings up the content about the team.</li>
 	</body>
 
