@@ -1,0 +1,11 @@
+CREATE TABLE profile(
+	profileId int UNSIGNED AUTO_INCREMEMNT NOT NULL,
+	profileUserName VARCHAR(32) NOT NULL,
+	profileEmail VARCHAR(123) NOT NULL,
+	profilePhone int(20),
+	UNIQUE(profileEmail),
+	UNIQUE(profileUserName)
+	PRIMARY KEY(profileid)
+);
+
+CREATE TABLE 
