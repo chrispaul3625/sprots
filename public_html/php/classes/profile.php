@@ -25,12 +25,23 @@ private $profileHash;
 * @var int $profileSalt
 **/
 private $profileSalt;
+
+	public function __construct(int $newProfileId = null, string $newProfileUserName,string $newProfileEmail, $newProfileHash, $newProfileSalt = null) {
+		try {
+			$this->setProfileId($newProfileId);
+			$this->setProfileUserName($newProfileUserName);
+			$this->setProfileEmail($newProfileEmail);
+			$this->setProfileHash($newProfileHash);
+			$this->setProfileSalt($newProfileSalt);
+		}catch
+	}
+
+
 	/**
 	 * mutator method for profile id
 	 *
 	 * @param int $newProfileId new value of profile id
 	 * @throws TypeError if $newProfileId is not an integer
-	 * @throws RangeException if $newProfileId is negative
 	 **/
 	public function setProfileId($newProfileId) {
 		//base case: if the profile id is null, this is a new profile without a mySQL assigned id (yet)
@@ -59,3 +70,16 @@ private $profileSalt;
 	public function getProfileId() {
 		return ($this->profileId);
 	}
+
+	/**
+	 * mutator method for Profile User Name
+	 * @param string $newProfileUserName new value of profileUserName
+	 * @throws TypeError if $newProfileUserName is not a string
+	 * @throws
+	 */
+
+	public function setProfileUserName(string $newProfileUserName) {
+		$newProfileUserName = trim($newProfileUserName);
+		$newProfileUserName = filter_var($newProfileUserName, FILTER_SANITIZE_STRING);
+if($newProfileUserName === false)
+	throw (new TypeError ("User name already exits""))}
