@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 	<html lang="en">
 		<head>
-			<meta charset="utf-8"/>
+			<meta charset="utf-8">
 
 			<title>User Persona</title>
 		</head>
@@ -13,6 +13,6 @@
 			Bill graduated from college and works for a bank in downtown Minneapolis.  His work and family responsibilities take most of his time but tries to attends as many games as he can and enjoys taking about his teams with his friends, family and co-workers.
 			Bill owns an iPhone 6 and a desktop PC running IE 8.  He uses both of these devices to access information about his favorite teams. He follows a few sports blogs, reads the sports pages of local and regional newspapers and uses social media sites to discuss sports with his friends.
 		</p>
-		<img src="../images/sportStatErd.svg" alt="sportsStatErd">
+		<img src="images/sportStatErd.svg" alt="text goes here">
 	</body>
 </html>

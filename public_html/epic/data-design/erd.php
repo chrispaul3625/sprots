@@ -8,6 +8,6 @@
 		<header>
 			Entity Relationship Diagram
 		</header>
-		<img src="images/sportStatErd.svg" alt="sprots erd">
+		<img src="images/sprotStatErd.svg" alt="sprots erd dun gone">
 	</body>
 </html>
