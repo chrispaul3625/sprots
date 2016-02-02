@@ -17,37 +17,37 @@
 		</ul>
 		<h2> Football </h2>
 		<ul>
-			<li> Schedules </li>
-			<li> Scores </li>
+			<li> Schedules</li>
+			<li> Scores</li>
 			<li> Standings</li>
-			<li> Rosters </li>
-			<li> Team Stats </li>
-			<li> Player Stats </li>
-			<li> Depth Charts </li>
-			<li> Injuries </li>
-			<li> Inactives </li>
+			<li> Rosters</li>
+			<li> Team Stats</li>
+			<li> Player Stats</li>
+			<li> Depth Charts</li>
+			<li> Injuries</li>
+			<li> Inactives</li>
 		</ul>
 		<h2> Baseball </h2>
 		<ul>
-			<li> Schedules </li>
-			<li> Scores </li>
+			<li> Schedules</li>
+			<li> Scores</li>
 			<li> Standings</li>
-			<li> Rosters </li>
-			<li> Team Stats </li>
-			<li> Player Stats </li>
-			<li> Probable pitchers </li>
-			<li> Starting lineups </li>
-			<li> Injuries </li>
+			<li> Rosters</li>
+			<li> Team Stats</li>
+			<li> Player Stats</li>
+			<li> Probable pitchers</li>
+			<li> Starting lineups</li>
+			<li> Injuries</li>
 		</ul>
 		<h2> Basketball </h2>
 		<ul>
-			<li> Schedule </li>
-			<li> Scores </li>
+			<li> Schedule</li>
+			<li> Scores</li>
 			<li> Standings</li>
-			<li> Rosters </li>
-			<li> Team Stats </li>
-			<li> Player Stats </li>
-			<li> Injuries </li>
+			<li> Rosters</li>
+			<li> Team Stats</li>
+			<li> Player Stats</li>
+			<li> Injuries</li>
 		</ul>
 	</body>
 </html>
