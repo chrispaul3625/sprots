@@ -75,5 +75,6 @@ class Statistic {
 		if($newStatisticId <= 0) {
 			throw(new \RangeException("statistic id not positive"));
 		}
+		$this->statisticId = $newStatisticId;
 	}
 }
