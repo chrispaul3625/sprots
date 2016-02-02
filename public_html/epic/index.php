@@ -6,7 +6,6 @@
 	<body>
 		<ul>
 			<li><a href="personas/jude-chavez.php"> Jude Chavez Persona. </a>
-			<li><a href="personas/brandon-ploshay.php"> Brandon Ploshay Persona.</a></li>
 			<li><a href="personas/bill_pruitt.php"> Bill Pruitt.</a></li>
 			<li><a href="data-design/conceptual-model.php"> Conceptual Model.</a></li>
 			<li><a href="data-design/erd.php"> ERD Model.</a></li>
