@@ -1,33 +1,33 @@
 <?php
 namespace Edu\Cnm\cpaul9\sprots;
 
-require_once ("autoLoader.php");
+require_once("autoLoader.php");
 
 /**
  * A team, This will be a team that is being monitored by our stats and participates in competing with other teams.
  *
  * @author Chris Paul <chrispaul3625@gmail.com>
- */
+ **/
 class team {
 	/**
 	 * id for this team; this is the primary key
 	 * @var int $teamId
-	 */
+	 **/
 	private $teamId;
 	/**
 	 * teamCity, one city per team.
 	 * @var string $teamCity
-	 */
+	 **/
 	private $teamCity;
 	/**
 	 * teamName, one team name per team.
 	 * @var string $teamName
-	 */
+	 **/
 	private $teamName;
 	/**
 	 * teamApiId, one Api id per team.
 	 * @var int $teamApiId
-	 */
+	 **/
 	private $teamApiId;
 
 	/**
@@ -50,11 +50,53 @@ class team {
 			$this->setTeamName($newTeamName);
 			$this->setTeamApiId($newTeamApiId);
 		} catch(\InvalidArgumentException $invalidArgument) {
+			// rethrow the exception to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
+			// rethrow the exception to the caller
 			throw(new \RangeException($range->getMessage(), 0, $range));
 		} catch(\Exception $exception) {
+			// rethrow the exception to the caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
+
+
+	/**
+	 *accessor method for teamId
+	 *
+	 * @return int|null value of team id
+	 **/
+	public function getTeamId() {
+		return ($this->teamId);
+	}
+
+	/**
+	 * mutator method for teamId
+	 *
+	 * @param int|null $newTeamId new value of team id
+	 * @throws \RangeException if the $newTeamId is not positive
+	 * @throws \TypeError if $newTeamId is not an ineger
+	 **/
+	public function setTeamId(int $newTeamId = null) {
+		// base case: if profileId is null, this is a new team without a MySQL assigned id (yet)
+		if($newTeamId === null) {
+			$this->teamId = null;
+			return;
+		}
+// Verify the team id is positive
+		if($newTeamId <= 0) {
+			throw(new \RangeException("team id is not positive"));
+		}
+// Convert and store the team id
+$this->teamId = $newTeamId;
+}
+/**
+ * accessor method for
+ **/
+
+
+
+
+
 }
