@@ -77,4 +77,20 @@ class Statistic {
 		}
 		$this->statisticId = $newStatisticId;
 	}
+	/**
+	 * accessor method for statistic name
+	 *
+	 * @return string value of statistic name
+	 */
+	public function getStatisticName() {
+		return $this->statisticName;
+	}
+	/**
+	 * mutator method for statistic name
+	 *
+	 * @param string $newStatisticName new value of statistic name
+	 * @throws \InvalidArgumentException if $newStatisticName is not a string
+	 * @throws \RangeException if $newStatisticName is > 255 characters
+	 * @throws \TypeError if $newStatisticName is not a string
+	 */
 }
