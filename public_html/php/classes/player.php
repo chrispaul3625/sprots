@@ -3,7 +3,7 @@
 /**
  * player, player that a user will look up
  *
- * player is unique
+ * player is uniqu
  *
  * $author Jude Chavez <chavezjude7@gmail.com>
  *
@@ -127,7 +127,7 @@ class player {
 			/**
 			 * @param int playerTeamId new value of playerTeamId
 			 * @throws InvalidArgumentException if player team Id is not an integer
-			 * @throws RangeException if profile Id is negative
+			 * @throws RangeException if player Id is negative
 			 */
 		}
 		$playerTeamId = filter_var($playerTeamId, FILTER_VALIDATE_INT);

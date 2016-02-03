@@ -41,6 +41,12 @@ class teamStatistic {
 			return $this->teamStatisticTeamId;
 		}
 
+	/**
+	 * @param int $teamStatisticTeamId new values of team statistic Id
+	 * @throws InvalidArgumentException if statistic team id is not an integer
+	 * @throws RangeException if statistic team Id is negative
+	 */
+
 		public function setTeamStatisticTeamId($teamStatisticTeamId) {
 			if($teamStatisticTeamId === null) {
 				$this->teamStatisticTeamId = null;
@@ -57,10 +63,18 @@ class teamStatistic {
 			}
 		}
 
-
+	/**
+	 * accessor for team statistic team Id
+	 * @return int valur of team statistic team id
+	 *
+	 */
 			public function getTeamStatisticValue() {
 				return $this->teamStatisticValue;
 			}
+
+	/**
+	 * @param int $teamStatisticValue new values of team statistic value
+	 */
 
 			public function setTeamStatisticValue($teamStatisticValue) {
 				if ($teamStatisticValue === null) {
