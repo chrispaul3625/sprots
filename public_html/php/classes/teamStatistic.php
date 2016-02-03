@@ -2,90 +2,116 @@
 /**
  * Team Statistic, This is a field in which all statistics related to a team are going to be held.
  *
- * @author Chris Paul <chrispaul3625@gmail.com>
+ * @author Jude Chavez <Chavezjude7@gmail.com>
  */
-
 class teamStatistic {
-	private $teamStatisticTeamId;
+	/**
+	 * id for the statistic; this is the primary key
+	 * @var int $teamStatistic
+	 */
+		private $teamStatisticTeamId;
 
-	public function getTeamStatisticTeamId() {
-		return $this->teamStatisticTeamId;
-	}
+	/**
+	 * is unique statistic, unique to team
+	 * @return int $teamstatisticId
+	 */
 
-	public function setTeamStatisticTeamId($teamStatisticTeamId) {
-		if($teamStatisticTeamId === null) {
-			$this->teamStatisticTeamId = null;
-			return;
-		}
-		$teamStatisticTeamId = filter_var($teamStatisticTeamId, FILTER_VALIDATE_INT);
-		if($teamStatisticTeamId == false) {
-		}
-		if($teamStatisticTeamId <= 0) {
-			throw (new RangeException("player statistic Id must be postive"));
-			{
-				$this->teamStatisticTeamId = $teamStatisticTeamId;
-			}
-		}
-	}
-		private $teamStatisticValue;
+	private $teamStatisticValue;
 
-		public function getTeamStatisticValue() {
-			return $this->teamStatisticValue;
+	/**
+	 * is unique value of statistic
+	 * @return int $teamStatisticValue
+	 */
+
+	private $teamStastisticStatisticId;
+
+	/**
+	 * is unique to statistic and team
+	 * @return int $teamStatisticStatisticId
+	 */
+
+	private $teamStatisticGameId;
+
+	/**
+	 * is unique to team and game played
+	 * @return int
+	 */
+
+		public function getTeamStatisticTeamId() {
+			return $this->teamStatisticTeamId;
 		}
 
-		public function setTeamStatisticValue($teamStatisticValue) {
-			if ($teamStatisticValue === null) {
-				$this->teamStatisticValue = null;
+		public function setTeamStatisticTeamId($teamStatisticTeamId) {
+			if($teamStatisticTeamId === null) {
+				$this->teamStatisticTeamId = null;
 				return;
 			}
-			$teamStatisticValue = filter_var($teamStatisticValue, FILTER_VALIDATE_INT);
-			if ($teamStatisticValue == false) {
+			$teamStatisticTeamId = filter_var($teamStatisticTeamId, FILTER_VALIDATE_INT);
+			if($teamStatisticTeamId == false) {
 			}
-			if ($teamStatisticValue <=0) {
-				throw (new RangeException("player statistic value must be positive"));
+			if($teamStatisticTeamId <= 0) {
+				throw (new RangeException("player statistic Id must be postive"));
 				{
-					$this->teamStatisticValue = $teamStatisticValue;
+					$this->teamStatisticTeamId = $teamStatisticTeamId;
 				}
 			}
 		}
 
-		private $teamStastisticStatisticId;
 
-		public function getTeamStastisticStatisticId() {
-			return $this->teamStastisticStatisticId;
-
-			public function setTeamStastisticStatisticId ($teamStastisticStatisticId) {
-				if($teamStastisticStatisticId === null) {
-					$this->teamStastisticStatisticId = null;
-					return;
-				}
-				$teamStastisticStatisticId = filter_var($teamStastisticStatisticId, FILTER_VALIDATE_INT);
-				if ($teamStastisticStatisticId == false) {
-				}
-				if ($teamStastisticStatisticId <=0) {
-					throw (new RangeException("team statistic must be posititve"));
-				}
-				$this->teamStastisticStatisticId = $teamStastisticStatisticId;
+			public function getTeamStatisticValue() {
+				return $this->teamStatisticValue;
 			}
-		}
-		private $teamStatisticGameId;
 
-		public function getTeamStatisticGameId() {
-			return $this->teamStatisticGameId;
-
-			public function setteamStatisticGameId ($teamStatisticGameId) {
-				if($teamStatisticGameId === null) {
-					$this->teamStatisticGameId = null;
+			public function setTeamStatisticValue($teamStatisticValue) {
+				if ($teamStatisticValue === null) {
+					$this->teamStatisticValue = null;
 					return;
 				}
-						$teamStatisticGameId = filter_var($teamStatisticGameId, FILTER_VALIDATE_INT);
-						if ($teamStatisticGameId == false) {
-						}
-						if ($teamStatisticGameId <=0) {
-							throw (new RangeException("team statistic must be positive"));
-						}
-						$this->teamStatisticGameId = $teamStatisticGameId;
+				$teamStatisticValue = filter_var($teamStatisticValue, FILTER_VALIDATE_INT);
+				if ($teamStatisticValue == false) {
+				}
+				if ($teamStatisticValue <=0) {
+					throw (new RangeException("player statistic value must be positive"));
+					{
+						$this->teamStatisticValue = $teamStatisticValue;
 					}
 				}
 			}
+
+			public function getTeamStastisticStatisticId() {
+				return $this->teamStastisticStatisticId;
+
+				public function setTeamStastisticStatisticId ($teamStastisticStatisticId) {
+					if($teamStastisticStatisticId === null) {
+						$this->teamStastisticStatisticId = null;
+						return;
+					}
+					$teamStastisticStatisticId = filter_var($teamStastisticStatisticId, FILTER_VALIDATE_INT);
+					if ($teamStastisticStatisticId == false) {
+					}
+					if ($teamStastisticStatisticId <=0) {
+						throw (new RangeException("team statistic must be posititve"));
+					}
+					$this->teamStastisticStatisticId = $teamStastisticStatisticId;
+				}
+			}
+			public function getTeamStatisticGameId() {
+				return $this->teamStatisticGameId;
+
+				public
+				function setteamStatisticGameId($teamStatisticGameId) {
+					if($teamStatisticGameId === null) {
+						$this->teamStatisticGameId = null;
+						return;
+					}
+					$teamStatisticGameId = filter_var($teamStatisticGameId, FILTER_VALIDATE_INT);
+					if($teamStatisticGameId == false) {
+					}
+					if($teamStatisticGameId <= 0) {
+						throw (new RangeException("team statistic must be positive"));
+					}
+					$this->teamStatisticGameId = $teamStatisticGameId;
+				}
+			}
+		}
 
