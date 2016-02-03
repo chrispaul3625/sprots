@@ -187,6 +187,70 @@ class team {
 // store the new team name
 		$this->$newTeamName = $newTeamName;
 	}
+/**
+ * inserts this team into mySQL
+ *
+ * @param \PDO $pdo connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function insert(\PDO $pdo) {
+	// enforces that team id is null (i.e., don't insert a team that already exists.
+	if($this->teamid !== null) {
+		throw(new \PDOException("not a new team"));
+	}
+// create query template
+	$query = "INSERT INTO team(teamApiId, teamCity, teamName) VALUES(:teamApiId, :teamCity, :teamName)";
+	$statement = $pdo->prepare($query);
+//bind the member variables to the place holders in the template
+	$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName];
+	$statement->execute($parameters);
+// update the null teamId with what mySQL just gave us
+	$this->teamId = intval($pdo->lastInsertId());
+}
 
+/**
+ * deletes team from mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+
+public function delete(\PDO $pdo) {
+// enforce the team id is not null (i.e., don't delete a tweet that hasn't been inserted)
+	if($this->teamId === null) {
+		throw(new \PDOException("unable to delete a team that does not exist"));
+	}
+		// create query template
+		$query = "DELETE FROM team WHERE teamId = :teamId";
+		$statement = $pdo->prepare($query);
+		//bind the member variables to the place holder in the template
+		$parameters = ["teamId" => $this->teamId];
+		$statement->execute($parameters);
+	}
+	/**
+	 * updates this team in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+
+	public
+	function update(\PDO $pdo) {
+		//enforce the teamId is not null (i.e., don't update a team that hasn't been inserted)
+		if($this->teamId === null) {
+			throw(new \PDOException("Unable to update a team that does not exist"));
+		}
+
+		// Create query template
+		$query = "UPDATE team SET teamApiId = :teamApiId, teamCity = :teamCity, teamName = :teamName";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the place holders in the template
+		$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName];
+		$statement->execute($parameters);
+	}
 
 }
