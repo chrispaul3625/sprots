@@ -82,6 +82,19 @@ class Game {
 	 *
 	 * @param int|null $newGameId new value for game id
 	 * @throws \RangeException if $newGameId id not positive
-	 * @throws
+	 * @throws \TypeError if $newGameId is not an integer
 	 */
+	public function setGameId(int $newGameId = null){
+		// base case: if game id is null this is a new game without a mySQL assigned id yet
+		if($newGameId === null){
+			$this->gameId = null;
+			return;
+		}
+		// verify the game id is positive
+		if($newGameId <= 0){
+			throw(new \RangeException("game id is not positive"));
+		}
+		// convert and store game id
+		$this->gameId = $newGameId;
+	}
 }
