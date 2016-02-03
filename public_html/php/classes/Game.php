@@ -97,4 +97,15 @@ class Game {
 		// convert and store game id
 		$this->gameId = $newGameId;
 	}
+	/**
+	 * accessor for firstGameTeamId
+	 *
+	 * @return int value of game id
+	 */
+	public function getGameFirstTeamId() {
+		return $this->gameFirstTeamId;
+	}
+	/**
+	 * mutator
+	 */
 }
