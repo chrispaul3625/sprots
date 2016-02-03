@@ -29,7 +29,7 @@ class teamStatistic {
 	}
 		private $teamStatisticValue;
 
-		public function getTeamStatisticValue;
+		public function getTeamStatisticValue
 			return $this->teamStatisticValue;
 
 		public function setTeamStatisticValue($teamStatisticValue) {
