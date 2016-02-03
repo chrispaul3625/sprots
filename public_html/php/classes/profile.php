@@ -1,39 +1,45 @@
 <?php
-Class Profile {
-/**
-* id for this Profile; this is the primary key
-* @var int $profileId
-**/
-private $profileId;
-/**
-* User Name of user
-* @var string $profileUserName
-**/
-private $profileUserName;
-/**
-* Email of user
-* @var string $profileEmail
-**/
-private $profileEmail;
-/**
-* Hash of profile
-* @var int $profileHash
-**/
-private $profileHash;
-/**
-* Salt of profile
-* @var int $profileSalt
-**/
-private $profileSalt;
 
-	public function __construct(int $newProfileId = null, string $newProfileUserName,string $newProfileEmail, $newProfileHash, $newProfileSalt = null) {
+/** @author Michael Prinz mprinz1@cnm.edu */
+
+namespace Cnm\Edu\mprinz1\sprots;
+require_once ("autoLoader.php");
+
+Class Profile {
+	/**
+	 * id for this Profile; this is the primary key
+	 * @var int $profileId
+	 **/
+	private $profileId;
+	/**
+	 * User Name of user
+	 * @var string $profileUserName
+	 **/
+	private $profileUserName;
+	/**
+	 * Email of user
+	 * @var string $profileEmail
+	 **/
+	private $profileEmail;
+	/**
+	 * Hash of profile
+	 * @var int $profileHash
+	 **/
+	private $profileHash;
+	/**
+	 * Salt of profile
+	 * @var int $profileSalt
+	 **/
+	private $profileSalt;
+
+	public function __construct(int $newProfileId = null, string $newProfileUserName, string $newProfileEmail, $newProfileHash, $newProfileSalt = null) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileUserName($newProfileUserName);
 			$this->setProfileEmail($newProfileEmail);
 			$this->setProfileHash($newProfileHash);
 			$this->setProfileSalt($newProfileSalt);
-		}catch
+		} catch
 	}
 
 
@@ -81,5 +87,34 @@ private $profileSalt;
 	public function setProfileUserName(string $newProfileUserName) {
 		$newProfileUserName = trim($newProfileUserName);
 		$newProfileUserName = filter_var($newProfileUserName, FILTER_SANITIZE_STRING);
-if($newProfileUserName === false)
-	throw (new TypeError ("User name already exits""))}
+		if($newProfileUserName === false)
+			throw (new TypeError ("User name already exits")}
+
+	/**
+	 * accessor method for Profile User Name
+	 */
+	public function getProfileUserName() {
+		return ($this->profileUserName);
+	}
+
+	/**
+	 * mutator method for profile Email
+	 *
+	 * @param string $newProfileEmail
+	 * @throw type error if $newProfileEmail is not a valid email
+	 */
+	public function setProfileEmail($newProfileEmail) {
+		//verify the email is secure
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
+
+		if ($newProfileEmail = false)
+			throw (new \Exception ("invalid email"));
+		//store the email content
+		$this->profileEmail = $newProfileEmail;
+	}
+
+	public function setProfileHash($newProfileHash) {
+		$newProfileHash = }
+}
+
+?>
