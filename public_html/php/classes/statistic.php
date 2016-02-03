@@ -174,9 +174,35 @@ class Statistic {
 	 * gets the statistic by content
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $tweetContent tweet content to search for
+	 * @param string $tweetContent statistic content to search for
 	 * @return \SplFixedArray SplFixedArray of statistic found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
+	public static function getStatisticByStatisticName(\PDO $pdo, string $statisticName){
+		//sanitize the description before searching
+		$statisticName = trim($statisticName);
+		$statisticName = filter_var($statisticName, FILTER_SANITIZE_STRING);
+		if(empty($statisticName)=== true) {
+			throw(new \PDOException ("statistic content is invalid"));
+		}
+		//query template
+		$query = "SELECT statisticId, statisticName FROM statistic WHERE statisticName LIKE :statisticName";
+		$statement = $pdo->prepare($query);
+
+		//bind statistic name t o the place holder in template
+		$statisticName = "%statisticName%";
+		$parameters = array("statisticName" => $statisticName);
+		$statement->execute($parameters);
+
+		// build and array for statistic
+		$statistic = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode( \PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try{
+				$statistic =new Statistic($row["statisticId"], $)
+			}
+		}
+
+	}
 }
