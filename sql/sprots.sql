@@ -49,7 +49,8 @@ CREATE TABLE game (
 	gameTime         DATETIME                    NOT NULL,
 	INDEX (teamId),
 	UNIQUE (gameId),
-	FOREIGN KEY (teamId) REFERENCES team (teamId)
+	FOREIGN KEY (teamId) REFERENCES team (teamId),
+	PRIMARY KEY (gameId)
 );
 
 CREATE TABLE favoriteTeam (
@@ -94,3 +95,19 @@ CREATE TABLE teamStatistic (
 	FOREIGN KEY (statisticId) REFERENCES statistic (statisticId),
 	FOREIGN KEY (gameId) REFERENCES game (gameId)
 );
+
+CREATE TABLE playerStatistic (
+	playerId                   INT UNSIGNED NOT NULL,
+	teamId                     INT UNSIGNED NOT NULL,
+	gameId                     INT UNSIGNED NOT NULL,
+	playerStatisticPlayerId    INT UNSIGNED NOT NULL,
+	playerStatisticTeamId      INT UNSIGNED NOT NULL,
+	playerStatisticStatisticId INT UNSIGNED NOT NULL,
+	playerStatisticValue       VARCHAR(8)   NOT NULL,
+	INDEX (playerId),
+	INDEX (teamId),
+	INDEX (gameId),
+	FOREIGN KEY (playerId) REFERENCES player (playerId),
+	FOREIGN KEY (teamId) REFERENCES team (teamId),
+	FOREIGN KEY (gameId) REFERENCES game (gameId)
+)
