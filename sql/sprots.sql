@@ -1,3 +1,15 @@
+DROP TABLE IF EXISTS playerStatistic;
+DROP TABLE IF EXISTS teamStatistic;
+DROP TABLE IF EXISTS statistic;
+DROP TABLE IF EXISTS favoritePlayer;
+DROP TABLE IF EXISTS favoriteTeam;
+DROP TABLE IF EXISTS game;
+DROP TABLE IF EXISTS player;
+DROP TABLE IF EXISTS team;
+DROP TABLE IF EXISTS sport;
+DROP TABLE IF EXISTS profile;
+
+
 CREATE TABLE profile (
 	profileId       INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	profileUserName VARCHAR(32)                 NOT NULL,
