@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\Dcuneo1\Sprots;
+namespace Edu\Cnm\Sprots;
 
 require_once("autoload.php");
 /**
