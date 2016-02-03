@@ -199,9 +199,6 @@ class Statistic {
 		$statistic = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode( \PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false){
-			try{
-				$statistic =new Statistic($row["statisticId"], $)
-			}
 		}
 
 	}
