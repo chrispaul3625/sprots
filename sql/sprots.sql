@@ -89,7 +89,8 @@ CREATE TABLE favoritePlayer (
 
 CREATE TABLE statistic (
 	statisticId   INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	statisticName VARCHAR(255)                NOT NULL
+	statisticName VARCHAR(255)                NOT NULL,
+	PRIMARY KEY (statisticId)
 );
 
 CREATE TABLE teamStatistic (
