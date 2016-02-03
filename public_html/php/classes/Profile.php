@@ -1,9 +1,9 @@
 <?php
 
-/** @author Michael Prinz mprinz1@cnm.edu */
-/**require_once("autoloader.php"); http://www.php-fig.org/psr/psr-4/ */
-namespace Cnm\Edu\mprinz1\sprots\Profile;
+// @author Michael Prinz <mprinz1@cnm.edu> //
 
+namespace Cnm\Edu\sprots;
+require_once("autoloader.php"); /***http://www.php-fig.org/psr/psr-4/ ***/
 
 Class Profile {
 	/**
@@ -23,12 +23,12 @@ Class Profile {
 	private $profileEmail;
 	/**
 	 * Hash of profile
-	 * @var int $profileHash
+	 * @var string $profileHash
 	 **/
 	private $profileHash;
 	/**
 	 * Salt of profile
-	 * @var int $profileSalt
+	 * @var string $profileSalt
 	 **/
 	private $profileSalt;
 
@@ -37,12 +37,12 @@ Class Profile {
 	 * @param int|null $newProfileId
 	 * @param string $newProfileUserName
 	 * @param string $newProfileEmail
-	 * @param $newProfileHash
-	 * @param null $newProfileSalt
+	 * @param string $newProfileHash
+	 * @param string $newProfileSalt
 	 * @throws \InvalidArgumentException if data types are invalid
 	 * @throws \RangeException if data values are out of bounds
 	 * @throws \Exception is some other exception occurs
-	 */
+	 **/
 	public function __construct(int $newProfileId = null, string $newProfileUserName, string $newProfileEmail, $newProfileHash, $newProfileSalt = null) {
 		try {
 			$this->setProfileId($newProfileId);
@@ -50,23 +50,22 @@ Class Profile {
 			$this->setProfileEmail($newProfileEmail);
 			$this->setProfileHash($newProfileHash);
 			$this->setProfileSalt($newProfileSalt);
-		}catch (\InvalidArgumentException $invalidArgument) {
-			throw (new \InvalidArgumentException($invalidArgument->getMessage(),0, $invalidArgument));
-		}catch (\RangeException $range) {
-			throw (new \RangeException($range->getMessage(),0,$range));
-		}catch (\Exception $exception) {
-			throw (new \Exception($exception->getMessage(),0,$exception));
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			throw (new \RangeException($range->getMessage(), 0, $range));
+		} catch(\Exception $exception) {
+			throw (new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
-
-
 	/**
-	 * mutator method for profile id
+	 * mutator method for profileId
 	 *
-	 * @param int $newProfileId new value of profile id
-	 * @throws \InvalidArgumentException if $newProfileId is not an integer
+	 * @param int $newProfileId new value of profileId
+	 * @throws \RangeException if $newProfileId is not positive
+	 *
 	 **/
-	public function setProfileId($newProfileId) {
+	public function setProfileId(int $newProfileId) {
 		//base case: if the profile id is null, this is a new profile without a mySQL assigned id (yet)
 		if($newProfileId === null) {
 			$this->profileId = null;
@@ -77,65 +76,131 @@ Class Profile {
 		$newProfileId = filter_var($newProfileId, FILTER_VALIDATE_INT);
 
 		//if filter_var() rejects the new id, throw an Exception
-		if($newProfileId === false) {
-			throw(new \InvalidArgumentException("profile id is not an integer"));
-
-			//save the object
-			$this->profileId = $newProfileId;
+		if($newProfileId <= 0) {
+			throw(new \RangeException("profile id is not positive"));
 		}
+
+		//save the object
+		$this->profileId = $newProfileId;
 	}
 
+
 	/**
-	 * accessor method for profile id
+	 * accessor method for profileId
 	 *
-	 * @return int value of profile id
+	 * @return int value of profileId
 	 **/
 	public function getProfileId() {
 		return ($this->profileId);
 	}
-
 	/**
-	 * mutator method for Profile User Name
+	 * mutator method for profileUserName
+	 *
 	 * @param string $newProfileUserName new value of profileUserName
 	 * @throws \InvalidArgumentException if $newProfileUserName is not a string
-	 * @throws \RangeException if
-	 */
+	 * @throws \RangeException if $newProfileUserName is >25 characters
+	 *
+	 **/
 
 	public function setProfileUserName(string $newProfileUserName) {
 		$newProfileUserName = trim($newProfileUserName);
 		$newProfileUserName = filter_var($newProfileUserName, FILTER_SANITIZE_STRING);
 		if($newProfileUserName === false)
-			throw (new  ("User name already exits")}
+			throw (new \InvalidArgumentException ("User name invalid"));
+		if(strlen($newProfileUserName) >25)
+			throw (new \RangeException ("User name must be less than 25 characters"));
 
+		//save the object//
+		$this->profileUserName = $newProfileUserName;
+	}
 	/**
-	 * accessor method for Profile User Name
-	 */
+	 * accessor method for profileUserName
+	 *
+	 * @return string value for profileUserName
+	 *
+	 **/
 	public function getProfileUserName() {
 		return ($this->profileUserName);
 	}
 
 	/**
-	 * mutator method for profile Email
+	 * mutator method for profileEmail
 	 *
-	 * @param string $newProfileEmail
-	 * @throw  if $newProfileEmail is not a valid email
-	 */
+	 * @param string $newProfileEmail new value of profileEmail
+	 * @throws \Exception if $newProfileEmail is not a valid email
+	 *
+	 **/
 	public function setProfileEmail($newProfileEmail) {
-		//verify the email is secure
+		//verify the email is secure//
 		$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
 
-		if ($newProfileEmail = false)
+		if($newProfileEmail === false)
 			throw (new \Exception ("invalid email"));
-		//store the email content
+		/**store the email content**/
 		$this->profileEmail = $newProfileEmail;
+	}
+	/** accessor method for profileEmail
+	 *
+	 * @return string value of profileEmail
+	 **/
+
+	public function getProfileEmail() {
+		return ($this->profileEmail);
+	}
+
+
+	/**
+	 * mutator method for profileHash
+	 *
+	 * @param string $newProfileHash
+	 * @throws \InvalidArgumentException if invalid hash value
+	 **/
+	public function setProfileHash(string $newProfileHash) {
+		$newProfileHash = filter_var($newProfileHash, FILTER_SANITIZE_STRING);
+
+		if($newProfileHash===false){
+			throw (new\InvalidArgumentException("invalid hash value"));
+		}
 	}
 
 	/**
-	 * profileHash mutator method
-	 * @param $newProfileHash
+	 * accessor method for profileHash
+	 *
+	 * @return string value of profileHash
+	 **/
+	public function getProfileHash(){
+		return($this->profileHash);
+	}
+
+	/**
+	 * mutator method for profileSalt
+	 *
+	 * @param string
+	 * @throws \InvalidArgumentException
+	 **/
+
+	public function setProfileSalt(string $newProfileSalt){
+		$newProfileSalt = filter_var($newProfileSalt, FILTER_SANITIZE_STRING);
+		if($newProfileSalt===false){
+			throw (new \InvalidArgumentException("invalid salt value"));
+		}
+	}
+	/**accessor method for profileSalt
+	 *
+	 * @return string value of profileSalt
 	 */
-	public function setProfileHash($newProfileHash) {
-		$newProfileHash = }
+
+	public function getProfileSalt(){
+		return($this->profileSalt);
+
+	}
+	/**Inserts this Profile into mySQL
+	 *
+	 * @param \PDO $pdo connection object
+	 * @throws \PDOException when mySQL related error occurs
+	 * @throws \
+	 **/
 }
+
 
 ?>
