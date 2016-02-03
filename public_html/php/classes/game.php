@@ -21,4 +21,19 @@ class Game {
 	 * @var int $gameId
 	 */
 	private $gameId;
+	/**
+	 * id for gameFirstTeamId
+	 * var $gameFirstTeamId
+	 */
+	private $gameFirstTeamId;
+	/**
+	 * id for gameSecondId
+	 * var $gameSecondId
+	 */
+	private $gameSecondId;
+	/**
+	 * id for gameTime
+	 * var $gameTime
+	 */
+	private $gameTime;
 }
