@@ -310,7 +310,33 @@ class sport {
 	 * @throws \ TypeError when variables are not the correct data type
 	 **/
 	public static function getAllSports(\PDO $pdo) {
+		//create query template
+		$query = "SELECT sportId, sportLeague, sportTeam FROM sport";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
 
+		//build an array of sports
+		$sports = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$sport = new Sport($row["sportId"], $row["sportLeague"], $row["sportTeam"]);
+				$sports[$sports->key()] = $sport;
+			} catch(\Exception $exception) {
+				//if the row can't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($sports);
+	}
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 */
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
 	}
 
 
