@@ -15,6 +15,11 @@ class team {
 	 **/
 	private $teamId;
 	/**
+	 * teamApiId, one Api id per team.
+	 * @var int $teamApiId
+	 **/
+	private $teamApiId;
+	/**
 	 * teamCity, one city per team.
 	 * @var string $teamCity
 	 **/
@@ -24,11 +29,7 @@ class team {
 	 * @var string $teamName
 	 **/
 	private $teamName;
-	/**
-	 * teamApiId, one Api id per team.
-	 * @var int $teamApiId
-	 **/
-	private $teamApiId;
+
 
 	/**
 	 * Constructor for this team
@@ -46,9 +47,9 @@ class team {
 	public function __construct(int $newTeamId = null, string $newTeamCity, string $newTeamName, int $newTeamApiId = null) {
 		try {
 			$this->setTeamId($newTeamId);
+			$this->setTeamApiId($newTeamApiId);
 			$this->setTeamCity($newTeamCity);
 			$this->setTeamName($newTeamName);
-			$this->setTeamApiId($newTeamApiId);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the exception to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -91,38 +92,68 @@ class team {
 			throw(new \RangeException("team id is not positive"));
 		}
 // Convert and store the team id
-$this->teamId = $newTeamId;
-}
-/**
- * accessor method for team city
- *
- * @return string value of team city
- **/
-public function getTeamCity (){
-	return($this->teamCity);
-}
-/**
- * mutator method for team city
- *
- *@param string $newTeamCity new value of team city
- *@throws \InvalidArgumentException if $newTeamCity is not a string or insecure
- *@throws \RangeException if $newTeamCity is >32 characters
- *@throws \TypeError if $newTeamCity is not a string
- **/
-public function setTeamCity (string $newTeamCity){
-	//verify the team city name is secure
-	$newTeamCity = trim($newTeamCity);
-	$newTeamCity = filter_var($newTeamCity, FILTER_SANITIZE_STRING);
-	if(empty($newTeamCity)=== true){
-		throw(new \InvalidArgumentException("team name is empty or insecure"));
+		$this->teamId = $newTeamId;
 	}
+	/**
+	 *accessor method for team Api id
+	 *
+	 * @return int|null value of team api id
+	 **/
+	public function getTeamApiId() {
+		return ($this->teamApiId);
+	}
+
+	/**
+	 * mutator method for team Api id
+	 *
+	 * @param int|null $newTeamApiId new value of team Api id
+	 * @throws \RangeException if the $newTeamApiId is not positive
+	 * @throws \TypeError if $newTeamApiId is not an integer
+	 **/
+	public function setTeamApiId(int $newTeamApiId = null) {
+		// base case: if teamApiId is null, this is a new team without a MySQL assigned id (yet)
+		if($newTeamApiId === null) {
+			$this->teamApiId = null;
+			return;
+		}
+// Verify the team id is positive
+		if($newTeamApiId <= 0) {
+			throw(new \RangeException("team api id is not positive"));
+		}
+// Convert and store the team api id
+		$this->teamApiId = $newTeamApiId;
+	}
+
+	/**
+	 * accessor method for team city
+	 *
+	 * @return string value of team city
+	 **/
+	public function getTeamCity (){
+		return($this->teamCity);
+	}
+	/**
+	 * mutator method for team city
+	 *
+	 *@param string $newTeamCity new value of team city
+	 *@throws \InvalidArgumentException if $newTeamCity is not a string or insecure
+	 *@throws \RangeException if $newTeamCity is >32 characters
+	 *@throws \TypeError if $newTeamCity is not a string
+	 **/
+	public function setTeamCity (string $newTeamCity){
+		//verify the team city name is secure
+		$newTeamCity = trim($newTeamCity);
+		$newTeamCity = filter_var($newTeamCity, FILTER_SANITIZE_STRING);
+		if(empty($newTeamCity)=== true){
+			throw(new \InvalidArgumentException("team name is empty or insecure"));
+		}
 //verify the team city name will fit in the database
-	if(strlen($newTeamCity)>32){
-		throw(new \RangeException("team city name is too large"));
-	}
+		if(strlen($newTeamCity)>32){
+			throw(new \RangeException("team city name is too large"));
+		}
 // store the new team city name
-	$this->$newTeamCity = $newTeamCity;
-}
+		$this->$newTeamCity = $newTeamCity;
+	}
 
 	/**
 	 * accessor method for team name
@@ -157,34 +188,5 @@ public function setTeamCity (string $newTeamCity){
 		$this->$newTeamName = $newTeamName;
 	}
 
-	/**
-	 *accessor method for team Api id
-	 *
-	 * @return int|null value of team api id
-	 **/
-	public function getTeamApiId() {
-		return ($this->teamApiId);
-	}
-
-	/**
-	 * mutator method for team Api id
-	 *
-	 * @param int|null $newTeamApiId new value of team Api id
-	 * @throws \RangeException if the $newTeamApiId is not positive
-	 * @throws \TypeError if $newTeamApiId is not an integer
-	 **/
-	public function setTeamApiId(int $newTeamApiId = null) {
-		// base case: if teamApiId is null, this is a new team without a MySQL assigned id (yet)
-		if($newTeamApiId === null) {
-			$this->teamApiId = null;
-			return;
-		}
-// Verify the team id is positive
-		if($newTeamApiId <= 0) {
-			throw(new \RangeException("team api id is not positive"));
-		}
-// Convert and store the team api id
-		$this->teamApiId = $newTeamApiId;
-	}
 
 }
