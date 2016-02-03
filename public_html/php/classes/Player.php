@@ -1,5 +1,7 @@
 <?php
 
+require_once ("autoloader.php");
+
 /**
  * player, player that a user will look up
  *
@@ -29,7 +31,42 @@ class player {
 	private $playerTeamId;
 
 	/**
-	 * player is unique to team, team is unique
+	 * @param int|null $newplayerId of this player or null if a new player
+	 * @param int $newplayername Id of the player
+	 * @param int $newplayerApi Api Id of the player
+	 * @param int $newplayerTeam Id of the player
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bouds (e.g, strings to long, negative intergers)
+	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
+	 */
+
+
+	public function __construct(int $newPlayerId = null, int $newPlayerName, int $newplayerApiId, int $newPlayerTeamId = null) {
+		try {
+			$this->setPlayerId($newPlayerId);
+			$this->setPlayerName($newPlayerName);
+			$this->setPlayerApiId($newPlayerApiId);
+			$this->setPlayerTeamId($newPlayerTeamId);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			// rethrow exception to caller
+			throw(new \InvalidArgumetException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			//rethrow exception to caller
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		} catch(\TypeError $typeError) {
+			// rethrow the exception to the caller
+			throw(new \RangeException($typeError->getMessage(), 0, $typeError));
+		} catch(\Exception $exception) {
+			// rethrow the exception to the caller
+			throw(new \Exception($exception->getMessage(), 0, $exception));
+		}
+	}
+
+	/**
+	 * accessor method for tweet id
+	 *
+	 * @return int|null value of player Id
 	 */
 
 	public function getplayerId() {
@@ -139,6 +176,49 @@ class player {
 		}
 		$this->$playerTeamId;
 	}
+
+	/**
+	 * inserts this player into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		// enforce the playerId is null (i.e., dont insert a player that already exists
+		if($this->(playerId !null) {
+			throw(new \PDOException("not a new tweet"));
+		}
+
+		// create query template
+		$query = "INSERT INTO player(playerName, PlayerApiId, playerTeamId) VALUES(:playerId, :playerName, PlayerApiId, :playerTeamId)";
+		$statement = $pdo->prepare($query);
+
+		// update the null playerId with what mySql just gave us
+		$this->playerId = interval($pdo->lastInsertId());
+
+	}
+
+	/**
+	 * deletes player from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 *
+	 **/
+	public function delete(\PDO $pdo) {
+		//enforce the playerId is not null (i.e., don't delete a player that hasn't been inserted)
+		if($this->playerId === null) {
+			throw(new \PDOException("unable to delete a tweet that does not exist"));
+		}
+
+		// create query template
+		$query = "DELETE FROM tweet WHERE tweetId = :tweetId";
+		$statement = $pdo->prepare($query);
+		$statement->execute($parameter);
+		}
+
 	/**
 	 * accessor for player Team Id
 	 *
