@@ -116,5 +116,5 @@ Class Profile {
 	public function setProfileHash($newProfileHash) {
 		$newProfileHash = }
 }
-
+hello
 ?>
