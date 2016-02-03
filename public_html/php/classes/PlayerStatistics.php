@@ -9,22 +9,22 @@ require_once("autoloader.php");
  **/
 	class PlayerStatistics {
 	/**
-	 * id for this team; this is the primary key
-	 * @var int $teamId
+	 * $playerStatisticGameId id for player in a specific game; this is a foreign key
+	 * @var int $playerStatisticGameId
 	 **/
-	private $teamId;
+	private $playerStatisticGameId;
 	/**
-	 * teamCity, one city per team.
-	 * @var string $teamCity
+	 * $playerStatisticPlayerId id for players overall statistics, this is a foreign key
+	 * @var int $playerStatisticPlayerId
 	 **/
-	private $teamCity;
+	private $playerStatisticPlayerId;
 	/**
-	 * teamName, one team name per team.
-	 * @var string $teamName
+	 * $playerStatisticStatisticId id for the players individual statistic, this is a foreign key
+	 * @var int $playerStatisticStatisticId
 	 **/
-	private $teamName;
+	private $playerStatisticStatisticId;
 	/**
-	 * teamApiId, one Api id per team.
-	 * @var int $teamApiId
+	 * , one Api id per team
+	 * @var int $playerStatisticValue
 	 **/
-	private $teamApiId;
+	private $playerStatisticValue;
