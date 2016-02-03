@@ -74,12 +74,6 @@ class player {
 		}
 		$this->$playerTeamId;
 	}
-	$this->player = $playerId;
-	$player = new player();
-	$player->setplayerId(32);
-	$player->setplayerName(128);
-	$player->setplayerApiId(32);
-	$player->setolayerTeamId(32);
 	}
 
 
