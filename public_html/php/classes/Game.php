@@ -108,17 +108,17 @@ class Game {
 	/**
 	 * mutator method or firstGameTeamId
 	 *
-	 * @param int $newFirstGameId is new value of firstGameId
+	 * @param int $newGameFirstTeamId is new value of GameFirstTeamId
 	 * @throws \RangeException if $newFirstGameId id not positive
 	 * @throws \TypeError if $newFirstGameId in not an integer
 	 */
-	public function setFirstGameId(int $newFirstGameId){
+	public function setGameFirstTeamId(int $newGameFirstTeamId){
 		//verify firstGameTeamId is positive
-		if($newFirstGameId <= 0){
-			throw(new \RangeException("firstGameTeamId is not positive"));
+		if($newGameFirstTeamId <= 0){
+			throw(new \RangeException("GameFirstTeamId is not positive"));
 		}
 		//convert and save
-		$this->gameFirstTeamId = $newFirstGameId;
+		$this->gameFirstTeamId = $newGameFirstTeamId;
 	}
 	/**
 	 * accessor method for gameSecondTeamId
