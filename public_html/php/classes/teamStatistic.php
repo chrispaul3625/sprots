@@ -26,6 +26,26 @@ class teamStatistic {
 				$this->teamStatisticTeamId = $teamStatisticTeamId;
 			}
 		}
+		private $teamStatisticValue;
+
+		public function getTeamStatisticValue;
+			return $this->teamStatisticValue;
+
+		public function setTeamStatisticValue($teamStatisticValue) {
+			if ($teamStatisticValue === null) {
+				$this->teamStatisticValue = null;
+				return;
+			}
+			$teamStatisticValue = filter_var($teamStatisticValue, FILTER_VALIDATE_INT);
+			if ($teamStatisticValue == false) {
+			}
+			if ($teamStatisticValue <=0) {
+				throw (new RangeException("player statistic value myst be positive"));
+				{
+					$this->teamStatisticValue = $teamStatisticValue;
+				}
+			}
+		}
 	}
 
 
