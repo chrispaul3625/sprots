@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\dmartinez337\sprots;
+namespace Edu\Cnm\Sprots;
 
 require_once("autoLoader.php");
 
