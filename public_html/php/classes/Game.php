@@ -30,7 +30,7 @@ class Game {
 	 * id for gameSecondId
 	 * var $gameSecondId
 	 */
-	private $gameSecondId;
+	private $gameSecondTeamId;
 	/**
 	 * id for gameTime
 	 * var $gameTimeDate
@@ -53,7 +53,7 @@ class Game {
 		try{
 			$this->setgameId($newGameId);
 			$this->setgameFirstTeamId($newGameFirstTeamId);
-			$this->setgameSecondId($newGameSecondTeamId);
+			$this->setgameSecondTeamId($newGameSecondTeamId);
 			$this->setGameTimeDate($newGameTimeDate);
 		}catch(\InvalidArgumentException $invalidArgument){
 			//rethrow the exception to caller
@@ -121,6 +121,11 @@ class Game {
 		$this->gameFirstTeamId = $newFirstGameId;
 	}
 	/**
-	 * accessor
+	 * accessor method for gameSecondTeamId
+	 *
+	 * @return int|null value of gameSecondTeamId
 	 */
+	public function gameSecondTeamId() {
+		return($this->gameSecondTeamId);
+	}
 }
