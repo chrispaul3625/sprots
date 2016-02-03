@@ -33,7 +33,7 @@ class team {
 	/**
 	 * Constructor for this team
 	 *
-	 * @param int $newTeamId id of the team that is being created
+	 * @param int|null $newTeamId id of the team that is being created
 	 * @param string $newTeamCity city associated with team
 	 * @param string $newTeamName name associated with team
 	 * @param int $newTeamApiId Api id that is associated with team
