@@ -135,5 +135,17 @@ class Game {
 	 * @throws \RangeException if $newGameSecondTeamId is not positive
 	 * @throws \TypeError if $newGameSecondTeamId is not an integer
 	 **/
-	public function setameSecondTeamId
+	public function setGameSecondTeamId(int $newGameSecondTeamId = null){
+		// base case if gameSecondTeamId id is null this is a $new game
+		if($newGameSecondTeamId === null){
+			$this->gameSecondTeamId = null;
+			return;
+		}
+		//verify newGameSecondTeamId is positive
+		if($newGameSecondTeamId <= 0){
+			throw(new \RangeException("GameSecondTeamId is not positive"));
+		}
+		//convert and save
+		$this->gameSecondTeamId = $newGameSecondTeamId;
+	}
 }
