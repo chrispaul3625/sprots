@@ -72,7 +72,7 @@ class team {
 	}
 
 	/**
-	 * mutator method for teamId
+	 * mutator method for team id
 	 *
 	 * @param int|null $newTeamId new value of team id
 	 * @throws \RangeException if the $newTeamId is not positive
@@ -92,11 +92,24 @@ class team {
 $this->teamId = $newTeamId;
 }
 /**
- * accessor method for
+ * accessor method for team city
+ *
+ * @return string value of team city
  **/
-
-
-
+public function getTeamCity (){
+	return($thi->teamCiy);
+}
+/**
+ * mutator method for team city
+ *
+ *@param string $newTeamCity new value of team city
+ *@throws \InvalidArgumentException if $newTeamCity is not a string or insecure
+ *@throws \RangeException if $newTeamCity is >32 characters
+ *@throws \TypeError if $newTeamCity is not a string
+ **/
+public function setTeamCity (string $newTeamCity){
+	//verify the team city content is secure
+}
 
 
 }
