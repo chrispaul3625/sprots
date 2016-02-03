@@ -18,14 +18,15 @@ class teamStatistic {
 			return;
 		}
 		$teamStatisticTeamId = filter_var($teamStatisticTeamId, FILTER_VALIDATE_INT);
-		if ($teamStatisticTeamId == false) {
+		if($teamStatisticTeamId == false) {
 		}
-		if ($teamStatisticTeamId <=0) {
+		if($teamStatisticTeamId <= 0) {
 			throw (new RangeException("player statistic Id must be postive"));
 			{
 				$this->teamStatisticTeamId = $teamStatisticTeamId;
 			}
 		}
+	}
 		private $teamStatisticValue;
 
 		public function getTeamStatisticValue;
@@ -40,14 +41,51 @@ class teamStatistic {
 			if ($teamStatisticValue == false) {
 			}
 			if ($teamStatisticValue <=0) {
-				throw (new RangeException("player statistic value myst be positive"));
+				throw (new RangeException("player statistic value must be positive"));
 				{
 					$this->teamStatisticValue = $teamStatisticValue;
 				}
 			}
 		}
+
+		private $teamStastisticStatisticId;
+
+		public function getTeamStastisticStatisticId() {
+			return $this->teamStastisticStatisticId;
+
+			public function setTeamStastisticStatisticId ($teamStastisticStatisticId) {
+				if($teamStastisticStatisticId === null) {
+					$this->teamStastisticStatisticId = null;
+					return;
+				}
+				$teamStastisticStatisticId = filter_var($teamStastisticStatisticId, FILTER_VALIDATE_INT);
+				if ($teamStastisticStatisticId == false) {
+				}
+				if ($teamStastisticStatisticId <=0) {
+					throw (new RangeException("team statistic must be posititve"));
+				}
+				$this->teamStastisticStatisticId = $teamStastisticStatisticId;
+			}
+		}
+		private $teamStatisticGameId;
+
+		public public function getTeamStatisticGameId() {
+			return $this->teamStatisticGameId;
+
+			public function setteamStatisticGameId ($teamStatisticGameId) {
+				if ($teamStatisticGameId === null) {
+					$this->teamStatisticGameId = null;
+					return;
+					{
+						$teamStatisticGameId = filter_var($teamStatisticGameId, FILTER_VALIDATE_INT);
+						if ($teamStatisticGameId == false) {
+						}
+						if ($teamStatisticGameId <=0) {
+							throw (new RangeException("team statistic must be positive"));
+						}
+						$this->teamStatisticGameId = $teamStatisticGameId;
+					}
+				}
+			}
+		}
 	}
-
-
-
-}
