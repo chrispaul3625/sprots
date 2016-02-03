@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Dmartinez337\sprots;
 
-require_once("AutoLoader.php");
+require_once("autoloader.php");
 
 /**
  * This will be the class for our 4 chosen sports. NFL, MLB, NBA, and EPL.
