@@ -122,7 +122,7 @@ class Statistic {
 		$statement = $pdo->prepare($query);
 
 		//blind the member variables to the place holders in the template
-		//formattedDate = $this->tweetDate->format("Y-m-d H:i:s");
+		//formattedDate = $this->statisticDate->format("Y-m-d H:i:s");
 		$parameters = ["statisticId" => $this->statisticId, "statisticName" => $this->statisticName];
 		$statement->execute($parameters);
 		//update the null statisticId with what mySQL just gave
@@ -163,6 +163,20 @@ class Statistic {
 		 }
 		 // query template
 		 $query = "UPDATE statistic SET statisticId = :statisticId, statisticName = statisticName";
-		 $statment =
+		 $statement = $pdo->prepare($query);
+
+		 // bind the member variables to the place holders in the template
+		 //$formattedDate = $this->statisticDate->format("Y-m-d H:i:s");
+		 $parameters = ["statisticId" => $this->statisticId, "statisticName" => $this->statisticName];
+		 $statement->execute($parameters);
 	 }
+	/**
+	 * gets the statistic by content
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $tweetContent tweet content to search for
+	 * @return \SplFixedArray SplFixedArray of statistic found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 }
