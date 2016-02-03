@@ -43,7 +43,7 @@ class Game {
 	 * @param int $newGameId for the last game played for a sport
 	 * @param int $newGameFirstTeamId id for the first team in a game
 	 * @param int $newGameSecondTeamId id  fo the second team in a game
-	 * @param \DateTime|string|null $newGameDate date and time for when game was played
+	 * @param \DateTime|string|null $newGameTime date and time for when game was played
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values exceed limits
 	 * @throws \TypeError if data types violate type hints
@@ -157,6 +157,25 @@ class Game {
 		return $this->gameTime;
 	}
 	/**
-	 * mutator
+	 * mutator method for gametime
+	 * @param \DateTime|string|null $newGameTime
+	 * @throws \InvalidArgumentException if $newGameTime
+	 * @throws \RangeException if $newGameTime is nor a valid object or string
 	 */
+	public function setGameTime($newGameTime = null){
+		//base case if date is null use current date time
+		if($newGameTime = null){
+			$this->newGameTime = new \DateTime();
+			return;
+		}
+		//store game data
+		try{
+			$newGameTime =$this->validateDate($newGameTime);
+		}catch(\InvalidArgumentException $invalidArgument){
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		}catch(\RangeException $range){
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		}
+		$this->gameTime = $newGameTime;
+	}
 }
