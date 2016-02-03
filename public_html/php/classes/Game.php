@@ -148,4 +148,15 @@ class Game {
 		//convert and save
 		$this->gameSecondTeamId = $newGameSecondTeamId;
 	}
+	/**
+	 * accessor for gameTime
+	 *
+	 * @return \DateTime value of  game
+	 */
+	public function getGameTime() {
+		return $this->gameTime;
+	}
+	/**
+	 * mutator
+	 */
 }
