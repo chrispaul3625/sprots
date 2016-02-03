@@ -27,9 +27,8 @@ class player {
 	 * player is unique to team player cannot be on >1 teams
 	 */
 	private $playerTeamId;
-
 	/**
-	 * @return int
+	 * player is unique to team, team is unique
 	 */
 
 	public function getplayerId() {
@@ -98,9 +97,9 @@ class player {
 	}
 
 	/**
-	 * @param int $playerApiId new value of profile id
+	 * @param int $playerApiId new value of player Api Id
 	 * @throws InvalidArgumentException if player Api Id is not an integer
-	 * @throws RangeException if profile id is negative
+	 * @throws RangeException if profile Id is negative
 	 */
 	public function setPlayerApiId($playerApiId) {
 		if($playerApiId === null) {
@@ -121,13 +120,15 @@ class player {
 	 *
 	 * @return int value of player Api id
 	 */
-
-	private $playerTeamId;
-
 	public function  setplayerTeamId($playerTeamId) {
 		if($playerTeamId === null) {
 			$this->playerteam = null;
 			return;
+			/**
+			 * @param int playerTeamId new value of playerTeamId
+			 * @throws InvalidArgumentException if player team Id is not an integer
+			 * @throws RangeException if profile Id is negative
+			 */
 		}
 		$playerTeamId = filter_var($playerTeamId, FILTER_VALIDATE_INT);
 		if($playerTeamId == false){
@@ -137,6 +138,11 @@ class player {
 		}
 		$this->$playerTeamId;
 	}
+	/**
+	 * accessor for player Team Id
+	 *
+	 * @return int value of player Team id
+	 */
 	}
 
 
