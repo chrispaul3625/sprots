@@ -29,8 +29,9 @@ class teamStatistic {
 	}
 		private $teamStatisticValue;
 
-		public function getTeamStatisticValue
+		public function getTeamStatisticValue() {
 			return $this->teamStatisticValue;
+		}
 
 		public function setTeamStatisticValue($teamStatisticValue) {
 			if ($teamStatisticValue === null) {
@@ -69,14 +70,14 @@ class teamStatistic {
 		}
 		private $teamStatisticGameId;
 
-		public public function getTeamStatisticGameId() {
+		public function getTeamStatisticGameId() {
 			return $this->teamStatisticGameId;
 
 			public function setteamStatisticGameId ($teamStatisticGameId) {
-				if ($teamStatisticGameId === null) {
+				if($teamStatisticGameId === null) {
 					$this->teamStatisticGameId = null;
 					return;
-					{
+				}
 						$teamStatisticGameId = filter_var($teamStatisticGameId, FILTER_VALIDATE_INT);
 						if ($teamStatisticGameId == false) {
 						}
@@ -87,6 +88,4 @@ class teamStatistic {
 					}
 				}
 			}
-		}
-	}
 
