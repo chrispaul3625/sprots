@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\cpaul9\sprots;
 
-require_once("autoLoader.php");
+require_once("autoloader.php");
 
 /**
  * A team, This will be a team that is being monitored by our stats and participates in competing with other teams.

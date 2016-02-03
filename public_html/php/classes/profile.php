@@ -3,7 +3,7 @@
 /** @author Michael Prinz mprinz1@cnm.edu */
 
 namespace Cnm\Edu\mprinz1\sprots;
-require_once ("autoLoader.php");
+require_once("autoloader.php");
 
 Class Profile {
 	/**
