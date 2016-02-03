@@ -76,10 +76,10 @@ class team {
 	 *
 	 * @param int|null $newTeamId new value of team id
 	 * @throws \RangeException if the $newTeamId is not positive
-	 * @throws \TypeError if $newTeamId is not an ineger
+	 * @throws \TypeError if $newTeamId is not an integer
 	 **/
 	public function setTeamId(int $newTeamId = null) {
-		// base case: if profileId is null, this is a new team without a MySQL assigned id (yet)
+		// base case: if teamId is null, this is a new team without a MySQL assigned id (yet)
 		if($newTeamId === null) {
 			$this->teamId = null;
 			return;
@@ -155,6 +155,34 @@ public function setTeamCity (string $newTeamCity){
 		$this->$newTeamName = $newTeamName;
 	}
 
+	/**
+	 *accessor method for team Api id
+	 *
+	 * @return int|null value of team api id
+	 **/
+	public function getTeamApiId() {
+		return ($this->teamApiId);
+	}
 
+	/**
+	 * mutator method for team Api id
+	 *
+	 * @param int|null $newTeamApiId new value of team Api id
+	 * @throws \RangeException if the $newTeamApiId is not positive
+	 * @throws \TypeError if $newTeamApiId is not an integer
+	 **/
+	public function setTeamApiId(int $newTeamApiId = null) {
+		// base case: if teamApiId is null, this is a new team without a MySQL assigned id (yet)
+		if($newTeamApiId === null) {
+			$this->teamApiId = null;
+			return;
+		}
+// Verify the team id is positive
+		if($newTeamApiId <= 0) {
+			throw(new \RangeException("team api id is not positive"));
+		}
+// Convert and store the team api id
+		$this->teamApiId = $newTeamApiId;
+	}
 
 }
