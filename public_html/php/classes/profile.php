@@ -1,9 +1,9 @@
 <?php
 
 /** @author Michael Prinz mprinz1@cnm.edu */
+/**require_once("autoloader.php"); http://www.php-fig.org/psr/psr-4/ */
+namespace Cnm\Edu\mprinz1\sprots\Profile;
 
-namespace Cnm\Edu\mprinz1\sprots;
-require_once("autoloader.php");
 
 Class Profile {
 	/**
@@ -32,6 +32,17 @@ Class Profile {
 	 **/
 	private $profileSalt;
 
+	/**
+	 * Profile constructor.
+	 * @param int|null $newProfileId
+	 * @param string $newProfileUserName
+	 * @param string $newProfileEmail
+	 * @param $newProfileHash
+	 * @param null $newProfileSalt
+	 * @throws \InvalidArgumentException if data types are invalid
+	 * @throws \RangeException if data values are out of bounds
+	 * @throws \Exception is some other exception occurs
+	 */
 	public function __construct(int $newProfileId = null, string $newProfileUserName, string $newProfileEmail, $newProfileHash, $newProfileSalt = null) {
 		try {
 			$this->setProfileId($newProfileId);
@@ -39,7 +50,13 @@ Class Profile {
 			$this->setProfileEmail($newProfileEmail);
 			$this->setProfileHash($newProfileHash);
 			$this->setProfileSalt($newProfileSalt);
-		} catch
+		}catch (\InvalidArgumentException $invalidArgument) {
+			throw (new \InvalidArgumentException($invalidArgument->getMessage(),0, $invalidArgument));
+		}catch (\RangeException $range) {
+			throw (new \RangeException($range->getMessage(),0,$range));
+		}catch (\Exception $exception) {
+			throw (new \Exception($exception->getMessage(),0,$exception));
+		}
 	}
 
 
@@ -47,7 +64,7 @@ Class Profile {
 	 * mutator method for profile id
 	 *
 	 * @param int $newProfileId new value of profile id
-	 * @throws TypeError if $newProfileId is not an integer
+	 * @throws \InvalidArgumentException if $newProfileId is not an integer
 	 **/
 	public function setProfileId($newProfileId) {
 		//base case: if the profile id is null, this is a new profile without a mySQL assigned id (yet)
@@ -61,7 +78,7 @@ Class Profile {
 
 		//if filter_var() rejects the new id, throw an Exception
 		if($newProfileId === false) {
-			throw(new TypeError("profile id is not an integer"));
+			throw(new \InvalidArgumentException("profile id is not an integer"));
 
 			//save the object
 			$this->profileId = $newProfileId;
@@ -80,15 +97,15 @@ Class Profile {
 	/**
 	 * mutator method for Profile User Name
 	 * @param string $newProfileUserName new value of profileUserName
-	 * @throws TypeError if $newProfileUserName is not a string
-	 * @throws
+	 * @throws \InvalidArgumentException if $newProfileUserName is not a string
+	 * @throws \RangeException if
 	 */
 
 	public function setProfileUserName(string $newProfileUserName) {
 		$newProfileUserName = trim($newProfileUserName);
 		$newProfileUserName = filter_var($newProfileUserName, FILTER_SANITIZE_STRING);
 		if($newProfileUserName === false)
-			throw (new TypeError ("User name already exits")}
+			throw (new  ("User name already exits")}
 
 	/**
 	 * accessor method for Profile User Name
@@ -101,7 +118,7 @@ Class Profile {
 	 * mutator method for profile Email
 	 *
 	 * @param string $newProfileEmail
-	 * @throw type error if $newProfileEmail is not a valid email
+	 * @throw  if $newProfileEmail is not a valid email
 	 */
 	public function setProfileEmail($newProfileEmail) {
 		//verify the email is secure
@@ -113,8 +130,12 @@ Class Profile {
 		$this->profileEmail = $newProfileEmail;
 	}
 
+	/**
+	 * profileHash mutator method
+	 * @param $newProfileHash
+	 */
 	public function setProfileHash($newProfileHash) {
 		$newProfileHash = }
 }
-hello
+
 ?>
