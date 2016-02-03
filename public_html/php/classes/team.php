@@ -58,6 +58,8 @@ class team {
 		} catch(\Exception $exception) {
 			// rethrow the exception to the caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
+		} catch(\TypeError $typeError){
+			throw(new \TypeError($typeError->getMessage(),0, $typeError));
 		}
 	}
 
