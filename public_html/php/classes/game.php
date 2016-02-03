@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Dcuneo1\sprots;
 
-require_once ("autoLoader.php");
+require_once ("autoloader.php");
 /**
  * Created by PhpStorm.
  * User: OldManVin
@@ -18,5 +18,7 @@ require_once ("autoLoader.php");
 class Game {
 	/**
 	 * id for gameid primary key
+	 * @var int $gameId
 	 */
+	private $gameId;
 }
