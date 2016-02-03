@@ -93,4 +93,16 @@ class Statistic {
 	 * @throws \RangeException if $newStatisticName is > 255 characters
 	 * @throws \TypeError if $newStatisticName is not a string
 	 */
+	public function setStatisticName(string $newStatisticName){
+		//verify the statistic name is secure
+		$newStatisticName = trim($newStatisticName);
+		$newStatisticName = filter_var($newStatisticName, FILTER_SANITIZE_STRING);
+		if(empty($newStatisticName) === true) {
+			throw(new \InvalidArgumentException(" statistic is empty or insecure"));
+		}
+		if(strlen($newStatisticName) > 255) {
+			throw(new \RangeException("statisticName is too large"));
+		}
+		$this->statisticName = $newStatisticName;
+	}
 }
