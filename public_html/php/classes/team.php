@@ -97,7 +97,7 @@ $this->teamId = $newTeamId;
  * @return string value of team city
  **/
 public function getTeamCity (){
-	return($thi->teamCiy);
+	return($this->teamCiy);
 }
 /**
  * mutator method for team city
@@ -108,8 +108,28 @@ public function getTeamCity (){
  *@throws \TypeError if $newTeamCity is not a string
  **/
 public function setTeamCity (string $newTeamCity){
-	//verify the team city content is secure
+	//verify the team city name is secure
+	$newTeamCity = trim($newTeamCity);
+	$newTeamCity = filter_var($newTeamCity, FILTER_SANITIZE_STRING);
+	if(empty($newTeamCity)=== true){
+		throw(new \InvalidArgumentException("team name is empty or insecure"));
+	}
+//verify the team name will fit in the database
+	if(strlen($newTeamCity)>32){
+		throw(new \RangeException("team name is too large"));
+	}
+// store the new team name
+	$this->$newTeamCity = $newTeamCity;
 }
+
+/**
+ * accessor method for
+ */
+
+
+
+
+
 
 
 }
