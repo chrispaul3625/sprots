@@ -105,4 +105,64 @@ class Statistic {
 		}
 		$this->statisticName = $newStatisticName;
 	}
+	/**
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insert(\PDO $pdo){
+		//enforce the statisticId is null
+
+		if($this->statisticId !== null){
+			throw(new \PDOException("not a new statistic"));
+		}
+		//query template
+		$query = "INSERT INTO statistic(statisticId,statisticName)VALUES(:statisticId, :statisticName)";
+		$statement = $pdo->prepare($query);
+
+		//blind the member variables to the place holders in the template
+		//formattedDate = $this->tweetDate->format("Y-m-d H:i:s");
+		$parameters = ["statisticId" => $this->statisticId, "statisticName" => $this->statisticName];
+		$statement->execute($parameters);
+		//update the null statisticId with what mySQL just gave
+		$this->statisticId = intval($pdo->lastInsertId());
+	}
+	/**
+	 * deletes this Tweet from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo){
+		//enforce statisticId is not null
+		if($this->statisticId === null){
+			throw(new \PDOException("unable to delete statistic that does not exist"));
+		}
+		// query template
+		$query = "DELETE FROM statistic WHERE statisticID = :statisticId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holder in the template
+		$parameters = ["statisticId" => $this->statisticId];
+		$statement->execute($parameters);
+	}
+	/**
+	 * updates statistic  in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	 public function update(\PDO $pdo){
+		 //enforce statisticId id not null
+
+		 if($this->statisticId === null) {
+			 throw(new \PDOException("unable to update a statistic that does not exist"));
+		 }
+		 // query template
+		 $query = "UPDATE statistic SET statisticId = :statisticId, statisticName = statisticName";
+		 $statment =
+	 }
 }
