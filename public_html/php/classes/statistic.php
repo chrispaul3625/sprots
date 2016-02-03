@@ -17,7 +17,7 @@ require_once("autoload.php");
 
 class Statistic {
 	/**
-	 * id for statistic
+	 * id for statistic primary key
 	@var int $statisticId
 	 */
 	private $statisticId;
