@@ -11,9 +11,12 @@ DROP TABLE IF EXISTS profile;
 
 
 CREATE TABLE profile (
-	profileId       INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	profileUserName VARCHAR(32)                 NOT NULL,
-	profileEmail    VARCHAR(128)                NOT NULL,
+	profileId         INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	profileUserName   VARCHAR(32)                 NOT NULL,
+	profileEmail      VARCHAR(128)                NOT NULL,
+	profileActivation CHAR(32),
+	profileHash       CHAR(128)                   NOT NULL,
+	profileSalt       CHAR(64)                    NOT NULL,
 	UNIQUE (profileEmail),
 	UNIQUE (profileUserName),
 	PRIMARY KEY (profileId)
@@ -54,37 +57,33 @@ CREATE TABLE player (
 );
 
 CREATE TABLE game (
-	teamId           INT UNSIGNED                NOT NULL,
 	gameId           INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	gameFirstTeamId  INT UNSIGNED                NOT NULL,
 	gameSecondTeamId INT UNSIGNED                NOT NULL,
 	gameTime         DATETIME                    NOT NULL,
-	INDEX (teamId),
-	UNIQUE (gameId),
-	FOREIGN KEY (teamId) REFERENCES team (teamId),
+	INDEX (gameFirstTeamId),
+	INDEX (gameSecondTeamId),
+	FOREIGN KEY (gameFirstTeamId) REFERENCES team (teamId),
+	FOREIGN KEY (gameSecondTeamId) REFERENCES team (teamId),
 	PRIMARY KEY (gameId)
 );
 
 CREATE TABLE favoriteTeam (
-	teamId                INT UNSIGNED NOT NULL,
-	profileId             INT UNSIGNED NOT NULL,
 	favoriteTeamTeamId    INT UNSIGNED NOT NULL,
 	favoriteTeamProfileId INT UNSIGNED NOT NULL,
-	INDEX (teamId),
-	INDEX (profileId),
-	FOREIGN KEY (teamId) REFERENCES team (teamId),
-	FOREIGN KEY (profileId) REFERENCES profile (profileId)
+	INDEX (favoriteTeamTeamId),
+	INDEX (favoriteTeamProfileId),
+	FOREIGN KEY (favoriteTeamTeamId) REFERENCES team (teamId),
+	FOREIGN KEY (favoriteTeamProfileId) REFERENCES profile (profileId)
 );
 
 CREATE TABLE favoritePlayer (
-	playerId                INT UNSIGNED NOT NULL,
-	profileId               INT UNSIGNED NOT NULL,
 	favoritePlayerPlayerId  INT UNSIGNED NOT NULL,
 	favoritePlayerProfileId INT UNSIGNED NOT NULL,
-	INDEX (playerId),
-	INDEX (profileId),
-	FOREIGN KEY (playerId) REFERENCES player (playerId),
-	FOREIGN KEY (profileId) REFERENCES profile (profileId)
+	INDEX (favoritePlayerPlayerId),
+	INDEX (favoritePlayerProfileId),
+	FOREIGN KEY (favoritePlayerPlayerId) REFERENCES player (playerId),
+	FOREIGN KEY (favoritePlayerProfileId) REFERENCES profile (profileId)
 );
 
 CREATE TABLE statistic (
@@ -94,33 +93,28 @@ CREATE TABLE statistic (
 );
 
 CREATE TABLE teamStatistic (
-	teamId                   INT UNSIGNED NOT NULL,
-	statisticId              INT UNSIGNED NOT NULL,
-	gameId                   INT UNSIGNED NOT NULL,
 	teamStatisticTeamId      INT UNSIGNED NOT NULL,
-	teamStatisticValue       VARCHAR(8)   NOT NULL,
+	teamStatisticValue       VARCHAR(32)  NOT NULL,
 	teamStatisticStatisticId INT UNSIGNED NOT NULL,
 	teamStatisticGameId      INT UNSIGNED NOT NULL,
-	INDEX (teamId),
-	INDEX (statisticId),
-	INDEX (gameId),
-	FOREIGN KEY (teamId) REFERENCES team (teamId),
-	FOREIGN KEY (statisticId) REFERENCES statistic (statisticId),
-	FOREIGN KEY (gameId) REFERENCES game (gameId)
+	INDEX (teamStatisticTeamId),
+	INDEX (teamStatisticStatisticId),
+	INDEX (teamStatisticGameId),
+	FOREIGN KEY (teamStatisticTeamId) REFERENCES team (teamId),
+	FOREIGN KEY (teamStatisticStatisticId) REFERENCES statistic (statisticId),
+	FOREIGN KEY (teamStatisticGameId) REFERENCES game (gameId)
 );
 
 CREATE TABLE playerStatistic (
-	playerId                   INT UNSIGNED NOT NULL,
-	teamId                     INT UNSIGNED NOT NULL,
 	gameId                     INT UNSIGNED NOT NULL,
 	playerStatisticPlayerId    INT UNSIGNED NOT NULL,
 	playerStatisticTeamId      INT UNSIGNED NOT NULL,
 	playerStatisticStatisticId INT UNSIGNED NOT NULL,
-	playerStatisticValue       VARCHAR(8)   NOT NULL,
-	INDEX (playerId),
-	INDEX (teamId),
+	playerStatisticValue       VARCHAR(32)  NOT NULL,
+	INDEX (playerStatisticPlayerId),
+	INDEX (playerStatisticTeamId),
 	INDEX (gameId),
-	FOREIGN KEY (playerId) REFERENCES player (playerId),
-	FOREIGN KEY (teamId) REFERENCES team (teamId),
+	FOREIGN KEY (playerStatisticPlayerId) REFERENCES player (playerId),
+	FOREIGN KEY (playerStatisticTeamId) REFERENCES team (teamId),
 	FOREIGN KEY (gameId) REFERENCES game (gameId)
 )
