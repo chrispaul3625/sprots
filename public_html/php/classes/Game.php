@@ -70,6 +70,18 @@ class Game {
 		}
 	}
 	/**
-	 * accessor
+	 * accessor method for game id
+	 *
+	 * @return int|null value for game id
+	 */
+	public function getGameId() {
+		return $this->gameId;
+	}
+	/**
+	 * mutator method for game id
+	 *
+	 * @param int|null $newGameId new value for game id
+	 * @throws \RangeException if $newGameId id not positive
+	 * @throws
 	 */
 }
