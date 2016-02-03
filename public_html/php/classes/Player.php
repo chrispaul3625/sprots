@@ -27,6 +27,7 @@ class player {
 	 * player is unique to team player cannot be on >1 teams
 	 */
 	private $playerTeamId;
+
 	/**
 	 * player is unique to team, team is unique
 	 */
@@ -41,20 +42,20 @@ class player {
 	 * @throws RangeException if profile id is negative
 	 */
 
-		public function setplayerId($newplayerId) {
-			if($newplayerId === null) {
-				$this->playerId = null;
-				return;
-			}
-			$newplayerId = filter_var($newplayerId, FILTER_VALIDATE_INT);
-			if($newplayerId == false) {
-			}
-			if ($newplayerId <=0) {
-				throw(new RangeException("player id must be positive"));
-			}
-			$this->playerId = $newplayerId;
-
+	public function setplayerId($newplayerId) {
+		if($newplayerId === null) {
+			$this->playerId = null;
+			return;
 		}
+		$newplayerId = filter_var($newplayerId, FILTER_VALIDATE_INT);
+		if($newplayerId == false) {
+		}
+		if($newplayerId <= 0) {
+			throw(new RangeException("player id must be positive"));
+		}
+		$this->playerId = $newplayerId;
+
+	}
 
 	/**
 	 * accessor method for playerid
@@ -72,14 +73,14 @@ class player {
 	 */
 
 	public function setPlayerName($playerName) {
-		if ($playerName === null){
+		if($playerName === null) {
 			$this->playerName = null;
 			return;
 		}
 		$playerName = filter_var($playerName, FILTER_VALIDATE_INT);
-		if($playerName == false){
+		if($playerName == false) {
 		}
-		if ($playerName <=0) {
+		if($playerName <= 0) {
 			throw(new RangeException("player name must be positive"));
 		}
 		$this->playerName = $playerName;
@@ -109,7 +110,7 @@ class player {
 		$playerApiId = filter_var($playerApiId, FILTER_VALIDATE_INT);
 		if($playerApiId == false) {
 		}
-		if ($playerApiId <=0) {
+		if($playerApiId <= 0) {
 			throw(new RangeException("player api Id must be positive"));
 		}
 		$this->$playerApiId = $playerApiId;
@@ -120,7 +121,7 @@ class player {
 	 *
 	 * @return int value of player Api id
 	 */
-	public function  setplayerTeamId($playerTeamId) {
+	public function setplayerTeamId($playerTeamId) {
 		if($playerTeamId === null) {
 			$this->playerteam = null;
 			return;
@@ -131,9 +132,9 @@ class player {
 			 */
 		}
 		$playerTeamId = filter_var($playerTeamId, FILTER_VALIDATE_INT);
-		if($playerTeamId == false){
+		if($playerTeamId == false) {
 		}
-		if ($playerTeamId <=0) {
+		if($playerTeamId <= 0) {
 			throw(new RangeException("player team Id must be positive"));
 		}
 		$this->$playerTeamId;
@@ -143,7 +144,7 @@ class player {
 	 *
 	 * @return int value of player Team id
 	 */
-	}
+}
 
 
 

@@ -1,7 +1,7 @@
 <?php
-namespace Edu\Cnm\Dmartinez337\sprots;
+namespace Edu\Cnm\dmartinez337\sprots;
 
-require_once("autoloader.php");
+require_once("autoLoader.php");
 
 /**
  * This will be the class for our 4 chosen sports. NFL, MLB, NBA, and EPL.
@@ -153,5 +153,165 @@ class sport {
 		//if the above two pass, go ahead and store it in the db
 		$this->sportTeam = $newSportTeam;
 	}
+
+	/**
+	 * inserts this sport into the db
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when db related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		//enforce the sportId is null example: don't insert a sport that already exists
+		if($this->sportId !== null) {
+			throw(new \PDOException("sport already exists"));
+		}
+
+		//create query template
+		$query = "INSERT INTO sport(sportLeague, sportTeam) VALUES(:sportLeague, :tweetDate)";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["sportLeague" => $this->sportLeague, "sportTeam" => $this->sportTeam];
+		$statement->execute($parameters);
+
+		//update the null sportId with what mySQL just gave us
+		$this->sportId = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * deletes this sport from db
+	 *
+	 * @para \PDO $pdo PDO connection object
+	 * @throws \PDOException when db related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) {
+		// enforce that the sportId is not null
+		if($this->sportId === null) {
+			throw(new \PDOException("unable to delete a sport that doesn't exist"));
+		}
+
+		//query template
+		$query = "DELETE FROM sport WHERE sportId = :sportId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holder
+		$parameters = ["sportId" => $this->sportId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * updates this sport in db
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) {
+		// encforce that the sportId is not null
+		if($this->sportId === null) {
+			throw(new \PDOException("cant update sport that doesn't exist"));
+		}
+		//query template
+		$query = "UPDATE sport SET sportLeage = :sportLeague, sportTeam = :sportTeam WHERE sportId = :sportID ";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["sportId" => $this->sportId, "sportLeague" => $this->sportLeague, "sportTeam" => $this->sportTeam];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * gets the sport by sport league
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param string $sportLeague sport league to search for
+	 * @return \SplFixedArray SplFixedArray of sports found
+	 * @throws \PDOException when db related errors occur
+	 * @throws \TypeError when variables are not correct data type
+	 **/
+	public static function getSportBySportLeague(\PDO $pdo, string $sportLeague) {
+		// sanitize the description before searching
+		$sportLeague = trim($sportLeague);
+		$sportLeague = filter_var($sportLeague, FILTER_SANITIZE_STRING);
+		if(empty($sportLeague) === true) {
+			throw(new \PDOException("that league is invalid"));
+		}
+
+		//create query template
+		$query = "SELECT sportId, sportTeam FROM sport WHERE sportLeague LIKE :sportLeague";
+		$statement = $pdo->prepare($query);
+
+		//bind the sport league to the place holder in the template
+		$sportLeague = "%$sportLeague%";
+		$parameters = array("sportLeague" => $sportLeague);
+		$statement->execute($parameters);
+
+		//build array of sport leagues
+		$sportLeague = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$sportLeague = new sport($row["sportId"]);
+				$sportLeague[$sportLeague->key()] = $sportLeague;
+				$sportLeague->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+			return ($sportLeague);
+		}
+	}
+
+	/**
+	 * gets the sport by sportId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $sportId sport id to search for
+	 * @return Sport|null Sport found or null if nt found
+	 * @throws \PDOException when db related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getSportBySportId(\PDO $pdo, int $sportId) {
+		//sanitize sportid number before searching
+		if($sportId <= 0) {
+			throw(new \PDOException("that sportId is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT sportId, sportLeague, sportTeam FROM sport WHERE sportId = :sportId";
+		$statement = $pdo->prepare($query);
+
+		//bind the sportId to the place holder in the template
+		$parameters = array("sportId" => $sportId);
+		$statement->execute($parameters);
+
+		//grab the sport from the db
+		try {
+			$sport = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$sportId = new Sport($row["sportId"], $row["sportLeague"], $row["sportTeam"]);
+			}
+		} catch(\Exception $exception) {
+			//if the row can't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($sport);
+	}
+
+	/**
+	 * gets all sports
+	 * @param |PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of sports found or null if nothing was found
+	 * @throws \ PDOException when db related errors occur
+	 * @throws \ TypeError when variables are not the correct data type
+	 **/
+	public static function getAllSports(\PDO $pdo) {
+
+	}
+
 
 }
