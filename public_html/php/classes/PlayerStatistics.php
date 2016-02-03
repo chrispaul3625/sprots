@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\Sprots
+namespace Edu\Cnm\Sprots;
 
 require_once("autoloader.php");
 
@@ -63,127 +63,126 @@ public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatist
 		/**
 		 * accessor method for Player Statistic Game Id
 		 *
-		 * @return int value of Player Statistic Game Id
+		 * @return int|null value of Player Statistic Game Id
 		 **/
 		public function getPlayerStatisticGameId() {
 			return ($this->playerStatisticGameId);
 		}
 
 		/**
-		 * mutator method for
+		 * mutator method for PlayerStatisticGameId
 		 *
-		 * @param int|null $newTeamId new value of team id
-		 * @throws \RangeException if the $newTeamId is not positive
-		 * @throws \TypeError if $newTeamId is not an integer
+		 * @param int|null $newPlayerStatisticGameId new value of Player Statistic Game Id
+		 * @throws \RangeException if the $newPlayerStatisticGameId is not positive
+		 * @throws \TypeError if $newPlayerStatisticGameId is not an integer
 		 **/
-		public function setTeamId(int $newTeamId = null) {
-			// base case: if teamId is null, this is a new team without a MySQL assigned id (yet)
-			if($newTeamId === null) {
-				$this->teamId = null;
+		public function setPlayerStatisticGameId(int $newPlayerStatisticGameId) {
+			if($newPlayerStatisticGameId === null) {
+				$this->playerStatisticGameId = null;
 				return;
 			}
-// Verify the team id is positive
-			if($newTeamId <= 0) {
-				throw(new \RangeException("team id is not positive"));
+// Verify the PlayerStatisticGameId is positive
+			if($newPlayerStatisticGameId <= 0) {
+				throw(new \RangeException("PlayerStatisticGameId is not positive"));
 			}
-// Convert and store the team id
-			$this->teamId = $newTeamId;
+// Convert and store the PlayerStatisticGameId
+			$this->playerStatisticGameId = $newPlayerStatisticGameId;
 		}
 
 		/**
-		 *accessor method for team Api id
+		 *accessor method for Player Statistic Player Id
 		 *
-		 * @return int|null value of team api id
+		 * @return int|null value of Player Statistic Player Id
 		 **/
-		public function getTeamApiId() {
-			return ($this->teamApiId);
+		public function getPlayerStatisticPlayerId() {
+			return ($this->playerStatisticPlayerId);
 		}
 
 		/**
-		 * mutator method for team Api id
+		 * mutator method for Player Statistic Player Id
 		 *
-		 * @param int|null $newTeamApiId new value of team Api id
-		 * @throws \RangeException if the $newTeamApiId is not positive
-		 * @throws \TypeError if $newTeamApiId is not an integer
+		 * @param int|null $newPlayerStatisticPlayerId new value of Player Statistic Player Id
+		 * @throws \RangeException if the $newPlayerStatisticPlayerId is not positive
+		 * @throws \TypeError if $newPlayerStatisticPlayerId is not an integer
 		 **/
-		public function setTeamApiId(int $newTeamApiId = null) {
-			// base case: if teamApiId is null, this is a new team without a MySQL assigned id (yet)
-			if($newTeamApiId === null) {
-				$this->teamApiId = null;
+		public function setPlayerStatisticPlayerId(int $newPlayerStatisticPlayerId = null) {
+			// base case: if PlayerStatisticPlayerId is null, this is a new player statistic player id without a MySQL assigned id (yet)
+			if($newPlayerStatisticPlayerId === null) {
+				$this->playerStatisticPlayerId = null;
 				return;
 			}
-// Verify the team id is positive
-			if($newTeamApiId <= 0) {
-				throw(new \RangeException("team api id is not positive"));
+// Verify the Player Statistic Player Id is positive
+			if($newPlayerStatisticPlayerId <= 0) {
+				throw(new \RangeException("Player Statistic Player Id is not positive"));
 			}
-// Convert and store the team api id
-			$this->teamApiId = $newTeamApiId;
+// Convert and store the Player Statistic Player Id
+			$this->playerStatisticPlayerId = $newPlayerStatisticPlayerId;
 		}
 
 		/**
-		 * accessor method for team city
+		 * accessor method for Player Statistic Statistic Id
 		 *
-		 * @return string value of team city
+		 * @return int|null value of Player Statistic Statistic Id
 		 **/
-		public function getTeamCity() {
-			return ($this->teamCity);
+		public function getPlayerStatisticStatisticId() {
+			return ($this->playerStatisticStatisticId);
 		}
 
 		/**
-		 * mutator method for team city
+		 * mutator method for Player Statistic Statistic Id
 		 *
-		 * @param string $newTeamCity new value of team city
-		 * @throws \InvalidArgumentException if $newTeamCity is not a string or insecure
-		 * @throws \RangeException if $newTeamCity is >32 characters
-		 * @throws \TypeError if $newTeamCity is not a string
+		 * @param int|null $newPlayerStatisticStatisticId new value of Player Statistic Statistic Id
+		 * @throws \InvalidArgumentException if $newPlayerStatisticStatisticId is not a string or insecure
+		 * @throws \RangeException if $newPlayerStatisticStatisticId is >32 characters
+		 * @throws \TypeError if $newPlayerStatisticStatisticId is not an integer
 		 **/
-		public function setTeamCity(string $newTeamCity) {
-			//verify the team city name is secure
-			$newTeamCity = trim($newTeamCity);
-			$newTeamCity = filter_var($newTeamCity, FILTER_SANITIZE_STRING);
-			if(empty($newTeamCity) === true) {
-				throw(new \InvalidArgumentException("team name is empty or insecure"));
+		public function setPlayerStatisticStatisticId(int $newPlayerStatisticStatisticId) {
+			//verify the Player Statistic Statistic Id is secure
+			$newPlayerStatisticStatisticId = trim($newPlayerStatisticStatisticId);
+			$newPlayerStatisticStatisticId = filter_var($newPlayerStatisticStatisticId);
+			if(empty($newPlayerStatisticStatisticId) === true) {
+				throw(new \InvalidArgumentException("Player Statistic Statistic Id is empty or insecure"));
 			}
-//verify the team city name will fit in the database
-			if(strlen($newTeamCity) > 32) {
-				throw(new \RangeException("team city name is too large"));
+//verify the Player Statistic Statistic Id will fit in the database
+			if(strlen($newPlayerStatisticStatisticId) > 32) {
+				throw(new \RangeException("Player Statistic Statistic Id is too large"));
 			}
-// store the new team city name
-			$this->$newTeamCity = $newTeamCity;
+// store the new Player Statistic Statistic Id
+			$this->$newPlayerStatisticStatisticId = $newPlayerStatisticStatisticId;
 		}
 
 		/**
-		 * accessor method for team name
+		 * accessor method for Player Statistic Value
 		 *
-		 * @return string value of team name
+		 * @return int value of Player Statistic Value
 		 **/
 
-		public function getTeamName() {
-			return ($this->teamName);
+		public function getPlayerStatisticValue() {
+			return ($this->playerStatisticValue);
 		}
 
 		/**
-		 * mutator method for team name
+		 * mutator method for Player Statistic Value
 		 *
-		 * @param string $newTeamName new value of team name
-		 * @throws \InvalidArgumentException if $newTeamName is not a string or insecure
-		 * @throws \RangeException if $newTeamName is >32 characters
-		 * @throws \TypeError if $newTeamName is not a string
+		 * @param int $newPlayerStatisticValue value of statistic
+		 * @throws \InvalidArgumentException if $newPlayerStatisticValue is not an integer or insecure
+		 * @throws \RangeException if $newPlayerStatisticValue is >32 characters
+		 * @throws \TypeError if $newPlayerStatisticValue is not an integer
 		 **/
 
-		public function setTeamName(string $newTeamName) {
-			//verify the team name is secure
-			$newTeamName = trim($newTeamName);
-			$newTeamName = filter_var($newTeamName, FILTER_SANITIZE_STRING);
-			if(empty($newTeamName) === true) {
-				throw(new \InvalidArgumentException("team name is empty or insecure"));
+		public function setPlayerStatisticValue(int $newPlayerStatisticValue) {
+			//verify the Player Statistic Value is secure
+			$newPlayerStatisticValue = trim($newPlayerStatisticValue);
+			$newPlayerStatisticValue = filter_var($newPlayerStatisticValue);
+			if(empty($newPlayerStatisticValue) === true) {
+				throw(new \InvalidArgumentException("Player Statistic Value is empty or insecure"));
 			}
-//verify the team name will fit in the database
-			if(strlen($newTeamName) > 32) {
-				throw(new \RangeException("team name is too large"));
+//verify the Player Statistic Value will fit in the database
+			if(strlen($newPlayerStatisticValue) > 32) {
+				throw(new \RangeException("Player Statistic Value is too large"));
 			}
-// store the new team name
-			$this->$newTeamName = $newTeamName;
+// store the new Player Statistic Value
+			$this->$newPlayerStatisticValue = $newPlayerStatisticValue;
 		}
 
 

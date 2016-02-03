@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\cpaul9\sprots;
+namespace Edu\Cnm\Sprots;
 
 require_once("autoloader.php");
 
@@ -59,8 +59,8 @@ class team {
 		} catch(\Exception $exception) {
 			// rethrow the exception to the caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
-		} catch(\TypeError $typeError){
-			throw(new \TypeError($typeError->getMessage(),0, $typeError));
+		} catch(\TypeError $typeError) {
+			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
 		}
 	}
 
@@ -94,6 +94,7 @@ class team {
 // Convert and store the team id
 		$this->teamId = $newTeamId;
 	}
+
 	/**
 	 *accessor method for team Api id
 	 *
@@ -129,26 +130,27 @@ class team {
 	 *
 	 * @return string value of team city
 	 **/
-	public function getTeamCity (){
-		return($this->teamCity);
+	public function getTeamCity() {
+		return ($this->teamCity);
 	}
+
 	/**
 	 * mutator method for team city
 	 *
-	 *@param string $newTeamCity new value of team city
-	 *@throws \InvalidArgumentException if $newTeamCity is not a string or insecure
-	 *@throws \RangeException if $newTeamCity is >32 characters
-	 *@throws \TypeError if $newTeamCity is not a string
+	 * @param string $newTeamCity new value of team city
+	 * @throws \InvalidArgumentException if $newTeamCity is not a string or insecure
+	 * @throws \RangeException if $newTeamCity is >32 characters
+	 * @throws \TypeError if $newTeamCity is not a string
 	 **/
-	public function setTeamCity (string $newTeamCity){
+	public function setTeamCity(string $newTeamCity) {
 		//verify the team city name is secure
 		$newTeamCity = trim($newTeamCity);
 		$newTeamCity = filter_var($newTeamCity, FILTER_SANITIZE_STRING);
-		if(empty($newTeamCity)=== true){
+		if(empty($newTeamCity) === true) {
 			throw(new \InvalidArgumentException("team name is empty or insecure"));
 		}
 //verify the team city name will fit in the database
-		if(strlen($newTeamCity)>32){
+		if(strlen($newTeamCity) > 32) {
 			throw(new \RangeException("team city name is too large"));
 		}
 // store the new team city name
@@ -161,67 +163,69 @@ class team {
 	 * @return string value of team name
 	 **/
 
-	public function getTeamName () {
-		return ($this->teamName);}
+	public function getTeamName() {
+		return ($this->teamName);
+	}
 
 	/**
 	 * mutator method for team name
 	 *
-	 *@param string $newTeamName new value of team name
-	 *@throws \InvalidArgumentException if $newTeamName is not a string or insecure
-	 *@throws \RangeException if $newTeamName is >32 characters
-	 *@throws \TypeError if $newTeamName is not a string
+	 * @param string $newTeamName new value of team name
+	 * @throws \InvalidArgumentException if $newTeamName is not a string or insecure
+	 * @throws \RangeException if $newTeamName is >32 characters
+	 * @throws \TypeError if $newTeamName is not a string
 	 **/
 
-	public function setTeamName (string $newTeamName){
+	public function setTeamName(string $newTeamName) {
 		//verify the team name is secure
 		$newTeamName = trim($newTeamName);
 		$newTeamName = filter_var($newTeamName, FILTER_SANITIZE_STRING);
-		if(empty($newTeamName)=== true){
+		if(empty($newTeamName) === true) {
 			throw(new \InvalidArgumentException("team name is empty or insecure"));
 		}
 //verify the team name will fit in the database
-		if(strlen($newTeamName)>32){
+		if(strlen($newTeamName) > 32) {
 			throw(new \RangeException("team name is too large"));
 		}
 // store the new team name
 		$this->$newTeamName = $newTeamName;
 	}
-/**
- * inserts this team into mySQL
- *
- * @param \PDO $pdo connection object
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError if $pdo is not a PDO connection object
- **/
-public function insert(\PDO $pdo) {
-	// enforces that team id is null (i.e., don't insert a team that already exists.
-	if($this->teamid !== null) {
-		throw(new \PDOException("not a new team"));
-	}
+
+	/**
+	 * inserts this team into mySQL
+	 *
+	 * @param \PDO $pdo connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		// enforces that team id is null (i.e., don't insert a team that already exists.
+		if($this->teamid !== null) {
+			throw(new \PDOException("not a new team"));
+		}
 // create query template
-	$query = "INSERT INTO team(teamApiId, teamCity, teamName) VALUES(:teamApiId, :teamCity, :teamName)";
-	$statement = $pdo->prepare($query);
+		$query = "INSERT INTO team(teamApiId, teamCity, teamName) VALUES(:teamApiId, :teamCity, :teamName)";
+		$statement = $pdo->prepare($query);
 //bind the member variables to the place holders in the template
-	$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName];
-	$statement->execute($parameters);
+		$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName];
+		$statement->execute($parameters);
 // update the null teamId with what mySQL just gave us
-	$this->teamId = intval($pdo->lastInsertId());
-}
-
-/**
- * deletes team from mySQL
- *
- * @param \PDO $pdo PDO connection object
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError if $pdo is not a PDO connection object
- **/
-
-public function delete(\PDO $pdo) {
-// enforce the team id is not null (i.e., don't delete a tweet that hasn't been inserted)
-	if($this->teamId === null) {
-		throw(new \PDOException("unable to delete a team that does not exist"));
+		$this->teamId = intval($pdo->lastInsertId());
 	}
+
+	/**
+	 * deletes team from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+
+	public function delete(\PDO $pdo) {
+// enforce the team id is not null (i.e., don't delete a tweet that hasn't been inserted)
+		if($this->teamId === null) {
+			throw(new \PDOException("unable to delete a team that does not exist"));
+		}
 		// create query template
 		$query = "DELETE FROM team WHERE teamId = :teamId";
 		$statement = $pdo->prepare($query);
@@ -229,6 +233,7 @@ public function delete(\PDO $pdo) {
 		$parameters = ["teamId" => $this->teamId];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * updates this team in mySQL
 	 *
