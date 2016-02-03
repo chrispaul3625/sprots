@@ -65,7 +65,7 @@ class teamStatistic {
 
 	/**
 	 * accessor for team statistic team Id
-	 * @return int valur of team statistic team id
+	 * @return int value of team statistic team Id
 	 *
 	 */
 			public function getTeamStatisticValue() {
@@ -74,6 +74,8 @@ class teamStatistic {
 
 	/**
 	 * @param int $teamStatisticValue new values of team statistic value
+	 * @throws InvalidArgumentException if statistic team Id is not an integer
+	 * @throws RangeException if statistic team id is negative
 	 */
 
 			public function setTeamStatisticValue($teamStatisticValue) {
@@ -92,8 +94,19 @@ class teamStatistic {
 				}
 			}
 
+	/**
+	 * accessor for team statistic team Id
+	 * @return int value of team statistic team Id
+	 */
+
 			public function getTeamStastisticStatisticId() {
 				return $this->teamStastisticStatisticId;
+
+				/**
+				 * @param int $teamStastisticStatisticId new values of team statistic value
+				 * @throws InvalidArgumentException if statistic team Id is not an integer
+				 * @throws RangeException if statistic is negative
+				 */
 
 				public function setTeamStastisticStatisticId ($teamStastisticStatisticId) {
 					if($teamStastisticStatisticId === null) {
@@ -109,9 +122,18 @@ class teamStatistic {
 					$this->teamStastisticStatisticId = $teamStastisticStatisticId;
 				}
 			}
+
+	/**
+	 * accessor for team statistic team id
+	 * @return int value of team statistic team Id
+	 */
 			public function getTeamStatisticGameId() {
 				return $this->teamStatisticGameId;
-
+				/**
+				 * @param int $teamStatisticGameId new values of team statistic value
+				 * @throws InvalidArgumentException if statistic team Id is not an integer
+				 * @throws RangeException if statistic is negative
+				 */
 				public
 				function setteamStatisticGameId($teamStatisticGameId) {
 					if($teamStatisticGameId === null) {
@@ -127,5 +149,9 @@ class teamStatistic {
 					$this->teamStatisticGameId = $teamStatisticGameId;
 				}
 			}
+	/**
+	 * accessor for team statistic game Id
+	 * @return int value of team statistic game Id
+	 */
 		}
 
