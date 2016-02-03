@@ -106,6 +106,21 @@ class Game {
 		return $this->gameFirstTeamId;
 	}
 	/**
-	 * mutator
+	 * mutator method or firstGameTeamId
+	 *
+	 * @param int $newFirstGameId is new value of firstGameId
+	 * @throws \RangeException if $newFirstGameId id not positive
+	 * @throws \TypeError if $newFirstGameId in not an integer
+	 */
+	public function setFirstGameId(int $newFirstGameId){
+		//verify firstGameTeamId is positive
+		if($newFirstGameId <= 0){
+			throw(new \RangeException("firstGameTeamId is not positive"));
+		}
+		//convert and save
+		$this->gameFirstTeamId = $newFirstGameId;
+	}
+	/**
+	 * accessor
 	 */
 }
