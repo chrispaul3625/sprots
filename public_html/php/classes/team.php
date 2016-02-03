@@ -97,7 +97,7 @@ $this->teamId = $newTeamId;
  * @return string value of team city
  **/
 public function getTeamCity (){
-	return($this->teamCiy);
+	return($this->teamCity);
 }
 /**
  * mutator method for team city
@@ -114,21 +114,46 @@ public function setTeamCity (string $newTeamCity){
 	if(empty($newTeamCity)=== true){
 		throw(new \InvalidArgumentException("team name is empty or insecure"));
 	}
-//verify the team name will fit in the database
+//verify the team city name will fit in the database
 	if(strlen($newTeamCity)>32){
-		throw(new \RangeException("team name is too large"));
+		throw(new \RangeException("team city name is too large"));
 	}
-// store the new team name
+// store the new team city name
 	$this->$newTeamCity = $newTeamCity;
 }
 
-/**
- * accessor method for
- */
+	/**
+	 * accessor method for team name
+	 *
+	 * @return string value of team name
+	 **/
 
+	public function getTeamName () {
+		return ($this->teamName);}
 
+	/**
+	 * mutator method for team name
+	 *
+	 *@param string $newTeamName new value of team name
+	 *@throws \InvalidArgumentException if $newTeamName is not a string or insecure
+	 *@throws \RangeException if $newTeamName is >32 characters
+	 *@throws \TypeError if $newTeamName is not a string
+	 **/
 
-
+	public function setTeamName (string $newTeamName){
+		//verify the team name is secure
+		$newTeamName = trim($newTeamName);
+		$newTeamName = filter_var($newTeamName, FILTER_SANITIZE_STRING);
+		if(empty($newTeamName)=== true){
+			throw(new \InvalidArgumentException("team name is empty or insecure"));
+		}
+//verify the team name will fit in the database
+		if(strlen($newTeamName)>32){
+			throw(new \RangeException("team name is too large"));
+		}
+// store the new team name
+		$this->$newTeamName = $newTeamName;
+	}
 
 
 
