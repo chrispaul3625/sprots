@@ -184,6 +184,30 @@ public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatist
 // store the new Player Statistic Value
 			$this->$newPlayerStatisticValue = $newPlayerStatisticValue;
 		}
+		/**
+		 * Inserts this player statistic into mySQL
+		 *
+		 *@param \PDO $pdo PDO connection object
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError if $pdo is not a PDO connection object
+		 **/
+
+		public function insert(\PDO $pdo) {
+			// enforce the player statistic game id, the player statistic player id, and the player statistic statistic id is exists
+			if($this->playerStatisticGameId || $this->playerStatisticPlayerId || $this->playerStatisticStatisticId === null) {
+				throw(new \PDOException("Ids do not exist"));
+			}
+		// Create query template
+			$query = "INSERT INTO playerStatistic(playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue) VALUES(:playerStatisticGameId, :playerStatisticPlayerId, :playerStatisticStatisticId, :playerStatisticValue)";
+			$statement = $pdo->prepare($query);
+
+			// Bind the member variables to the place holders in template
+			$parameters = ["playerStatisitcGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
+			$statement->execute($parameters);
+
+			// Update null Ids with what Ids exist
+			$this->playerStatisticGameId || $this->playerStatisticPlayerId || $this->playerStatisticStatisticId = intval($pdo->lastInsertId());
+		}
 
 
 
