@@ -146,7 +146,7 @@ class Statistic {
 			throw(new \PDOException("unable to delete statistic that does not exist"));
 		}
 		// query template
-		$query = "DELETE FROM statistic WHERE statisticID = :statisticId";
+		$query = "DELETE FROM statistic WHERE statisticId = :statisticId";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holder in the template

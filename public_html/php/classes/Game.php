@@ -36,6 +36,7 @@ class Game {
 	 * var $newGameTime
 	 */
 	private $gameTime;
+
 	/**
 	 * constructor fo Game
 	 *
@@ -49,26 +50,27 @@ class Game {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 */
-	public function  __construct(int $newGameId = null, int $newGameFirstTeamId, $newGameSecondTeamId, $newGameTimeDate = null) {
-		try{
+	public function __construct(int $newGameId = null, int $newGameFirstTeamId, $newGameSecondTeamId, $newGameTimeDate = null) {
+		try {
 			$this->setgameId($newGameId);
 			$this->setgameFirstTeamId($newGameFirstTeamId);
 			$this->setgameSecondTeamId($newGameSecondTeamId);
 			$this->setgameTime($newGameTimeDate);
-		}catch(\InvalidArgumentException $invalidArgument){
+		} catch(\InvalidArgumentException $invalidArgument) {
 			//rethrow the exception to caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		}catch(\RangeException $range){
+		} catch(\RangeException $range) {
 			// rethrow
 			throw(new \RangeException($range->getMessage(), 0, $range));
-		}catch(\TypeError $typeError){
+		} catch(\TypeError $typeError) {
 			// rethrow
 			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
-		}catch (\Exception $exception){
+		} catch(\Exception $exception) {
 			// rethrow
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
+
 	/**
 	 * accessor method for game id
 	 *
@@ -77,6 +79,7 @@ class Game {
 	public function getGameId() {
 		return $this->gameId;
 	}
+
 	/**
 	 * mutator method for game id
 	 *
@@ -84,19 +87,20 @@ class Game {
 	 * @throws \RangeException if $newGameId id not positive
 	 * @throws \TypeError if $newGameId is not an integer
 	 */
-	public function setGameId(int $newGameId = null){
+	public function setGameId(int $newGameId = null) {
 		// base case: if game id is null this is a new game without a mySQL assigned id yet
-		if($newGameId === null){
+		if($newGameId === null) {
 			$this->gameId = null;
 			return;
 		}
 		// verify the game id is positive
-		if($newGameId <= 0){
+		if($newGameId <= 0) {
 			throw(new \RangeException("game id is not positive"));
 		}
 		// convert and store game id
 		$this->gameId = $newGameId;
 	}
+
 	/**
 	 * accessor for GameFirstTeamId
 	 *
@@ -105,6 +109,7 @@ class Game {
 	public function getGameFirstTeamId() {
 		return $this->gameFirstTeamId;
 	}
+
 	/**
 	 * mutator method or GameFirstTeamId
 	 *
@@ -112,22 +117,24 @@ class Game {
 	 * @throws \RangeException if $newGameFirstTeamId id not positive
 	 * @throws \TypeError if $newGameFirstTeamId in not an integer
 	 */
-	public function setGameFirstTeamId(int $newGameFirstTeamId){
+	public function setGameFirstTeamId(int $newGameFirstTeamId) {
 		//verify firstGameTeamId is positive
-		if($newGameFirstTeamId <= 0){
+		if($newGameFirstTeamId <= 0) {
 			throw(new \RangeException("GameFirstTeamId is not positive"));
 		}
 		//convert and save
 		$this->gameFirstTeamId = $newGameFirstTeamId;
 	}
+
 	/**
 	 * accessor method for gameSecondTeamId
 	 *
 	 * @return int|null value of gameSecondTeamId
 	 */
 	public function gameSecondTeamId() {
-		return($this->gameSecondTeamId);
+		return ($this->gameSecondTeamId);
 	}
+
 	/**
 	 * mutator method for gameSecondTeamId id
 	 *
@@ -135,19 +142,20 @@ class Game {
 	 * @throws \RangeException if $newGameSecondTeamId is not positive
 	 * @throws \TypeError if $newGameSecondTeamId is not an integer
 	 **/
-	public function setGameSecondTeamId(int $newGameSecondTeamId = null){
+	public function setGameSecondTeamId(int $newGameSecondTeamId = null) {
 		// base case if gameSecondTeamId id is null this is a $new game
-		if($newGameSecondTeamId === null){
+		if($newGameSecondTeamId === null) {
 			$this->gameSecondTeamId = null;
 			return;
 		}
 		//verify newGameSecondTeamId is positive
-		if($newGameSecondTeamId <= 0){
+		if($newGameSecondTeamId <= 0) {
 			throw(new \RangeException("GameSecondTeamId is not positive"));
 		}
 		//convert and save
 		$this->gameSecondTeamId = $newGameSecondTeamId;
 	}
+
 	/**
 	 * accessor for gameTime
 	 *
@@ -156,28 +164,30 @@ class Game {
 	public function getGameTime() {
 		return $this->gameTime;
 	}
+
 	/**
 	 * mutator method for gametime
 	 * @param \DateTime|string|null $newGameTime
 	 * @throws \InvalidArgumentException if $newGameTime
 	 * @throws \RangeException if $newGameTime is nor a valid object or string
 	 */
-	public function setGameTime($newGameTime = null){
+	public function setGameTime($newGameTime = null) {
 		//base case if date is null use current date time
-		if($newGameTime = null){
+		if($newGameTime = null) {
 			$this->newGameTime = new \DateTime();
 			return;
 		}
 		//store game data
-		try{
-			$newGameTime =$this->validateDate($newGameTime);
-		}catch(\InvalidArgumentException $invalidArgument){
+		try {
+			$newGameTime = $this->validateDate($newGameTime);
+		} catch(\InvalidArgumentException $invalidArgument) {
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		}catch(\RangeException $range){
+		} catch(\RangeException $range) {
 			throw(new \RangeException($range->getMessage(), 0, $range));
 		}
 		$this->gameTime = $newGameTime;
 	}
+
 	/**
 	 * inserts this Game into mySQL
 	 *
@@ -187,7 +197,7 @@ class Game {
 	 **/
 	public function insert(\PDO $pdo) {
 		// enforce the gameId is null
-		if($this->gameId !== null){
+		if($this->gameId !== null) {
 			throw(new \PDOException("not a new game"));
 		}
 		//query template
@@ -195,10 +205,50 @@ class Game {
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holder
 		$formattedDate = $this->gameTime->format("Y-m-d H:i:s");
-		$prameters = ["gameTime" => $formattedDate, "gameFirstTeamId" =>$this->gameFirstTeamId,"gameSecondTeamId" => $this->gameSecondTeamId];
+		$prameters = ["gameTime" => $formattedDate, "gameFirstTeamId" => $this->gameFirstTeamId, "gameSecondTeamId" => $this->gameSecondTeamId];
 		$statement->execute($prameters);
 		//update the null gameid with mySQL
-		$this->gameId =intval($pdo->lastInsertId());
+		$this->gameId = intval($pdo->lastInsertId());
 	}
 
+	/**
+	 * deletes this Game from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) {
+		// enforce the tweetId is not null (
+		if($this->gameId === null) {
+			throw(new \PDOException("unable to delete a game that does not exist"));
+		}
+		// query template
+		$query = "DELETE FROM game WHERE gameId = :gameId";
+		$statement = $pdo->prepare($query);
+		//bind member variables to the place holder
+		$parameters = ["gameId" => $this->gameId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * updates this Game in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) {
+		// enforce the gameId is not null
+		if($this->gameId === null) {
+			throw(new \PDOException("unable to update a game that does not exist"));
+		}
+		//query template
+		$query = "UPDATE game SET gameTime = :gameTime, gameFirstTeamId = :gameFirstTeamId, gameSecondTeamId = :gameSecondTeamId ";
+		$statement = $pdo->prepare($query);
+		//bind the member variable to the place holders
+		$formattedDate = $this->gameTime->format("Y-m-d H:i:s");
+		$parameters  = ["gameTime" => $formattedDate, "gameFirstTeamId => $this->gameFirstTeamId", "gameSecondTeamId => $this->gameSecondTeamId()"];
+		$statement->execute($parameters);
+	}
 }
