@@ -194,7 +194,7 @@ public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatist
 
 		public function insert(\PDO $pdo) {
 			// enforce the player statistic game id, the player statistic player id, and the player statistic statistic id is exists
-			if($this->playerStatisticGameId || $this->playerStatisticPlayerId || $this->playerStatisticStatisticId === null) {
+			if($this->playerStatisticGameId === null || $this->playerStatisticPlayerId === null || $this->playerStatisticStatisticId === null) {
 				throw(new \PDOException("Ids do not exist"));
 			}
 		// Create query template
@@ -202,11 +202,8 @@ public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatist
 			$statement = $pdo->prepare($query);
 
 			// Bind the member variables to the place holders in template
-			$parameters = ["playerStatisitcGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
+			$parameters = ["playerStatisticGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
 			$statement->execute($parameters);
-
-			// Update null Ids with what Ids exist
-			$this->playerStatisticGameId || $this->playerStatisticPlayerId || $this->playerStatisticStatisticId = intval($pdo->lastInsertId());
 		}
 
 
