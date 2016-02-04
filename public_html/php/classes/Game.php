@@ -33,7 +33,7 @@ class Game {
 	private $gameSecondTeamId;
 	/**
 	 * id for gameTime
-	 * var $gameTimeDate
+	 * var $newGameTime
 	 */
 	private $gameTime;
 	/**
@@ -54,7 +54,7 @@ class Game {
 			$this->setgameId($newGameId);
 			$this->setgameFirstTeamId($newGameFirstTeamId);
 			$this->setgameSecondTeamId($newGameSecondTeamId);
-			$this->setGameTimeDate($newGameTimeDate);
+			$this->setgameTime($newGameTimeDate);
 		}catch(\InvalidArgumentException $invalidArgument){
 			//rethrow the exception to caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -178,4 +178,27 @@ class Game {
 		}
 		$this->gameTime = $newGameTime;
 	}
+	/**
+	 * inserts this Game into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		// enforce the gameId is null
+		if($this->gameId !== null){
+			throw(new \PDOException("not a new game"));
+		}
+		//query template
+		$query = "INSERT INTO game(gameTime, gameFirstTeamId, gameSecondTeamId) VALUES (:gameTime, :gameFirstTeamid, :gameSecondTimeId)";
+		$statement = $pdo->prepare($query);
+		//bind the member variables to the place holder
+		$formattedDate = $this->gameTime->format("Y-m-d H:i:s");
+		$prameters = ["gameTime" => $formattedDate, "gameFirstTeamId" =>$this->gameFirstTeamId,"gameSecondTeamId" => $this->gameSecondTeamId];
+		$statement->execute($prameters);
+		//update the null gameid with mySQL
+		$this->gameId =intval($pdo->lastInsertId());
+	}
+
 }
