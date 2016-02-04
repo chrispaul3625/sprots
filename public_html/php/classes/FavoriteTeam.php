@@ -10,6 +10,18 @@ require_once("autoLoader.php");
  **/
 class favoriteTeam {
 	/**
-	 *
-	 */
+	*id for the profile that has favorites; this is the foreign key
+	*@var int $favoriteTeamProfileId
+	**/
+	private $favoriteTeamProfileId;
+	/**
+	*id of the team that is being favorited.
+	*@var int $favoriteTeamTeamId
+	**/
+	private $favoriteTeamTeamId;
+
+	/**
+	*constructor for favorting a team
+	*
+	*@param int|nul
 }
