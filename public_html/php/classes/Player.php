@@ -200,6 +200,28 @@ class player {
 	}
 
 	/**
+	 * updates this player in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) {
+		if($this->playerId === null) {
+			throw(new \PDOException("unable to update a player that does not exist"));
+		}
+		$query = "UPDATE player SET playerNameId = :playerNameId, PlayerApiId = :PlayerApiId, playerTeamId = :playerTeamId WHERE playerId = :playerId";
+		$statement = $pdo->prepare($query);
+
+
+		$formattedDate = $this->playerId->format("Y-m-d H:i:s");
+		$parameters = ["playerNameId" => $this->playerNameId, "playerApiId" => $this->playerApiId, "playerTeamId" => $playerTeamId, "playerId" => $this->playerId];
+		$statement->execute($parameters);
+	}
+
+
+
+	/**
 	 * deletes player from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
@@ -214,11 +236,10 @@ class player {
 		}
 
 		// create query template
-		$query = "DELETE FROM tweet WHERE tweetId = :tweetId";
+		$query = "DELETE FROM player WHERE playerId = :playerId";
 		$statement = $pdo->prepare($query);
 		$statement->execute($parameter);
 		}
-
 	/**
 	 * accessor for player Team Id
 	 *

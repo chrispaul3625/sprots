@@ -1,4 +1,7 @@
 <?php
+
+require_once ("autoloader.php");
+
 /**
  * Team Statistic, This is a field in which all statistics related to a team are going to be held.
  *
@@ -33,6 +36,10 @@ class teamStatistic {
 	private $teamStatisticGameId;
 
 	/**
+	 *
+	 */
+
+	/**
 	 * is unique to team and game played
 	 * @return int
 	 */
@@ -42,12 +49,24 @@ class teamStatistic {
 		}
 
 	/**
-	 * @param int $teamStatisticTeamId new values of team statistic Id
-	 * @throws InvalidArgumentException if statistic team id is not an integer
-	 * @throws RangeException if statistic team Id is negative
+		* @param int|null $teamStatisticTeam of this teamStatistic or null if a new player
+		* @param int $teamStatisticTeamId Id of the teamStatistic
+		* @param int $teamStatisticValue statistic value of the team
+		* @param int $teamStatisticStatisticId Id of the statistic being called
+	 	* @param int $teamStatisticGameId Id of the game that the statistic is coming from
+		* @throws \InvalidArgumentException if data types are not valid
+		* @throws \RangeException if data values are out of bouds (e.g, strings to long, negative intergers)
+		* @throws \TypeError if data types violate type hints
+		* @throws \Exception if some other exception occurs
 	 */
 
-		public function setTeamStatisticTeamId($teamStatisticTeamId) {
+	public function __construct(int $teamStatisticId = null, int $newteamStatisticTeamId, int $newteamStatisticValue, int $newStatisticStatisticId, int $newteamStatisticGameId = null) {
+		try {
+			$this->
+		}
+	}
+
+	public function setTeamStatisticTeamId($teamStatisticTeamId) {
 			if($teamStatisticTeamId === null) {
 				$this->teamStatisticTeamId = null;
 				return;
