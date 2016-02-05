@@ -206,8 +206,48 @@ public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatist
 			$statement->execute($parameters);
 		}
 
+		/**
+		 * Deletes this statistic from mySQL
+		 *
+		 *@param \PDO $pdo PDO connection object
+		 *  @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError if $pdo is not a PDO connection object
+		 **/
 
+		public function delete(\PDO $pdo) {
+			//enforce the Ids are not null
+			if($this->playerStatisticGameId === null || $this->playerStatisticPlayerId === null || $this->playerStatisticStatisticId === null) {
+				throw(new \PDOException("Ids do not exist to delete"));
+		}
+			// Create query template
+			$query = "DELETE FROM playerStatistic Where playerStatisticGameId | playerStatisticPlayerId | playerStatisticStatisticId | playerStatisticValue = playerStatisticGameId | playerStatisticPlayerId | playerStatisticStatisticId | playerStatisticValue";
+			$statement = $pdo->prepare($query);
 
+			// Bind the member variables to the place holders in template
+			$parameters = ["playerStatisticGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
+			$statement->execute($parameters);
+		}
+		/**
+		 * updates this Tweet in mySQL
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError if $pdo is not a PDO connection object
+		 **/
+
+		public function update(\PDO $pdo) {
+			//enforce the Ids are not null
+			if($this->playerStatisticGameId === null || $this->playerStatisticPlayerId === null || $this->playerStatisticStatisticId === null) {
+				throw(new \PDOException("Ids do not exist to update"));
+			}
+			// Create query template
+			$query = "UPDATE playerStatistic SET playerStatisticGameId = :playerStatisticGameId, playerStatisticPlayerId = :playerStatisticPlayerId, playerStatisticStatisticId = :playerStatisticStatisticId, playerStatisticValue = :playerStatisticValue";
+			$statement = $pdo->prepare($query);
+
+			// Bind the member variables to the place holders in template
+			$parameters = ["playerStatisticGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
+			$statement->execute($parameters);
+		}
 
 
 	}
