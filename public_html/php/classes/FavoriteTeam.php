@@ -129,6 +129,29 @@ class favoriteTeam {
 					}
 
 					//create query
-					$query = "INSERT INTO favoriteTeam(favoriteTeamProfileId)"
+					$query = "INSERT INTO favoriteTeam(favoriteTeamProfileId, favoriteTeamTeamId) VALUES(:favoriteTeamProfileId, :favoriteTeamTeamId)";
+					$statement = $pdo->prepare($query);
+
+					//bind the member variables to the place holders in the template
+					$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->$favoriteTeamTeamId]; $statement->excute($parameters);
+
+					//update the null favoriteTeamProfileId with the one that the db gives us
+					$this->favoriteTeamProfileId = intval($pdo->lastInsertId());
+				}
+
+				/**
+				* Deletes this favorite team from associated favoriteTeamProfileId
+				*
+				* @param \PDO $pdo PDO connection object
+				* @throws \PDOException when database related errors occur
+				* @throws \Typeerror if $pdo is not a PDO connection object
+				**/
+				public function delete(\PDO $pdo)	{
+					if($this->favoriteTeamProfileId === null && $this->favoriteTeamTeamId === null) {
+						throw(new \PDOException("Ids do not exist to delete"));
+					}
+					// Create query template
+					$query = "DELETE FROM favoriteTeam WHERE favoriteTeamProfileId && favoriteTeamTeamId = :favoritePlayerProfileId && :favoriteTeamTeamId";
+					$statement = $pdo->execute()
 				}
 }
