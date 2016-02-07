@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\dmartinez337\sprots;
+namespace Edu\Cnm\Sprots;
 
 require_once("autoLoader.php");
 
@@ -83,7 +83,7 @@ class favoriteTeam {
 			//verify the favoriteTeamProfileId is an integer.
 			//if($newFavoriteTeamProfileId != int)
 			//convert and store the favoriteTeamProfileId
-			$this->favoriteTeamProfileId = $favoriteTeamProfileId;
+			$this->favoriteTeamProfileId = $newFavoriteTeamProfileId;
 		}
 
 		/**
@@ -102,6 +102,33 @@ class favoriteTeam {
 			* @throws \RangeException if the $newFavoriteTeamTeamId is not positive
 			* @throws \TypeError if $favoriteTeamTeamId is not an integer
 			**/
+			public function setFavoriteTeamTeamId(int $newFavoriteTeamTeamId) {
+				if($newFavoriteTeamTeamId === null) {
+					$this->$favoriteTeamTeamId = null;
+					return;
+				}
+				//verify the favorite team team id is an integer
+				if($newFavoriteTeamTeamId <=0) {
+					throw(new \RangeException("favoriteTeamTeamId is not a positive number"));
+				}
+				//convert and store the favoriteTeamTeamId
+				$this->favoriteTeamTeamId = $newFavoriteTeamTeamId;
+				}
+				/**
+				* Inserts this players favoriteTeamProfileId into the favorite table
+				*
+				* @param \PDO $pdo PDO connection object
+				* @throws \PDOException when db related errors occur
+				* @throws \TypeError if $pdo is not a PDO connection object
+				**/
 
+				public function insert(\PDO $pdo) {
+					//enforce the favoriteTeamProfileId isn't already in the db
+					if($this->favoriteTeamProfileId !== null) {
+						throw(new \PDOException("favoriteTeamProfileId already exists"));
+					}
 
+					//create query
+					$query = "INSERT INTO favoriteTeam(favoriteTeamProfileId)"
+				}
 }
