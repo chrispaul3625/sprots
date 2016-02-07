@@ -1,3 +1,8 @@
+/**
+*
+* this is the php unit configuration
+* @author Dom Kratos <mr.kratos85@gmail.com>
+**/
 <phpunit>
 	<testsuites>
 		<testsuite name="Sprots Data Design">
