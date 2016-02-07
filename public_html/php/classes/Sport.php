@@ -168,7 +168,7 @@ class sport {
 		}
 
 		//create query template
-		$query = "INSERT INTO sport(sportLeague, sportTeam) VALUES(:sportLeague, :tweetDate)";
+		$query = "INSERT INTO sport(sportLeague, sportTeam) VALUES(:sportLeague, :sportTeam)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
