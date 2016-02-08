@@ -2,8 +2,8 @@
 
 // @author Michael Prinz <mprinz1@cnm.edu> //
 
-namespace Cnm\Edu\sprots;
-require_once("autoloader.php"); /***http://www.php-fig.org/psr/psr-4/ ***/
+namespace Cnm\Edu\Sprots\;
+//require_once("autoloader.php"); http://www.php-fig.org/psr/psr-4/ //
 
 Class Profile {
 	/**
@@ -58,6 +58,7 @@ Class Profile {
 			throw (new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
+
 	/**
 	 * mutator method for profileId
 	 *
@@ -93,6 +94,7 @@ Class Profile {
 	public function getProfileId() {
 		return ($this->profileId);
 	}
+
 	/**
 	 * mutator method for profileUserName
 	 *
@@ -107,12 +109,13 @@ Class Profile {
 		$newProfileUserName = filter_var($newProfileUserName, FILTER_SANITIZE_STRING);
 		if($newProfileUserName === false)
 			throw (new \InvalidArgumentException ("User name invalid"));
-		if(strlen($newProfileUserName) >25)
+		if(strlen($newProfileUserName) > 25)
 			throw (new \RangeException ("User name must be less than 25 characters"));
 
 		//save the object//
 		$this->profileUserName = $newProfileUserName;
 	}
+
 	/**
 	 * accessor method for profileUserName
 	 *
@@ -139,6 +142,7 @@ Class Profile {
 		/**store the email content**/
 		$this->profileEmail = $newProfileEmail;
 	}
+
 	/** accessor method for profileEmail
 	 *
 	 * @return string value of profileEmail
@@ -158,7 +162,7 @@ Class Profile {
 	public function setProfileHash(string $newProfileHash) {
 		$newProfileHash = filter_var($newProfileHash, FILTER_SANITIZE_STRING);
 
-		if($newProfileHash===false){
+		if($newProfileHash === false) {
 			throw (new\InvalidArgumentException("invalid hash value"));
 		}
 	}
@@ -168,8 +172,8 @@ Class Profile {
 	 *
 	 * @return string value of profileHash
 	 **/
-	public function getProfileHash(){
-		return($this->profileHash);
+	public function getProfileHash() {
+		return ($this->profileHash);
 	}
 
 	/**
@@ -179,28 +183,86 @@ Class Profile {
 	 * @throws \InvalidArgumentException
 	 **/
 
-	public function setProfileSalt(string $newProfileSalt){
+	public function setProfileSalt(string $newProfileSalt) {
 		$newProfileSalt = filter_var($newProfileSalt, FILTER_SANITIZE_STRING);
-		if($newProfileSalt===false){
+		if($newProfileSalt === false) {
 			throw (new \InvalidArgumentException("invalid salt value"));
 		}
 	}
+
 	/**accessor method for profileSalt
 	 *
 	 * @return string value of profileSalt
 	 */
 
-	public function getProfileSalt(){
-		return($this->profileSalt);
+	public function getProfileSalt() {
+		return ($this->profileSalt);
 
 	}
+
 	/**Inserts this Profile into mySQL
 	 *
-	 * @param \PDO $pdo connection object
+	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related error occurs
-	 * @throws \
 	 **/
-}
+	public function insert(\PDO $pdo) {
+		if($this->profileId == !null) {
+			throw (new \PDOException ("this profile already exists"));
+		}
+		//create query template//
+		$query = "INSERT INTO Profile(profileId, profileUserName, profileEmail, profileHash, profileSalt) VALUES (:profileId, :profileUserName, :profileEmail,:profileHash, :profileSalt)";
+		$statement = $pdo->prepare($query);
 
+		$parameters = array("profileUserName" => $this->profileUserName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt,);
+		$statement->execute($parameters);
+		$this->profileId = intval($pdo->lastInsertId());
+	}
+
+	/** Deletes this profile from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related error occurs
+	 *
+	 */
+
+	public function delete(\PDO $pdo) {
+		if($this->profileId === null) {
+			throw(new \PDOException("unable to delete a profile that does not exist"));
+		}
+
+		$query = "DELETE FROM profile WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		$parameters = array(profileId => $this->profileId);
+		$statement->execute($parameters);
+	}
+
+	/** Updates the profile in mySQL
+	 *
+	 *  @param \PDO $pdo PDO connection object
+	 *  @throws \PDOException when mySQL related error occurs
+	 * @throws \RuntimeException if $pdo is not a PDO connection
+	 **/
+	public function update(\PDO $pdo) {
+		if($this->profileId === null) {
+			throw(new PDOException("unable to update a profile that hasn't been entered"));
+		}
+		//create query template
+		$query = "UPDATE profile SET profileId = :profileId, profileUserName, profileEmail, profileHash, profileSalt WHERE profile "
+
+		$parameters = ["profileId" => $this->profileId, "profileUserName" => $this->profileUserName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt);
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * gets the profile by email
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $profileEmail email to search for
+	 * @throws
+	 *
+	 */
+
+}
 
 ?>

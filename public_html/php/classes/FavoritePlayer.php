@@ -6,10 +6,19 @@ namespace Cnm\Edu\Sprots\;
 
 Class FavoritePlayer {
 
+	/**
+	 * Id for this FavoritePlayer class
+	 * @var int for
+	 **/
 	private $favoritePlayerProfileId;
 
 	private $favoritePlayerPlayerId;
 
-
 }
+
+/**
+ * mutator method for favoritePlayerProfileId
+ *
+ * @param st
+ */
 
