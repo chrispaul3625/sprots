@@ -19,7 +19,7 @@ require_once("/etc/apache2/data-design/encrypted-config.php");
  *
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
-abstract class sprotsTest extends \PHPUnit_Extensions_Database_TestCase {
+abstract class SprotsTest extends \PHPUnit_Extensions_Database_TestCase {
 	/**
 	 * invalid id to use for an INT UNSIGNED field (maximum allowed INT UNSIGTNED in mySQL) + 1
 	 * @see https://dev.mysql.com/doc/refman/5.6/en/integer-types.html mySQL Integer Types
