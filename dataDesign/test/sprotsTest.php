@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\Dmcdonald21\DataDesign\Test;
+namespace Edu\Cnm\Sprots;
 
 // grab the encrypted properties file
 require_once("/etc/apache2/data-design/encrypted-config.php");
