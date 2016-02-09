@@ -64,7 +64,7 @@ class player {
 	}
 
 	/**
-	 * accessor method for tweet id
+	 * accessor method for player id
 	 *
 	 * @return int|null value of player Id
 	 */
@@ -187,7 +187,7 @@ class player {
 	public function insert(\PDO $pdo) {
 		// enforce the playerId is null (i.e., dont insert a player that already exists
 		if($this->(playerId !null) {
-			throw(new \PDOException("not a new tweet"));
+			throw(new \PDOException("not a new plaer"));
 		}
 
 		// create query template
@@ -232,7 +232,7 @@ class player {
 	public function delete(\PDO $pdo) {
 		//enforce the playerId is not null (i.e., don't delete a player that hasn't been inserted)
 		if($this->playerId === null) {
-			throw(new \PDOException("unable to delete a tweet that does not exist"));
+			throw(new \PDOException("unable to delete a player that does not exist"));
 		}
 
 		// create query template
@@ -240,6 +240,7 @@ class player {
 		$statement = $pdo->prepare($query);
 		$statement->execute($parameter);
 		}
+
 	/**
 	 * accessor for player Team Id
 	 *

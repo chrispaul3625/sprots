@@ -62,9 +62,32 @@ class teamStatistic {
 
 	public function __construct(int $teamStatisticId = null, int $newteamStatisticTeamId, int $newteamStatisticValue, int $newStatisticStatisticId, int $newteamStatisticGameId = null) {
 		try {
-			$this->
+			$this->setTeamStatisticTeamId($newteamStatisticTeamId);
+			$this->setTeamStatisticValue($newteamStatisticValue);
+			$this->setTeamStatisticStatisticId($newteamStatisticStatisticId);
+			$this->setTeamStatisticGameId($newteamStatisticGameId);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			// rethrow exception to caller
+			throw(new \InvalidArgumetException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			//rethrow exception to caller
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		} catch(\TypeError $typeError) {
+			// rethrow the exception to the caller
+			throw(new \RangeException($typeError->getMessage(), 0, $typeError));
+		} catch(\Exception $exception) {
+			// rethrow the exception to the caller
+			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
+
+}
+
+/**
+ * @param $teamStatisticTeamId
+ * @param InvalidArgumentExceptioin if team statistic team id is not an integer
+ * @throws RangeException if team statistic team id is negatice
+ */
 
 	public function setTeamStatisticTeamId($teamStatisticTeamId) {
 			if($teamStatisticTeamId === null) {
@@ -168,6 +191,71 @@ class teamStatistic {
 					$this->teamStatisticGameId = $teamStatisticGameId;
 				}
 			}
+
+/**
+ * inserts this team statistic into mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function insert(\PDO $pdo) {
+	// enforce the playerId is null (i.e., dont insert a statistic that already exists
+	if($this->(setTeamStatisticTeamId !null) {
+		throw(new \PDOException("not a new statistic"));
+	}
+
+		// create query template
+		$query = "INSERT INTO teamstatistic(pl, teamstatisticteamId) VALUES(:teamstatisticteamId, :teamStatisticValue, :teamStastisticStatisticId, :teamStatisticGameId)";
+		$statement = $pdo->prepare($query);
+
+		// update the null teamstatisticteamId with what mySql just gave us
+		$this->teamstatisticteamId = interval($pdo->lastInsertId());
+
+	}
+
+/**
+ * updates this teamstatistic in mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function update(\PDO $pdo) {
+	if($this->teamstatisticteamId === null) {
+		throw(new \PDOException("unable to update a player that does not exist"));
+	}
+	$query = "UPDATE teamstatistic SET teamstatisticteamId = :teamstatisticteamId, teamStatisticValue = :teamStatisticValue, teamStastisticStatisticId = :teamStastisticStatisticId, teamStatisticGameId = :teamStatisticGameId WHERE teamstatisticteamId = :teamstatisticteamId";
+	$statement = $pdo->prepare($query);
+
+
+	$formattedDate = $this->teamstatisticteamId->format("Y-m-d H:i:s");
+	$parameters = ["teamstatisticteamId" => $this->teamstatisticteamId, "teamStatisticValue" => $this->teamStatisticValue, "teamStastisticStatisticId" => $teamStastisticStatisticId, "teamStatisticGameId" => $this->teamStatisticGameId];
+	$statement->execute($parameters);
+}
+
+
+
+/**
+ * deletes teamstatistic from mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ *
+ **/
+public function delete(\PDO $pdo) {
+	//enforce the teamstatisticteamId is not null (i.e., don't delete a statistic that hasn't been inserted)
+	if($this->teamstatisticteamId === null) {
+		throw(new \PDOException("unable to delete a statistic that does not exist"));
+	}
+
+	// create query template
+	$query = "DELETE FROM statistic WHERE teamstatisticteamId = :teamstatisticteamId";
+	$statement = $pdo->prepare($query);
+	$statement->execute($parameter);
+}
+
 	/**
 	 * accessor for team statistic game Id
 	 * @return int value of team statistic game Id
