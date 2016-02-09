@@ -228,7 +228,7 @@ public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatist
 			$statement->execute($parameters);
 		}
 		/**
-		 * updates this Tweet in mySQL
+		 * updates this Player Statistic in mySQL
 		 *
 		 * @param \PDO $pdo PDO connection object
 		 * @throws \PDOException when mySQL related errors occur

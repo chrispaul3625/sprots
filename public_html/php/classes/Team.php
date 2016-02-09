@@ -200,7 +200,7 @@ class team {
 	 **/
 	public function insert(\PDO $pdo) {
 		// enforces that team id is null (i.e., don't insert a team that already exists.
-		if($this->teamid !== null) {
+		if($this->teamId !== null) {
 			throw(new \PDOException("not a new team"));
 		}
 // create query template
