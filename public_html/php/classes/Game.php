@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Sprots;
 
-require_once("autoloader.php");
+require_once("autoload.php");
 /**
  * Created by PhpStorm.
  * User: OldManVin
