@@ -124,8 +124,8 @@ class favoriteTeam {
 
 				public function insert(\PDO $pdo) {
 					//enforce the favoriteTeamProfileId isn't already in the db
-					if($this->favoriteTeamProfileId !== null) {
-						throw(new \PDOException("favoriteTeamProfileId already exists"));
+					if($this->favoriteTeamProfileId === null || $this->favoriteTeamTeamId) {
+						throw(new \PDOException("ID's don't exists"));
 					}
 
 					//create query
@@ -134,9 +134,6 @@ class favoriteTeam {
 
 					//bind the member variables to the place holders in the template
 					$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->$favoriteTeamTeamId]; $statement->excute($parameters);
-
-					//update the null favoriteTeamProfileId with the one that the db gives us
-					$this->favoriteTeamProfileId = intval($pdo->lastInsertId());
 				}
 
 				/**
@@ -147,11 +144,33 @@ class favoriteTeam {
 				* @throws \Typeerror if $pdo is not a PDO connection object
 				**/
 				public function delete(\PDO $pdo)	{
-					if($this->favoriteTeamProfileId === null && $this->favoriteTeamTeamId === null) {
+					if($this->favoriteTeamProfileId === null || $this->favoriteTeamTeamId === null) {
 						throw(new \PDOException("Ids do not exist to delete"));
 					}
 					// Create query template
-					$query = "DELETE FROM favoriteTeam WHERE favoriteTeamProfileId && favoriteTeamTeamId = :favoritePlayerProfileId && :favoriteTeamTeamId";
+					$query = "DELETE FROM favoriteTeam WHERE favoriteTeamProfileId | favoriteTeamTeamId = :favoritePlayerProfileId | :favoriteTeamTeamId";
 					$statement = $pdo->execute()
+
+					// Bind the member variables to the place holders in template
+					$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->$favoriteTeamTeamId]; $statement->excute($parameters);
 				}
+
+				/**
+				 * updates this profiles favorite team in mySQL
+				 *
+				 * @param \PDO $pdo PDO connection object
+				 * @throws \PDOException when mySQL related errors occur
+				 * @throws \TypeError if $pdo is not a PDO connection object
+				 **/
+				 public function update(\PDO $pdo) {
+					 //enforce the id's are not null
+					 if($this->favoritePlayerProfileId === null || $this->favoriteTeamTeamId === null) {
+						 throw(new \PDOException("Ids do not exist to update"));
+					 }
+					 //create query template
+					 $query = "UPDATE favortieTeam SET favoriteTeamTeamId = :favoriteTeamTeamId";
+					 $statement->excute($parameters);
+
+					 $parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->$favoriteTeamTeamId]; $statement->excute($parameters);
+				 }
 }
