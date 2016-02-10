@@ -4,7 +4,7 @@ namespace Edu\Cnm\Sprots;
 use Edu\Cnm\Sprots\{statistic};
 
 // grab the project test parameters
-require_once("phpUnitConfig.php");
+require_once("phpunit.xml");
 //grab the class under scrutiny
 require_once(dirname(__Statistic__) . "/php/classes/autoload.php");
 
