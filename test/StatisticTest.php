@@ -37,49 +37,58 @@ class StatisticTest extends Statistic {
 		// create and insert a Statistic to own the test
 
 
-
-
-
-
-
 	}
-/**
- * test inserting a valid Statistic and verify that the actual mySQL data matches
- */
-	public function testInsertValidStatistic(){
+
+	/**
+	 * test inserting a valid Statistic and verify that the actual mySQL data matches
+	 */
+	public function testInsertValidStatistic() {
 		//count the number of rows and save
 		$numRows = $this->getConnection()->getRowCount("statistic");
 		//create a new statistic and insert into mySQL
-
-
-
-		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC, $this->VALID_STATISTIC);
+		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC);
 		$statistic->insert($this->getPDO());
 
+		//grab the data from mySQL and enforce the fields match expectations
 
+		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic - getStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowcount("statistic"));
+		$this->assertEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
+	}
 
-		//grab the data frim mySQL and enforce the fields match expectations
-		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic-getStatisticId());
+	/**
+	 * test inserting statistic that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testInsertInvalidStatistic(){
+	//count the number of rows and save
+$numRows = $this->getConnection()->getRowCount("statistic");
+	//create a new statistic and insert into mySQL
+$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC);
+$statistic->insert($this->getPDO());
+	}
+/**
+ * test inserting statistic, editing it, and then updating it
+ **/
+	public function testUpdateValidStatistic() {
+		//count the number of rows and save
+		$numRows = $this->getConnection()->getRowCount("statistic");
+		//create a new statistic and insert into mySQL
+		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC);
+		$statistic->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match expectations
+
+		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic - getStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowcount("statistic"));
 		$this->assertEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
 	}
 	/**
-	 * test inserting statistic editing and update
-	 */
-	public function testUpdateValidStatistic(){
-		//count the number of rows and save
-		$numRows = $this->getConnection()->getRowCount("statistic");
-		//create a new Statistic and insert into mySQL
-		$statistic = new Statistic(null,$this->VALID_STATISTIC);
-		$statistic->insert($this->getPDO());
-
-		//edit statistic and update in mySQL
-		$statistic->setStatistic($this->VALID_STATISTIC2);
-		$statistic->update($this->getPDO());
-	}
-	/**
-	 * test updating a statistic that already exists
-	 */
+	 * test updating statistic  that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
 	public function testUpdateInvalidStatistic(){
 		//create a Statistic with a non null tweet id and watch it fail
 		$statistic = new Statistic(null, $this->VALID_STATISTIC);
@@ -98,15 +107,25 @@ class StatisticTest extends Statistic {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
 		$statistic->delete($this->getPDO());
 		//grab data from mySQL adn enforce statistic does not exist
-		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic->getStatisticId());
-		$this->assertNull($pdoStatistic);
-		$this->assertEquals($numRows, $this->getConneection()->getRowCount("statistic"));
+		$pdoStatistic = Statistic::getStatisticbyStatisticId($this->getPDO(),$statistic->getStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
+		$this->assertEquals($pdoStatistic->getStatisticId(),$this->statistic->getstatisticId());
+		$this->assertEquals($pdoStatistic->getStatitic(), $this->VALID_STATISTIC);
 	}
 	/**
 	 * test deleting a Statistic that does not exist
 	 *
 	 * @expectedException PDOException
 	 **/
+	public function testDeleteInvalidStatistic() {
+		// create a Tweet and try to delete it without actually inserting it
+		$tweet = new Tweet(null, $this->statistic->getStatisticId(), $this->VALID_TWEETCONTENT);
+		$tweet->delete($this->getPDO());
+	}
+
+	/**
+	 * test grabbing statistic that does not exist
+	 */
 	public function testGetValidStatisticByStatisticId(){
 		//count the number of rows and save
 		$numRows = $this->getConnections()->getRowCount("statistic");
@@ -115,8 +134,16 @@ class StatisticTest extends Statistic {
 		$this->insert($this->getPDO());
 		//grab data from mySQL and enforce  the fields to expectations
 
-		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic->getstatisticId());
-		$this->assertsEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
-		$this->assertsEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
+		$pdoStatistic = Statistic::getStatisticbyStatisticId($this->getPDO(),$statistic->getStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
+		$this->assertEquals($pdoStatistic->getStatisticId(),$this->statistic->getstatisticId());
+		$this->assertEquals($pdoStatistic->getStatitic(), $this->VALID_STATISTIC);
+	}
+	/**
+	 * test grabbing a statistic by statistic content
+	 */
+	public function testGetInvalidStatisticByStatistic(){
+		//grab a statistic id that exceeds the maximum allowable statistic id
+		$statistic = Statistic::getStatisticbyStatisticId($this->getPDO(), SprotsTest::INVALID_KEY);
 	}
 }
