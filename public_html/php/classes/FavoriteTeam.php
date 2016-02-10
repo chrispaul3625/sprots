@@ -87,7 +87,7 @@ class favoriteTeam {
 		}
 
 		/**
-		 *accessor method for favoriteTeamTeamId
+		 * accessor method for favoriteTeamTeamId
 		 *
 		 * @return int|null value of favoriteTeamTeamId
 		 **/
@@ -125,7 +125,7 @@ class favoriteTeam {
 				public function insert(\PDO $pdo) {
 					//enforce the favoriteTeamProfileId isn't already in the db
 					if($this->favoriteTeamProfileId === null || $this->favoriteTeamTeamId) {
-						throw(new \PDOException("ID's don't exists"));
+						throw(new \PDOException("ID's don't exist"));
 					}
 
 					//create query
@@ -141,7 +141,7 @@ class favoriteTeam {
 				*
 				* @param \PDO $pdo PDO connection object
 				* @throws \PDOException when database related errors occur
-				* @throws \Typeerror if $pdo is not a PDO connection object
+				* @throws \TypeError if $pdo is not a PDO connection object
 				**/
 				public function delete(\PDO $pdo)	{
 					if($this->favoriteTeamProfileId === null || $this->favoriteTeamTeamId === null) {
