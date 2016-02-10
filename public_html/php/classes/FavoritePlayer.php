@@ -165,6 +165,6 @@ Class FavoritePlayer {
 					 $query = "UPDATE favoritePlayer SET favoritePlayerProfileId = :favoritePlayerPlayerId";
 					 $statement->($parameters);
 
-					 $parameters = ["favoritePlayerProfileId" => $this->favoritePlayerProfileId, "favoritePlayerPlayerId" => $this->$favoritePlayerPlayerId];
+					 $parameters = ["favoritePlayerProfileId" => $this->favoritePlayerProfileId, "favoritePlayerPlayerId" => $this->favoritePlayerPlayerId];
 					 $statement->excute($parameters);
 				 }
