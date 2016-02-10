@@ -94,6 +94,29 @@ class StatisticTest extends Statistic {
 		//create a new statistic adn insert into mySQL
 		$statistic = new Statistic(null, $this->VALID_STATISTIC);
 		$statistic->insert($this->getPDO());
+		//delete from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
+		$statistic->delete($this->getPDO());
+		//grab data from mySQL adn enforce statistic does not exist
+		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic->getStatisticId());
+		$this->assertNull($pdoStatistic);
+		$this->assertEquals($numRows, $this->getConneection()->getRowCount("statistic"));
+	}
+	/**
+	 * test deleting a Statistic that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testGetValidStatisticByStatisticId(){
+		//count the number of rows and save
+		$numRows = $this->getConnections()->getRowCount("statistic");
+		//create a new Statistic adn insert into mySQL
+		$statistic = new Statistic(null, $this->VALID_STATISTIC);
+		$this->insert($this->getPDO());
+		//grab data from mySQL and enforce  the fields to expectations
 
+		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic->getstatisticId());
+		$this->assertsEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
+		$this->assertsEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
 	}
 }
