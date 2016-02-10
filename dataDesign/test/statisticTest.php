@@ -16,7 +16,7 @@ require_once(dirname(__Statistic__) . "/php/classes/autoload.php");
  * @see Statistic
  * @Dominic Cuneo <cuneo94@gmail.com
  */
-class StatisticTest extends DataDesign{
+class StatisticTest extends Statistic {
 	/**
 	 * content of Statistic
 	 * @var string $valid_statistic
@@ -27,4 +27,30 @@ class StatisticTest extends DataDesign{
 	 * @var string $VALID_STATISTIC2
 	 */
 	protected $VALID_STATISTIC2 = "PHPUnit test still passing";
+
+	/**
+	 * create dependent objects before running tests
+	 */
+	public final function setUp() {
+		//run the default setUp() method first
+		parent::setUp();
+		// create and insert a Statistic to own the test
+		$this->statistic = new Statistic(null, "@phpunit", "test@phpunit.de",
+			"+12125551212");
+		$this->statistic->insert($this->getPDO());
+	}
+/**
+ * test inserting a valid Statistic and verify that the actual mySQL data matches
+ */
+	public function testInsertValidStatistic(){
+		//count the number of rows and save
+		$numRows = $this->getConnection()->getRowCount("statistic");
+		//create a new statistic and insert into mySQL
+		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC, $this->VALID_STATISTIC);
+		$statistic->insert($this->getPDO());
+		//grab the data frim mySQL and enforce the fields match expectations
+		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic-getStatisticId());
+		$this->assertEquals($pdoStatistic->getSatisticId(),$this->statistic-get)
+
+	}
 }
