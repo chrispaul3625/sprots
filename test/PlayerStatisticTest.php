@@ -3,6 +3,8 @@ namespace Edu\Cnm\Sprots\Test;
 
 use Edu\Cnm\Sprots\{Game, Player, Statistic};
 
+require_once ("SprotsTest.php");
+
 //grab the project test parameters
 require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
