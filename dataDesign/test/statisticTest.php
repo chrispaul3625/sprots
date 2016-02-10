@@ -35,9 +35,13 @@ class StatisticTest extends Statistic {
 		//run the default setUp() method first
 		parent::setUp();
 		// create and insert a Statistic to own the test
-		$this->statistic = new Statistic(null, "@phpunit", "test@phpunit.de",
-			"+12125551212");
-		$this->statistic->insert($this->getPDO());
+
+
+
+
+
+
+
 	}
 /**
  * test inserting a valid Statistic and verify that the actual mySQL data matches
@@ -46,11 +50,50 @@ class StatisticTest extends Statistic {
 		//count the number of rows and save
 		$numRows = $this->getConnection()->getRowCount("statistic");
 		//create a new statistic and insert into mySQL
+
+
+
 		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC, $this->VALID_STATISTIC);
 		$statistic->insert($this->getPDO());
+
+
+
 		//grab the data frim mySQL and enforce the fields match expectations
 		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic-getStatisticId());
-		$this->assertEquals($pdoStatistic->getSatisticId(),$this->statistic-get)
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowcount("statistic"));
+		$this->assertEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
+	}
+	/**
+	 * test inserting statistic editing and update
+	 */
+	public function testUpdateValidStatistic(){
+		//count the number of rows and save
+		$numRows = $this->getConnection()->getRowCount("statistic");
+		//create a new Statistic and insert into mySQL
+		$statistic = new Statistic(null,$this->VALID_STATISTIC);
+		$statistic->insert($this->getPDO());
+
+		//edit statistic and update in mySQL
+		$statistic->setStatistic($this->VALID_STATISTIC2);
+		$statistic->update($this->getPDO());
+	}
+	/**
+	 * test updating a statistic that already exists
+	 */
+	public function testUpdateInvalidStatistic(){
+		//create a Statistic with a non null tweet id and watch it fail
+		$statistic = new Statistic(null, $this->VALID_STATISTIC);
+		$statistic->insert($this->getPDO());
+	}
+	/**
+	 * test crating a Statistic and deleting it
+	 */
+	public function testDeleteValidStatistic(){
+		//count the number of rows and save
+		$numRows = $this->getConnection()->getRowCount("statistic");
+		//create a new statistic adn insert into mySQL
+		$statistic = new Statistic(null, $this->VALID_STATISTIC);
+		$statistic->insert($this->getPDO());
 
 	}
 }
