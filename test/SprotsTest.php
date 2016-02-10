@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\Sprots;
+namespace Edu\Cnm\Sprots\Test;
 
 // grab the encrypted properties file
 require_once("/etc/apache2/data-design/encrypted-config.php");
