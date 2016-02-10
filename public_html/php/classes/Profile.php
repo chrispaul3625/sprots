@@ -3,7 +3,7 @@
 // @author Michael Prinz <mprinz1@cnm.edu> //
 
 namespace Cnm\Edu\Sprots;
-//require_once("autoloader.php"); http://www.php-fig.org/psr/psr-4/ //
+//require_once("autoload.php"); http://www.php-fig.org/psr/psr-4/ //
 
 Class Profile {
 	/**

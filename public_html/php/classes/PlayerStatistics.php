@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Sprots;
 
-require_once("autoloader.php");
+require_once("autoload.php");
 
 /**
  * Player Statistics, This will be a player stat that is being pulled from APIs.

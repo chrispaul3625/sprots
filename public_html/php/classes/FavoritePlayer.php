@@ -2,7 +2,7 @@
 
 namespace Cnm\Edu\Sprots\;
 
-//require_once (autoloader.php);//
+//require_once (autoload.php);//
 
 //This is the class for users to select favorite player(s)//
 Class FavoritePlayer {

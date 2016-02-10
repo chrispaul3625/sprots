@@ -1,6 +1,6 @@
 <?php
 
-require_once ("autoloader.php");
+require_once("autoload.php");
 
 /**
  * player, player that a user will look up

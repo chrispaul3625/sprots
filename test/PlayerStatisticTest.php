@@ -1,10 +1,10 @@
 <?php
-namespace Edu\Cnm\Sprots;
+namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots;{Game; Player; Statistic;};
+use Edu\Cnm\Sprots\{Game, Player, Statistic};
 
 //grab the project test parameters
-require_once ((__DIR__) . "/php/classes/autoload.php");
+require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 /**
  * Full PHPUnit test for the PlayerStatistic class
@@ -15,7 +15,7 @@ require_once ((__DIR__) . "/php/classes/autoload.php");
  * @see PlayerStatistic
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
-class PlayerStatisticTest extends DataDesignTest {
+class PlayerStatisticTest extends SprotsTest {
 	/**
 	 * Id of the PlayerStatisticGameId
 	 * @var int $VALID_PLAYERSTATISTICGAMEID

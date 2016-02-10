@@ -1,6 +1,6 @@
 <?php
 
-require_once ("autoloader.php");
+require_once("autoload.php");
 
 /**
  * Team Statistic, This is a field in which all statistics related to a team are going to be held.
