@@ -4,9 +4,9 @@ namespace Edu\Cnm\Sprots;
 use Edu\Cnm\Sprots\{statistic};
 
 // grab the project test parameters
-require_once("phpunit.xml");
+require_once("SprotsTest.php");
 //grab the class under scrutiny
-require_once(dirname(__Statistic__) . "/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 /**
  * Full phpUnit test for statistic class
@@ -27,18 +27,6 @@ class StatisticTest extends Statistic {
 	 * @var string $VALID_STATISTIC2
 	 */
 	protected $VALID_STATISTIC2 = "PHPUnit test still passing";
-
-	/**
-	 * create dependent objects before running tests
-	 */
-	public final function setUp() {
-		//run the default setUp() method first
-		parent::setUp();
-		// create and insert a Statistic to own the test
-
-
-	}
-
 	/**
 	 * test inserting a valid Statistic and verify that the actual mySQL data matches
 	 */
