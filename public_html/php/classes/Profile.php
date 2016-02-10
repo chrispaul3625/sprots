@@ -2,7 +2,7 @@
 
 // @author Michael Prinz <mprinz1@cnm.edu> //
 
-namespace Cnm\Edu\Sprots\;
+namespace Cnm\Edu\Sprots;
 //require_once("autoloader.php"); http://www.php-fig.org/psr/psr-4/ //
 
 Class Profile {
@@ -248,7 +248,7 @@ Class Profile {
 			throw(new PDOException("unable to update a profile that hasn't been entered"));
 		}
 		//create query template
-		$query = "UPDATE profile SET profileId = :profileId, profileUserName, profileEmail, profileHash, profileSalt WHERE profile "
+		$query = "UPDATE profile SET profileId = :profileId, profileUserName, profileEmail, profileHash, profileSalt WHERE profile ";
 
 		$parameters = ["profileId" => $this->profileId, "profileUserName" => $this->profileUserName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt);
 		$statement->execute($parameters);
