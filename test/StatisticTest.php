@@ -69,9 +69,10 @@ $statistic->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match expectations
 
-		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic - getStatisticId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowcount("statistic"));
-		$this->assertEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
+		$pdoStatistic = Statistic::getStatisticbyStatisticId($this->getPDO(),$statistic->getStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
+		$this->assertEquals($pdoStatistic->getStatisticId(),$this->statistic->getstatisticId());
+		$this->assertEquals($pdoStatistic->getStatitic(), $this->VALID_STATISTIC);
 	}
 	/**
 	 * test updating statistic  that already exists
@@ -127,12 +128,5 @@ $statistic->insert($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
 		$this->assertEquals($pdoStatistic->getStatisticId(),$this->statistic->getstatisticId());
 		$this->assertEquals($pdoStatistic->getStatitic(), $this->VALID_STATISTIC);
-	}
-	/**
-	 * test grabbing a statistic by statistic content
-	 */
-	public function testGetInvalidStatisticByStatistic(){
-		//grab a statistic id that exceeds the maximum allowable statistic id
-		$statistic = Statistic::getStatisticbyStatisticId($this->getPDO(), SprotsTest::INVALID_KEY);
 	}
 }
