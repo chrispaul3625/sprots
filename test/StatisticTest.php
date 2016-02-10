@@ -2,6 +2,7 @@
 namespace Edu\Cnm\Sprots;
 
 use Edu\Cnm\Sprots\{statistic};
+use Edu\Cnm\Sprots\Test\SprotsTest;
 
 // grab the project test parameters
 require_once("SprotsTest.php");
@@ -16,7 +17,7 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * @see Statistic
  * @Dominic Cuneo <cuneo94@gmail.com
  */
-class StatisticTest extends Statistic {
+class StatisticTest extends SprotsTest {
 	/**
 	 * content of Statistic
 	 * @var string $valid_statistic
