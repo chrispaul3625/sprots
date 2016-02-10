@@ -16,20 +16,7 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
 class PlayerStatisticTest extends SprotsTest {
-	/**
-	 * Id of the PlayerStatisticGameId
-	 * @var int $VALID_PLAYERSTATISTICGAMEID
-	 **/
-	protected $VALID_PLAYERSTATISTICGAMEID = "PHPUnit test passing";
-	/**
-	 * Id of the PlayerStatisticPlayerId
-	 * @var string $VALID_PLAYERSTATISTICPLAYERID
-	 **/
-	protected $VALID_PLAYERSTATISTICPLAYERID = "PHPUnit test still passing";
-	/**
-	 * Id of PlayerStatisticStatisticId
-	 * @var int $VALID_PLAYERSTATISTICSTATISTICID
-	 **/
-	protected $VALID_PLAYERSTATISTICSTATISTICID = "PHPUnit test still passing";
+
+
 
 }
