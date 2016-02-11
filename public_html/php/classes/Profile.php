@@ -137,6 +137,7 @@ Class Profile {
 
 		if($newProfileEmail === false)
 			throw (new \Exception ("invalid email"));
+
 		/**store the email content**/
 		$this->profileEmail = $newProfileEmail;
 	}
@@ -157,7 +158,7 @@ Class Profile {
 	 * @param string $newProfileHash
 	 * @throws \InvalidArgumentException if hash value is not a string
 	 * @throws \RangeException if profile hash is != 128
-	 * @throws \
+	 *
 	 **/
 	public function setProfileHash(string $newProfileHash) {
 		$newProfileHash = filter_var($newProfileHash, FILTER_SANITIZE_STRING);
@@ -165,7 +166,15 @@ Class Profile {
 		if($newProfileHash === false) {
 			throw (new\InvalidArgumentException("profile hash cannot be null"));
 		}
+		//make sure profile hash =  128 char
+		if($newProfileHash !== 128) {
+			throw(new \RangeException("profile hash has to be 128"));
+		}
+
+		//convert and store profile activation
+		$this->profileHash = $newProfileHash;
 	}
+
 
 	/**
 	 * accessor method for profileHash
@@ -179,14 +188,16 @@ Class Profile {
 	/**
 	 * mutator method for profileSalt
 	 *
-	 * @param string
-	 * @throws \InvalidArgumentException
+	 * @param string $newProfileSalt
+	 * @throws \InvalidArgumentException if salt is not a string
+	 * @throws \RangeException if $newProfileSalt is !=64
+	 *
 	 **/
 
 	public function setProfileSalt(string $newProfileSalt) {
 		$newProfileSalt = filter_var($newProfileSalt, FILTER_SANITIZE_STRING);
 		if($newProfileSalt === false) {
-			throw (new \InvalidArgumentException("invalid salt value"));
+			throw (new \InvalidArgumentException("salt must be a string value"));
 		}
 	}
 
