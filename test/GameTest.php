@@ -116,6 +116,24 @@ class GameTest extends SprotsTest {
 	public function testDeleteValidGame(){
 		//count the number of rows and save
 		$numRows = $this->getConnection()->getRowCount("game");
+		// create a new Game and insert into mySQL
+		$game =new Game(null,$this->team->getTeamId(), $this->VALID_GAME, $this->VALID_GAMETIME);
+		$game->insert($this->getPDO());
+
+		// delete the game from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
+		$game->insert($this->getPDO());
+		//grab the data from mySQL and enforce the Game that does not exist
+		$pdoGame = Game::getGameByGameId($this->getPDO(), $game->getGameId());
+		$this->assertNull($pdoGame);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("game"));
+	}
+	/**
+	 * test deleting a Game that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidGame(){
 
 	}
 }
