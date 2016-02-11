@@ -196,8 +196,17 @@ Class Profile {
 
 	public function setProfileSalt(string $newProfileSalt) {
 		$newProfileSalt = filter_var($newProfileSalt, FILTER_SANITIZE_STRING);
-		if($newProfileSalt === false) {
-			throw (new \InvalidArgumentException("salt must be a string value"));
+
+			if($newProfileSalt === false) {
+				throw (new \InvalidArgumentException("salt must be a string value"));
+
+				//make sure profile salt =  64
+
+				if($newProfileSalt !== 64) {
+				throw(new \RangeException("profile salt has to be 64"));
+
+			}
+				$this->profileSalt = $newProfileSalt;
 		}
 	}
 
@@ -217,11 +226,11 @@ Class Profile {
 	 * @throws \PDOException when mySQL related error occurs
 	 **/
 	public function insert(\PDO $pdo) {
-		if($this->profileId == !null) {
+		if($this->profileId !== null) {
 			throw (new \PDOException ("this profile already exists"));
 		}
 		//create query template//
-		$query = "INSERT INTO Profile(profileId, profileUserName, profileEmail, profileHash, profileSalt) VALUES (:profileId, :profileUserName, :profileEmail,:profileHash, :profileSalt)";
+		$query = "INSERT INTO Profile(profileId, profileUserName, profileEmail, profileHash, profileSalt) VALUES (:profileId, :profileUserName, :profileEmail, :profileHash, :profileSalt)";
 		$statement = $pdo->prepare($query);
 
 		$parameters = array("profileUserName" => $this->profileUserName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt,);
