@@ -142,6 +142,26 @@ class GameTest extends SprotsTest {
 	 * test inserting a Game and regrabbing it from mySQL
 	 **/
 	public function testGetValidGameByGameId(){
+		// count the number of row and save
+		$numRows = $this->getConnection()->getRowCount("game");
 
+		//create a new Game and insert into mySql
+		$game = new Game(null, $this->team->getTeamId(), $this->VALID_GAMETIME, $this->VALID_GAME);
+		$game->insert($this->getPDO());
+
+
+		//grab data from mySQL and enforce the fields to match
+		$pdoGame = Game::getGameByGameId($this->getPDO(), $game->getGameId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
+		$this->assertEquals($pdoGame->getTeamId(), $this->team->getTeamId());
+		$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME, $this->VALID_GAME);
+	}
+	/**
+	 * test grabbing a Game that does not exist
+	 **/
+	public function testGetInvalidGameByGameId(){
+		//grab a team that exceeds the max allowable team id
+		$game = Game::getGameByGameId($this->getPDO(),SprotsTest::INVALID_KEY);
+		$this->assertNull($game);
 	}
 }
