@@ -209,9 +209,10 @@ class PlayerStatisticsTest extends SprotsTest {
 	 **/
 	public function testInsertInvalidStatistic() {
 		// create a Statistic with a non null Statistic id and watch it fail
-		$statistic = new Statistic(DataDesignTest::INVALID_KEY, $this->statistic->getStatisticId());
+		$statistic = new Statistic(SprotsTest::INVALID_KEY, $this->statistic->getStatisticId());
 		$statistic->insert($this->getPDO());
 	}
+
 
 	/**
 	 * test inserting a Game, editing it, and updating it
@@ -580,7 +581,7 @@ public function testGetInvalidGameByGameId() {
 	/**
 	 * test inserting a valid Player Statistic and regrabbing it from mySQL
 	 **/
-	public function testInsertValidPlayerStatistics() {
+	public function testGetValidPlayerStatistics() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("playerStatistics");
 
@@ -594,13 +595,65 @@ public function testGetInvalidGameByGameId() {
 		$this->assertEquals($pdoPlayerStatistics->getPlayerStatisticId(), $this->playerstatistics->getPlayerStatisticId());
 
 	}
+	/**
+	 * test grabbing a Player Statistic that does not exist
+	 */
+	public function testGetInvalidPlayerStatisticsByPlayerStatisticId() {
+		//grab a playerStatistic id that exceeds the maximum allowable playerStatistic id
+		$playerStatistics = PlayerStatistics::getPlayerStatisticsByPlayerStatisticsId($this->getPDO(), SprotsTest::INVALID_KEY);
+		$this->assertNull($playerStatistics);
+	}
 
+	/**
+	 * test inserting a valid Sport and regrabbing it from mySQL
+	 **/
+	public function testGetValidSportBySportId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("sport");
 
+		// create a new Sport and insert to into mySQL
+		$sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORT);
+		$sport->insert($this->getPDO());
 
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoSport = Sport::getSportBySportId($this->getPDO(), $sport->getSportId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
+		$this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
+	}
 
+	/**
+	 * test grabbing a Sport that does not exist
+	 */
+	public function testGetInvalidSportBySportId() {
+		//grab a Sport id that exceeds the maximum allowable Sport id
+		$sport = Sport::getSportBySportId($this->getPDO(), SprotsTest::INVALID_KEY);
+		$this->assertNull($sport);
+	}
 
+	/**
+	 * test inserting a valid Statistic and regrabbing it from mySQL
+	 **/
+	public function testGetValidStatisticByStatisticId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("statistic");
 
+		// create a new Statistic and insert to into mySQL
+		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC);
+		$statistic->insert($this->getPDO());
 
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic->getStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
+		$this->assertEquals($pdoStatistic->getStatisticId(), $this->statistic->getStatisticId());
+	}
+	/**
+	 * test grabbing a Statistic that does not exist
+	 */
+	public function testGetInvalidStatisticByStatisticId() {
+		//grab a Statistic id that exceeds the maximum allowable Statistic id
+		$statistic = Statistic::getStatisticByStatisticId($this->getPDO(), SprotsTest::INVALID_KEY);
+		$this->assertNull($statistic);
+	}
 
 
 
