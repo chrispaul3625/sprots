@@ -105,7 +105,7 @@ class StatisticTest extends Statistic {
 		$this->assertsEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
 	}
 	/**
-	 * test grab all games
+	 * test grab all statistic
 	 */
 	public function testGetAllValidStatistic() {
 		//count the numbers of rows and save
