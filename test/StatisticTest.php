@@ -28,21 +28,6 @@ class StatisticTest extends Statistic {
 	 */
 	protected $VALID_STATISTIC2 = "PHPUnit test still passing";
 
-	/**
-	 * create dependent objects before running tests
-	 */
-	public final function setUp() {
-		//run the default setUp() method first
-		parent::setUp();
-		// create and insert a Statistic to own the test
-
-
-
-
-
-
-
-	}
 /**
  * test inserting a valid Statistic and verify that the actual mySQL data matches
  */
