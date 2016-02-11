@@ -253,7 +253,7 @@ Class Profile {
 		$query = "DELETE FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
-		$parameters = array(profileId => $this->profileId);
+		$parameters = ["profileId" => $this->profileId];
 		$statement->execute($parameters);
 	}
 
@@ -270,18 +270,10 @@ Class Profile {
 		//create query template
 		$query = "UPDATE profile SET profileId = :profileId, profileUserName, profileEmail, profileHash, profileSalt WHERE profile ";
 
-		$parameters = ["profileId" => $this->profileId, "profileUserName" => $this->profileUserName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt);
+		$parameters = ["profileId" => $this->profileId, "profileUserName" => $this->profileUserName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt];
 		$statement->execute($parameters);
 	}
 
-	/**
-	 * gets the profile by email
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $profileEmail email to search for
-	 * @throws
-	 *
-	 */
 
 }
 
