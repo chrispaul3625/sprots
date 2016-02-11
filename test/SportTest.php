@@ -1,10 +1,10 @@
 <?php
 namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots\DataDesign\{Sport};
+use Edu\Cnm\Sprots\{Sport};
 
 // grab the project test parameters
-require_once("DataDesignTest.php");
+require_once("SprotsTest.php");
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/php/classes/autoload.php");
@@ -18,7 +18,7 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
 * @see Sport
 * @author Dom Kratos <mr.kratos85@gmail.com>
 **/
-class SportTest extends DataDesignTest {
+class SportTest extends SprotsTest {
   /**
   * content for sport league
   * @var string $VALID_SPORTLEAGUE
@@ -66,7 +66,7 @@ class SportTest extends DataDesignTest {
   **/
   public function testInsertInvalidSport() {
     // create a sport with a non null sport id and watch it fail
-    $sport = new Sport(DataDesignTest::INVALID_KEY, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(SprotsTest::INVALID_KEY, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
     $sport->insert($this->getPDO());
   }
 
