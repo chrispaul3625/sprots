@@ -134,6 +134,14 @@ class GameTest extends SprotsTest {
 	 * @expectedException PDOException
 	 **/
 	public function testDeleteInvalidGame(){
+		//create a game and try to delete it without actually inserting it
+		$game = Game(null, $this->team->getGameId(), $this->VALID_GAME, $this->VALID_GAMETIME);
+		$this->delete($this->getPDO());
+	}
+	/**
+	 * test inserting a Game and regrabbing it from mySQL
+	 **/
+	public function testGetValidGameByGameId(){
 
 	}
 }
