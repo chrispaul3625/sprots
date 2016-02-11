@@ -3,7 +3,7 @@
 namespace Cnm\Edu\Sprots;
 //require_once("autoload.php"); http://www.php-fig.org/psr/psr-4/ //
 
-Class Profile implements \JsonSerializable {
+Class Profile {
 	/**
 	 * id for this Profile; this is the primary key
 	 * @var int $profileId
@@ -155,13 +155,15 @@ Class Profile implements \JsonSerializable {
 	 * mutator method for profileHash
 	 *
 	 * @param string $newProfileHash
-	 * @throws \InvalidArgumentException if invalid hash value
+	 * @throws \InvalidArgumentException if hash value is not a string
+	 * @throws \RangeException if profile hash is != 128
+	 * @throws \
 	 **/
 	public function setProfileHash(string $newProfileHash) {
 		$newProfileHash = filter_var($newProfileHash, FILTER_SANITIZE_STRING);
 
 		if($newProfileHash === false) {
-			throw (new\InvalidArgumentException("invalid hash value"));
+			throw (new\InvalidArgumentException("profile hash cannot be null"));
 		}
 	}
 
@@ -237,13 +239,13 @@ Class Profile implements \JsonSerializable {
 
 	/** Updates the profile in mySQL
 	 *
-	 *  @param \PDO $pdo PDO connection object
-	 *  @throws \PDOException when mySQL related error occurs
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related error occurs
 	 * @throws \RuntimeException if $pdo is not a PDO connection
 	 **/
 	public function update(\PDO $pdo) {
 		if($this->profileId === null) {
-			throw(new PDOException("unable to update a profile that hasn't been entered"));
+			throw(new \PDOException("unable to update a profile that hasn't been entered"));
 		}
 		//create query template
 		$query = "UPDATE profile SET profileId = :profileId, profileUserName, profileEmail, profileHash, profileSalt WHERE profile ";

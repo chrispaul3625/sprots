@@ -21,20 +21,39 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 Class ProfileTest extends SprotsTest {
 
 	/**
-	 * profile
+	 * content of user name
+	 * @var string $VALID_PROFILEUSERNAME
 	 */
+	protected $VALID_PROFILEUSERNAME = "PHPUnit test pass";
 
 	/**
-	 * profile email
+	 * content of profile email
 	 * @var $VALID_PROFILEEMAIL
 	 */
 	protected $VALID_PROFILEEMAIL = "PHPUnit test pass";
 
 	/**
-	 * profile hash
+	 * content of profile hash
 	 * @var string $VALID_PROFILEHASH
 	 */
 	protected $VALID_PROFILEHASH = "PHPUnit test pass";
+
+	/**
+	 * content of profile salt
+	 * @var $VALID_PROFILESALT
+	 */
+	protected $VALID_PROFILESALT = "PHPUnit test pass";
+
+	/**
+	 * create dependent objects before running each test
+	 */
+	public final function setUp() {
+		//run the default setUp() method first
+		parent::setUp();
+		//create and insert a profile to own the test user
+		$this->user = new Profile(null,  "@phpunit", "test@phpunit.de", "+12125551212");
+		$this->user->insert($this->getPDO());
+	}
 
 
 
