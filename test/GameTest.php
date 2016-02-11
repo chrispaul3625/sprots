@@ -42,7 +42,7 @@ class GameTest extends SprotsTest {
 	/**
 	 * create dependent objects before running  each test
 	 */
-	public final function setUp(){
+	public final function setUp() {
 		//run the default setUp() method first
 		parent::setUp();
 
@@ -53,4 +53,21 @@ class GameTest extends SprotsTest {
 		// calculate the date (same as unit test)
 		$this->VALID_GAMETIME = new \GameTime();
 	}
+		/**
+		 * test inserting a valid Game and verify that the actual mySQL data matches
+		 */
+		public function testInsertValidGame(){
+			//count rows and save
+			$numRows = $this->getConnection()->getRowCount("game");
+
+			// create a new Game and insert into mySQL
+			$game = new Game(null, $this->team->getTeamId(), $this->VALID_GAME, $this->VALID_GAMETIME);
+			$game->insert($this->getPDO());
+
+			//grab data from mySQL and enforce the match
+			$pdoGame = Game::getGameByGameId($this->getPDO(),$game->getGameId());
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
+			$this->assertEquals($pdoGame->getTeamId(), $this->team->getTeamId());
+			$this->assertEquals()
+		}
 }
