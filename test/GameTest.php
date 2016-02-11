@@ -68,6 +68,54 @@ class GameTest extends SprotsTest {
 			$pdoGame = Game::getGameByGameId($this->getPDO(),$game->getGameId());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
 			$this->assertEquals($pdoGame->getTeamId(), $this->team->getTeamId());
-			$this->assertEquals()
+			$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME, $this->VALID_GAME);
 		}
+	/**
+	 * test inserting a Game that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testInsertInvalidGame(){
+		//create a game with a non null game id adn watch it fail
+		$game = new Game(SprotsTest::INVALID_KEY, $this->team->getTeamId(), $this->VALID_GAMETIME);
+		$game->insert($this->getPDO());
+	}
+	/**
+	 * test inserting a Game, editing it, and then updating it
+	 **/
+	public function testUpdateValidGame() {
+		$numRows = $this->getConnection()->getRowCount("game");
+
+		//create a new game and insert to mySQL
+		$game = new Game(null, $this->getTeam->getTeamId(), $this->VALID_GAMETIME, $this->VALID_GAME);
+		$game->insert($this->getPDO());
+
+		//edit Game and update it in mySql
+		$game->setGame($this->VALID_GAME2);
+		$game->update($this->getPDO());
+
+		//grab data from mySQL and enforce the fields to match
+		$pdoGame = Game::getGameByGameId($this->getPDO(), $game->getGameId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
+		$this->assertEquals($pdoGame->getTeamId(), $this->team->getTeamId());
+		$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME, $this->VALID_GAME);
+	}
+	/**
+	 * test updating a Game that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testUpdateInvalidGame(){
+		//create a  Game with  non null game id an watch it fail
+		$game = new Game(null,$this->game->getGameId(), $this->VALID_GAME, $this->VALID_GAMETIME);
+		$game->update($this->getPDO());
+	}
+	/**
+	 * test creating a Game and then deleting it
+	 **/
+	public function testDeleteValidGame(){
+		//count the number of rows and save
+		$numRows = $this->getConnection()->getRowCount("game");
+
+	}
 }
