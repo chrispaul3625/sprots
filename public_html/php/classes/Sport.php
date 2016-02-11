@@ -265,6 +265,48 @@ class sport {
 	}
 
 	/**
+	* gets the sport by the sport team
+	*
+	* @param \PDO $pdo connection object
+	* @param string $sportTeam sport Team to search for
+	* @return \SplFixedArray SplFixedArray of teams found
+	* @throws \PDOException when db related errors occur
+	* @throws \TypeError when variables are not correct data type
+	**/
+	public static function getSportBySportTeam(\PDO $pdo, string $sportTeam) {
+		// sanitize the description before searching
+		$sportTeam = trim($sportTeam);
+		$sportTeam = filter_var($sportTeam, FILTER_SANITIZE_STRING);
+		if(empty($sportTeam) === true) {
+			throw(new \PDOException("That team is invalid"));
+		}
+
+		// create query template
+		$query = "SELECT sportId, sportTeam FROM sport WHERE sportTeam LIKE :sportTeam";
+		$statement = $pdo->prepare($query);
+
+		// bind the sport team to the place holder in the template
+		$sportTeam = "%$sportTeam%";
+		$parameters = array("sportTeam" => $sportTeam);
+		$statement->execute($parameters);
+
+		//build array of sport teams
+		$sportTeam = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !==false) {
+			try {
+				$sportTeam = new sport($row["sportId"]);
+				$sportTeam[$sportTeam->key()] = $sportTeam;
+				$sportTeam->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+			return ($sportTeam);
+		}
+	}
+
+	/**
 	 * gets the sport by sportId
 	 *
 	 * @param \PDO $pdo PDO connection object
