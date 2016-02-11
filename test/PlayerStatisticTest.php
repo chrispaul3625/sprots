@@ -84,7 +84,7 @@ class PlayerStatisticsTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("game");
 
 		// create a new Game and insert to into mySQL
-		$game = new Game(null, $this->game->getGameId(), $this->VALID_GAME, $this->VALID_GAME);
+		$game = new Game(null, $this->game->getGameId(), $this->VALID_GAME);
 		$game->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -104,13 +104,15 @@ class PlayerStatisticsTest extends SprotsTest {
 		$game->insert($this->getPDO());
 	}
 
-
+/**
+* test inserting a valid Player and verify that the actual mySQL data matches
+**/
 	public function testInsertValidPlayer() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("player");
 
 		// create a new Player and insert to into mySQL
-		$player = new Player(null, $this->player->getPlayerId(), $this->VALID_PLAYER, $this->VALID_PLAYER);
+		$player = new Player(null, $this->player->getPlayerId(), $this->VALID_PLAYER);
 		$player->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -129,13 +131,15 @@ class PlayerStatisticsTest extends SprotsTest {
 		$player->insert($this->getPDO());
 	}
 
-
+/**
+* test inserting a valid PlayerStatistic and verify that the actual mySQL data matches
+**/
 	public function testInsertValidPlayerStatistics() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("playerStatistics");
 
 		// create a new PlayerStatistics and insert to into mySQL
-		$playerStatistics = new PlayerStatistics(null, $this->plsayerStatistics->getPlayerStatisticId(), $this->VALID_PLAYERSTATISTICS, $this->VALID_PLAYERSTATISTICS);
+		$playerStatistics = new PlayerStatistics(null, $this->plsayerStatistics->getPlayerStatisticId(), $this->VALID_PLAYERSTATISTICS);
 		$playerStatistics->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -155,13 +159,15 @@ class PlayerStatisticsTest extends SprotsTest {
 		$playerStatistics->insert($this->getPDO());
 	}
 
-
+	/**
+	 * test inserting a valid Sport and verify that the actual mySQL data matches
+	 **/
 	public function testInsertValidSport() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("sport");
 
 		// create a new Sport and insert to into mySQL
-		$sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORT, $this->VALID_SPORT);
+		$sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORT);
 		$sport->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -180,13 +186,15 @@ class PlayerStatisticsTest extends SprotsTest {
 		$sport->insert($this->getPDO());
 	}
 
-
+/**
+ * test inserting a valid Statistic and verify that the actual mySQL data matches
+ **/
 	public function testInsertValidStatistic() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("statistic");
 
 		// create a new Statistic and insert to into mySQL
-		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC, $this->VALID_STATISTIC);
+		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC);
 		$statistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -204,6 +212,186 @@ class PlayerStatisticsTest extends SprotsTest {
 		$statistic = new Statistic(DataDesignTest::INVALID_KEY, $this->statistic->getStatisticId());
 		$statistic->insert($this->getPDO());
 	}
+
+	/**
+	 * test inserting a Game, editing it, and updating it
+	 **/
+	public function testUpdateValidGame() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("game");
+
+		// create a new Game and insert to into mySQL
+		$game = new Game(null, $this->game->getGameId(), $this->VALID_GAME);
+		$game->insert($this->getPDO());
+
+		// edit the Game and update it in mySQL
+		$game->setGame($this->VALID_GAME);
+		$game->update($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoGame = Game::getGameByGameId($this->getPDO(), $game->getGameId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
+		$this->assertEquals($pdoGame->getGameId(), $this->game->getGameId());
+
+	}
+
+	/**
+	 * test updating a Game that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+public function testUpdateInvalidGame () {
+	// Create a Game with a non null game id and watch it fail
+	$game = new Game(null, $this->game->getGameId());
+	$game->update($this->getPDO());
+}
+
+	/**
+	 * test inserting a Player, editing it, and updating it
+	 */
+
+	public function testUpdateValidPlayer() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("player");
+
+		// create a new Player and insert to into mySQL
+		$player = new Player(null, $this->player->getPlayerId(), $this->VALID_PLAYER);
+		$player->insert($this->getPDO());
+
+		// edit the Player and update it in mySQL
+		$player->setPlayer($this->VALID_PLAYER);
+		$player->update($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoPlayer = Player::getPlayerByPlayerId($this->getPDO(), $player->getPlayerId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("player"));
+		$this->assertEquals($pdoPlayer->getPlayerId(), $this->game->getPlayerId());
+	}
+	/**
+	 * test updating a Player that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testUpdateInvalidPlayer () {
+		// Create a Player with a non null player id and watch it fail
+		$player = new Player(null, $this->Player->getPlayerId());
+		$player->update($this->getPDO());
+	}
+
+	/**
+	 * test inserting a PlayerStatistic, editing it, and updating it
+	 */
+	public function testUpdateValidPlayerStatistics() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("playerStatistics");
+
+		// create a new PlayerStatistics and insert to into mySQL
+		$playerStatistics = new PlayerStatistics(null, $this->plsayerStatistics->getPlayerStatisticId(), $this->VALID_PLAYERSTATISTICS);
+		$playerStatistics->insert($this->getPDO());
+
+		// edit the PlayerStatistics and update it in mySQL
+		$playerStatistics->setPlayerStatistics($this->VALID_PLAYERSTATISTICS);
+		$playerStatistics->update($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoPlayerStatistics = PlayerStatistics::getPlayerStatisticsByPlayerStatisticId($this->getPDO(), $playerStatistics->getPlayerStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistics"));
+		$this->assertEquals($pdoPlayerStatistics->getPlayerStatisticId(), $this->playerstatistics->getPlayerStatisticId());
+
+	}
+	/**
+	 * test updating a PlayerStatistic that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testUpdateInvalidPlayerStatistic () {
+		// Create a PlayerStatistic with a non null player statistic id and watch it fail
+		$playerStatistics = new PlayerStatistics(null, $this->VALID_PLAYERSTATISTICS->getPlayerStatisticId());
+		$playerStatistics->update($this->getPDO());
+	}
+
+	/**
+	 * test inserting a Sport, editing it, and updating it
+	 */
+	public function testInsertValidSport() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("sport");
+
+		// create a new Sport and insert to into mySQL
+		$sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORT);
+		$sport->insert($this->getPDO());
+
+		// edit the Sport and update it in mySQL
+		$sport->setSport($this->VALID_SPORT);
+		$sport->update($this->getPDO());
+
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoSport = Sport::getSportBySportId($this->getPDO(), $sport->getSportId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
+		$this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
+	}
+
+	/**
+	 * test updating a Sport that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testUpdateInvalidSport () {
+		// Create a Sport with a non null sport id and watch it fail
+		$sport = new Sport(null, $this->VALID_SPORT->getSportId());
+		$sport->update($this->getPDO());
+	}
+	/**
+	 * test inserting a Statistic, editing it, and updating it
+	 */
+	public function testInsertValidStatistic() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("statistic");
+
+		// create a new Statistic and insert to into mySQL
+		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC);
+		$statistic->insert($this->getPDO());
+
+		// edit the Statistic and update it in mySQL
+		$statistic->setStatistic($this->VALID_STATISTIC);
+		$statistic->update($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic->getStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
+		$this->assertEquals($pdoStatistic->getStatisticId(), $this->statistic->getStatisticId());
+	}
+	/**
+	 * test updating a Statistic that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testUpdateInvalidStatistic () {
+		// Create a Statistic with a non null statistic id and watch it fail
+		$statistic = new Statistic(null, $this->VALID_STATISTIC->getStatisticId());
+		$statistic->update($this->getPDO());
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
