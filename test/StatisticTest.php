@@ -104,4 +104,21 @@ class StatisticTest extends Statistic {
 		$this->assertsEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
 		$this->assertsEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
 	}
+	/**
+	 * test grab all games
+	 */
+	public function testGetAllValidStatistic() {
+		//count the numbers of rows and save
+		$numRows = $this->getConnection()->getRowCount("statistic");
+
+		//create a new Game and insert into mySql
+		$game = new Game(null, $this->team->teamId(), $this->VALID_GAME);
+		$game->insert($this->getPDO());
+
+		//grab the dat from mySQL and enforce the fields match
+		$results = Game::getAllStatistic($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount('statistic'));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dcuneo1\\Sprots\\Statistic", $results);
+	}
 }
