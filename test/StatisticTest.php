@@ -1,12 +1,12 @@
 <?php
-namespace Edu\Cnm\Sprots;
+namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots\{statistic};
+use Edu\Cnm\Sprots\{Statistic};
 
 // grab the project test parameters
-require_once("phpunit.xml");
+require_once("SprotsTest.php");
 //grab the class under scrutiny
-require_once(dirname(__Statistic__) . "/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 /**
  * Full phpUnit test for statistic class
@@ -34,16 +34,12 @@ class StatisticTest extends Statistic {
 	public function testInsertValidStatistic(){
 		//count the number of rows and save
 		$numRows = $this->getConnection()->getRowCount("statistic");
+
 		//create a new statistic and insert into mySQL
-
-
-
 		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC, $this->VALID_STATISTIC);
 		$statistic->insert($this->getPDO());
 
-
-
-		//grab the data frim mySQL and enforce the fields match expectations
+		//grab the data from mySQL and enforce the fields match expectations
 		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic-getStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowcount("statistic"));
 		$this->assertEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
@@ -61,7 +57,7 @@ class StatisticTest extends Statistic {
 		//edit statistic and update in mySQL
 		$statistic->setStatistic($this->VALID_STATISTIC2);
 		$statistic->update($this->getPDO());
-		//grab the data frim mySQL and enforce the fields match expectations
+		//grab the data from mySQL and enforce the fields match expectations
 		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic-getStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowcount("statistic"));
 		$this->assertEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
