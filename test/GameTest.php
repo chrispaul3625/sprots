@@ -164,4 +164,26 @@ class GameTest extends SprotsTest {
 		$game = Game::getGameByGameId($this->getPDO(),SprotsTest::INVALID_KEY);
 		$this->assertNull($game);
 	}
+	/**
+	 * test grab all games
+	 */
+	public function testGetAllValidGames(){
+		//count the numbers of rows and save
+		$numRows =$this->getConnection()->getRowCount("game");
+
+		//create a new Game and insert into mySql
+		$game = new Game(null, $this->team->teamId(), $this->VALID_GAME, $this->VALID_GAMETIME);
+		$game->insert($this->getPDO());
+
+		//grab the dat from mySQL and enforce the fields match
+		$results = Game::getAllGames($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount('game'));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dcuneo1\\Sprots\\Game",$results);
+
+		//grab the results from the array and validate
+		$pdoGame = $results[0];
+		$this->assertEquals($pdoGame->getTeamId(), $this->team->getTeamId());
+		$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME);
+	}
 }
