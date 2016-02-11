@@ -527,6 +527,84 @@ public function testUpdateInvalidGame () {
 		$statistic = new Statistic(null, $this->statistic->getStatisticId ());
 		$statistic-> delete($this->getPDO());
 	}
+	/**
+	 * test inserting a valid Game and regrabbing it from mySQL
+	 **/
+	public function testGetValidGameByGameId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("game");
+
+		// create a new Game and insert to into mySQL
+		$game = new Game(null, $this->game->getGameId(), $this->VALID_GAME);
+		$game->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoGame = Game::getGameByGameId($this->getPDO(), $game->getGameId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
+		$this->assertEquals($pdoGame->getGameId(), $this->game->getGameId());
+
+	}
+/**
+ * test grabbing a Game that does not exist
+ */
+public function testGetInvalidGameByGameId() {
+	//grab a game id that exceeds the maximum allowable game id
+	$game = Game::getGameByGameId($this->getPDO(), SprotsTest::INVALID_KEY);
+	$this->assertNull($game);
+}
+	/**
+	 * test inserting a valid Player and regrabbing it from mySQL
+	 **/
+	public function testGetValidPlayerByPlayerId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("player");
+
+		// create a new Player and insert to into mySQL
+		$player = new Player(null, $this->player->getPlayerId(), $this->VALID_PLAYER);
+		$player->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoPlayer = Player::getPlayerByPlayerId($this->getPDO(), $player->getPlayerId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("player"));
+		$this->assertEquals($pdoPlayer->getPlayerId(), $this->game->getPlayerId());
+	}
+	/**
+	 * test grabbing a Player that does not exist
+	 */
+	public function testGetInvalidPlayerByPlayerId() {
+		//grab a player id that exceeds the maximum allowable player id
+		$player = Player::getPlayerByPlayerId($this->getPDO(), SprotsTest::INVALID_KEY);
+		$this->assertNull($player);
+	}
+
+	/**
+	 * test inserting a valid Player Statistic and regrabbing it from mySQL
+	 **/
+	public function testInsertValidPlayerStatistics() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("playerStatistics");
+
+		// create a new PlayerStatistics and insert to into mySQL
+		$playerStatistics = new PlayerStatistics(null, $this->plsayerStatistics->getPlayerStatisticId(), $this->VALID_PLAYERSTATISTICS);
+		$playerStatistics->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoPlayerStatistics = PlayerStatistics::getPlayerStatisticsByPlayerStatisticId($this->getPDO(), $playerStatistics->getPlayerStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistics"));
+		$this->assertEquals($pdoPlayerStatistics->getPlayerStatisticId(), $this->playerstatistics->getPlayerStatisticId());
+
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
