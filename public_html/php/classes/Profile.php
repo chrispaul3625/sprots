@@ -1,11 +1,9 @@
 <?php
 
-// @author Michael Prinz <mprinz1@cnm.edu> //
-
 namespace Cnm\Edu\Sprots;
 //require_once("autoload.php"); http://www.php-fig.org/psr/psr-4/ //
 
-Class Profile {
+Class Profile implements \JsonSerializable {
 	/**
 	 * id for this Profile; this is the primary key
 	 * @var int $profileId
