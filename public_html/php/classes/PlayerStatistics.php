@@ -185,7 +185,7 @@ public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatist
 			$this->$newPlayerStatisticValue = $newPlayerStatisticValue;
 		}
 		/**
-		 * Inserts this player statistic into mySQL
+		 * Inserts this player statistics into mySQL
 		 *
 		 *@param \PDO $pdo PDO connection object
 		 * @throws \PDOException when mySQL related errors occur
@@ -207,7 +207,7 @@ public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatist
 		}
 
 		/**
-		 * Deletes this statistic from mySQL
+		 * Deletes this statistics from mySQL
 		 *
 		 *@param \PDO $pdo PDO connection object
 		 *  @throws \PDOException when mySQL related errors occur
@@ -228,7 +228,7 @@ public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatist
 			$statement->execute($parameters);
 		}
 		/**
-		 * updates this Player Statistic in mySQL
+		 * updates this Player Statistics in mySQL
 		 *
 		 * @param \PDO $pdo PDO connection object
 		 * @throws \PDOException when mySQL related errors occur
@@ -241,7 +241,7 @@ public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatist
 				throw(new \PDOException("Ids do not exist to update"));
 			}
 			// Create query template
-			$query = "UPDATE playerStatistic SET playerStatisticGameId = :playerStatisticGameId, playerStatisticPlayerId = :playerStatisticPlayerId, playerStatisticStatisticId = :playerStatisticStatisticId, playerStatisticValue = :playerStatisticValue";
+			$query = "UPDATE playerStatistics SET playerStatisticGameId = :playerStatisticGameId, playerStatisticPlayerId = :playerStatisticPlayerId, playerStatisticStatisticId = :playerStatisticStatisticId, playerStatisticValue = :playerStatisticValue";
 			$statement = $pdo->prepare($query);
 
 			// Bind the member variables to the place holders in template
