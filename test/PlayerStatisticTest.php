@@ -313,7 +313,7 @@ public function testUpdateInvalidGame () {
 	/**
 	 * test inserting a Sport, editing it, and updating it
 	 */
-	public function testInsertValidSport() {
+	public function testUpdateValidSport() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("sport");
 
@@ -345,7 +345,7 @@ public function testUpdateInvalidGame () {
 	/**
 	 * test inserting a Statistic, editing it, and updating it
 	 */
-	public function testInsertValidStatistic() {
+	public function testUpdateValidStatistic() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("statistic");
 
@@ -372,23 +372,161 @@ public function testUpdateInvalidGame () {
 		$statistic = new Statistic(null, $this->VALID_STATISTIC->getStatisticId());
 		$statistic->update($this->getPDO());
 	}
+	/**
+	 * test creating a Game then deleting it
+	 **/
+	public function testDeleteValidGame() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("game");
+
+		// create a new Game and insert to into mySQL
+		$game = new Game(null, $this->game->getGameId(), $this->VALID_GAME);
+		$game->insert($this->getPDO());
+
+		// Delete this game from mySQL
+		$game->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
+		$game->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoGame = Game::getGameByGameId($this->getPDO(), $game->getGameId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
+		$this->assertEquals($pdoGame->getGameId(), $this->game->getGameId());
+
+	}
+	/**
+	 * test deleting a Game that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidGame () {
+		// Create a Game and try to delete it without actually inserting it
+		$game = new Game(null, $this->game->getGameId ());
+		$game-> delete($this->getPDO());
+	}
+	/**
+	 * test creating a Player then deleting it
+	 **/
+	public function testDeleteValidPlayer() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("player");
+
+		// create a new Player and insert to into mySQL
+		$player = new Player(null, $this->player->getPlayerId(), $this->VALID_PLAYER);
+		$player->insert($this->getPDO());
+
+		// Delete this Player from mySQL
+		$player->assertEquals($numRows + 1, $this->getConnection()->getRowCount("player"));
+		$player->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoPlayer = Player::getPlayerByPlayerId($this->getPDO(), $player->getPlayerId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("player"));
+		$this->assertEquals($pdoPlayer->getPlayerId(), $this->game->getPlayerId());
+	}
+	/**
+	 * test deleting a Player that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidPlayer() {
+		// Create a player and try to delete it without actually inserting it
+		$player = new Game(null, $this->player->getPlayerId ());
+		$player-> delete($this->getPDO());
+	}
+	/**
+	 * test creating a PlayerStatistic then deleting it
+	 **/
+	public function testDeleteValidPlayerStatistics() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("playerStatistics");
+
+		// create a new PlayerStatistics and insert to into mySQL
+		$playerStatistics = new PlayerStatistics(null, $this->playerStatistics->getPlayerStatisticId(), $this->VALID_PLAYERSTATISTICS);
+		$playerStatistics->insert($this->getPDO());
+
+		// Delete this PlayerStatistic from mySQL
+		$playerStatistics->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistics"));
+		$playerStatistics->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoPlayerStatistics = PlayerStatistics::getPlayerStatisticsByPlayerStatisticId($this->getPDO(), $playerStatistics->getPlayerStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistics"));
+		$this->assertEquals($pdoPlayerStatistics->getPlayerStatisticId(), $this->playerstatistics->getPlayerStatisticId());
+
+	}
+	/**
+	 * test deleting a PlayerStatistic that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidPlayerStatistics() {
+		// Create a playerStatistic and try to delete it without actually inserting it
+		$playerStatistics = new PlayerStatistics(null, $this->playerStatistics->getPlayerStatisticId ());
+		$playerStatistics-> delete($this->getPDO());
+	}
+	/**
+	 * test deleting a Sport that does not exist
+	 */
+	public function testDeleteValidSport() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("sport");
+
+		// create a new Sport and insert to into mySQL
+		$sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORT);
+		$sport->insert($this->getPDO());
+
+		// Delete this Sport from mySQL
+		$sport->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
+		$sport->delete($this->getPDO());
 
 
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoSport = Sport::getSportBySportId($this->getPDO(), $sport->getSportId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
+		$this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
+	}
+	/**
+	 * test deleting a Sport that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidSport() {
+		// Create a Sport and try to delete it without actually inserting it
+		$sport = new Sport(null, $this->sport->getSportId ());
+		$sport-> delete($this->getPDO());
+	}
 
+	/**
+	 * test deleting a Statistic that does not exist
+	 */
+	public function testDeleteValidStatistic() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("statistic");
 
+		// create a new Statistic and insert to into mySQL
+		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC);
+		$statistic->insert($this->getPDO());
 
+		// Delete this Statistic from mySQL
+		$statistic->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
+		$statistic->delete($this->getPDO());
 
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic->getStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
+		$this->assertEquals($pdoStatistic->getStatisticId(), $this->statistic->getStatisticId());
+	}
 
-
-
-
-
-
-
-
-
-
-
+	/**
+	 * test deleting a Statistic that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidStatistic() {
+		// Create a Statistic and try to delete it without actually inserting it
+		$statistic = new Statistic(null, $this->statistic->getStatisticId ());
+		$statistic-> delete($this->getPDO());
+	}
 
 
 
