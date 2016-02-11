@@ -61,6 +61,10 @@ class StatisticTest extends Statistic {
 		//edit statistic and update in mySQL
 		$statistic->setStatistic($this->VALID_STATISTIC2);
 		$statistic->update($this->getPDO());
+		//grab the data frim mySQL and enforce the fields match expectations
+		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic-getStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowcount("statistic"));
+		$this->assertEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
 	}
 	/**
 	 * test updating a statistic that already exists
@@ -112,7 +116,7 @@ class StatisticTest extends Statistic {
 		$numRows = $this->getConnection()->getRowCount("statistic");
 
 		//create a new Game and insert into mySql
-		$game = new Game(null, $this->team->teamId(), $this->VALID_GAME);
+		$game = new Game(null, $this->statistic->statisticId(), $this->VALID_STATISTIC);
 		$game->insert($this->getPDO());
 
 		//grab the dat from mySQL and enforce the fields match
