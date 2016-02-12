@@ -7,7 +7,7 @@ require_once("autoload.php");
  * Player Statistics, This will be a player stat that is being pulled from APIs.
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
-class PlayerStatistics {
+class PlayerStatistic {
 	/**
 	 * $playerStatisticGameId id for player in a specific game; this is a foreign key
 	 * @var int $playerStatisticGameId
