@@ -71,8 +71,8 @@ class GameTest extends SprotsTest {
 		$this->VALID_GAMETIME = new \GameTime();
 
 		// create and insert a Team t own the test
-		$this->team2 = new Team(null, teamApiId, teamCity, teamName);
-		$this->team2->insert($this->PDO());
+		$this->team = new Team(null, teamApiId, teamCity, teamName);
+		$this->team->insert($this->PDO());
 
 		// calculate the date (same as unit test)
 		$this->VALID_GAMETIME = new \GameTime();
