@@ -3,6 +3,7 @@
 namespace Edu\Cnm\Sprots\DataDesign\Test;
 
 use Edu\Cnm\Sprots\DataDesign\{Sport};
+use Edu\Cnm\Sprots\Test\SprotsTest;
 
 // grab the project test parameters
 require_once("DataDesignTest.php");
@@ -20,7 +21,7 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  * @author Jude Chavez @chavezjude7@gmail.com>
  **/
 
-class teamstatistictTest extends DataDesignTest {
+class TeamStatisticTest extends SprotsTest {
 	/**
 	 * content of the teamstatistic
 	 * @var string $VALID_TEAMSTATISTICCONTENT

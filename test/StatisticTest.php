@@ -100,7 +100,7 @@ class StatisticTest extends Statistic {
 		$this->insert($this->getPDO());
 		//grab data from mySQL and enforce  the fields to expectations
 
-		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic->getstatisticId());
+		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic->getStatisticId());
 		$this->assertsEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
 		$this->assertsEquals($pdoStatistic->getStatistic(), $this->VALID_STATISTIC);
 	}
