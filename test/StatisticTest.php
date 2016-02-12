@@ -16,7 +16,7 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * @see Statistic
  * @Dominic Cuneo <cuneo94@gmail.com
  */
-class StatisticTest extends Sprots {
+class StatisticTest extends SprotsTest {
 	/**
 	 * content of Statistic
 	 * @var string $valid_statistic
