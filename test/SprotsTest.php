@@ -43,15 +43,15 @@ abstract class SprotsTest extends \PHPUnit_Extensions_Database_TestCase {
 
 		// add all the tables for the project here
 		// THESE TABLES *MUST* BE LISTED IN THE SAME ORDER THEY WERE CREATED!!!!
-		$dataset->profile;
-		$dataset->sport;
-		$dataset->team;
-		$dataset->player;
-		$dataset->game;
-		$dataset->favoriteTeam;
-		$dataset->favoritePlayer;
-		$dataset->teamStatistic;
-		$dataset->playerStatistic;
+		$dataset->addTable("profile");
+		$dataset->addTable("sport");
+		$dataset->addTable("team");
+		$dataset->addTable("player");
+		$dataset->addTable("game");
+		$dataset->addTable("favoriteTeam");
+		$dataset->addTable("favoritePlayer");
+		$dataset->addTable("teamStatistic");
+		$dataset->addTable("playerStatistic");
 		return($dataset);
 	}
 
