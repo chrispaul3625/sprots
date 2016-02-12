@@ -7,7 +7,7 @@ use Edu\Cnm\Sprots\{Sport};
 require_once("SprotsTest.php");
 
 // grab the class under scrutiny
-require_once(dirname(__DIR__) . "/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 /**
 * Full PHPUnit test for the Sport class
@@ -48,7 +48,7 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     // create a new sport and insert into the db
-    $sport = new Sport(null, $this->profile->getProfileId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
     $sport->insert($this->getPDO());
 
     // grab the data from MySQL and enforce the fields match our expectations
@@ -112,7 +112,7 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     // create a new Sport and insert it into mysql
-    $sport = new Sport(null, $this-sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
     $sport->insert($this->getPDO());
 
     // delete the Sport from the db
@@ -237,7 +237,7 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     // create a new sport and insert it into the db
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTLEAGUE $this->VALID_SPORTTEAM);
+    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
     $sport->insert($this->getPDO());
 
     // grab the data from the db and enforce the fields match our expectations
@@ -261,7 +261,7 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     // create a new sport and insert it into the db
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTLEAGUE $this->VALID_SPORTTEAM);
+    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
     $sport->insert($this->getPDO());
 
     // grab the data from the db and enforce the fields match our expectations
