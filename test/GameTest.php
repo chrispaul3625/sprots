@@ -1,8 +1,9 @@
 <?php
 namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots\{Team};
-use Edu\Cnm\Sprots\Game;
+use Edu\Cnm\Sprots\{
+	Game, Team, Sport
+};
 
 // grab the project test parameters
 require_once("SprotsTest.php");
