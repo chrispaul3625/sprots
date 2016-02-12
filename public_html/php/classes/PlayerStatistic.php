@@ -241,7 +241,7 @@ class PlayerStatistic {
 			throw(new \PDOException("Ids do not exist to update"));
 		}
 		// Create query template
-		$query = "UPDATE playerStatistics SET playerStatisticGameId = :playerStatisticGameId, playerStatisticPlayerId = :playerStatisticPlayerId, playerStatisticStatisticId = :playerStatisticStatisticId, playerStatisticValue = :playerStatisticValue";
+		$query = "UPDATE playerStatistic SET playerStatisticGameId = :playerStatisticGameId, playerStatisticPlayerId = :playerStatisticPlayerId, playerStatisticStatisticId = :playerStatisticStatisticId, playerStatisticValue = :playerStatisticValue";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in template
