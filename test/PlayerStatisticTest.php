@@ -56,19 +56,19 @@ class PlayerStatisticsTest extends SprotsTest {
 		parent::setUp();
 
 		//create and insert a Sport to own the test playerStatistics
-		$this->sport = new Sport(null, "@phpunit", "test@phpunit.de", "+12125551212");
+		$this->sport = new Sport(null, "sportTeam", "sportLeague");
 		$this->sport->insert($this->getPDO());
 
 		//create and insert a Game to own the test playerStatistics
-		$this->game = new Game(null, "@phpunit", "test@phpunit.de", "+12125551212");
+		$this->game = new Game(null, "gameTime", "gameFirstTeamId" , "gameSecondTeamId");
 		$this->game->insert($this->getPDO());
 
 		//create and insert a Player to own the test playerStatistics
-		$this->player = new Player(null, "@phpunit", "test@phpunit.de", "+12125551212");
+		$this->player = new Player(null, "playerName", "playerTeamId", "playerApiId");
 		$this->player->insert($this->getPDO());
 
 		//create and insert a Statistic to own the test playerStatistics
-		$this->statistic = new Statistic(null, "@phpunit", "test@phpunit.de", "+12125551212");
+		$this->statistic = new Statistic(null, "statisticName");
 		$this->statistic->insert($this->getPDO());
 	}
 
