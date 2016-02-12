@@ -10,7 +10,7 @@ require_once("autoload.php");
  * $author Jude Chavez <chavezjude7@gmail.com>
  *
  */
-class player {
+class Player {
 	/**
 	 * id for the player; this is the primary key
 	 * @var int $playerId
@@ -42,7 +42,7 @@ class player {
 	 */
 
 
-	public function __construct(int $newPlayerId = null, int $newPlayerName, int $newplayerApiId, int $newPlayerTeamId = null) {
+	public function __construct(int $newPlayerId = null, int $newPlayerName, int $newPlayerApiId, int $newPlayerTeamId = null) {
 		try {
 			$this->setPlayerId($newPlayerId);
 			$this->setPlayerName($newPlayerName);
@@ -186,8 +186,8 @@ class player {
 	 **/
 	public function insert(\PDO $pdo) {
 		// enforce the playerId is null (i.e., dont insert a player that already exists
-		if($this->(playerId !null) {
-			throw(new \PDOException("not a new plaer"));
+		if($this->playerId !== null) {
+			throw(new \PDOException("not a new player"));
 		}
 
 		// create query template
@@ -215,7 +215,7 @@ class player {
 
 
 		$formattedDate = $this->playerId->format("Y-m-d H:i:s");
-		$parameters = ["playerNameId" => $this->playerNameId, "playerApiId" => $this->playerApiId, "playerTeamId" => $playerTeamId, "playerId" => $this->playerId];
+		$parameters = ["playerNameId" => $this->playerNameId, "playerApiId" => $this->playerApiId, "playerTeamId" => $this->playerTeamId, "playerId" => $this->playerId];
 		$statement->execute($parameters);
 	}
 
@@ -238,7 +238,10 @@ class player {
 		// create query template
 		$query = "DELETE FROM player WHERE playerId = :playerId";
 		$statement = $pdo->prepare($query);
-		$statement->execute($parameter);
+
+		//bind the member variables to the place holder in the template
+		$parameters = ["playerId" => $this->playerId];
+		$statement->execute($parameters);
 		}
 
 	/**

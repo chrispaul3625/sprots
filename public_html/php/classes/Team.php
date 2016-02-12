@@ -8,7 +8,7 @@ require_once("autoload.php");
  *
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
-class team {
+class Team {
 	/**
 	 * id for this team; this is the primary key
 	 * @var int $teamId
