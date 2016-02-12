@@ -2,7 +2,7 @@
 namespace Edu\Cnm\Sprots\Test;
 
 // grab the encrypted properties file
-require_once("/etc/apache2/data-design/encrypted-config.php");
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 /**
  * Abstract class containing universal and project specific mySQL parameters
@@ -88,7 +88,7 @@ abstract class SprotsTest extends \PHPUnit_Extensions_Database_TestCase {
 		// if the connection hasn't been established, create it
 		if($this->connection === null) {
 			// connect to mySQL and provide the interface to PHPUnit
-			$config = readConfig("/etc/apache2/data-design/sprots.ini");
+			$config = readConfig("/etc/apache2/capstone-mysql/sprots.ini");
 			$pdo = connectToEncryptedMySQL("/etc/apache2/data-design/sprots.ini");
 			$this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
 		}
