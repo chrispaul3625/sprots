@@ -25,28 +25,28 @@ class PlayerStatisticsTest extends SprotsTest {
 	 * Sport that the Player is playing
 	 * @var Sport $VALID_SPORT
 	 */
-	protected $VALID_SPORT = null;
+	protected $sport = null;
 	/**
 	 * Game that PlayerStatistic derived from
 	 * @var Game $VALID_GAME
 	 */
-	protected $VALID_GAME = null;
+	protected $game = null;
 	/**
 	 * Player that the Stat is associated with
 	 * @var Player $VALID_PLAYER
 	 */
 
-	protected $VALID_PLAYER = null;
+	protected $player = null;
 	/**
 	 * Player Statistics of the player
 	 * @var PlayerStatistics $VALID_PLAYERSTATISTICS
 	 */
-	protected $VALID_PLAYERSTATISTICS = null;
+	protected $playerstatistics = null;
 	/**
 	 * Statistic that is associated with the player
 	 * @var Statistic $VALID_STATISTIC
 	 */
-	protected $VALID_STATISTIC = null;
+	protected $statistic = null;
 
 	/**
 	 * Create dependent objects before running each test
@@ -96,7 +96,7 @@ class PlayerStatisticsTest extends SprotsTest {
 	 **/
 	public function testInsertInvalidSport() {
 		// create a Sport with a non null Sport id and watch it fail
-		$sport = new Sport(DataDesignTest::INVALID_KEY, $this->sport->getSportId());
+		$sport = new Sport(SprotsTest::INVALID_KEY, $this->sport->getSportId());
 		$sport->insert($this->getPDO());
 	}
 
@@ -125,7 +125,7 @@ class PlayerStatisticsTest extends SprotsTest {
 	 **/
 	public function testInsertInvalidGame() {
 		// create a Game with a non null game id and watch it fail
-		$game = new Game(DataDesignTest::INVALID_KEY, $this->game->getGameId());
+		$game = new Game(SprotsTest::INVALID_KEY, $this->game->getGameId());
 		$game->insert($this->getPDO());
 	}
 
@@ -153,7 +153,7 @@ class PlayerStatisticsTest extends SprotsTest {
 	 **/
 	public function testInsertInvalidPlayer() {
 		// create a Player with a non null Player id and watch it fail
-		$player = new Player(DataDesignTest::INVALID_KEY, $this->player->getPlayerId());
+		$player = new Player(SprotsTest::INVALID_KEY, $this->player->getPlayerId());
 		$player->insert($this->getPDO());
 	}
 
