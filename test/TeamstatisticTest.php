@@ -2,11 +2,7 @@
 
 namespace Edu\Cnm\Sprots\DataDesign\Test;
 
-<<<<<<< 2bbf9d888286a91969e52b8a76099246bd57f220
-use Edu\Cnm\Sprots\DataDesign\{Sport};
-=======
 use Edu\Cnm\Sprots\Test\{Sport};
->>>>>>> finished teamstatistic unit test
 use Edu\Cnm\Sprots\Test\SprotsTest;
 
 // grab the project test parameters
@@ -25,11 +21,11 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  * @author Jude Chavez @chavezjude7@gmail.com>
  **/
 
-<<<<<<< 2bbf9d888286a91969e52b8a76099246bd57f220
+
 class TeamStatisticTest extends SprotsTest {
-=======
+
 class teamstatistictTest extends SprotsTest {
->>>>>>> finished teamstatistic unit test
+
 	/**
 	 * content of the teamstatistic
 	 * @var string $VALID_TEAMSTATISTICCONTENT
@@ -214,5 +210,8 @@ $this->assertEquals($pdoTeamstatistic->getTeamStatisticDate(), $this->VALID_TEAM
 	}
 
 }
+
+
+
 
 
