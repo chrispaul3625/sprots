@@ -18,7 +18,7 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  * are tested for both invalid and valid inputs.
  *
  * @see
- * @author Jude Chavez @chavezjude7@gmail.com>
+ * @author Jude Chavez <chavezjude7@gmail.com>
  **/
 
 

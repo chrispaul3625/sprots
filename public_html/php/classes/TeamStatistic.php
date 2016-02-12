@@ -260,6 +260,6 @@ public function delete(\PDO $pdo) {
 	 * accessor for team statistic game Id
 	 * @return int value of team statistic game Id
 	 */
-		}
+
 
 
