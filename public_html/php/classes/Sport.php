@@ -8,7 +8,7 @@ require_once("autoload.php");
  *
  * @author Dom Kratos <mr.kratos85@gmail.com>
  */
-class sport {
+class Sport {
 	/**
 	 * id for the sport
 	 * @var int $sportId
