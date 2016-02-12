@@ -48,9 +48,15 @@ class GameTest extends SprotsTest {
 	 */
 	protected $VALID_TEAMNAME =null;
 	/**
+	 * Sport that the Player is playing
+	 * @var string $VALID_SPORT
+	 */
+	protected $sport = null;
+	/**
 	 * the team that created the game for foreign keys
 	 * @var Team team
 	 */
+
 	protected $team = null;
 
 	protected $team2 = null;
@@ -64,6 +70,10 @@ class GameTest extends SprotsTest {
 		parent::setUp();
 
 		// create and insert a Team t own the test
+
+		$this->sport = new Sport(null, "sportTeam", "sportLeague");
+		$this->sport->insert($this->getPDO());
+
 		$this->team = new Team(null, teamApiId, teamCity, teamName);
 		$this->team->insert($this->PDO());
 
