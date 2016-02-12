@@ -177,13 +177,13 @@ class SportTest extends SprotsTest {
 
     //grab the data from the db and enforce the fields match our expectations
     $results = Sport::getSportBySportLeague($this->getPDO(), $sport->getSportLeague());
-    $this->assertEquals($numrows + 1, $this->getConnection()->getRowCount("sport"));
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
     $this->assertCount(1, $results);
     $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Sport", $results);
 
     //grab the results from teh array and validate it
     $pdoSport = $results[0];
-    $this->assertEquals($pdo->getSportId(), $this->sport->getSportId());
+    $this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
   }
 
@@ -266,7 +266,7 @@ class SportTest extends SprotsTest {
 
     // grab the data from the db and enforce the fields match our expectations
     $results = Sport::getAllSportTeams($this->getPDO());
-    $this->assertEquals($numrows + 1, $this->getConnection()->getRowCount("sport"));
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
     $this->assertCount(1, $results);
     $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Sport", $results);
 
