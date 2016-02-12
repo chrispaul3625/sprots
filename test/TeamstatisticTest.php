@@ -2,7 +2,11 @@
 
 namespace Edu\Cnm\Sprots\DataDesign\Test;
 
+<<<<<<< 2bbf9d888286a91969e52b8a76099246bd57f220
 use Edu\Cnm\Sprots\DataDesign\{Sport};
+=======
+use Edu\Cnm\Sprots\Test\{Sport};
+>>>>>>> finished teamstatistic unit test
 use Edu\Cnm\Sprots\Test\SprotsTest;
 
 // grab the project test parameters
@@ -21,7 +25,11 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  * @author Jude Chavez @chavezjude7@gmail.com>
  **/
 
+<<<<<<< 2bbf9d888286a91969e52b8a76099246bd57f220
 class TeamStatisticTest extends SprotsTest {
+=======
+class teamstatistictTest extends SprotsTest {
+>>>>>>> finished teamstatistic unit test
 	/**
 	 * content of the teamstatistic
 	 * @var string $VALID_TEAMSTATISTICCONTENT
@@ -81,6 +89,7 @@ class TeamStatisticTest extends SprotsTest {
 		$teamstatistic = new teamStatistic(DataDesignTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_TEAMSTATISTICCONTENT, $this->VALID_TEAMSTATISTICDATE0);
 		$teamstatistic->insert($this->getPDO());
 	}
+
 	/**
 	 * test inserting a teamstatistic, editing it, and then uploading it
 	 */
@@ -101,6 +110,7 @@ class TeamStatisticTest extends SprotsTest {
 		$this->assertNull($pdoTeamstatistic);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("teamstatistic"));
 		}
+
 	/**
 	 * test deleting a teamstatistic that does not exist
 	 *
@@ -110,7 +120,7 @@ class TeamStatisticTest extends SprotsTest {
 		// create a teamstatistic and try to delete it without actually inserting it
 		$teamstatistic = new teamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICCONTENT, $this->VALID_TEAMSTATISTICDATE);
 		$teamstatistic->delete($this->getPDO());
-		}
+	}
 
 	/**
 	 * test inserting a teamstatistic and regrabbing it from mySQL
@@ -140,14 +150,15 @@ class TeamStatisticTest extends SprotsTest {
 		$teamstatistic = $teamstatistic::getteamstatisticByteamstatisticId($this->getPDO(), DataDesignTest::INVALID_KEY);
 		$this->assertNull($teamstatistic);
 	}
+
 	/**
 	 * test grabbing a teamstatistic by teamstatistic content
 	 */
-	public function testGetValidTeamstatisticByTeamstatisticContent()
+	public function testGetValidTeamstatisticByTeamstatisticContent() {
 
 		// count the number of rows and save it for later
 
-	$numRows = $this->getConnection()->getRowCount("teamstatistic")
+		$numRows = $this->getConnection()->getRowCount("teamstatistic")
 
 	// create a new teamstatistic and insert to into mySQL
 
@@ -156,7 +167,52 @@ class TeamStatisticTest extends SprotsTest {
 	$teamstatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectation
-			$results= teamstatistic::getTeamstatisticByTeamstatisticContent($this->getPDO(), $tweet->getTeamstatisticContent());
+			$results = teamstatistic::getTeamstatisticByTeamstatisticContent($this->getPDO(), $tweet->getTeamstatisticContent());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamstatistic"));
 $this->assertCount(1, $results);
+
+
+	//grab the result from the array and validate it
+	$pdoTeamstatistic = $results[0];
+	$this->assertEquals($pdoTeamstatistic->getTeamId(), $this->TeamId->getTeamId());
+	$this->assertEquals($pdoTeamstatistic->getTeamstatisticContent(), $this->VALID_TEAMSTATISTICCONETENT);
+$this->assertEquals($pdoTeamstatistic->getTeamStatisticDate(), $this->VALID_TEAMSTATISTICDAT);
+	}
+
+	/**
+	 * test grabbing a teamstatistic by content that does not exist
+	 */
+	public function testGetInvalidTeamstatisticByTeamstatisticContent() {
+		//grab a team id that exceeds the maximum allowable team id
+		$teamstatistic = $teamstatistic::getTeamstatisticByTeamstatisticContent($this->getPDO(), "no teamstatistic found");
+		$this->assertCount(0, $teamstatistic);
+	}
+	/**
+	 * test grabbing all teamstatistic
+	 */
+	public function testGetAllValidTeamstatistics() {
+		// count the number of rows and save it for later
+		$numRow = $this->getConnection()->getRowCount("teamstatistic");
+
+		//creat a new teamstatistic and insert to into mySQL
+		$teamstatistic = new teamStatistic(null, $this->Team->getTeamId(), $this->VALID_TEAMSTATISTICCONTENT, $this->VALID_TEAMSTATISTICDATE);
+		$tweet->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectaions
+		$results = Teamstatistic::getAllTeamstatistics($this->getPDO());
+		$this_ > assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamstatistic"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu//Cnm//Sprots//DataDesign//Teamstatistic", $results);
+
+		// grab the result from the array and validate it
+
+		$pdoTeamstatistic = $resutls[0];
+		$this->assertEquals($pdoTeamstatistic->getTeamId(), $this->team->getTeamId());
+		$this->assertEquals($pdoTeamstatistic->getTeamstatisticContent(), $this->VALID_TEAMSTATISTICCONTENT);
+		$this->assertEquals($pdoTeamstatistic->getTeamstatisticDate(), $this->VALID_TEAMSTATISTICDATE);
+
+	}
+
 }
+
+
