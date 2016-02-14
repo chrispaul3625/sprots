@@ -110,7 +110,7 @@ class TeamTest extends SprotsTest {
 	}
 
 	/**
-	 * test inserting a Tweet, editing it, and then updating it
+	 * test inserting a Team, editing it, and then updating it
 	 **/
 	public function testUpdateValidTeam() {
 		// count the number of rows and save it for later
@@ -135,7 +135,17 @@ class TeamTest extends SprotsTest {
 		$this->assertEquals($pdoTeam->getTeamCity(), $this->VALID_TEAMCITY);
 		$this->assertEquals($pdoTeam->getTeamName(), $this->VALID_TEAMNAME);
 	}
-
+	/**
+	 * test updating a Team that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testUpdateInvalidTeam() {
+		// create a Team with a non null team id and watch it fail
+		$team = new Team(SprotsTest::INVALID_KEY, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team->insert($this->getPDO());
+		$team->update($this->getPDO());
+	}
 
 
 	}
