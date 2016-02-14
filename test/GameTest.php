@@ -1,14 +1,14 @@
 <?php
 namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots\{
-	Game, Team, Sport
-};
-
 // grab the project test parameters
 require_once("SprotsTest.php");
 //grab the class under scrutiny
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
+
+use Edu\Cnm\Sprots\{
+	Game, Team, Sport
+};
 
 /**
  * Full PHPUnit test for Game class
@@ -75,15 +75,15 @@ class GameTest extends SprotsTest {
 		$this->sport = new Sport(null, "sportTeam", "sportLeague");
 		$this->sport->insert($this->getPDO());
 
-		$this->team = new Team(null, teamApiId, teamCity, teamName);
-		$this->team->insert($this->PDO());
+		$this->team = new Team(null, teamApiId, "teamCity", "teamName");
+		$this->team->insert($this->getPDO());
 
 		// calculate the date (same as unit test)
 		$this->VALID_GAMETIME = new \GameTime();
 
 		// create and insert a Team t own the test
-		$this->team = new Team(null, teamApiId, teamCity, teamName);
-		$this->team->insert($this->PDO());
+		$this->team = new Team(null, teamApiId, "teamCity", "teamName");
+		$this->team->insert($this->getPDO());
 
 		// calculate the date (same as unit test)
 		$this->VALID_GAMETIME = new \GameTime();
@@ -170,8 +170,8 @@ class GameTest extends SprotsTest {
 	 **/
 	public function testDeleteInvalidGame(){
 		//create a game and try to delete it without actually inserting it
-		$game = Game(null, $this->team->getGameId(), $this->VALID_GAME, $this->VALID_GAMETIME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
-		$this->delete($this->getPDO());
+		$game = new Game(null, $this->team->getGameId(), $this->VALID_GAME, $this->VALID_GAMETIME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$game->delete($this->getPDO());
 	}
 	/**
 	 * test inserting a Game and regrabbing it from mySQL
