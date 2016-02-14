@@ -23,17 +23,17 @@ class Game {
 	private $gameId;
 	/**
 	 * id for gameFirstTeamId
-	 * var $gameFirstTeamId
+	 * @var int $gameFirstTeamId
 	 */
 	private $gameFirstTeamId;
 	/**
 	 * id for gameSecondId
-	 * var $gameSecondId
+	 * @var int $gameSecondId
 	 */
 	private $gameSecondTeamId;
 	/**
 	 * id for gameTime
-	 * var $newGameTime
+	 * @var  \DateTime $newGameTime
 	 */
 	private $gameTime;
 
@@ -44,18 +44,18 @@ class Game {
 	 * @param int $newGameId for the last game played for a sport
 	 * @param int $newGameFirstTeamId id for the first team in a game
 	 * @param int $newGameSecondTeamId id  fo the second team in a game
-	 * @param \DateTime|string|null $newGameTime date and time for when game was played
+	 * @param \string|null $newGameTime date and time for when game was played
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values exceed limits
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 */
-	public function __construct(int $newGameId = null, int $newGameFirstTeamId, $newGameSecondTeamId, $newGameTimeDate = null) {
+	public function __construct(int $newGameId = null, int $newGameFirstTeamId, int $newGameSecondTeamId, $newGameTime = null) {
 		try {
 			$this->setgameId($newGameId);
 			$this->setgameFirstTeamId($newGameFirstTeamId);
 			$this->setgameSecondTeamId($newGameSecondTeamId);
-			$this->setgameTime($newGameTimeDate);
+			$this->setgameTime($newGameTime);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			//rethrow the exception to caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));

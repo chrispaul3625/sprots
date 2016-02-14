@@ -7,7 +7,6 @@ use Edu\Cnm\Sprots\{
 use Edu\Cnm\Sprots\PlayerStatistic;
 
 
-
 require_once("SprotsTest.php");
 
 //grab the project test parameters
@@ -50,6 +49,8 @@ class PlayerStatisticTest extends SprotsTest {
 	 */
 	protected $statistic = null;
 
+
+
 	/**
 	 * Create dependent objects before running each test
 	 */
@@ -61,8 +62,9 @@ class PlayerStatisticTest extends SprotsTest {
 		$this->sport = new Sport(null, "sportTeam", "sportLeague");
 		$this->sport->insert($this->getPDO());
 
+
 		//create and insert a Game to own the test playerStatistic
-		$this->game = new Game(null, "gameTime", "gameFirstTeamId" , "gameSecondTeamId");
+		$this->game = new Game(null, "gameFirstTeamId","GameSecondTeamId","GameTime");
 		$this->game->insert($this->getPDO());
 
 		//create and insert a Player to own the test playerStatistic
