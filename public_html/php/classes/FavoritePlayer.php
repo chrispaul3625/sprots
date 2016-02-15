@@ -54,7 +54,7 @@ Class FavoritePlayer {
 
 	public function setFavoritePlayerProfileId(int $newFavoritePlayerProfileId) {
 		if($newFavoritePlayerProfileId === null) {
-			$this->$favoritePlayerProfileId = null;
+			$this->favoritePlayerProfileId = null;
 			return;
 		}
 
@@ -62,7 +62,6 @@ Class FavoritePlayer {
 		if($newFavoritePlayerProfileId != int) {
 			throw(new \RangeException("favoritePlayerProfileId is not an integer"));
 		}
-
 
 		//convert and store the favoritePlayerProfileId
 		$this->favoritePlayerProfileId = $newFavoritePlayerProfileId;
@@ -88,7 +87,7 @@ Class FavoritePlayer {
 
 	public function setFavoritePlayerPlayerId(int $newFavoritePlayerPlayerId) {
 		if($newFavoritePlayerPlayerId === null) {
-			$this->$favoritePlayerPlayerId = null;
+			$this->favoritePlayerPlayerId = null;
 			return;
 		}
 
