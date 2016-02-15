@@ -245,7 +245,7 @@ public function update(\PDO $pdo) {
  *
  **/
 public function delete(\PDO $pdo) {
-	//enforce the teamstatisticteamId is not null (i.e., don't delete a statistic that hasn't been inserted)
+	//enforce the teamStatisticTeamId is not null (i.e., don't delete a statistic that hasn't been inserted)
 	if($this->teamstatisticteamId === null) {
 		throw(new \PDOException("unable to delete a statistic that does not exist"));
 	}
