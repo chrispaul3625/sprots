@@ -335,7 +335,7 @@ class Sport {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$sportId = new Sport($row["sportId"], $row["sportLeague"], $row["sportTeam"]);
+				$sport = new Sport($row["sportId"], $row["sportLeague"], $row["sportTeam"]);
 			}
 		} catch(\Exception $exception) {
 			//if the row can't be converted, rethrow it
@@ -372,14 +372,7 @@ class Sport {
 		return ($sports);
 	}
 
-	/**
-	 * formats the state variables for JSON serialization
-	 *
-	 * @return array resulting state variables to serialize
-	 */
-	public function jsonSerialize() {
-		$fields = get_object_vars($this);
-	}
+
 
 
 }

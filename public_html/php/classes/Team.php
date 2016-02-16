@@ -257,5 +257,24 @@ class Team {
 		$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName];
 		$statement->execute($parameters);
 	}
+	/**
+	 * gets the Team by team Id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $teamId teamId to search for
+	 * @return \SplFixedArray SplFixedArray of team found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	public static function getTeamByTeamId(\PDO $pdo, int $teamId)[
+// sanitize the description before searching
+$teamId = trim
+
+]
+
+
+
+
 
 }
