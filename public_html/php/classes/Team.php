@@ -424,5 +424,38 @@ class Team {
 
 	}
 
+	/**
+	 * gets all Teams
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Teams found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	public static function getAllTeams(\PDO $pdo){
+		//create query template
+		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of teams
+		$teams = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try {
+				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
+				$teams[$teams->key()] = $team;
+				$teams->next();
+			} Catch(\Exception $exception){
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(),0,$exception));
+			}
+		}
+		return ($teams);
+	}
+
+
+
 
 }
