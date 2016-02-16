@@ -107,8 +107,8 @@ Class Profile {
 		$newProfileUserName = filter_var($newProfileUserName, FILTER_SANITIZE_STRING);
 		if($newProfileUserName === false)
 			throw (new \InvalidArgumentException ("User name invalid"));
-		if(strlen($newProfileUserName) > 25)
-			throw (new \RangeException ("User name must be less than 25 characters"));
+		if(strlen($newProfileUserName) > 32)
+			throw (new \RangeException ("User name must be less than 32 characters"));
 
 		//save the object//
 		$this->profileUserName = $newProfileUserName;
@@ -269,6 +269,7 @@ Class Profile {
 		}
 		//create query template
 		$query = "UPDATE profile SET profileId = :profileId, profileUserName, profileEmail, profileHash, profileSalt WHERE profile ";
+		$statement = $pdo->prepare($query);
 
 		$parameters = ["profileId" => $this->profileId, "profileUserName" => $this->profileUserName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt];
 		$statement->execute($parameters);

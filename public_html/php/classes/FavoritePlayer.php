@@ -60,30 +60,22 @@ Class FavoritePlayer {
 	 * mutator method for favoritePlayerProfileId
 	 *
 	 * @param int|null $newFavoritePlayerProfileId new value of the favoritePlayerProfileId
-	 * @throws \RangeException if the $newFavoritePlayerProfileId is not positive
+	 * @throws \Exception if the $newFavoritePlayerProfileId is not positive
+	 * @return int $newFavoritePlayerProfileId
 	 **/
 
 	public function setFavoritePlayerProfileId(int $newFavoritePlayerProfileId) {
 		if($newFavoritePlayerProfileId === null) {
-			$this->favoritePlayerProfileId = null;
-			return;
-		}
+			throw (new \Exception ("new favorite player profile Id cannot be null"));
 
-		//verify the favoritePlayerProfileId is an integer
-		if($newFavoritePlayerProfileId != int) {
-			throw(new \RangeException("favoritePlayerProfileId is not an integer"));
 		}
-
-		//convert and store the favoritePlayerProfileId
-		$this->favoritePlayerProfileId = $newFavoritePlayerProfileId;
+		return $this->favoritePlayerProfileId = $newFavoritePlayerProfileId;
 	}
 
 	/**
 	 * accessor method for favoritePlayerPlayerId
 	 *
-	 * @param int|null $newFavoritePlayerPlayerId
-	 * @throws \RangeException if the $newFavoritePlayerPlayerId is not positive
-	 * @return
+	 * @return int|null value of favorite player Id
 	 **/
 
 	public function getFavoritePlayerPlayerId() {
@@ -94,25 +86,17 @@ Class FavoritePlayer {
 	 * mutator method for favoritePlayerPlayerId
 	 *
 	 * @param int|null $newFavoritePlayerPlayerId new value of the favoritePlayerProfileId
-	 * @throws \RangeException if the $newFavoritePlayerPlayerId is not positive
+	 * @throws \Exception if the $newFavoritePlayerPlayerId is null
+	 * @return int $newFavoritePlayerPlayerId
 	 **/
 
 	public function setFavoritePlayerPlayerId(int $newFavoritePlayerPlayerId) {
 		if($newFavoritePlayerPlayerId === null) {
-			$this->favoritePlayerPlayerId = null;
-			return;
-		}
+			throw (new \Exception ("new favorite player player Id cannot be null"));
 
-		//verify the favoritePlayerPlayerId is positive
-		if($newFavoritePlayerPlayerId <= 0) {
-			throw(new \RangeException("favoritePlayerPlayerId is not a positive number"));
-		}
+			}
 
-
-		//verify the favoritePlayerPlayerId is an integer.
-		//if($newFavoritePlayerProfileId != int)
-		//convert and store the favoritePlayerPlayerId
-		$this->favoritePlayerPlayerId = $newFavoritePlayerPlayerId;
+			return $this->favoritePlayerPlayerId = $newFavoritePlayerPlayerId;
 	}
 
 	/**

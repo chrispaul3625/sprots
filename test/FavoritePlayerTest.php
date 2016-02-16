@@ -48,11 +48,29 @@ Class FavoritePlayerTest extends SprotsTest {
 
 		// create and insert a team that the player would play for
 		$this->team = new Team (null, "teamName", "teamCity");
-		$this->sport->insert($this->getPDO());
-		// create and insert a ;player that would be favorited
-		$this->team = new Player(null, "PlayerName", "teamCity");
 		$this->team->insert($this->getPDO());
-		// create and insert a Profile to own the FavoriteTeam
-		$this->profile = new Profile(null, "@phpunit", "test@phpunit.de");
+		// create and insert a ;player that would be favorited
+		$this->player = new Player(null, "PlayerName", "PlayerApiId");
+		$this->player->insert($this->getPDO());
+		// create and insert a Profile to own the FavoritePlayer
+		$this->profile = new Profile(null, "", "");
 		$this->profile->insert($this->getPDO());
+	}
+
+	/**
+	 * test inserting a valid player and verify that the actual mySQL data matches
+	 **/
+	public function testInsertValidFavoritePlayer() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create a new profile and insert it into mySQL
+		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILEUSERNAME);
+		$profile->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectation
+		$pdoProfile = Profile::getProfilebyProfileId($this->$PDO(), $profile->getProfileid());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileFirstName(), $this->VALID_PROFILEUSERNAME);
 	}

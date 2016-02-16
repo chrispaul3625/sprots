@@ -75,6 +75,7 @@ CREATE TABLE favoriteTeam (
 	INDEX (favoriteTeamProfileId),
 	FOREIGN KEY (favoriteTeamTeamId) REFERENCES team (teamId),
 	FOREIGN KEY (favoriteTeamProfileId) REFERENCES profile (profileId)
+	PRIMARY KEY (teamId, profileId)
 );
 
 CREATE TABLE favoritePlayer (
@@ -84,6 +85,7 @@ CREATE TABLE favoritePlayer (
 	INDEX (favoritePlayerProfileId),
 	FOREIGN KEY (favoritePlayerPlayerId) REFERENCES player (playerId),
 	FOREIGN KEY (favoritePlayerProfileId) REFERENCES profile (profileId)
+	PRIMARY KEY (playerId, profileId)
 );
 
 CREATE TABLE statistic (
