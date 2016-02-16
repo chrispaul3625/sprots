@@ -18,8 +18,18 @@ Class FavoritePlayer {
 	 */
 	private $favoritePlayerPlayerId;
 
+	/**
+	 * constructor for favoriting a Player.
+	 *
+	 * @param int $newFavoritePlayerProfileId this will be inherieted from the profileId
+	 * @param int $newFavoritePlayerPlayerIdthis will be inherieted from the playerId
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
+	 **/
 
-	public function __construct(int $favoritePlayerProfileId = null, int $favoritePlayerPlayerId = null) {
+	public function __construct(int $newFavoritePlayerProfileId = null, int $newFavoritePlayerPlayerId = null) {
 
 		try {
 			$this->setFavoritePlayerProfileId($newFavoritePlayerProfileId);
@@ -162,8 +172,9 @@ Class FavoritePlayer {
 			throw(new \PDOException("Ids do not exist to update"));
 		}
 		//create query template
-		$query = "UPDATE favoritePlayer SET favoritePlayerProfileId = :favoritePlayerPlayerId";
-		$statement->$pdo->prepare($query);
+		// Create query template
+		$query = "UPDATE favoritePlayer SET favoritePlayerProfileId = :favoritePlayerProfileId, favoritePlayerPlayerId = :favoritePlayerPlayerId";
+		$statement = $pdo->prepare($query);
 
 		$parameters = ["favoritePlayerProfileId" => $this->favoritePlayerProfileId, "favoritePlayerPlayerId" => $this->favoritePlayerPlayerId];
 		$statement->excute($parameters);
