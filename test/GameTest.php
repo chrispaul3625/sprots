@@ -35,19 +35,19 @@ class GameTest extends SprotsTest {
 	protected $VALID_GAMETIME = null;
 	/**
 	 * content of Team
-	 * @var int $valid_TEAMAPIID
+	 * @var int $VALID_TEAMAPIID
 	 */
 	protected $VALID_TEAMAPIID = 42;
 	/**
 	 * content for teamCity
 	 * @var string  $VALID_TEAMCITY
 	 */
-	protected $VALID_TEAMCITY = null;
+	protected $VALID_TEAMCITY = "Nashville";
 	/**
 	 * content for teamName
 	 * @var string $VALID_TEAMNAME
 	 */
-	protected $VALID_TEAMNAME = null;
+	protected $VALID_TEAMNAME = "Titans";
 	/**
 	 * Sport that the Player is playing
 	 * @var string $VALID_SPORT
@@ -70,19 +70,16 @@ class GameTest extends SprotsTest {
 		//run the default setUp() method first
 		parent::setUp();
 
-		// create and insert a Team t own the test
+		// create and insert a Team to own the test
 
-		$this->sport = new Sport(null, "sportTeam", "sportLeague");
-		$this->sport->insert($this->getPDO());
-
-		$this->team = new Team(null, $this->VALID_TEAMAPIID, "teamCity", "teamName");
+		$this->team = new Team(null, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME, $this->VALID_TEAMAPIID);
 		$this->team->insert($this->getPDO());
 
 		// calculate the date (same as unit test)
 		$this->VALID_GAMETIME = new \GameTime();
 
 		// create and insert a Team t own the test
-		$this->team = new Team(null, teamApiId, "teamCity", "teamName");
+		$this->team = new Team(null, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
 		$this->team->insert($this->getPDO());
 
 		// calculate the date (same as unit test)

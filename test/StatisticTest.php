@@ -41,7 +41,7 @@ class StatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("statistic");
 
 		//create a new statistic and insert into mySQL
-		$statistic = new Statistic(null, $this->statistic->getStatisticId, $this->VALID_STATISTIC, $this->VALID_STATISTIC);
+		$statistic = new Statistic(null, $this->statistic->getStatisticId, $this->VALID_STATISTIC, $this->VALID_STATISTIC2);
 		$statistic->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match expectations

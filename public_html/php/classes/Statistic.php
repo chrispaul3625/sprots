@@ -181,7 +181,7 @@ class Statistic {
 	 * gets the statistic by content
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $tweetContent statistic content to search for
+	 * @param string $statistic to search for
 	 * @return \SplFixedArray SplFixedArray of statistic found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -206,7 +206,80 @@ class Statistic {
 		$statistic = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
-		}
-
+			try {
+				$statistic = new Statistic($row["statisticId"], $row["statisticName"]);
+				$statistic[$statistic->key()] = $statistic;
+				$statistic->next();
+			} catch(\Exception $exception){
+				//if the row couldn't be converted rethrow
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 	}
+		return ($statistic);
+	}
+	/**
+	 * gets the Statistic by StatisticId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $statisticId tweet id to search for
+	 * @return Statistic|null Statistic found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getStatisticByStatisticId(\PDO $pdo, int $statisticId) {
+		//sanitize the statisticID before searching
+		if($statisticId <= 0) {
+			throw(new\PDOException("statistic id is  not positive"));
+		}
+			//query template
+			$query = "SELECT statisticId, statisticName FROM statistic WHERE statisticId = :statisticId";
+			$statement = $pdo->prepare($query);
+
+			//bind statistic to the place holder in the template
+			$parameters = array("statisticId" => $statisticId);
+			$statement->execute($parameters);
+
+			//grab the statistic from mySql
+			try {
+				$statistic = null;
+				$statement->setFetchMode(\PDO::FETCH_ASSOC);
+				$row = $statement->fetch();
+				if($row !== false) {
+					$statistic = new Statistic($row["statisticId"], $row["statisticName"]);
+				}
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+			return($statistic);
+		}
+		/**
+		 * gets all Statistic
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @return \SplFixedArray SplFixedArray of Statistic found or null if not found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
+		public static function getAllStatistic(\PDo $pdo){
+			// create query template
+			$query = "SELECT statisticId, statisticName FROM statistic";
+			$statement = $pdo->prepare($query);
+			$statement->execute();
+
+			//build array opf statistic
+			$statistic = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row =$statement->fetch()) !== false){
+				try{
+					$statistic= new Statistic($row["statisticId"], $row["statisticName"]);
+					$statistic[$statistic->key()] = $statistic;
+					$statistic->next();
+				}catch(\Exception $exception){
+					//if the row couldn't be converted rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+			}
+			return($statistic);
+		}
 }
