@@ -115,11 +115,11 @@ class StatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("statistic");
 
 		//create a new Game and insert into mySql
-		$game = new Game(null, $this->statistic->statisticId(), $this->VALID_STATISTIC, $this->VALID_STATISTICNAME);
+		$game = new Statistic(null, $this->statistic->statisticId(), $this->VALID_STATISTIC, $this->VALID_STATISTICNAME);
 		$game->insert($this->getPDO());
 
-		//grab the dat from mySQL and enforce the fields match
-		$results = Game::getAllStatistic($this->getPDO());
+		//grab the data from mySQL and enforce the fields match
+		$results = Statistic::getAllStatistic($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount('statistic'));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dcuneo1\\Sprots\\Statistic", $results);
