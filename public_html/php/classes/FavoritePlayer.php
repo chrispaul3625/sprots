@@ -111,7 +111,7 @@ Class FavoritePlayer {
 			throw(new \PDOException("Id doesn't exist"));
 		}
 		//create query template
-		$query = "INSERT INTO favoritePlayer(favoritePlayerProfileId, favoritePlayerPlayerId) VALUES (:favoritePlayerProfileId, favoritePlayerPlayerId)";
+		$query = "INSERT INTO favoritePlayer(favoritePlayerProfileId, favoritePlayerPlayerId) VALUES (:favoritePlayerProfileId :favoritePlayerPlayerId)";
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["favoritePlayerProfileId" => $this->favoritePlayerProfileId, "favoritePlayerPlayerId" => $this->favoritePlayerPlayerId];
@@ -174,14 +174,14 @@ Class FavoritePlayer {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllFavoritePlayers(\PDO $pdo) {
+	public static function geFavoritePlayerByFavoritePlayerId(\PDO $pdo, int $favoritePlayerId) {
 		// create query template
-		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId  FROM favoritePlayer";
+		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId  FROM favoritePlayer WHERE favoritePlayerPlayerId";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
 		// build an array of favorite players
-		$tweets = new \SplFixedArray($statement->rowCount());
+		$favoritePlayers= new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {

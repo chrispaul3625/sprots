@@ -21,10 +21,10 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 Class FavoritePlayerTest extends SprotsTest {
 
 	/**
-	 * Team of Player
+	 * Player is valid
 	 * @var string $VALID_TEAM
 	 */
-	protected $VALID_TEAM= null;
+	protected $VALID_TEAM = null;
 
 	/**
 	 * Confirm valid Player
@@ -62,15 +62,15 @@ Class FavoritePlayerTest extends SprotsTest {
 	 **/
 	public function testInsertValidFavoritePlayer() {
 		//count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");
+		$numRows = $this->getConnection()->getRowCount("favoritePlayer");
 
-		//create a new profile and insert it into mySQL
-		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILEUSERNAME);
+		//create a new favoritePlayer and insert it into mySQL
+		$profile = new FavoritePlayer(null, $this->favoritePlayer->getfavoritePlayer(), $this->VALID_PLAYER);
 		$profile->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectation
 		$pdoProfile = Profile::getProfilebyProfileId($this->$PDO(), $profile->getProfileid());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favoritePlayer"));
 		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileFirstName(), $this->VALID_PROFILEUSERNAME);
 	}
