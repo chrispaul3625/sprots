@@ -106,15 +106,15 @@ CREATE TABLE teamStatistic (
 );
 
 CREATE TABLE playerStatistic (
-	gameId                     INT UNSIGNED NOT NULL,
+	playerStatisticGameId                     INT UNSIGNED NOT NULL,
 	playerStatisticPlayerId    INT UNSIGNED NOT NULL,
 	playerStatisticTeamId      INT UNSIGNED NOT NULL,
 	playerStatisticStatisticId INT UNSIGNED NOT NULL,
 	playerStatisticValue       VARCHAR(32)  NOT NULL,
 	INDEX (playerStatisticPlayerId),
 	INDEX (playerStatisticTeamId),
-	INDEX (gameId),
+	INDEX (playerStatisticGameId),
 	FOREIGN KEY (playerStatisticPlayerId) REFERENCES player (playerId),
 	FOREIGN KEY (playerStatisticTeamId) REFERENCES team (teamId),
-	FOREIGN KEY (gameId) REFERENCES game (gameId)
+	FOREIGN KEY (playerStatisticGameId) REFERENCES game (gameId)
 )

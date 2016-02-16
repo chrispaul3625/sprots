@@ -248,6 +248,48 @@ class PlayerStatistic {
 		$parameters = ["playerStatisticGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
 		$statement->execute($parameters);
 	}
+	/**
+	 * gets the TeamStatistic by playerStatisticGameId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $playerStatisticGameId player statistic game id to search for
+	 * @return \SplFixedArray SplFixedArray of player statistic game ids found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 
+	public static function getPlayerStatisticByPlayerStatisticGameId(\PDO $pdo, int $playerStatisticGameId) {
+// sanitize the description before searching
+		$playerStatisticGameId = trim($playerStatisticGameId);
+		$playerStatisticGameId = filter_var($playerStatisticGameId, FILTER_SANITIZE_STRING);
+		if(empty($playerStatisticGameId) === true) {
+			throw(new \PDOException("player Statistic Game Id is invalid"));
+		}
+
+		// create query template
+		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticGameId LIKE :playerStatisticGameId";
+		$statement = $pdo->prepare($query);
+
+
+		// bind the player Statistic Game Id to the place holder in the template
+		$playerStatisticGameId = "%$playerStatisticGameId";
+		$parameters = array("playerStatisticGameId" => $playerStatisticGameId);
+		$statement->execute($parameters);
+
+		// build an array of Team cities
+		$playerStatisticGameIds = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		While(($row = $statement->fetch()) !== false) {
+			try {
+				$playerStatisticGameId = new $playerStatisticGameId($row["teamId"], $row["teamApiId"], $row["teamCity"]);
+				$playerStatisticGameIds[$playerStatisticGameIds->key()] = $playerStatisticGameId;
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($playerStatisticGameIds);
+
+	}
 
 }
