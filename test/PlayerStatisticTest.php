@@ -685,5 +685,30 @@ class PlayerStatisticTest extends SprotsTest {
 		$this->assertNull($statistic);
 	}
 
+	/**
+	 * test grabbing all Player Statistics
+	 **/
+	public function testGetAllValidPlayerStatistics() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+
+		// create a new Player Statistic and insert to into mySQL
+		$playerStatistic = new PlayerStatistic(null, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
+		$playerStatistic->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = PlayerStatistic::getAllPlayerStatistics($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\PlayerStatistic", $results);
+
+		// grab the result from the array and validate it
+		$pdoPlayerStatistic = $results[0];
+		$this->assertEquals($pdoPlayerStatistic->getSportId(), $this->sport->getSportId());
+		$this->assertEquals($pdoPlayerStatistic->getGame(), $this->VALID_GAME);
+		$this->assertEquals($pdoPlayerStatistic->getPlayer(), $this->VALID_TWEETDATE);
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatistic(), $this->VALID_TWEETDATE);
+		$this->assertEquals($pdoPlayerStatistic->getStatistic(), $this->VALID_TWEETDATE);
+	}
 
 }
