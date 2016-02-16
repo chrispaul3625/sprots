@@ -72,7 +72,7 @@ class PlayerTest extends SprotsTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoplayer = player::getplayerByplayerId($this->getPDO(), $player->getplayerId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("player"));
-		$this->assertEquals($pdoPlayer->getTeamId(), $this->player->getProfileId());
+		$this->assertEquals($pdoPlayer->getTeamId(), $this->Player->getTeamId());
 		$this->assertEquals($pdoPlayer->getPlayerContent(), $this->VALID_PLAYERCONTENT);
 		$this->assertEquals($pdoPlayer->getPlayerDate(), $this->VALID_PlayerDATE);
 	}
@@ -123,7 +123,7 @@ class PlayerTest extends SprotsTest {
 	public function testUpdateInvalidPlayer() {
 		// create a Player with a non null Player id and watch it fail
 		$tweet = new Player(null, $this->team->getTeamId(), $this->VALID_PLAYERCONTENT, $this->VALID_PLAYERDATE);
-		$player->update($this->getPDO());
+		$Player->update($this->getPDO());
 	}
 
 	/**
@@ -185,7 +185,7 @@ class PlayerTest extends SprotsTest {
 	public function testGetInvalidPlayerByPlayerId() {
 		// grab a team id that exceeds the maximum allowable profile id
 		$player = Player::getPlayerByPlayerId($this->getPDO(), DataDesignTest::INVALID_KEY);
-		$this->assertNull($Player);
+		$this->assertNull($player);
 	}
 
 	/**
