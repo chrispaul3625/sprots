@@ -48,13 +48,12 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     // create a new sport and insert into the db
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
     $sport->insert($this->getPDO());
 
     // grab the data from MySQL and enforce the fields match our expectations
     $pdoSport = Sport::getSportBySportId($this->getPDO(), $sport->getSportId());
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
-    $this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
     $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTTEAM);
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
   }
