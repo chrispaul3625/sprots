@@ -430,7 +430,42 @@ class PlayerStatistic {
 			}
 		}
 		return ($playerStatisticStatisticValue);
-zz
-	}
 
 	}
+
+	/**
+	 * gets all PlayerStatistics
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of PlayerStatistics found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	public static function getAllPlayerStatistics(\PDO $pdo) {
+		//create query template
+		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of Player Statistics
+		$playerStatistics = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
+				$playerStatistics->next();
+			} Catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($playerStatistics);
+	}
+
+
+
+
+
+}
