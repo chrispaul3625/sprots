@@ -251,4 +251,72 @@ class Game {
 		$parameters  = ["gameTime" => $formattedDate, "gameFirstTeamId => $this->gameFirstTeamId", "gameSecondTeamId => $this->gameSecondTeamId()"];
 		$statement->execute($parameters);
 	}
+	/**
+	 * gets the Game by gameId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $gameId tweet id to search for
+	 * @return Game|null Game found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getGameByGameId(\PDO $pdo, int $gameId){
+	// sanitize the gameId befire searchin
+		if($gameId <=0){
+			throw(new \PDOException("game id is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT gameId, gamefirstTeamId, gameSecondTeamId, gameTime FROM game WHERE gameId = :gameId";
+		$statement = $pdo->prepare($query);
+
+		// bind the game id to the plave holder in the template
+		$parameters = array("gameId"=> $gameId);
+		$statement->execute($parameters);
+
+		//grab the game form mySQL
+		try {
+			$game = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$game = new Game($row["gameId"], $row["gameFirstTeamId"], $row["gameSecondTeamId"], $row["gameTime"]);
+			}
+		}catch
+		(\Exception $exception){
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+
+		}
+		return ($game);
+	}
+	/**
+	 * gets all Game
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Game found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllGame(\PDO $pdo){
+		//create query template
+		$query = "SELECT gameId, gamefirstTeamId, gameSecondTeamId, gameTime FROM game ";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		//build an array of game
+		$game =new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try{
+				$game = new Game($row["gameId"], $row["gameFirstTeamId"], $row["gameSecondTeamId"], $row["gameTime"]);
+				$game[$game->key()] = $game;
+				$game->next();
+			}catch(\Exception $exception){
+				// if the row couldn't be converted rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($game);
+	}
 }
