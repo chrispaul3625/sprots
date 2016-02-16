@@ -10,35 +10,34 @@ require_once("autoload.php");
  **/
 class favoriteTeam {
 	/**
-	*id for the profile that has favorites; this is the foreign key
-	*@var int $favoriteTeamProfileId
-	**/
+	 *id for the profile that has favorites; this is the foreign key
+	 * @var int $favoriteTeamProfileId
+	 **/
 	private $favoriteTeamProfileId;
 	/**
-	*id of the team that is being favorited.
-	*@var int $favoriteTeamTeamId
-	**/
+	 *id of the team that is being favorited.
+	 * @var int $favoriteTeamTeamId
+	 **/
 	private $favoriteTeamTeamId;
 
 	/**
-	*constructor for favorting a team
-	*
-	*@param int|nul
-	**/
+	 *constructor for favorting a team
+	 *
+	 * @param int|null
+	 **/
 
 	/**
-	* constructor for forvoritng a team.
-	*
-	* @param int $newFavoriteTeamProfileId this will be inherieted from the profileId
-	* @param int $newFavoriteTeamTeamId this will be inherieted from the teamId
-	* @throws \InvalidArgumentException if data types are not valid
-  * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
-  * @throws \TypeError if data types violate type hints
-  * @throws \Exception if some other exception occurs
-	**/
+	 * constructor for favoring a team.
+	 *
+	 * @param int|null $newFavoriteTeamProfileId this will be inherieted from the profileId
+	 * @param int|null $newFavoriteTeamTeamId this will be inherieted from the teamId
+	 * @throws \InvalidArgumentException if data types are not valid* @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
+	 **/
 
-	public function __construct(int $favoriteTeamProfileId, int $favoriteTeamTeamId) {
-		try{
+	public function __construct(int $newFavoriteTeamProfileId, int $newFavoriteTeamTeamId) {
+		try {
 			$this->setFavoriteTeamProfileId($newFavoriteTeamProfileId);
 			$this->setFavoriteTeamTeamId($newFavoriteTeamTeamId);
 		} catch(\InvalidArgumentException $invalidArgument) {
@@ -58,119 +57,122 @@ class favoriteTeam {
 	 *
 	 * @return int|null value of favoriteTeamProfileId
 	 **/
-	 public function getFavoriteTeamProfileId() {
-		 return($this->favoriteTeamProfileId);
-	 }
+	public function getFavoriteTeamProfileId() {
+		return ($this->favoriteTeamProfileId);
+	}
 
-	 /**
-		* mutator method for favoriteTeamProfileId
-		*
-		* @param int|null $newFavoriteTeamProfileId new value of the favoriteTeamProfileId
-		* @throws \RangeException if the $newFavoriteTeamProfileIdis not positive
-		* @throws \TypeError if $favoriteTeamProfileId is not an integer
-		**/
-		public function setFavoriteTeamProfileId(int $newFavoriteTeamProfileId) {
-			if($newFavoriteTeamProfileId === null) {
-				$this->$favoriteTeamProfileId = null;
-				return;
-			}
-
-			//verify the favoriteTeamProfileId is positive
-			if($newFavoriteTeamProfileId <=0) {
-				throw(new \RangeException("favoriteTeamProfileId is not a positive number"));
-			}
-
-			//verify the favoriteTeamProfileId is an integer.
-			//if($newFavoriteTeamProfileId != int)
-			//convert and store the favoriteTeamProfileId
-			$this->favoriteTeamProfileId = $newFavoriteTeamProfileId;
+	/**
+	 * mutator method for favoriteTeamProfileId
+	 *
+	 * @param int|null $newFavoriteTeamProfileId new value of the favoriteTeamProfileId
+	 * @throws \RangeException if the $newFavoriteTeamProfileId is not positive
+	 * @throws \TypeError if $favoriteTeamProfileId is not an integer
+	 **/
+	public function setFavoriteTeamProfileId(int $newFavoriteTeamProfileId) {
+		if($newFavoriteTeamProfileId === null) {
+			$this->newFavoriteTeamProfileId = null;
+			return;
 		}
 
-		/**
-		 * accessor method for favoriteTeamTeamId
-		 *
-		 * @return int|null value of favoriteTeamTeamId
-		 **/
-		 public function getFavoriteTeamTeamId() {
-			 return($this->favoriteTeamTeamId);
-		 }
+		//verify the favoriteTeamProfileId is positive
+		if($newFavoriteTeamProfileId <= 0) {
+			throw(new \RangeException("favoriteTeamProfileId is not a positive number"));
+		}
 
-		 /**
-			* mutator method for favoriteTeamTeamId
-			*
-			* @param int|null $newFavoriteTeamTeamId new value of the favoriteTeamProfileId
-			* @throws \RangeException if the $newFavoriteTeamTeamId is not positive
-			* @throws \TypeError if $favoriteTeamTeamId is not an integer
-			**/
-			public function setFavoriteTeamTeamId(int $newFavoriteTeamTeamId) {
-				if($newFavoriteTeamTeamId === null) {
-					$this->$favoriteTeamTeamId = null;
-					return;
-				}
-				//verify the favorite team team id is an integer
-				if($newFavoriteTeamTeamId <=0) {
-					throw(new \RangeException("favoriteTeamTeamId is not a positive number"));
-				}
-				//convert and store the favoriteTeamTeamId
-				$this->favoriteTeamTeamId = $newFavoriteTeamTeamId;
-				}
-				/**
-				* Inserts this players favoriteTeamProfileId into the favorite table
-				*
-				* @param \PDO $pdo PDO connection object
-				* @throws \PDOException when db related errors occur
-				* @throws \TypeError if $pdo is not a PDO connection object
-				**/
+		//verify the favoriteTeamProfileId is an integer.
+		//if($newFavoriteTeamProfileId != int)
+		//convert and store the favoriteTeamProfileId
+		$this->favoriteTeamProfileId = $newFavoriteTeamProfileId;
+	}
 
-				public function insert(\PDO $pdo) {
-					//enforce the favoriteTeamProfileId isn't already in the db
-					if($this->favoriteTeamProfileId === null || $this->favoriteTeamTeamId) {
-						throw(new \PDOException("ID's don't exist"));
-					}
+	/**
+	 * accessor method for favoriteTeamTeamId
+	 *
+	 * @return int|null value of favoriteTeamTeamId
+	 **/
+	public function getFavoriteTeamTeamId() {
+		return ($this->favoriteTeamTeamId);
+	}
 
-					//create query
-					$query = "INSERT INTO favoriteTeam(favoriteTeamProfileId, favoriteTeamTeamId) VALUES(:favoriteTeamProfileId, :favoriteTeamTeamId)";
-					$statement = $pdo->prepare($query);
+	/**
+	 * mutator method for favoriteTeamTeamId
+	 *
+	 * @param int|null $newFavoriteTeamTeamId new value of the favoriteTeamProfileId
+	 * @throws \RangeException if the $newFavoriteTeamTeamId is not positive
+	 * @throws \TypeError if $favoriteTeamTeamId is not an integer
+	 **/
+	public function setFavoriteTeamTeamId(int $newFavoriteTeamTeamId) {
+		if($newFavoriteTeamTeamId === null) {
+			$this->favoriteTeamTeamId = null;
+			return;
+		}
+		//verify the favorite team team id is an integer
+		if($newFavoriteTeamTeamId <= 0) {
+			throw(new \RangeException("favoriteTeamTeamId is not a positive number"));
+		}
+		//convert and store the favoriteTeamTeamId
+		$this->favoriteTeamTeamId = $newFavoriteTeamTeamId;
+	}
 
-					//bind the member variables to the place holders in the template
-					$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->$favoriteTeamTeamId]; $statement->excute($parameters);
-				}
+	/**
+	 * Inserts this players favoriteTeamProfileId into the favorite table
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when db related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
 
-				/**
-				* Deletes this favorite team from associated favoriteTeamProfileId
-				*
-				* @param \PDO $pdo PDO connection object
-				* @throws \PDOException when database related errors occur
-				* @throws \TypeError if $pdo is not a PDO connection object
-				**/
-				public function delete(\PDO $pdo)	{
-					if($this->favoriteTeamProfileId === null || $this->favoriteTeamTeamId === null) {
-						throw(new \PDOException("Ids do not exist to delete"));
-					}
-					// Create query template
-					$query = "DELETE FROM favoriteTeam WHERE favoriteTeamProfileId | favoriteTeamTeamId = :favoritePlayerProfileId | :favoriteTeamTeamId";
-					$statement = $pdo->execute()
+	public function insert(\PDO $pdo) {
+		//enforce the favoriteTeamProfileId isn't already in the db
+		if($this->favoriteTeamProfileId === null || $this->favoriteTeamTeamId) {
+			throw(new \PDOException("ID's don't exist"));
+		}
+
+		//create query
+		$query = "INSERT INTO favoriteTeam(favoriteTeamProfileId, favoriteTeamTeamId) VALUES(:favoriteTeamProfileId, :favoriteTeamTeamId)";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->favoriteTeamTeamId];
+		$statement->excute($parameters);
+	}
+
+	/**
+	 * Deletes this favorite team from associated favoriteTeamProfileId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when database related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) {
+		if($this->favoriteTeamProfileId === null || $this->favoriteTeamTeamId === null) {
+			throw(new \PDOException("Ids do not exist to delete"));
+		}
+		// Create query template
+		$query = "DELETE FROM favoriteTeam WHERE favoriteTeamProfileId | favoriteTeamTeamId = :favoritePlayerProfileId | :favoriteTeamTeamId";
+		$statement = $pdo->execute($query);
 
 					// Bind the member variables to the place holders in template
-					$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->$favoriteTeamTeamId]; $statement->excute($parameters);
+					$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->favoriteTeamTeamId]; $statement->excute($parameters);
 				}
 
-				/**
-				 * updates this profiles favorite team in mySQL
-				 *
-				 * @param \PDO $pdo PDO connection object
-				 * @throws \PDOException when mySQL related errors occur
-				 * @throws \TypeError if $pdo is not a PDO connection object
-				 **/
-				 public function update(\PDO $pdo) {
-					 //enforce the id's are not null
-					 if($this->favoritePlayerProfileId === null || $this->favoriteTeamTeamId === null) {
-						 throw(new \PDOException("Ids do not exist to update"));
-					 }
-					 //create query template
-					 $query = "UPDATE favortieTeam SET favoriteTeamTeamId = :favoriteTeamTeamId";
-					 $statement->excute($parameters);
+	/**
+	 * updates this profiles favorite team in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) {
+		//enforce the id's are not null
+		if($this->favoritePlayerProfileId === null || $this->favoriteTeamTeamId === null) {
+			throw(new \PDOException("Ids do not exist to update"));
+		}
+		//create query template
+		$query = "UPDATE favoriteTeam SET favoriteTeamProfileId = :favoriteTeamProfileId, favoriteTeamTeamId = :favoriteTeamTeamId";
+		$statement = $pdo->prepare($query);
 
-					 $parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->$favoriteTeamTeamId]; $statement->excute($parameters);
-				 }
+		$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->favoriteTeamTeamId];
+		$statement->excute($parameters);
+	}
 }
