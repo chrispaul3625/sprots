@@ -19,7 +19,7 @@ class Player {
 	private $playerId;
 	/**
 	 * is unique player
-	 * @var int $playername
+	 * @var string $playerName
 	 */
 	private $playerName;
 	/**
