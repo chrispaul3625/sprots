@@ -37,7 +37,7 @@ class GameTest extends SprotsTest {
 	 * content of Team
 	 * @var int $valid_TEAMAPIID
 	 */
-	protected $VALID_TEAMAPIID = null;
+	protected $VALID_TEAMAPIID = 42;
 	/**
 	 * content for teamCity
 	 * @var string  $VALID_TEAMCITY
@@ -47,7 +47,7 @@ class GameTest extends SprotsTest {
 	 * content for teamName
 	 * @var string $VALID_TEAMNAME
 	 */
-	protected $VALID_TEAMNAME =null;
+	protected $VALID_TEAMNAME = null;
 	/**
 	 * Sport that the Player is playing
 	 * @var string $VALID_SPORT
@@ -75,7 +75,7 @@ class GameTest extends SprotsTest {
 		$this->sport = new Sport(null, "sportTeam", "sportLeague");
 		$this->sport->insert($this->getPDO());
 
-		$this->team = new Team(null, teamApiId, "teamCity", "teamName");
+		$this->team = new Team(null, $this->VALID_TEAMAPIID, "teamCity", "teamName");
 		$this->team->insert($this->getPDO());
 
 		// calculate the date (same as unit test)

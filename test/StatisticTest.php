@@ -41,7 +41,7 @@ class StatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("statistic");
 
 		//create a new statistic and insert into mySQL
-		$statistic = new Statistic(null, $this->statistic->getStatisticId(), $this->VALID_STATISTIC, $this->VALID_STATISTIC);
+		$statistic = new Statistic(null, $this->statistic->getStatisticId, $this->VALID_STATISTIC, $this->VALID_STATISTIC);
 		$statistic->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match expectations
@@ -93,9 +93,7 @@ class StatisticTest extends SprotsTest {
 		$this->assertEquals($numRows, $this->getConneection()->getRowCount("statistic"));
 	}
 	/**
-	 * test deleting a Statistic that does not exist
-	 *
-	 * @expectedException PDOException
+	 * test inserting a Tweet and regrabbing it from mySQL
 	 **/
 	public function testGetValidStatisticByStatisticId(){
 		//count the number of rows and save
