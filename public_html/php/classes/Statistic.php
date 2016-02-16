@@ -30,8 +30,8 @@ class Statistic {
 	/**
 	 * constructor for statistic
 	 *
-	 * @param int $statisticId id for Statistic
-	 * @param string $statisticName for statistic
+	 * @param int $newStatisticId id for Statistic
+	 * @param string $newStatisticName for statistic
 	 * @throws \RangeException data values are out of bounds
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
@@ -168,12 +168,12 @@ class Statistic {
 			throw(new \PDOException("unable to update a statistic that does not exist"));
 		}
 		// query template
-		$query = "UPDATE statistic SET statisticId = :statisticId, statisticName = statisticName";
+		$query = "UPDATE statistic SET statisticName = :statisticName";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
 		//$formattedDate = $this->statisticDate->format("Y-m-d H:i:s");
-		$parameters = ["statisticId" => $this->statisticId, "statisticName" => $this->statisticName];
+		$parameters = ["statisticName" => $this->statisticName];
 		$statement->execute($parameters);
 	}
 
@@ -181,7 +181,7 @@ class Statistic {
 	 * gets the statistic by content
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $statistic to search for
+	 * @param string $statisticName to search for
 	 * @return \SplFixedArray SplFixedArray of statistic found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -261,25 +261,25 @@ class Statistic {
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
-		public static function getAllStatistic(\PDo $pdo){
+		public static function getAllStatistic(\PDO $pdo){
 			// create query template
 			$query = "SELECT statisticId, statisticName FROM statistic";
 			$statement = $pdo->prepare($query);
 			$statement->execute();
 
-			//build array opf statistic
-			$statistic = new \SplFixedArray($statement->rowCount());
+			//build array of statistic
+			$statistics = new \SplFixedArray($statement->rowCount());
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			while(($row =$statement->fetch()) !== false){
+			while(($row = $statement->fetch()) !== false){
 				try{
-					$statistic= new Statistic($row["statisticId"], $row["statisticName"]);
-					$statistic[$statistic->key()] = $statistic;
-					$statistic->next();
+					$statistic = new Statistic($row["statisticId"], $row["statisticName"]);
+					$statistics[$statistics->key()] = $statistic;
+					$statistics->next();
 				}catch(\Exception $exception){
 					//if the row couldn't be converted rethrow it
 					throw(new \PDOException($exception->getMessage(), 0, $exception));
 				}
 			}
-			return($statistic);
+			return($statistics);
 		}
 }

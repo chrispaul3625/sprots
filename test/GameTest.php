@@ -7,8 +7,7 @@ require_once("SprotsTest.php");
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 use Edu\Cnm\Sprots\{
-	Game, Team, Sport
-};
+	Game, Team,Sport};
 
 /**
  * Full PHPUnit test for Game class

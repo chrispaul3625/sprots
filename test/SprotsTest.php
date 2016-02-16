@@ -50,6 +50,7 @@ abstract class SprotsTest extends \PHPUnit_Extensions_Database_TestCase {
 		$dataset->addTable("game");
 		$dataset->addTable("favoriteTeam");
 		$dataset->addTable("favoritePlayer");
+		$dataset->addTable("statistic");
 		$dataset->addTable("teamStatistic");
 		$dataset->addTable("playerStatistic");
 		return($dataset);
