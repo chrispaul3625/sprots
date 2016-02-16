@@ -146,6 +146,140 @@ class TeamTest extends SprotsTest {
 		$team->insert($this->getPDO());
 		$team->update($this->getPDO());
 	}
+	/**
+	 * test creating a Team and then deleting it
+	 **/
+	public function testDeleteValidTeam() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("team");
 
+		// create a new Team and insert to into mySQL
+		$team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team->insert($this->getPDO());
 
+		// delete the Team from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("team"));
+		$team->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the Team does not exist
+		$pdoTeam = Team::getTeamByTeamId($this->getPDO(), $team->getTeamId());
+		$this->assertNull($pdoTeam);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("team"));
 	}
+
+	/**
+	 * test deleting a Team that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+
+	public function testDeleteInvalidTeam() {
+		// create a new Team and try to delete it without actually inserting it
+		$team = new Team(SprotsTest::INVALID_KEY, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team->delete($this->getPDO());
+	}
+
+	/**
+	 * test inserting a Team and regrabbing it from mySQL
+	 **/
+	public function testDeleteInvalidTeamByTeamId() {
+		// create a Team and try to delete it without actually inserting it
+		$team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team->delete($this->getPDO());
+	}
+
+	/**
+	 * test grabbing a Team that does not exist
+	 **/
+	public function testGetValidTeamByTeamId() {
+		// grab a team id that exceeds the maximum allowable team id
+		$team = Team::getTeamByTeamId($this->getPDO(), SprotsTest::INVALID_KEY);
+		$this->assertNull($team);
+	}
+
+	/**
+	 * test grabbing a Team that does not exist
+	 **/
+	public function testGetValidTeamByTeamApiId() {
+		// grab a team Api id that exceeds the maximum allowable team api id
+		$team = Team::getTeamByTeamApiId($this->getPDO(), SprotsTest::INVALID_KEY);
+		$this->assertNull($team);
+	}
+
+	/**
+	 * test grabbing a Team by team city
+	 **/
+	public function testGetValidTeamByTeamCity() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("team");
+
+		// create a new Team and insert to into mySQL
+		$team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Team::getTeamByTeamCity($this->getPDO(), $team->getTeamCity());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("team"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Team", $results);
+
+		// grab the result from the array and validate it
+		$pdoTeam = $results[0];
+		$this->assertEquals($pdoTeam->getTeamId(), $this->sport->getSportId());
+		$this->assertEquals($pdoTeam->getTeamApiId(), $this->VALID_TEAMAPIID);
+		$this->assertEquals($pdoTeam->getTeamCity(), $this->VALID_TEAMCITY);
+		$this->assertEquals($pdoTeam->getTeamName(), $this->VALID_TEAMNAME);
+	}
+
+	/**
+	 * test grabbing a Team by team name
+	 **/
+	public function testGetValidTeamByTeamName() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("team");
+
+		// create a new Team and insert to into mySQL
+		$team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Team::getTeamByTeamName($this->getPDO(), $team->getTeamName());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("team"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Team", $results);
+
+		// grab the result from the array and validate it
+		$pdoTeam = $results[0];
+		$this->assertEquals($pdoTeam->getTeamId(), $this->sport->getSportId());
+		$this->assertEquals($pdoTeam->getTeamApiId(), $this->VALID_TEAMAPIID);
+		$this->assertEquals($pdoTeam->getTeamCity(), $this->VALID_TEAMCITY);
+		$this->assertEquals($pdoTeam->getTeamName(), $this->VALID_TEAMNAME);
+	}
+
+	/**
+	 * test grabbing all Teams
+	 **/
+	public function testGetAllValidTeams() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("team");
+
+		// create a new Team and insert to into mySQL
+		$team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Team::getTeamByTeamName($this->getPDO(), $team->getTeamName());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("team"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Team", $results);
+
+		// grab the result from the array and validate it
+		$pdoTeam = $results[0];
+		$this->assertEquals($pdoTeam->getTeamId(), $this->sport->getSportId());
+		$this->assertEquals($pdoTeam->getTeamApiId(), $this->VALID_TEAMAPIID);
+		$this->assertEquals($pdoTeam->getTeamCity(), $this->VALID_TEAMCITY);
+		$this->assertEquals($pdoTeam->getTeamName(), $this->VALID_TEAMNAME);
+	}
+
+
+}
