@@ -197,16 +197,16 @@ Class Profile {
 	public function setProfileSalt(string $newProfileSalt) {
 		$newProfileSalt = filter_var($newProfileSalt, FILTER_SANITIZE_STRING);
 
-			if($newProfileSalt === false) {
-				throw (new \InvalidArgumentException("salt must be a string value"));
+		if($newProfileSalt === false) {
+			throw (new \InvalidArgumentException("salt must be a string value"));
 
-				//make sure profile salt =  64
+			//make sure profile salt =  64
 
-				if($newProfileSalt !== 64) {
+			if($newProfileSalt !== 64) {
 				throw(new \RangeException("profile salt has to be 64"));
 
 			}
-				$this->profileSalt = $newProfileSalt;
+			$this->profileSalt = $newProfileSalt;
 		}
 	}
 
@@ -284,14 +284,14 @@ Class Profile {
 	 */
 
 
-	public static function getProfileByProfileId (\PDO $pdo, int $profileId) {
+	public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
 		// sanitize the profileId before searching
 		if($profileId <= 0) {
 			throw(new \PDOException("profile id is not positive"));
 		}
 
 		// create query template
-		$query = "SELECT profileId, FROM profile WHERE profileId = :profileId";
+		$query = "SELECT profileId, profileUserName, profileEmail, profileHash, profileSalt FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the profile id to the place holder in the template
@@ -304,97 +304,104 @@ Class Profile {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"]);
+				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profileEmail"],
+					$row["profileHash"], $row["profileSalt"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($profile);
-	}
-
-}
-/** this function retrieves a profile by using profileUserName
- * @param \PDO $pdo -pdo connection object
- * @param string $profileUserName to look for
- * @return Profile|null Profile found or null if not found
- * @throws \PDOException when mySQL related errors occur
- *
- */
-
-
-public static function getProfileByProfileUserName (\PDO $pdo, string, $profileUserName) {
-	// sanitize the description before searching
-	$profileUserName = trim($profileUserName);
-	$profileUserName = filter_var($profileUserName, FILTER_SANITIZE_STRING);
-	if(empty($profileUserName) === true) {
-		throw(new \PDOException("profile user name is invalid"));
+		return ($profile);
 	}
 
 
-	// create query template
-	$query = "SELECT profileUserName, FROM profile WHERE profileUserName = :profileUserName";
-	$statement = $pdo->prepare($query);
+	/** this function retrieves a profile by using profileUserName
+	 * @param \PDO $pdo -pdo connection object
+	 * @param string $profileUserName to look for
+	 * @return Profile|null Profile found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 *
+	 */
 
-	// bind the profile id to the place holder in the template
-	$parameters = array("profileId" => $profileId);
-	$statement->execute($parameters);
 
-	// grab the profile from mySQL
-	try {
-		$profile = null;
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		$row = $statement->fetch();
-		if($row !== false) {
-			$profile = new Profile($row["profileId"]);
+	public static function getProfileByProfileUserName(\PDO $pdo, string $profileUserName) {
+		// sanitize the description before searching
+		$profileUserName = trim($profileUserName);
+		$profileUserName = filter_var($profileUserName, FILTER_SANITIZE_STRING);
+		if(empty($profileUserName) === true) {
+			throw(new \PDOException("profile user name is invalid"));
 		}
-	} catch(\Exception $exception) {
-		// if the row couldn't be converted, rethrow it
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
-	}
-	return($profile);
-}
-
-}
-/** this function retrieves a profile by using profileEmail
- * @param \PDO $pdo -pdo connection object
- * @param string $profileEmail to look for
- * @return Profile|null Profile found or null if not found
- * @throws \PDOException when mySQL related errors occur
- *
- */
 
 
-public static function getProfileByProfileEmail (\PDO $pdo, string $profileEmail) {
-	// validate the profileEmail before searching
-	$profileEmail = filter_var($profileEmail, FILTER_VALIDATE_EMAIL);{
-		throw(new \PDOException("profile email is not valid"));
-	}
+		// create query template
+		$query = "SELECT profileId, profileUserName,profileEmail, profileHash, ProfileSalt FROM profile WHERE profileUserName = :profileUserName";
+		$statement = $pdo->prepare($query);
 
-	// create query template
-	$query = "SELECT profileEmail, FROM profile WHERE profileEmail = :profileEmail";
-	$statement = $pdo->prepare($query);
+		// bind the profile id to the place holder in the template
+		$parameters = array("profileUserName" => $profileUserName);
+		$statement->execute($parameters);
 
-	// bind the profile email to the place holder in the template
-	$parameters = array("profileEmail" => $profileEmail);
-	$statement->execute($parameters);
-
-	// grab the profile from mySQL
-	try {
-		$profile = null;
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		$row = $statement->fetch();
-		if($row !== false) {
-			$profile = new Profile($row["profileId"]);
+		// grab the profile from mySQL
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profileEmail"],
+					$row["profileHash"], $row["profileSalt"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-	} catch(\Exception $exception) {
-		// if the row couldn't be converted, rethrow it
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
-	}
-	return($profile);
-}
+		return ($profile);
+	} //get profile by user name
 
-}
-}
 
+	/** this function retrieves a profile by using profileEmail
+	 * @param \PDO $pdo pdo connection object
+	 * @param string $profileEmail to look for
+	 * @return Profile|null Profile found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 *
+	 */
+
+
+	public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail) {
+
+		// validate the profileEmail before searching
+		$profileEmail = filter_var($profileEmail, FILTER_VALIDATE_EMAIL);
+		{
+			throw(new \PDOException("profile email is not valid"));
+		}
+
+		// create query template
+		$query = "SELECT profileId,profileUserName,profileEmail, profileHash, profileSalt FROM profile WHERE profileEmail = :profileEmail";
+		$statement = $pdo->prepare($query);
+
+		// bind the profile email to the place holder in the template
+		$parameters = array("profileEmail" => $profileEmail);
+		$statement->execute($parameters);
+
+		// grab the profile from mySQL
+		try {
+
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profileEmail"],
+					$row["profileHash"], $row["profileSalt"]);
+			}
+
+			} catch (\Exception $exception)	{
+					// if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+
+		return $profile;
+
+		}
+} //end of class
 ?>

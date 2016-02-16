@@ -163,7 +163,37 @@ Class FavoritePlayer {
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["favoritePlayerProfileId" => $this->favoritePlayerProfileId, "favoritePlayerPlayerId" => $this->favoritePlayerPlayerId];
-		$statement->excute($parameters);
+		$statement->execute($parameters);
+	}//end of update function
+
+	/**
+	 * gets all favorite players
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Favorite Players found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllFavoritePlayers(\PDO $pdo) {
+		// create query template
+		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId  FROM favoritePlayer";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of favorite players
+		$tweets = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$favoritePlayer = new FavoritePlayer($row["favoritePlayerProfileId"], $row["favoritePlayerPlayerId"]);
+				$favoritePlayers[$favoritePlayers->key()] = $favoritePlayer;
+				$favoritePlayers->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($favoritePlayers);
 	}
 
-}
+} //end of class
