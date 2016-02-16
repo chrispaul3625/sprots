@@ -255,23 +255,139 @@ class Game {
 	 * gets the Game by gameId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $gameId tweet id to search for
+	 * @param int $gameId game id to search for
 	 * @return Game|null Game found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getGameByGameId(\PDO $pdo, int $gameId){
-	// sanitize the gameId befire searchin
+	// sanitize the gameId before searching
 		if($gameId <=0){
 			throw(new \PDOException("game id is not positive"));
 		}
 
 		//create query template
-		$query = "SELECT gameId, gamefirstTeamId, gameSecondTeamId, gameTime FROM game WHERE gameId = :gameId";
+		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game WHERE gameId = :gameId";
 		$statement = $pdo->prepare($query);
 
 		// bind the game id to the plave holder in the template
 		$parameters = array("gameId"=> $gameId);
+		$statement->execute($parameters);
+
+		//grab the game form mySQL
+		try {
+			$game = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$game = new Game($row["gameId"], $row["gameFirstTeamId"], $row["gameSecondTeamId"], $row["gameTime"]);
+			}
+		}catch
+		(\Exception $exception){
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+
+		}
+		return ($game);
+	}
+	/**
+	 * gets the Game by gameFirstId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int gameFirstTeamId Game  id to search for
+	 * @return Game|null Game found or null if not found
+	 * @throws \PDOException when mySql related errors occur
+	 * @throws \TypeError when variable are not the correct data type
+	 */
+	public static function getGameByGameFirstTeamId (\PDO $pdo, int $gameFirstTeamId) {
+		// sanitize the teamApiId before searching
+		if($gameFirstTeamId <= 0) {
+			throw(new \PDOException("gameFirstTeam Id id is not positive"));
+		}
+		// Create query template
+		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game ";
+		$statement = $pdo->prepare($query);
+
+		// Bind the game id to the place holder in the template
+		$parameters = array("gameFirstTeamId" => $gameFirstTeamId);
+		$statement->execute($parameters);
+
+		// Grab the game from mySQL
+		try {
+			$game = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$game = new Game($row["gameId"], $row["gameFirstTeamId"], $row["gameSecondTeamId"], $row["gameTime"]);
+			}
+		}catch
+		(\Exception $exception){
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+
+		}
+		return ($game);
+	}
+	/**
+	 * gets the Game by GameSecondTeamId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $gameSecondTeamId gameSecondTeam id to search for
+	 * @return Game|null Game found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getGameByGameSecondTeamId(\PDO $pdo, int $gameSecondTeamId){
+		// sanitize the gameId before searching
+		if($gameSecondTeamId <=0){
+			throw(new \PDOException("GameSecondTeam Id is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game WHERE gameId = :gameId";
+		$statement = $pdo->prepare($query);
+
+		// bind the game id to the player holder in the template
+		$parameters = array("gameId"=> $gameSecondTeamId);
+		$statement->execute($parameters);
+
+		//grab the game form mySQL
+		try {
+			$game = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$game = new Game($row["gameId"], $row["gameFirstTeamId"], $row["gameSecondTeamId"], $row["gameTime"]);
+			}
+		}catch
+		(\Exception $exception){
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+
+		}
+		return ($game);
+	}
+	/**
+	 * gets the Game by GameTime
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param \DateTime $gameTime game time to search for
+	 * @return Game|null Game found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getGameByGameTime(\PDO $pdo, $gameTime){
+		// sanitize the gameId before searching
+		if($gameTime <=0){
+			throw(new \PDOException("GameSecondTeam Id is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game WHERE gameId = :gameId";
+		$statement = $pdo->prepare($query);
+
+		// bind the game id to the player holder in the template
+		$parameters = array("gameId"=>  $gameTime);
 		$statement->execute($parameters);
 
 		//grab the game form mySQL
@@ -300,7 +416,7 @@ class Game {
 	 **/
 	public static function getAllGame(\PDO $pdo){
 		//create query template
-		$query = "SELECT gameId, gamefirstTeamId, gameSecondTeamId, gameTime FROM game ";
+		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game ";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
