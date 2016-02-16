@@ -47,12 +47,15 @@ class SportTest extends SprotsTest {
     //count the number of rows and save it for later
     $numRows = $this->getConnection()->getRowCount("sport");
 
+
     // create a new sport and insert into the db
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
     $sport->insert($this->getPDO());
+    // var_dump($sport);
 
     // grab the data from MySQL and enforce the fields match our expectations
     $pdoSport = Sport::getSportBySportId($this->getPDO(), $sport->getSportId());
+    // var_dump($pdoSport);
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
     $this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
     $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTTEAM);
@@ -66,7 +69,7 @@ class SportTest extends SprotsTest {
   **/
   public function testInsertInvalidSport() {
     // create a sport with a non null sport id and watch it fail
-    $sport = new Sport(SprotsTest::INVALID_KEY, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(SprotsTest::INVALID_KEY, $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
     $sport->insert($this->getPDO());
   }
 
@@ -78,7 +81,7 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     // create a new sport and update it in the db
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
     $sport->insert($this->getPDO());
 
     // edit the sport and update it in mysql
