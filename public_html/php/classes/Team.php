@@ -258,23 +258,171 @@ class Team {
 		$statement->execute($parameters);
 	}
 	/**
-	 * gets the Team by team Id
+	 * gets the Team by teamId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $teamId teamId to search for
+	 * @param int $teamId team id to search for
+	 * @return Team|null Team found or null if not found
+	 * @throws \PDOException when mySql related errors occur
+	 * @throws \TypeError when variable are not the correct data type
+	 */
+	public static function getTeamByTeamId (\PDO $pdo, int $teamId) {
+		// sanitize the teamId before searching
+		if($teamId <= 0) {
+			throw(new \PDOException("team id is not positive"));
+		}
+		// Create query template
+		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team WHERE teamId = :teamId";
+		$statement = $pdo->prepare($query);
+
+		// Bind the team id to the place holder in the template
+		$parameters = array("teamId" => $teamId);
+		$statement->execute($parameters);
+
+		// Grab the team from mySQL
+		try {
+			$team = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
+			}
+		}catch
+		(\Exception $exception){
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+
+		}
+		return ($team);
+	}
+
+	/**
+	 * gets the Team by teamApiId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $teamApiId team Api id to search for
+	 * @return Team|null Team found or null if not found
+	 * @throws \PDOException when mySql related errors occur
+	 * @throws \TypeError when variable are not the correct data type
+	 */
+	public static function getTeamByTeamApiId (\PDO $pdo, int $teamApiId) {
+		// sanitize the teamApiId before searching
+		if($teamApiId <= 0) {
+			throw(new \PDOException("team Api id is not positive"));
+		}
+		// Create query template
+		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team WHERE teamApiId = :teamApiId";
+		$statement = $pdo->prepare($query);
+
+		// Bind the team id to the place holder in the template
+		$parameters = array("teamApiId" => $teamApiId);
+		$statement->execute($parameters);
+
+		// Grab the team from mySQL
+		try {
+			$team = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
+			}
+		}catch
+		(\Exception $exception){
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+
+		}
+		return ($team);
+	}
+
+
+	/**
+	 * gets the Team by teamCity
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $teamCity team City to search for
 	 * @return \SplFixedArray SplFixedArray of team found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
-	public static function getTeamByTeamId(\PDO $pdo, int $teamId)[
+	public static function getTeamByTeamCity(\PDO $pdo, int $teamCity) {
 // sanitize the description before searching
-$teamId = trim
+		$teamCity = trim($teamCity);
+		$teamCity = filter_var($teamCity, FILTER_SANITIZE_STRING);
+		if(empty($teamCity) === true) {
+			throw(new \PDOException("team city is invalid"));
+		}
 
-]
+		// create query template
+		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team WHERE teamCity LIKE :teamCity";
+		$statement = $pdo->prepare($query);
 
 
+		// bind the team city to the place holder in the template
+		$teamCity = "%$teamCity";
+		$parameters = array("teamCity" => $teamCity);
+		$statement->execute($parameters);
 
+		// build an array of Team cities
+		$teamCities = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		While(($row = $statement->fetch()) !== false) {
+			try {
+				$teamCity = new $teamCity($row["teamId"], $row["teamApiId"], $row["teamName"]);
+				$teamCities[$teamCities->key()] = $teamCity;
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($teamCities);
+
+	}
+
+	/**
+	 * gets the Team by teamName
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $teamName team Name to search for
+	 * @return \SplFixedArray SplFixedArray of team found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	public static function getTeamByTeamName(\PDO $pdo, int $teamName) {
+// sanitize the description before searching
+		$teamName = trim($teamName);
+		$teamName = filter_var($teamName, FILTER_SANITIZE_STRING);
+		if(empty($teamName) === true) {
+			throw(new \PDOException("team name is invalid"));
+		}
+
+		// create query template
+		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team WHERE teamName LIKE :teamName";
+		$statement = $pdo->prepare($query);
+
+
+		// bind the team name to the place holder in the template
+		$teamName = "%$teamName";
+		$parameters = array("teamName" => $teamName);
+		$statement->execute($parameters);
+
+		// build an array of Team cities
+		$teamNames = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		While(($row = $statement->fetch()) !== false) {
+			try {
+				$teamName = new $teamName($row["teamId"], $row["teamApiId"], $row["teamCity"]);
+				$teamNames[$teamNames->key()] = $teamName;
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($teamNames);
+
+	}
 
 
 }
