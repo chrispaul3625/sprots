@@ -19,32 +19,40 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  **/
 
 Class FavoritePlayerTest extends SprotsTest {
-	/**
-	 * content of
-	 * @var string $VALID_PROFILEUSERNAME
-	 */
-	protected $VALID_PROFILEUSERNAME = "PHPUnit test pass";
-	/**
-	 * content of updated user
-	 * @var string $VALID_PROFILEUSERNAME2
-	 */
-	protected $VALID_PROFILEUSERNAME2 = "PHPUnit test still passing";
-	/**
-	 * content of profile email
-	 * @var $VALID_PROFILEEMAIL
-	 */
-	protected $VALID_PROFILEEMAIL = "PHPUnit test pass";
 
 	/**
-	 * content of profile hash
-	 * @var string $VALID_PROFILEHASH
+	 * Team of Player
+	 * @var string $VALID_TEAM
 	 */
-	protected $VALID_PROFILEHASH = "PHPUnit test pass";
+	protected $VALID_TEAM= null;
 
 	/**
-	 * content of profile salt
-	 * @var $VALID_PROFILESALT
+	 * Confirm valid Player
+	 * @var string $VALID_PLAYER
 	 */
-	protected $VALID_PROFILESALT = "PHPUnit test pass";
 
-	protected $profile = null;
+	protected $VALID_PLAYER = null;
+
+	/**
+	 * confirm Player Id
+	 * @var $VALID_PLAYERID
+	 */
+	protected $VALID_PLAYERID = null;
+
+	/**
+	 * Create dependent objects before running each test
+	 **/
+	public final function setUp() {
+		//run the default setup() method first
+		parent::setUp();
+
+		// create and insert a team that the player would play for
+		$this->team = new Team (null, "teamName", "teamCity");
+		$this->sport->insert($this->getPDO());
+		// create and insert a ;player that would be favorited
+		$this->team = new Player(null, "PlayerName", "teamCity");
+		$this->team->insert($this->getPDO());
+		// create and insert a Profile to own the FavoriteTeam
+		$this->profile = new Profile(null, "@phpunit", "test@phpunit.de");
+		$this->profile->insert($this->getPDO());
+	}

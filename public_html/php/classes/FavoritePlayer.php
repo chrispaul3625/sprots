@@ -2,9 +2,10 @@
 
 namespace Cnm\Edu\Sprots;
 
-//require_once (autoload.php);//
+require_once ("autoload.php");
 
 //This is the class for users to select favorite player(s)//
+
 Class FavoritePlayer {
 
 	/**
@@ -21,8 +22,8 @@ Class FavoritePlayer {
 	/**
 	 * constructor for favoriting a Player.
 	 *
-	 * @param int $newFavoritePlayerProfileId this will be inherieted from the profileId
-	 * @param int $newFavoritePlayerPlayerIdthis will be inherieted from the playerId
+	 * @param int $newFavoritePlayerProfileId this will be inherited from the profileId
+	 * @param int $newFavoritePlayerPlayerId this will be inherited from the playerId
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
@@ -82,6 +83,7 @@ Class FavoritePlayer {
 	 *
 	 * @param int|null $newFavoritePlayerPlayerId
 	 * @throws \RangeException if the $newFavoritePlayerPlayerId is not positive
+	 * @return
 	 **/
 
 	public function getFavoritePlayerPlayerId() {

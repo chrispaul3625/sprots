@@ -25,6 +25,7 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 Class ProfileTest extends SprotsTest {
 
+
 	/**
 	 * content of user name
 	 * @var string $VALID_PROFILEUSERNAME
@@ -52,6 +53,8 @@ Class ProfileTest extends SprotsTest {
 	 * @var $VALID_PROFILESALT
 	 */
 	protected $VALID_PROFILESALT = "PHPUnit test pass";
+
+	protected $profile = null;
 
 	/**
 	 * create dependent objects before running each test
@@ -211,5 +214,12 @@ Class ProfileTest extends SprotsTest {
 		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
 	}
 
-
+	/**
+	 * test grabbing a Profile by user name that does not exist
+	 **/
+	public function testGetInvalidProfileByProfileUserName() {
+		// grab a profile user name that exceeds the maximum allowable
+		$tweet = Tweet::getTweetByTweetContent($this->getPDO(), "nobody ever tweeted this");
+		$this->assertCount(0, $tweet);
+	}
 }
