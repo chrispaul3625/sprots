@@ -257,6 +257,7 @@ class Team {
 		$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * gets the Team by teamId
 	 *
@@ -266,7 +267,7 @@ class Team {
 	 * @throws \PDOException when mySql related errors occur
 	 * @throws \TypeError when variable are not the correct data type
 	 */
-	public static function getTeamByTeamId (\PDO $pdo, int $teamId) {
+	public static function getTeamByTeamId(\PDO $pdo, int $teamId) {
 		// sanitize the teamId before searching
 		if($teamId <= 0) {
 			throw(new \PDOException("team id is not positive"));
@@ -287,8 +288,8 @@ class Team {
 			if($row !== false) {
 				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
 			}
-		}catch
-		(\Exception $exception){
+		} catch
+		(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 
@@ -305,7 +306,7 @@ class Team {
 	 * @throws \PDOException when mySql related errors occur
 	 * @throws \TypeError when variable are not the correct data type
 	 */
-	public static function getTeamByTeamApiId (\PDO $pdo, int $teamApiId) {
+	public static function getTeamByTeamApiId(\PDO $pdo, int $teamApiId) {
 		// sanitize the teamApiId before searching
 		if($teamApiId <= 0) {
 			throw(new \PDOException("team Api id is not positive"));
@@ -326,8 +327,8 @@ class Team {
 			if($row !== false) {
 				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
 			}
-		}catch
-		(\Exception $exception){
+		} catch
+		(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 
@@ -408,7 +409,7 @@ class Team {
 		$parameters = array("teamName" => $teamName);
 		$statement->execute($parameters);
 
-		// build an array of Team cities
+		// build an array of Team Names
 		$teamNames = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
@@ -433,7 +434,7 @@ class Team {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
-	public static function getAllTeams(\PDO $pdo){
+	public static function getAllTeams(\PDO $pdo) {
 		//create query template
 		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team";
 		$statement = $pdo->prepare($query);
@@ -442,20 +443,18 @@ class Team {
 		// build an array of teams
 		$teams = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false){
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
 				$teams[$teams->key()] = $team;
 				$teams->next();
-			} Catch(\Exception $exception){
+			} Catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(),0,$exception));
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
 		return ($teams);
 	}
-
-
 
 
 }
