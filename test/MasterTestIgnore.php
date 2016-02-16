@@ -173,7 +173,7 @@ class PlayerStatisticTest extends SprotsTest {
 		$playerStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticId($this->getPDO(), $playerStatistic->getPlayerStatisticId());
+		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticStatisticId();$this->getPDO(); $playerStatistic->getPlayerStatisticId();
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticId(), $this->playerstatistic->getPlayerStatisticId());
 

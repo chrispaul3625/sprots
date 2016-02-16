@@ -22,21 +22,7 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
 class PlayerStatisticTest extends SprotsTest {
-	/**
-	 * $playerStatisticGameId id for player in a specific game; this is a foreign key
-	 * @var int $VALID_PLAYERSTATISTICGAMEID
-	 **/
-	protected $VALID_PLAYERSTATISTICGAMEID;
-	/**
-	 * $playerStatisticPlayerId id for players overall statistics, this is a foreign key
-	 * @var int $VALID_PLAYERSTATISTICPLAYERID
-	 **/
-	protected $VALID_PLAYERSTATISTICPLAYERID;
-	/**
-	 * $playerStatisticStatisticId id for the players individual statistic, this is a foreign key
-	 * @var int $VALID_PLAYERSTATISTICSTATISTICID
-	 **/
-	protected $VALID_PLAYERSTATISTICSTATISTICID;
+
 	/**
 	 * $playerStatisticValue the value of individual stats, number value for a stat
 	 * @var int $VALID_PLAYERSTATISTICVALUE
@@ -63,6 +49,51 @@ class PlayerStatisticTest extends SprotsTest {
 	 * @var Statistic $VALID_STATISTIC
 	 */
 	protected $statistic = null;
+
+	/**
+	 * Create dependent objects before running each test
+	 */
+	public final function setUp() {
+		//run the default setUp() method first
+		parent::setUp();
+
+		//create and insert a Sport to own the test playerStatistic
+		$this->sport = new Sport(null, "sportTeam", "sportLeague");
+		$this->sport->insert($this->getPDO());
+
+
+		//create and insert a Game to own the test playerStatistic
+		$this->game = new Game(null, "gameFirstTeamId","GameSecondTeamId","GameTime");
+		$this->game->insert($this->getPDO());
+
+		//create and insert a Player to own the test playerStatistic
+		$this->player = new Player(null, "playerName", "playerTeamId", "playerApiId");
+		$this->player->insert($this->getPDO());
+
+		//create and insert a Statistic to own the test playerStatistic
+		$this->statistic = new Statistic(null, "statisticName");
+		$this->statistic->insert($this->getPDO());
+	}
+	/**
+	 * test inserting a valid PlayerStatistic and verify that the actual mySQL data matches
+	 **/
+	public function testInsertValidPlayerStatistic() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+
+		// create a new PlayerStatistics and insert to into mySQL
+		$playerStatistic = new PlayerStatistic(null, $this->plsayerStatistic->getPlayerStatisticId(), $this->VALID_PLAYERSTATISTIC);
+		$playerStatistic->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameId($this->getPDO(), $playerStatistic->getPlayerStatisticStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticStatisticId(), $this->sport->getSportId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticValue(), $this->VALID_PLAYERSTATISTICVALUE);
+
+
+	}
+
 
 
 
