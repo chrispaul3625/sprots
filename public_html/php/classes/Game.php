@@ -202,12 +202,12 @@ class Game {
 			throw(new \PDOException("not a new game"));
 		}
 		//query template
-		$query = "INSERT INTO game(gameTime, gameFirstTeamId, gameSecondTeamId) VALUES (:gameTime, :gameFirstTeamid, :gameSecondTimeId)";
+		$query = "INSERT INTO game(gameFirstTeamId, gameSecondTeamId, gameTime) VALUES(:gameFirstTeamId, :gameSecondTeamId, :gameTime)";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holder
 		$formattedDate = $this->gameTime->format("Y-m-d H:i:s");
-		$prameters = ["gameTime" => $formattedDate, "gameFirstTeamId" => $this->gameFirstTeamId, "gameSecondTeamId" => $this->gameSecondTeamId];
-		$statement->execute($prameters);
+		$parameters = ["gameFirstTeamId" => $this->gameFirstTeamId, "gameSecondTeamId" => $this->gameSecondTeamId, "gameTime" => $formattedDate];
+		$statement->execute($parameters);
 		//update the null gameid with mySQL
 		$this->gameId = intval($pdo->lastInsertId());
 	}
@@ -245,7 +245,7 @@ class Game {
 			throw(new \PDOException("unable to update a game that does not exist"));
 		}
 		//query template
-		$query = "UPDATE game SET gameTime = :gameTime, gameFirstTeamId = :gameFirstTeamId, gameSecondTeamId = :gameSecondTeamId ";
+		$query = "UPDATE game SET gameFirstTeamId = :gameFirstTeamId, gameSecondTeamId = :gameSecondTeamId, gameTime = :gameTime ";
 		$statement = $pdo->prepare($query);
 		//bind the member variable to the place holders
 		$formattedDate = $this->gameTime->format("Y-m-d H:i:s");
@@ -271,7 +271,7 @@ class Game {
 		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game WHERE gameId = :gameId";
 		$statement = $pdo->prepare($query);
 
-		// bind the game id to the plave holder in the template
+		// bind the game id to the player holder in the template
 		$parameters = array("gameId"=> $gameId);
 		$statement->execute($parameters);
 
@@ -303,7 +303,7 @@ class Game {
 	public static function getGameByGameFirstTeamId (\PDO $pdo, int $gameFirstTeamId) {
 		// sanitize the teamApiId before searching
 		if($gameFirstTeamId <= 0) {
-			throw(new \PDOException("gameFirstTeam Id id is not positive"));
+			throw(new \PDOException("gameFirstTeam Id is not positive"));
 		}
 		// Create query template
 		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game ";
@@ -422,18 +422,18 @@ class Game {
 		$statement->execute();
 
 		//build an array of game
-		$game =new \SplFixedArray($statement->rowCount());
+		$games =new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false){
 			try{
 				$game = new Game($row["gameId"], $row["gameFirstTeamId"], $row["gameSecondTeamId"], $row["gameTime"]);
-				$game[$game->key()] = $game;
-				$game->next();
+				$games[$games->key()] = $game;
+				$games->next();
 			}catch(\Exception $exception){
 				// if the row couldn't be converted rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($game);
+		return ($games);
 	}
 }

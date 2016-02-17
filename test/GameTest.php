@@ -78,7 +78,7 @@ class GameTest extends SprotsTest {
 		parent::setUp();
 
 		// create and insert a Team to own the test
-		$this->sport = new Sport (null, "sportLeague", "SportTeam");
+		$this->sport = new Sport(null, "sportLeague", "sportTeam");
 		$this->sport->insert($this->getPDO());
 
 		$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
@@ -100,14 +100,15 @@ class GameTest extends SprotsTest {
 
 			// create a new Game and insert into mySQL
 			$game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
+			//var_dump($game);
 			$game->insert($this->getPDO());
-			var_dump($game);
 
 			//grab data from mySQL and enforce the match
 			$pdoGame = Game::getGameByGameId($this->getPDO(),$game->getGameId());
+			//var_dump($pdoGame);
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
 			$this->assertEquals($pdoGame->getTeamId(), $this->team->getTeamId());
-			$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME, $this->VALID_GAME);
+			$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME);
 		}
 	/**
 	 * test inserting a Game that already exists
@@ -116,7 +117,7 @@ class GameTest extends SprotsTest {
 	 **/
 	public function testInsertInvalidGame(){
 		//create a game with a non null game id adn watch it fail
-		$game = new Game(SprotsTest::INVALID_KEY, $this->team->getTeamId(), $this->VALID_GAMETIME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$game = new Game(SprotsTest::INVALID_KEY, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
 		$game->insert($this->getPDO());
 	}
 	/**
@@ -126,7 +127,7 @@ class GameTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("game");
 
 		//create a new game and insert to mySQL
-		$game = new Game(null, $this->team->getTeamId(), $this->VALID_GAMETIME, $this->VALID_GAME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
 		$game->insert($this->getPDO());
 
 		//edit Game and update it in mySql
@@ -146,7 +147,7 @@ class GameTest extends SprotsTest {
 	 **/
 	public function testUpdateInvalidGame(){
 		//create a  Game with  non null game id an watch it fail
-		$game = new Game(null,$this->game->getGameId(), $this->VALID_GAME, $this->VALID_GAMETIME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$game = new Game(null,$this->team->getTeamId(), $this->VALID_GAME, $this->VALID_GAMETIME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
 		$game->update($this->getPDO());
 	}
 	/**
@@ -156,12 +157,12 @@ class GameTest extends SprotsTest {
 		//count the number of rows and save
 		$numRows = $this->getConnection()->getRowCount("game");
 		// create a new Game and insert into mySQL
-		$game =new Game(null,$this->team->getTeamId(), $this->VALID_GAME, $this->VALID_GAMETIME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
 		$game->insert($this->getPDO());
 
 		// delete the game from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
-		$game->insert($this->getPDO());
+		$game->delete($this->getPDO());
 		//grab the data from mySQL and enforce the Game that does not exist
 		$pdoGame = Game::getGameByGameId($this->getPDO(), $game->getGameId());
 		$this->assertNull($pdoGame);
@@ -185,7 +186,7 @@ class GameTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("game");
 
 		//create a new Game and insert into mySql
-		$game = new Game(null, $this->team->getTeamId(), $this->VALID_GAMETIME, $this->VALID_GAME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
 		$game->insert($this->getPDO());
 
 
@@ -211,14 +212,14 @@ class GameTest extends SprotsTest {
 		$numRows =$this->getConnection()->getRowCount("game");
 
 		//create a new Game and insert into mySql
-		$game = new Game(null, $this->team->teamId(), $this->VALID_GAME, $this->VALID_GAMETIME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);;
 		$game->insert($this->getPDO());
 
 		//grab the dat from mySQL and enforce the fields match
 		$results = Game::getAllGames($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount('game'));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dcuneo1\\Sprots\\Game",$results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Game",$results);
 
 		//grab the results from the array and validate
 		$pdoGame = $results[0];
