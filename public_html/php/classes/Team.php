@@ -50,13 +50,13 @@ class Team {
 	 * @throws \TypeError if data types violate type hints
 	 */
 
-	public function __construct(int $newTeamId = null, int $newTeamSportId = null, int $newTeamApiId = null, string $newTeamCity, string $newTeamName) {
+	public function __construct(int $newTeamId = null, int $newTeamSportId, int $newTeamApiId, string $newTeamCity, string $newTeamName) {
 		try {
 			$this->setTeamId($newTeamId);
-			$this->setTeamSportId($newTeamSportId);
 			$this->setTeamApiId($newTeamApiId);
 			$this->setTeamCity($newTeamCity);
 			$this->setTeamName($newTeamName);
+			$this->setTeamSportId($newTeamSportId);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the exception to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -118,12 +118,7 @@ class Team {
 	 * @throws \RangeException if the $newTeamApiId is not positive
 	 * @throws \TypeError if $newTeamApiId is not an integer
 	 **/
-	public function setTeamApiId(int $newTeamApiId = null) {
-		// base case: if teamApiId is null, this is a new team without a MySQL assigned id (yet)
-		if($newTeamApiId === null) {
-			$this->teamApiId = null;
-			return;
-		}
+	public function setTeamApiId(int $newTeamApiId) {
 // Verify the team id is positive
 		if($newTeamApiId <= 0) {
 			throw(new \RangeException("team api id is not positive"));
@@ -214,12 +209,7 @@ class Team {
 	 * @throws \RangeException if the $newTeamSportId is not positive
 	 * @throws \TypeError if $newTeamSportId is not an integer
 	 **/
-	public function setTeamSportId(int $newTeamSportId = null) {
-		// base case: if teamSportId is null, this is a new team sport id without a MySQL assigned id (yet)
-		if($newTeamSportId === null) {
-			$this->teamSportId = null;
-			return;
-		}
+	public function setTeamSportId(int $newTeamSportId) {
 // Verify the team id is positive
 		if($newTeamSportId <= 0) {
 			throw(new \RangeException("team sport id is not positive"));
@@ -292,7 +282,7 @@ class Team {
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in the template
-		$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName];
+		$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName, "teamSportId" => $this->teamSportId];
 		$statement->execute($parameters);
 	}
 
@@ -324,7 +314,7 @@ class Team {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"], $row["teamSportId"]);
+				$team = new Team($row["teamId"], $row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
 			}
 		} catch
 		(\Exception $exception) {
@@ -363,7 +353,7 @@ class Team {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"], $row["teamSportId"]);
+				$team = new Team($row["teamId"], $row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
 			}
 		} catch
 		(\Exception $exception) {
@@ -491,7 +481,7 @@ class Team {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"], $row["teamSportId"]);
+				$team = new Team($row["teamId"], $row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
 			}
 		} catch
 		(\Exception $exception) {
@@ -521,7 +511,7 @@ class Team {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"], $row["teamSportId"]);
+				$team = new Team($row["teamId"], $row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
 				$teams[$teams->key()] = $team;
 				$teams->next();
 			} Catch(\Exception $exception) {

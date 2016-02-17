@@ -59,16 +59,10 @@ class TeamTest extends SprotsTest {
 	protected $VALID_TEAMNAME2 = "PHPUnit test still passing";
 
 	/**
-	 * content of the updated team sport id
-	 * @var int $VALID_TEAMSPORTID
-	 **/
-	protected $VALID_TEAMSPORTID = 596;
-
-	/**
 	 * Sport that team belongs to
-	 * @var Sport $VALID_SPORT
+	 * @var Sport $sport
 	 */
-	protected $sport = "PHPUnit test still passing";
+	protected $sport = null;
 
 	/**
 	 * create dependent objects before running each test
@@ -92,17 +86,16 @@ class TeamTest extends SprotsTest {
 
 		// Create a new team and insert into mySQL
 		$team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
-		var_dump($team);
 		$team->insert($this->getPDO());
 
-// grab the data from mySQL and enforce the fields match our expectations
+		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoTeam = Team::getTeamByTeamId($this->getPDO(), $team->getTeamId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("team"));
-		$this->assertEquals($pdoTeam->getTeamId(), $this->sport->getSportId());
+		$this->assertEquals($pdoTeam->getTeamId(), $team->getTeamId());
 		$this->assertEquals($pdoTeam->getTeamApiId(), $this->VALID_TEAMAPIID);
 		$this->assertEquals($pdoTeam->getTeamCity(), $this->VALID_TEAMCITY);
 		$this->assertEquals($pdoTeam->getTeamName(), $this->VALID_TEAMNAME);
-		$this->assertEquals($pdoTeam->getTeamSportId(), $this->VALID_TEAMSPORTID);
+		$this->assertEquals($pdoTeam->getTeamSportId(), $this->sport->getSportId());
 	}
 
 	/**
@@ -112,7 +105,7 @@ class TeamTest extends SprotsTest {
 	 **/
 	public function testInsertInvalidTeam() {
 		// create a Team with a non-null team id and watch it fail
-		$team = new Team($this->sport->getTeamSportId(), SprotsTest::INVALID_KEY, $this->VALID_TEAMAPIID, $this->VALID_TEAMID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team = new Team($this->sport->getSportId(), $this->VALID_TEAMCITY, SprotsTest::INVALID_KEY, $this->VALID_TEAMAPIID, $this->VALID_TEAMID, $this->VALID_TEAMNAME);
 		$team->insert($this->getPDO());
 	}
 
@@ -124,7 +117,7 @@ class TeamTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("team");
 
 		// Create a new team and insert into mySQL
-		$team = new Team($this->sport->getSportId(), null, $this->VALID_TEAMAPIID, $this->VALID_TEAMID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team = new Team($this->sport->getSportId(), $this->VALID_TEAMNAME, null, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY);
 		$team->insert($this->getPDO());
 
 		// edit the Team and update it in mySQL
@@ -150,7 +143,7 @@ class TeamTest extends SprotsTest {
 	 **/
 	public function testUpdateInvalidTeam() {
 		// create a Team with a non null team id and watch it fail
-		$team = new Team($this->sport->getSportId(), SprotsTest::INVALID_KEY, $this->VALID_TEAMAPIID, $this->VALID_TEAMID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team = new Team($this->sport->getSportId(), $this->VALID_TEAMNAME, SprotsTest::INVALID_KEY, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY);
 		$team->insert($this->getPDO());
 		$team->update($this->getPDO());
 	}
@@ -162,7 +155,7 @@ class TeamTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("team");
 
 		// create a new Team and insert to into mySQL
-		$team = new Team($this->sport->getSportId(), null, $this->VALID_TEAMAPIID, $this->VALID_TEAMID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team = new Team($this->sport->getSportId(), $this->VALID_TEAMNAME, null, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY);
 		$team->insert($this->getPDO());
 
 		// delete the Team from mySQL
@@ -183,7 +176,7 @@ class TeamTest extends SprotsTest {
 
 	public function testDeleteInvalidTeam() {
 		// create a new Team and try to delete it without actually inserting it
-		$team = new Team($this->sport->getSportId(), SprotsTest::INVALID_KEY, $this->VALID_TEAMAPIID, $this->VALID_TEAMID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team = new Team($this->sport->getSportId(), $this->VALID_TEAMNAME, SprotsTest::INVALID_KEY, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY);
 		$team->delete($this->getPDO());
 	}
 
@@ -192,7 +185,7 @@ class TeamTest extends SprotsTest {
 	 **/
 	public function testDeleteInvalidTeamByTeamId() {
 		// create a Team and try to delete it without actually inserting it
-		$team = new Team($this->sport->getSportId(), null, $this->VALID_TEAMAPIID, $this->VALID_TEAMID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team = new Team($this->sport->getSportId(), $this->VALID_TEAMNAME, null, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY);
 		$team->delete($this->getPDO());
 	}
 
@@ -222,7 +215,7 @@ class TeamTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("team");
 
 		// create a new Team and insert to into mySQL
-		$team = new Team($this->sport->getSportId(), null, $this->VALID_TEAMAPIID, $this->VALID_TEAMID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team = new Team($this->sport->getSportId(), $this->VALID_TEAMNAME, null, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY);
 		$team->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -248,7 +241,7 @@ class TeamTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("team");
 
 		// create a new Team and insert to into mySQL
-		$team = new Team($this->sport->getSportId(), null, $this->VALID_TEAMAPIID, $this->VALID_TEAMID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team = new Team($this->sport->getSportId(), $this->VALID_TEAMNAME, null, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY);
 		$team->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -274,7 +267,7 @@ class TeamTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("team");
 
 		// create a new Team and insert to into mySQL
-		$team = new Team($this->sport->getSportId(), null, $this->VALID_TEAMAPIID, $this->VALID_TEAMID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team = new Team($this->sport->getSportId(), $this->VALID_TEAMNAME, null, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY);
 		$team->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
