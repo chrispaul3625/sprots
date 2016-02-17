@@ -29,7 +29,7 @@ class GameTest extends SprotsTest {
 	protected $VALID_GAME2 = "PHPUnit test still passing ";
 	/**
 	 * timestamp of the Game; this starts as null and is assigned later
-	 * @var DateTime $VALID_GAMETIME
+	 * @var \DateTime $VALID_GAMETIME
 	 */
 	protected $VALID_GAMETIME = null;
 	/**
@@ -37,6 +37,11 @@ class GameTest extends SprotsTest {
 	 * @var int $VALID_TEAMAPIID
 	 */
 	protected $VALID_TEAMAPIID = 42;
+	/**
+	 * content of Team
+	 * @var int $VALID_TEAMAPIID2
+	 */
+	protected $VALID_TEAMAPIID2 = 64;
 	/**
 	 * content for teamCity
 	 * @var string  $VALID_TEAMCITY
@@ -48,8 +53,13 @@ class GameTest extends SprotsTest {
 	 */
 	protected $VALID_TEAMNAME = "Titans";
 	/**
+	 * content for teamName
+	 * @var string $VALID_TEAMNAME2
+	 */
+	protected $VALID_TEAMNAME2 = "Cowboys";
+	/**
 	 * Sport that the Player is playing
-	 * @var string $VALID_SPORT
+	 * @var string $sport
 	 */
 	protected $sport = null;
 	/**
@@ -71,18 +81,18 @@ class GameTest extends SprotsTest {
 
 		// create and insert a Team to own the test
 
-		$this->team = new Team($this->VALID_TEAMCITY, , null, $this->VALID_TEAMNAME, $this->VALID_TEAMAPIID);
-		$this->team->insert($this->getPDO());
+		$this->sport = new Sport (null, "sportLeague", "sportLeague2", "SportTeam", "SportTeam2");
+		$this->sport->insert($this->getPDO());
 
-		// calculate the date (same as unit test)
-		$this->VALID_GAMETIME = new \GameTime();
+		$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$this->team->insert($this->getPDO());
 
 		// create and insert a Team t own the test
-		$this->team = new Team($this->VALID_TEAMAPIID, , null, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$this->team = new Team(null,  $this->sport->getSportId(), $this->VALID_TEAMAPIID2, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME2);
 		$this->team->insert($this->getPDO());
 
 		// calculate the date (same as unit test)
-		$this->VALID_GAMETIME = new \GameTime();
+		$this->VALID_GAMETIME = new \DateTime();
 	}
 		/**
 		 * test inserting a valid Game and verify that the actual mySQL data matches
@@ -92,7 +102,7 @@ class GameTest extends SprotsTest {
 			$numRows = $this->getConnection()->getRowCount("game");
 
 			// create a new Game and insert into mySQL
-			$game = new Game(null, $this->team->getTeamId(), $this->VALID_GAME, $this->VALID_GAMETIME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+			$game = new Game(null, $this->team->getTeamId(), $this->sport->getSportId(),$this->VALID_GAMETIME, $this->VALID_GAME);
 			$game->insert($this->getPDO());
 
 			//grab data from mySQL and enforce the match
@@ -118,7 +128,7 @@ class GameTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("game");
 
 		//create a new game and insert to mySQL
-		$game = new Game(null, $this->getTeam->getTeamId(), $this->VALID_GAMETIME, $this->VALID_GAME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$game = new Game(null, $this->team->getTeamId(), $this->VALID_GAMETIME, $this->VALID_GAME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
 		$game->insert($this->getPDO());
 
 		//edit Game and update it in mySql

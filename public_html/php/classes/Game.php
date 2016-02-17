@@ -16,6 +16,7 @@ require_once("autoload.php");
  *
  */
 class Game {
+	use ValidateDate;
 	/**
 	 * id for gameId primary key
 	 * @var int $gameId
