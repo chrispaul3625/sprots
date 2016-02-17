@@ -420,7 +420,7 @@ class Team {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
-	public static function getTeamByTeamName(\PDO $pdo, int $teamName) {
+	public static function getTeamByTeamName(\PDO $pdo, string $teamName) {
 // sanitize the description before searching
 		$teamName = trim($teamName);
 		$teamName = filter_var($teamName, FILTER_SANITIZE_STRING);
@@ -443,7 +443,7 @@ class Team {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$teamName = new $teamName($row["teamId"],$row["teamSportId"], $row["teamApiId"], $row["teamCity"]);
+				$teamName = new team($row["teamId"],$row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
 				$teamNames[$teamNames->key()] = $teamName;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
