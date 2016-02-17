@@ -66,9 +66,7 @@ class GameTest extends SprotsTest {
 	 * the team that created the game for foreign keys
 	 * @var Team team
 	 */
-
 	protected $team = null;
-
 	protected $team2 = null;
 
 
@@ -80,19 +78,18 @@ class GameTest extends SprotsTest {
 		parent::setUp();
 
 		// create and insert a Team to own the test
-
-		$this->sport = new Sport (null, "sportLeague", "sportLeague2", "SportTeam", "SportTeam2");
+		$this->sport = new Sport (null, "sportLeague", "SportTeam");
 		$this->sport->insert($this->getPDO());
 
 		$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
 		$this->team->insert($this->getPDO());
 
 		// create and insert a Team t own the test
-		$this->team = new Team(null,  $this->sport->getSportId(), $this->VALID_TEAMAPIID2, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME2);
-		$this->team->insert($this->getPDO());
+		$this->team2 = new Team(null,  $this->sport->getSportId(), $this->VALID_TEAMAPIID2, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME2);
+		$this->team2->insert($this->getPDO());
 
 		// calculate the date (same as unit test)
-		$this->VALID_GAMETIME = new \DateTime();
+		$this->VALID_GAMETIME = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
 	}
 		/**
 		 * test inserting a valid Game and verify that the actual mySQL data matches
@@ -102,8 +99,9 @@ class GameTest extends SprotsTest {
 			$numRows = $this->getConnection()->getRowCount("game");
 
 			// create a new Game and insert into mySQL
-			$game = new Game(null, $this->team->getTeamId(), $this->sport->getSportId(),$this->VALID_GAMETIME, $this->VALID_GAME);
+			$game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
 			$game->insert($this->getPDO());
+			var_dump($game);
 
 			//grab data from mySQL and enforce the match
 			$pdoGame = Game::getGameByGameId($this->getPDO(),$game->getGameId());

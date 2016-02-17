@@ -172,9 +172,9 @@ class Game {
 	 * @throws \InvalidArgumentException if $newGameTime
 	 * @throws \RangeException if $newGameTime is nor a valid object or string
 	 */
-	public function setGameTime($newGameTime = null) {
+	public function setGameTime($newGameTime) {
 		//base case if date is null use current date time
-		if($newGameTime = null) {
+		if($newGameTime === null) {
 			$this->newGameTime = new \DateTime();
 			return;
 		}

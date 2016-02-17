@@ -5,7 +5,7 @@
  * Date: 2/17/2016
  * Time: 1:00 PM
  */
-namespace Edu\Cnm\Dmcdonald21\DataDesign;
+namespace Edu\Cnm\Sprots;
 
 /**
  * Trait to Validate a mySQL Date
