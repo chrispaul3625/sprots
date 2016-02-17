@@ -132,8 +132,8 @@ class TeamTest extends SprotsTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("team"));
 		$this->assertEquals($pdoTeam->getTeamSportId(), $this->sport->getSportId());
 		$this->assertEquals($pdoTeam->getTeamApiId(), $this->VALID_TEAMAPIID2);
-		$this->assertEquals($pdoTeam->getTeamCity(), $this->VALID_TEAMCITY);
-		$this->assertEquals($pdoTeam->getTeamName(), $this->VALID_TEAMNAME);
+		$this->assertEquals($pdoTeam->getTeamCity(), $this->VALID_TEAMCITY2);
+		$this->assertEquals($pdoTeam->getTeamName(), $this->VALID_TEAMNAME2);
 		//$this->assertEquals($pdoTeam->getTeamSportId(), $this->VALID_TEAMSPORTID);
 	}
 	/**
@@ -176,7 +176,7 @@ class TeamTest extends SprotsTest {
 
 	public function testDeleteInvalidTeam() {
 		// create a new Team and try to delete it without actually inserting it
-		$team = new Team($this->sport->getSportId(), SprotsTest::INVALID_KEY, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
 		$team->delete($this->getPDO());
 	}
 

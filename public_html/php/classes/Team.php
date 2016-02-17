@@ -94,11 +94,13 @@ class Team {
 			$this->teamId = null;
 			return;
 		}
-// Verify the team id is positive
+
+		// Verify the team id is positive
 		if($newTeamId <= 0) {
 			throw(new \RangeException("team id is not positive"));
 		}
-// Convert and store the team id
+
+		// Convert and store the team id
 		$this->teamId = $newTeamId;
 	}
 
@@ -231,13 +233,16 @@ class Team {
 		if($this->teamId !== null) {
 			throw(new \PDOException("not a new team"));
 		}
-// create query template
+
+		// create query template
 		$query = "INSERT INTO team(teamSportId, teamApiId, teamCity, teamName) VALUES(:teamSportId, :teamApiId, :teamCity, :teamName)";
 		$statement = $pdo->prepare($query);
-//bind the member variables to the place holders in the template
+
+		//bind the member variables to the place holders in the template
 		$parameters = ["teamSportId" => $this->teamSportId, "teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName];
 		$statement->execute($parameters);
-// update the null teamId with what mySQL just gave us
+
+		// update the null teamId with what mySQL just gave us
 		$this->teamId = intval($pdo->lastInsertId());
 	}
 
