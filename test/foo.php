@@ -2,14 +2,13 @@
 
 namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots\Sport;
-use Edu\Cnm\Sprots\TeamStatistic;
+use Edu\Cnm\Sprots\{TeamStatistic, Player};
 
 // grab the project test parameters
 require_once("SprotsTest.php");
 
 // grab the class under scrutiny
-require_once(dirname(__DIR__) . "/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "public_html/php/classes/autoload.php");
 
 /**
  * Full PHPUnit test for the TeamStatistic class
@@ -238,7 +237,7 @@ public function testGetValidTeamStatisticByTeamStatisticContent() {
 	$results = teamStatistic::getTeamStatisticByTeamStatisticContent($this->getPDO(), $teamStatistic->getTeamStatisticContent());
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamstatistic"));
 	$this->assertCount(1, $results);
-	$this->assertContainsOnlyInstancesOf("Edu\Cnm\Sprots\Test", $results);
+	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Test", $results);
 
 	// grab the result from the array and validate it
 	$pdoTeamStatistic = $results[0];
@@ -274,7 +273,7 @@ public function testGetAllValidTeamStatistics() {
 	$results = teamStatistic::getAllTeamStatistics($this->getPDO());
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamStatistic"));
 	$this->assertCount(1, $results);
-	$this->assertContainsOnlyInstancesOf("Edu\Cnm\Sprots\Test", $results);
+	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Test", $results);
 
 	// grab the result from the array and validate it
 	$pdoTeamStatistic = $results[0];
@@ -285,3 +284,4 @@ public function testGetAllValidTeamStatistics() {
 	$this->assertEquals($pdoTeamStatistic->getTeamStatisticGameId(), $this->VALID_TEAMSTATISTICGAMEID);
 }
 }
+
