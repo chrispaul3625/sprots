@@ -50,7 +50,7 @@ class FavortieTeamTest extends SprotsTest {
     $this->sport = new Sport(null, "sportteam", "sportleague");
     $this->sport->insert($this->getPDO());
     // create and insert a team that would be favorited
-    $this->team = new Team(null, "teamname", "teamCity");
+    $this->team = new Team("teamname", null, "teamCity",);
     $this->team->insert($this->getPDO());
     // create and insert a Profile to own the FavoriteTeam
     $this->profile = new Profile(null, "@phpunit", "test@phpunit.de");

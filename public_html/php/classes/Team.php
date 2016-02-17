@@ -9,6 +9,8 @@ require_once("autoload.php");
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
 class Team {
+
+
 	/**
 	 * id for this team; this is the primary key
 	 * @var int $teamId
@@ -29,24 +31,29 @@ class Team {
 	 * @var string $teamName
 	 **/
 	private $teamName;
+	/**
+	 * SportId, one sport id per team
+	 * @var int $sportId
+	 */
+	private $teamSportId;
 
 
 	/**
 	 * Constructor for this team
 	 *
 	 * @param int|null $newTeamId id of the team that is being created
+	 * @param int $newTeamSportId Id that is associated with the sport
+	 * @param int $newTeamApiId Api id that is associated with team
 	 * @param string $newTeamCity city associated with team
 	 * @param string $newTeamName name associated with team
-	 * @param int $newTeamApiId Api id that is associated with team
-	 * @throws \InvalidArgumentException if data types are not valid
-	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
-	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
-	 **/
+	 * @throws \TypeError if data types violate type hints
+	 */
 
-	public function __construct(int $newTeamId = null, string $newTeamCity, string $newTeamName, int $newTeamApiId = null) {
+	public function __construct(int $newTeamId = null, int $newTeamSportId = null, int $newTeamApiId = null, string $newTeamCity, string $newTeamName) {
 		try {
 			$this->setTeamId($newTeamId);
+			$this->setTeamSportId($newTeamSportId);
 			$this->setTeamApiId($newTeamApiId);
 			$this->setTeamCity($newTeamCity);
 			$this->setTeamName($newTeamName);
@@ -154,7 +161,7 @@ class Team {
 			throw(new \RangeException("team city name is too large"));
 		}
 // store the new team city name
-		$this->$newTeamCity = $newTeamCity;
+		$this->teamCity = $newTeamCity;
 	}
 
 	/**
@@ -188,8 +195,39 @@ class Team {
 			throw(new \RangeException("team name is too large"));
 		}
 // store the new team name
-		$this->$newTeamName = $newTeamName;
+		$this->teamName = $newTeamName;
 	}
+
+	/**
+	 *accessor method for teamSportId
+	 *
+	 * @return int|null value of team sport id
+	 **/
+	public function getTeamSportId() {
+		return ($this->teamSportId);
+	}
+
+	/**
+	 * mutator method for team sport id
+	 *
+	 * @param int|null $newTeamSportId new value of team sport id
+	 * @throws \RangeException if the $newTeamSportId is not positive
+	 * @throws \TypeError if $newTeamSportId is not an integer
+	 **/
+	public function setTeamSportId(int $newTeamSportId = null) {
+		// base case: if teamSportId is null, this is a new team sport id without a MySQL assigned id (yet)
+		if($newTeamSportId === null) {
+			$this->teamSportId = null;
+			return;
+		}
+// Verify the team id is positive
+		if($newTeamSportId <= 0) {
+			throw(new \RangeException("team sport id is not positive"));
+		}
+// Convert and store the team id
+		$this->teamSportId = $newTeamSportId;
+	}
+
 
 	/**
 	 * inserts this team into mySQL
@@ -204,10 +242,10 @@ class Team {
 			throw(new \PDOException("not a new team"));
 		}
 // create query template
-		$query = "INSERT INTO team(teamApiId, teamCity, teamName) VALUES(:teamApiId, :teamCity, :teamName)";
+		$query = "INSERT INTO team(teamApiId, teamCity, teamName, teamSportId) VALUES(:teamApiId, :teamCity, :teamName, :teamSportId)";
 		$statement = $pdo->prepare($query);
 //bind the member variables to the place holders in the template
-		$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName];
+		$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName, "teamSportId" => $this->teamSportId];
 		$statement->execute($parameters);
 // update the null teamId with what mySQL just gave us
 		$this->teamId = intval($pdo->lastInsertId());
@@ -273,7 +311,7 @@ class Team {
 			throw(new \PDOException("team id is not positive"));
 		}
 		// Create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team WHERE teamId = :teamId";
+		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team WHERE teamId = :teamId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the team id to the place holder in the template
@@ -286,7 +324,7 @@ class Team {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
+				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"], $row["teamSportId"]);
 			}
 		} catch
 		(\Exception $exception) {
@@ -312,7 +350,7 @@ class Team {
 			throw(new \PDOException("team Api id is not positive"));
 		}
 		// Create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team WHERE teamApiId = :teamApiId";
+		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team WHERE teamApiId = :teamApiId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the team id to the place holder in the template
@@ -325,7 +363,7 @@ class Team {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
+				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"], $row["teamSportId"]);
 			}
 		} catch
 		(\Exception $exception) {
@@ -356,7 +394,7 @@ class Team {
 		}
 
 		// create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team WHERE teamCity LIKE :teamCity";
+		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team WHERE teamCity LIKE :teamCity";
 		$statement = $pdo->prepare($query);
 
 
@@ -370,7 +408,7 @@ class Team {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$teamCity = new $teamCity($row["teamId"], $row["teamApiId"], $row["teamName"]);
+				$teamCity = new $teamCity($row["teamId"], $row["teamApiId"], $row["teamName"], $row["teamSportId"]);
 				$teamCities[$teamCities->key()] = $teamCity;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
@@ -400,7 +438,7 @@ class Team {
 		}
 
 		// create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team WHERE teamName LIKE :teamName";
+		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team WHERE teamName LIKE :teamName";
 		$statement = $pdo->prepare($query);
 
 
@@ -414,7 +452,7 @@ class Team {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$teamName = new $teamName($row["teamId"], $row["teamApiId"], $row["teamCity"]);
+				$teamName = new $teamName($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamSportId"]);
 				$teamNames[$teamNames->key()] = $teamName;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
@@ -426,6 +464,44 @@ class Team {
 	}
 
 	/**
+	 * gets the Team by teamSportId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $teamSportId team sport id to search for
+	 * @return Team|null Team found or null if not found
+	 * @throws \PDOException when mySql related errors occur
+	 * @throws \TypeError when variable are not the correct data type
+	 */
+	public static function getTeamByTeamSportId(\PDO $pdo, int $teamSportId) {
+		// sanitize the teamApiId before searching
+		if($teamSportId <= 0) {
+			throw(new \PDOException("team Sport id is not positive"));
+		}
+		// Create query template
+		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team WHERE teamSportId = :teamSportId";
+		$statement = $pdo->prepare($query);
+
+		// Bind the team id to the place holder in the template
+		$parameters = array("teamSportId" => $teamSportId);
+		$statement->execute($parameters);
+
+		// Grab the team from mySQL
+		try {
+			$team = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"], $row["teamSportId"]);
+			}
+		} catch
+		(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+
+		}
+		return ($team);
+	}
+	/**
 	 * gets all Teams
 	 *
 	 * @param \PDO $pdo PDO connection object
@@ -436,7 +512,7 @@ class Team {
 
 	public static function getAllTeams(\PDO $pdo) {
 		//create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName FROM team";
+		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
@@ -445,7 +521,7 @@ class Team {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
+				$team = new Team($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamName"], $row["teamSportId"]);
 				$teams[$teams->key()] = $team;
 				$teams->next();
 			} Catch(\Exception $exception) {

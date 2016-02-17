@@ -33,13 +33,13 @@ CREATE TABLE sport (
 
 CREATE TABLE team (
 	teamId    INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	sportId   INT UNSIGNED                NOT NULL,
+	teamSportId INT UNSIGNED              NOT NULL,
 	teamApiId INT UNSIGNED                NOT NULL,
 	teamName  VARCHAR(32)                 NOT NULL,
 	teamCity  VARCHAR(32)                 NOT NULL,
 	UNIQUE (teamApiId),
 	UNIQUE (teamName),
-	FOREIGN KEY (sportId) REFERENCES sport (sportId),
+	FOREIGN KEY (teamSportId) REFERENCES sport (sportId),
 	PRIMARY KEY (teamId)
 );
 

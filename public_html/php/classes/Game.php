@@ -44,7 +44,7 @@ class Game {
 	 * @param int $newGameId for the last game played for a sport
 	 * @param int $newGameFirstTeamId id for the first team in a game
 	 * @param int $newGameSecondTeamId id  fo the second team in a game
-	 * @param \string|null $newGameTime date and time for when game was played
+	 * @param \DateTime|null $newGameTime date and time for when game was played
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values exceed limits
 	 * @throws \TypeError if data types violate type hints

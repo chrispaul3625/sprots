@@ -27,7 +27,7 @@ class PlayerStatisticTest extends SprotsTest {
 	 * $playerStatisticValue the value of individual stats, number value for a stat
 	 * @var int $VALID_PLAYERSTATISTICVALUE
 	 **/
-	protected $VALID_PLAYERSTATISTICVALUE;
+	protected $VALID_PLAYERSTATISTICVALUE = 1678;
 
 	/**
 	 * Sport that the Player is playing
@@ -45,11 +45,25 @@ class PlayerStatisticTest extends SprotsTest {
 	 */
 	protected $player = null;
 	/**
+	 * Player that the Stat is associated with
+	 * @var Player2 $VALID_PLAYER
+	 */
+	protected $player2 = null;
+	/**
 	 * Statistic that is associated with the player
 	 * @var Statistic $VALID_STATISTIC
 	 */
 	protected $statistic = null;
-
+	/**
+	 * Team that is associated with the Player
+	 * @var Team $VALID_TEAM
+	 */
+protected $team1 = null;
+	/**
+	 * Team that is associated with the Player
+	 * @var Team $VALID_TEAM
+	 */
+	protected $team2 = null;
 	/**
 	 * Create dependent objects before running each test
 	 */
@@ -61,14 +75,22 @@ class PlayerStatisticTest extends SprotsTest {
 		$this->sport = new Sport(null, "sportTeam", "sportLeague");
 		$this->sport->insert($this->getPDO());
 
+		//create and insert a team to own the test playerStatistic
+		$this->team1 = new Player(null, "playerName", $this->team1->getTeamId(), 42);
+		$this->team1->insert($this->getPDO());
+		$this->team2 = new Player(null, "playerName", $this->team2->getTeamId(), 42);
+		$this->team2->insert($this->getPDO());
 
 		//create and insert a Game to own the test playerStatistic
-		$this->game = new Game(null, "gameFirstTeamId","GameSecondTeamId","GameTime");
+		$currentDate = new \DateTime();
+		$this->game = new Game(null, $this->team1->getTeamId(),"GameSecondTeamId", $currentDate);
 		$this->game->insert($this->getPDO());
 
 		//create and insert a Player to own the test playerStatistic
-		$this->player = new Player(null, "playerName", "playerTeamId", "playerApiId");
+		$this->player = new Player(null, "playerName", $this->team1->getTeamId(), 42);
 		$this->player->insert($this->getPDO());
+		$this->player2 = new Player2(null, "playerName", $this->team2->getTeamId(), 65);
+		$this->player2->insert($this->getPDO());
 
 		//create and insert a Statistic to own the test playerStatistic
 		$this->statistic = new Statistic(null, "statisticName");
