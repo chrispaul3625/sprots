@@ -40,11 +40,11 @@ class Sport {
 	 * @throws \Exception if some other exception occurs
 	 **/
 
-	public function __construct(int $newSportId = null, string $newSportTeam, string $newSportLeague) {
+	public function __construct(int $newSportId = null, string $newSportLeague, string $newSportTeam) {
 		try {
 			$this->setSportId($newSportId);
-			$this->setSportTeam($newSportTeam);
 			$this->setSportLeague($newSportLeague);
+			$this->setSportTeam($newSportTeam);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			//rethrow the exception to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -214,11 +214,11 @@ class Sport {
 			throw(new \PDOException("cant update sport that doesn't exist"));
 		}
 		//query template
-		$query = "UPDATE sport SET sportLeage = :sportLeague, sportTeam = :sportTeam WHERE sportId = :sportID ";
+		$query = "UPDATE sport SET SportLeague = :sportLeague, sportTeam = :sportTeam WHERE sportId = :sportId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["sportId" => $this->sportId, "sportLeague" => $this->sportLeague, "sportTeam" => $this->sportTeam];
+		$parameters = ["sportLeague" => $this->sportLeague, "sportTeam" => $this->sportTeam, "sportId" => $this->sportId];
 		$statement->execute($parameters);
 	}
 
@@ -240,7 +240,7 @@ class Sport {
 		}
 
 		//create query template
-		$query = "SELECT sportId, sportTeam FROM sport WHERE sportLeague LIKE :sportLeague";
+		$query = "SELECT sportId, sportLeague, sportTeam FROM sport WHERE sportLeague LIKE :sportLeague";
 		$statement = $pdo->prepare($query);
 
 		//bind the sport league to the place holder in the template
@@ -249,18 +249,18 @@ class Sport {
 		$statement->execute($parameters);
 
 		//build array of sport leagues
-		$sportLeague = new \SplFixedArray($statement->rowCount());
+		$sportLeagues = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$sportLeague = new sport($row["sportId"]);
-				$sportLeague[$sportLeague->key()] = $sportLeague;
-				$sportLeague->next();
+				$sport = new Sport($row["sportId"], $row["sportLeague"], $row["sportTeam"]);
+				$sportLeagues[$sportLeagues->key()] = $sport;
+				$sportLeagues->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-			return ($sportLeague);
+			return ($sportLeagues);
 		}
 	}
 
@@ -282,7 +282,7 @@ class Sport {
 		}
 
 		// create query template
-		$query = "SELECT sportId, sportTeam FROM sport WHERE sportTeam LIKE :sportTeam";
+		$query = "SELECT sportId, sportTeam, sportLeague FROM sport WHERE sportTeam LIKE :sportTeam";
 		$statement = $pdo->prepare($query);
 
 		// bind the sport team to the place holder in the template
@@ -291,18 +291,18 @@ class Sport {
 		$statement->execute($parameters);
 
 		//build array of sport teams
-		$sportTeam = new \SplFixedArray($statement->rowCount());
+		$sportTeams = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !==false) {
 			try {
-				$sportTeam = new sport($row["sportId"]);
-				$sportTeam[$sportTeam->key()] = $sportTeam;
-				$sportTeam->next();
+				$sport = new sport($row["sportId"], $row["sportLeague"], $row["sportTeam"]);
+				$sportTeams[$sportTeams->key()] = $sport;
+				$sportTeams->next();
 			} catch(\Exception $exception) {
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-			return ($sportTeam);
+			return ($sportTeams);
 		}
 	}
 
@@ -332,10 +332,12 @@ class Sport {
 		//grab the sport from the db
 		try {
 			$sport = null;
+			// var_dump($sport);
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
 				$sport = new Sport($row["sportId"], $row["sportLeague"], $row["sportTeam"]);
+				// var_dump($sport);
 			}
 		} catch(\Exception $exception) {
 			//if the row can't be converted, rethrow it
@@ -346,30 +348,30 @@ class Sport {
 
 	/**
 	 * gets all sports
-	 * @param |PDO $pdo PDO connection object
+	 * @param \PDO $pdo PDO connection object
 	 * @return \SplFixedArray SplFixedArray of sports found or null if nothing was found
-	 * @throws \ PDOException when db related errors occur
-	 * @throws \ TypeError when variables are not the correct data type
+	 * @throws \PDOException when db related errors occur
+	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllSports(\PDO $pdo) {
+	public static function getAllSportLeagues(\PDO $pdo) {
 		//create query template
 		$query = "SELECT sportId, sportLeague, sportTeam FROM sport";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		//build an array of sports
-		$sports = new \SplFixedArray($statement->rowCount());
+		//build an array of leagues
+		$sportLeague = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$sport = new Sport($row["sportId"], $row["sportLeague"], $row["sportTeam"]);
-				$sports[$sports->key()] = $sport;
+				$sportLeagues[$sportLeagues->key()] = $sport;
 			} catch(\Exception $exception) {
 				//if the row can't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($sports);
+		return ($sportLeagues);
 	}
 
 

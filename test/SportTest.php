@@ -7,7 +7,7 @@ use Edu\Cnm\Sprots\Sport;
 require_once("SprotsTest.php");
 
 // grab the class under scrutiny
-require_once(dirname(__DIR__) . "/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 /**
 * Full PHPUnit test for the Sport class
@@ -23,33 +23,33 @@ class SportTest extends SprotsTest {
   * content for sport league
   * @var string $VALID_SPORTLEAGUE
   **/
-  protected $VALID_SPORTLEAGUE = "PHPunit test passing";
+  protected $VALID_SPORTLEAGUE = "NFL";
   /**
   * content of the updated sport league
   * @var string $VALID_SPORTLEAGUE2
   **/
-  protected $VALID_SPORTLEAGUE2 = "PHPUnit test still passing";
+  protected $VALID_SPORTLEAGUE2 = "NBA";
   /**
   * content for sport league
   * @var string $VALID_SPORTTEAM
   **/
-  protected $VALID_SPORTTEAM = "PHPunit test passing";
+  protected $VALID_SPORTTEAM = "Dallas Cowboys";
   /**
   * content of the updated sport league
   * @var string $VALID_SPORTTEAM2
   **/
-  protected $VALID_SPORTTEAM2 = "PHPUnit test still passing";
+  protected $VALID_SPORTTEAM2 = "Houston Rockets";
 
   /**
   * test inserting a valid sport team into mysql
   **/
-  public function testInsertValidSportTeam() {
+  public function testInsertValidSport() {
     //count the number of rows and save it for later
     $numRows = $this->getConnection()->getRowCount("sport");
 
 
     // create a new sport and insert into the db
-    $sport = new Sport(null, $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
     $sport->insert($this->getPDO());
     // var_dump($sport);
 
@@ -57,9 +57,8 @@ class SportTest extends SprotsTest {
     $pdoSport = Sport::getSportBySportId($this->getPDO(), $sport->getSportId());
     // var_dump($pdoSport);
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
-    $this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
-    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTTEAM);
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
+    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTTEAM);
   }
 
   /**
@@ -81,20 +80,21 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     // create a new sport and update it in the db
-    $sport = new Sport(null, $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
     $sport->insert($this->getPDO());
+    // var_dump($sport);
 
     // edit the sport and update it in mysql
-    $sport->setSportTeam($this->VALID_SPORTTEAM2);
     $sport->setSportLeague($this->VALID_SPORTLEAGUE2);
+    $sport->setSportTeam($this->VALID_SPORTTEAM2);
     $sport->update($this->getPDO());
 
     //grab the data from mysql and enforce the fields match our expectations
     $pdoSport = Sport::getSportBySportId($this->getPDO(), $sport->getSportId());
-    $this->assertEquals($numRows + 1, $this-getConnection()->getRowCount("sport"));
-    $this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
-    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTTEAM2);
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
+    //$this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE2);
+    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTTEAM2);
   }
   /**
   * test updating a sport that already exists
@@ -103,7 +103,7 @@ class SportTest extends SprotsTest {
   **/
   public function testUpdateInvalidSport() {
     // create a sport with a non null sport id and watch it fail
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
     $sport->update($this->getPDO());
   }
 
@@ -115,7 +115,7 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     // create a new Sport and insert it into mysql
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
     $sport->insert($this->getPDO());
 
     // delete the Sport from the db
@@ -135,7 +135,7 @@ class SportTest extends SprotsTest {
   **/
   public function testDeleteInvalidSport() {
     // create a sport and try to delete it without actually inserting it
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
     $sport->delete($this->getpdo());
   }
 
@@ -147,15 +147,14 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     // create a new Sport and insert it into the db
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
+    $sport = new Sport(null, $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
     $sport->insert($this->getPDO());
 
     // grab the data from the db and enforce the fields match our expectations
     $pdoSport = Sport::getSportBySportId($this->getPDO(), $sport->getSportId());
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
-    $this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
-    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTTEAM);
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
+    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTTEAM);
   }
 
   /**
@@ -164,7 +163,7 @@ class SportTest extends SprotsTest {
   public function testGetInvalidSportBySportId() {
     // grab a sport id that exceeds the maximum allowable sport id
     $sport = Sport::getSportBySportId($this->getPDO(), SprotsTest::INVALID_KEY);
-    $sport->assertNull($sport);
+    $this->assertNull($sport);
   }
 
   /**
@@ -175,61 +174,28 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     //create a new sport and insert it into the db
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
-    $sport->insert($this-getPDO());
+    $sportLeague = new Sport(null, $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
+    $sportLeague->insert($this->getPDO());
 
     //grab the data from the db and enforce the fields match our expectations
-    $results = Sport::getSportBySportLeague($this->getPDO(), $sport->getSportLeague());
+    $results = Sport::getSportBySportLeague($this->getPDO(), $sportLeague->getSportLeague());
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
     $this->assertCount(1, $results);
-    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Sport", $results);
+    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Sport", $results);
 
     //grab the results from teh array and validate it
-    $pdoSport = $results[0];
-    $this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
-    $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
-  }
-
-  /**
-  * test grabbing a Sport by the Name
-  **/
-  public function testGetValidSportBySportTeam() {
-    // count the number of rows, and save it for later
-    $numRows = $this->getConnection()->getRowCount("sport");
-
-    // create a new Sport and insert it into the db
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTTEAM, $this->VALID_SPORTLEAGUE);
-    $sport->insert($this->getPDO());
-
-    // grab the data from the db and enforce the fields match our expectations
-    $results = Sport::getSportBySportTeam($this->getPDO(), $sport->getSportTeam());
-    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
-    $this->assertCount(1, $results);
-    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Sport", $results);
-
-    // grab the results from the array and validate it
-    $pdoSport = $results[0];
-    $this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
-    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTTEAM);
-    $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
+    $pdoSportLeague = $results[0];
+    $this->assertEquals($pdoSportLeague->getSportLeague(), $this->VALID_SPORTLEAGUE);
   }
 
   /**
   * test grabbing a sport by a league that does not exist
   **/
   public function testGetInvalidSportBySportLeague() {
-    // grab a sport id that exceeds the maximum allowable sport id
-    $sport = Sport::getSportBySportLeague($this->getPDO(), "This League doesn't exist");
-    $this->assertCount(0, $sport);
-  }
-
-  /**
-  * test grabbing a sport by a team that does not exist
-  **/
-  public function testGetInvalidSportBySportTeam() {
-    // grab a sport id that exceeds the maximum allowable sport id
-    $sport = Sport::getSportBySportTeam($this->getPDO(), "This team doesn't exist");
-    $this->assertCount(0, $sport);
+     // grab a  id that exceeds the maximum allowable sport id
+     $sportLeague = Sport::getSportBySportLeague($this->getPDO(), "This League doesn't exist");
+     //var_dump($sportLeague);
+     $this->assertNull($sportLeague);
   }
 
   /**
@@ -240,21 +206,54 @@ class SportTest extends SprotsTest {
     $numRows = $this->getConnection()->getRowCount("sport");
 
     // create a new sport and insert it into the db
-    $sport = new Sport(null, $this->sport->getSportId(), $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
-    $sport->insert($this->getPDO());
+    $sportLeague = new Sport(null, $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
+    $sportLeague->insert($this->getPDO());
 
     // grab the data from the db and enforce the fields match our expectations
     $results = Sport::getAllSportLeagues($this->getPDO());
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
     $this->assertCount(1, $results);
-    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Sport", $results);
+    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Sport", $results);
 
     // grab the result from the array and validate it
-    $pdoSport = $results[0];
-    $this->assertEquals($pdoSport->getSportId(), $this->sport-getSportID());
+    $pdoAllSportLeagues = $results[0];
+    $this->assertEquals($pdoSportLeague->getSportLeague(), $this->VALID_SPORTLEAGUE);
+  }
+
+  /**
+  * test grabbing a Sport by the Name
+  **/
+  public function testGetValidSportBySportTeam() {
+    // count the number of rows, and save it for later
+    $numRows = $this->getConnection()->getRowCount("sport");
+
+    // create a new Sport and insert it into the db
+    $sportTeam = new Sport(null, $this->VALID_SPORTLEAGUE, $this->VALID_SPORTTEAM);
+    $sportTeam->insert($this->getPDO());
+
+    // grab the data from the db and enforce the fields match our expectations
+    $results = Sport::getSportBySportTeam($this->getPDO(), $sportTeam->getSportTeam());
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
+    $this->assertCount(1, $results);
+    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Sport", $results);
+
+    // grab the results from the array and validate it
+    $pdoSportTeam = $results[0];
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
     $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTTEAM);
   }
+
+
+  /**
+  * test grabbing a sport by a team that does not exist
+  **/
+  public function testGetInvalidSportBySportTeam() {
+    // grab a sport id that exceeds the maximum allowable sport id
+    $sport = Sport::getSportBySportTeam($this->getPDO(), "This team doesn't exist");
+    //$this->assertCount(0, $sport);
+    $this->assertNull($sport);
+  }
+
 
   /**
   * Test grabbing all of Teams
@@ -271,7 +270,7 @@ class SportTest extends SprotsTest {
     $results = Sport::getAllSportTeams($this->getPDO());
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
     $this->assertCount(1, $results);
-    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Sport", $results);
+    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Sport", $results);
 
     //grab the results from the array and validate it
     $pdoSport = $results[0];
