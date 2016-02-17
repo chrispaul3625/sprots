@@ -167,18 +167,52 @@ Class FavoritePlayer {
 	}//end of update function
 
 	/**
-	 * gets all favorite players
+	 * get a favorite player by favorite player id
 	 *
 	 * @param \PDO $pdo PDO connection object
+	 * @param int $playerId
 	 * @return \SplFixedArray SplFixedArray of Favorite Players found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function geFavoritePlayerByFavoritePlayerId(\PDO $pdo, int $favoritePlayerId) {
+	public static function getFavoritePlayerByPlayerId(\PDO $pdo, int $playerId) {
 		// create query template
-		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId  FROM favoritePlayer WHERE favoritePlayerPlayerId";
+		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId  FROM favoritePlayer WHERE favoritePlayerPlayerId = :playerId";
 		$statement = $pdo->prepare($query);
-		$statement->execute();
+		$parameters = ["playerId" => $playerId];
+		$statement->execute($parameters);
+
+		// build an array of favorite players
+		$favoritePlayers= new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$favoritePlayer = new FavoritePlayer($row["favoritePlayerProfileId"], $row["favoritePlayerPlayerId"]);
+				$favoritePlayers[$favoritePlayers->key()] = $favoritePlayer;
+				$favoritePlayers->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($favoritePlayers);
+	}
+	/**
+	 * get a favorite player by profile id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $profileId
+	 * @return \SplFixedArray SplFixedArray of Favorite Players found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	public static function getFavoritePlayerByProfileId(\PDO $pdo, int $profileId) {
+		// create query template
+		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId  FROM favoritePlayer WHERE favoritePlayerPlayerId = :playerId";
+		$statement = $pdo->prepare($query);
+		$parameters = ["playerId" => $profileId];
+		$statement->execute($parameters);
 
 		// build an array of favorite players
 		$favoritePlayers= new \SplFixedArray($statement->rowCount());
