@@ -4,11 +4,6 @@ namespace Edu\Cnm\Sprots\Test;
 
 use Edu\Cnm\Sprots\Profile;
 
-//Generate Php 7 hash and salt //
-$password = "abc123";
-$salt = bin2hex(random_bytes(16));
-$hash = hash_pbkdf2("sha512", $password, $salt, 262144);
-
 require_once ("SprotsTest.php");
 
 require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
@@ -27,34 +22,36 @@ Class ProfileTest extends SprotsTest {
 
 
 	/**
-	 * content of user name
+	 * profile user name
 	 * @var string $VALID_PROFILEUSERNAME
 	 */
 	protected $VALID_PROFILEUSERNAME = "PHPUnit test pass";
-	/**
-	 * content of updated user
-	 * @var string $VALID_PROFILEUSERNAME2
-	 */
-	protected $VALID_PROFILEUSERNAME2 = "PHPUnit test still passing";
-	/**
-	 * content of profile email
-	 * @var $VALID_PROFILEEMAIL
-	 */
-	protected $VALID_PROFILEEMAIL = "PHPUnit test pass";
 
 	/**
-	 * content of profile hash
-	 * @var string $VALID_PROFILEHASH
+	 * another profile user name
+	 * @var string $VALID_PROFILEUSERNAME_2
 	 */
-	protected $VALID_PROFILEHASH = "PHPUnit test pass";
+
+	protected $VALID_PROFILEUSERNAME_2 = "Ronald McDonald";
 
 	/**
-	 * content of profile salt
-	 * @var $VALID_PROFILESALT
+	 * profile email
+	 * @var string $VALID_PROFILEEMAIL
 	 */
-	protected $VALID_PROFILESALT = "PHPUnit test pass";
+	protected $VALID_PROFILEEMAIL = "mike@mike.com";
 
-	protected $profile = null;
+	/**
+	 * another profile email
+	 * @var string $VALID_PROFILEEMAIL_2
+	 */
+
+	protected $VALID_PROFILEEMAIL_2 = "prinz@prinz.com";
+
+	protected $salt;
+
+	protected $hash;
+
+
 
 	/**
 	 * create dependent objects before running each test
@@ -62,9 +59,10 @@ Class ProfileTest extends SprotsTest {
 	public final function setUp() {
 		//run the default setUp() method first
 		parent::setUp();
-		//create and insert a profile to own the test user
-		$this->profile = new Profile(null);
-		$this->profile->insert($this->getPDO());
+		//Generate Php 7 hash and salt //
+		$password = "abc123";
+		$this->salt = bin2hex(random_bytes(16));
+		$this->hash = hash_pbkdf2("sha512", $password, $this->salt, 262144);
 	}
 
 	/**
@@ -74,15 +72,20 @@ Class ProfileTest extends SprotsTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
-		//create a new profile and insert it into mySQL
-		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILEUSERNAME);
+		//create a new profile and insert it into mySQL//
+
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
 		$profile->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectation
-		$pdoProfile = Profile::getProfilebyProfileId($this->$PDO(), $profile->getProfileid());
+		$pdoProfile = Profile::getProfilebyProfileId($this->getPDO(), $profile->getProfileid());
+
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoProfile->getProfileFirstName(), $this->VALID_PROFILEUSERNAME);
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileUserName(), $profile->getProfileUserName());
+		$this->assertEquals($pdoProfile->getProfileEmail(), $profile->getProfileEmail());
+		$this->assertEquals($pdoProfile->getProfileHash(), $profile->getProfileHash());
+		$this->assertEquals($pdoProfile->getProfileSalt(), $profile->getProfileSalt());
 	}
 
 	/**
@@ -92,8 +95,24 @@ Class ProfileTest extends SprotsTest {
 	 **/
 	public function testInsertInvalidProfile() {
 		//create new profile with a null profile Id and watch it fail
-		$profile = new Profile(SprotsTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_PROFILEUSERNAME);
-		$profile->$this->insert($this->getPDO());
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
+		$profile->insert($this->getPDO());
+
+		//insert profile again and watch it fail
+		$profile->insert($this->getPDO());
+	}
+
+
+	/**
+	 * test inserting a Profile with an invalid profile id
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testInsertWithInvalidProfileId() {
+		//create new profile with a null profile Id and watch it fail
+		$profile = new Profile(SprotsTest::INVALID_KEY, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
+		$profile->insert($this->getPDO());
+
 	}
 
 	/**
@@ -103,19 +122,23 @@ Class ProfileTest extends SprotsTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
-		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL);
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
 		$profile->insert($this->getPDO());
 
 		// edit the Profile and update it in mySQL
-		$profile->setProfile($this->VALID_PROFILEUSERNAME2);
+		$profile->setProfileUserName($this->VALID_PROFILEUSERNAME_2);
 		$profile->update($this->getPDO());
 
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getProfilebyProfileId($this->getPDO(), $profile->getProfileId());
+
+		//grab the data from mySQL and enforce the fields match our expectation
+		$pdoProfile = Profile::getProfilebyProfileId($this->getPDO(), $profile->getProfileid());
+
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILEUSERNAME);
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILEUSERNAME_2);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $profile->getProfileEmail());
+		$this->assertEquals($pdoProfile->getProfileHash(), $profile->getProfileHash());
+		$this->assertEquals($pdoProfile->getProfileSalt(), $profile->getProfileSalt());
 
 	}
 
@@ -126,7 +149,7 @@ Class ProfileTest extends SprotsTest {
 	 **/
 	public function testUpdateInvalidProfile() {
 		// create a Profile with a non null profile id and watch it fail
-		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL);
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
 		$profile->update($this->getPDO());
 	}
 
@@ -138,7 +161,7 @@ Class ProfileTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL);
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
 		$profile->insert($this->getPDO());
 
 		// delete the Profile from mySQL
@@ -158,35 +181,16 @@ Class ProfileTest extends SprotsTest {
 	 **/
 	public function testDeleteInvalidProfile() {
 		// create a Profile and try to delete it without actually inserting it
-		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL);
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
 		$profile->delete($this->getPDO());
 	}
-	/**
-	 * test inserting a Profile and re-grabbing it from mySQL
-	 **/
-	public function testGetValidProfileByProfileId() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");
-
-		// create a new Tweet and insert to into mySQL
-		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL);
-		$profile->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getProfilebyProfileId($this->getPDO(), $profile->getProfileId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILEUSERNAME);
-		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
-	}
-
 
 	/**
 	 * test grabbing a Profile that does not exist
 	 **/
 	public function testGetInvalidProfileByProfileId() {
-		//grab a profile id that exceeds the maximum allowable user id
-		$profile = User::getProfileByProfileId($this->getPDO(),SprotsTest::INVALID_KEY);
+		//grab a profile with invalid profile Id and watch it fail
+		$profile = Profile::getProfileByProfileId($this->getPDO(),SprotsTest::INVALID_KEY);
 		$this->assertNull($profile);
 	}
 
@@ -198,28 +202,73 @@ Class ProfileTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert it into mySQL
-		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL);
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Profile::getProfileByProfileUserName($this->getPDO(), $profile->getProfileUserName());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\SprotsTest\\Profile", $results);
+		$pdoProfile = Profile::getProfileByProfileUserName($this->getPDO(),$profile->getProfileUserName());
 
-		// grab the result from the array and validate it
-		$pdoProfile = $results[0];
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILEUSERNAME;
-		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileUserName(), $profile->getProfileUserName());
+		$this->assertEquals($pdoProfile->getProfileEmail(), $profile->getProfileEmail());
+		$this->assertEquals($pdoProfile->getProfileHash(), $profile->getProfileHash());
+		$this->assertEquals($pdoProfile->getProfileSalt(), $profile->getProfileSalt());
 	}
 
 	/**
 	 * test grabbing a Profile by user name that does not exist
 	 **/
-	public function testGetInvalidProfileByProfileUserName() {
-		// grab a profile user name that exceeds the maximum allowable
-		$tweet = Tweet::getTweetByTweetContent($this->getPDO(), "nobody ever tweeted this");
-		$this->assertCount(0, $tweet);
+	public function testGetProfileByInvalidProfileUserName() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// create a new Profile and insert it into MySQL
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
+		$profile->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProfile = Profile::getProfileByProfileUserName($this->getPDO(),$this->VALID_PROFILEUSERNAME_2());
+		$this->assertNull($pdoProfile);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 	}
+	/**
+	 * test grabbing a Profile by profile email
+	 **/
+	public function testGetValidProfileByProfileEmail() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// create a new Profile and insert it into mySQL
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
+		$profile->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProfile = Profile::getProfileByProfileEmail($this->getPDO(),$profile->getProfileEmail());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileUserName(), $profile->getProfileUserName());
+		$this->assertEquals($pdoProfile->getProfileEmail(), $profile->getProfileEmail());
+		$this->assertEquals($pdoProfile->getProfileHash(), $profile->getProfileHash());
+		$this->assertEquals($pdoProfile->getProfileSalt(), $profile->getProfileSalt());
+	}
+
+	/**
+	 * test grabbing a Profile by email that does not exist
+	 **/
+	public function testGetProfileByInvalidProfileEmail() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// create a new Profile and insert it into MySQL
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
+		$profile->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProfile = Profile::getProfileByProfileEmail($this->getPDO(),$this->VALID_PROFILEUSERNAME_2());
+		$this->assertNull($pdoProfile);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+	}
+
 }
