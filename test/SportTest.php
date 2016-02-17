@@ -58,7 +58,7 @@ class SportTest extends SprotsTest {
     // var_dump($pdoSport);
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
-    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTNAME);
+    $this->assertEquals($pdoSport->getSportName(), $this->VALID_SPORTNAME);
   }
 
   /**
@@ -86,7 +86,7 @@ class SportTest extends SprotsTest {
 
     // edit the sport and update it in mysql
     $sport->setSportLeague($this->VALID_SPORTLEAGUE2);
-    $sport->setSportTeam($this->VALID_SPORTNAME2);
+    $sport->setSportName($this->VALID_SPORTNAME2);
     $sport->update($this->getPDO());
 
     //grab the data from mysql and enforce the fields match our expectations
@@ -94,7 +94,7 @@ class SportTest extends SprotsTest {
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
     //$this->assertEquals($pdoSport->getSportId(), $this->sport->getSportId());
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE2);
-    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTNAME2);
+    $this->assertEquals($pdoSport->getSportName(), $this->VALID_SPORTNAME2);
   }
   /**
   * test updating a sport that already exists
@@ -154,7 +154,7 @@ class SportTest extends SprotsTest {
     $pdoSport = Sport::getSportBySportId($this->getPDO(), $sport->getSportId());
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
-    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTNAME);
+    $this->assertEquals($pdoSport->getSportName(), $this->VALID_SPORTNAME);
   }
 
   /**
@@ -218,13 +218,13 @@ class SportTest extends SprotsTest {
     // grab the result from the array and validate it
     $pdoSport = $results[0];
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
-    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTNAME);
+    $this->assertEquals($pdoSport->getSportName(), $this->VALID_SPORTNAME);
   }
 
   /**
   * test grabbing a Sport by the Name
   **/
-  public function testGetValidSportBySportTeam() {
+  public function testGetValidSportBySportName() {
     // count the number of rows, and save it for later
     $numRows = $this->getConnection()->getRowCount("sport");
 
@@ -233,7 +233,7 @@ class SportTest extends SprotsTest {
     $sport->insert($this->getPDO());
 
     // grab the data from the db and enforce the fields match our expectations
-    $results = Sport::getSportBySportTeam($this->getPDO(), $sport->getSportTeam());
+    $results = Sport::getSportBySportName($this->getPDO(), $sport->getSportName());
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("sport"));
     $this->assertCount(1, $results);
     $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Sport", $results);
@@ -241,16 +241,16 @@ class SportTest extends SprotsTest {
     // grab the results from the array and validate it
     $pdoSport = $results[0];
     $this->assertEquals($pdoSport->getSportLeague(), $this->VALID_SPORTLEAGUE);
-    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTNAME);
+    $this->assertEquals($pdoSport->getSportName(), $this->VALID_SPORTNAME);
   }
 
 
   /**
   * test grabbing a sport by a name that does not exist
   **/
-  public function testGetInvalidSportBySportTeam() {
+  public function testGetInvalidSportBySportName() {
     // grab a sport id that exceeds the maximum allowable sport id
-    $sport = Sport::getSportBySportTeam($this->getPDO(), "This name doesn't exist");
+    $sport = Sport::getSportBySportName($this->getPDO(), "This name doesn't exist");
     //$this->assertCount(0, $sport);
     $this->assertNull($sport);
   }
@@ -275,6 +275,6 @@ class SportTest extends SprotsTest {
 
     //grab the results from the array and validate it
     $pdoSport = $results[0];
-    $this->assertEquals($pdoSport->getSportTeam(), $this->VALID_SPORTNAME);
+    $this->assertEquals($pdoSport->getSportName(), $this->VALID_SPORTNAME);
   }
 }
