@@ -276,8 +276,7 @@ class Team {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 
-	public
-	function update(\PDO $pdo) {
+	public function update(\PDO $pdo) {
 		//enforce the teamId is not null (i.e., don't update a team that hasn't been inserted)
 		if($this->teamId === null) {
 			throw(new \PDOException("Unable to update a team that does not exist"));

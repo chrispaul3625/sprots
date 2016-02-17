@@ -31,37 +31,37 @@ class PlayerStatisticTest extends SprotsTest {
 
 	/**
 	 * Sport that the Player is playing
-	 * @var Sport $VALID_SPORT
+	 * @var Sport $sport
 	 */
 	protected $sport = null;
 	/**
 	 * Game that PlayerStatistic derived from
-	 * @var Game $VALID_GAME
+	 * @var Game $game
 	 */
 	protected $game = null;
 	/**
 	 * Player that the Stat is associated with
-	 * @var Player $VALID_PLAYER
+	 * @var Player $player
 	 */
 	protected $player = null;
 	/**
 	 * Player that the Stat is associated with
-	 * @var Player2 $VALID_PLAYER
+	 * @var Player $player2
 	 */
 	protected $player2 = null;
 	/**
 	 * Statistic that is associated with the player
-	 * @var Statistic $VALID_STATISTIC
+	 * @var Statistic $statistic
 	 */
 	protected $statistic = null;
 	/**
 	 * Team that is associated with the Player
-	 * @var Team $VALID_TEAM
+	 * @var team $team
 	 */
-protected $team1 = null;
+protected $team = null;
 	/**
 	 * Team that is associated with the Player
-	 * @var Team $VALID_TEAM
+	 * @var team2 $team2
 	 */
 	protected $team2 = null;
 	/**
@@ -76,20 +76,20 @@ protected $team1 = null;
 		$this->sport->insert($this->getPDO());
 
 		//create and insert a team to own the test playerStatistic
-		$this->team1 = new Player(null, "playerName", $this->team1->getTeamId(), 42);
-		$this->team1->insert($this->getPDO());
+		$this->team = new Player(null, "playerName", $this->team->getTeamId(), 42);
+		$this->team->insert($this->getPDO());
 		$this->team2 = new Player(null, "playerName", $this->team2->getTeamId(), 42);
 		$this->team2->insert($this->getPDO());
 
 		//create and insert a Game to own the test playerStatistic
 		$currentDate = new \DateTime();
-		$this->game = new Game(null, $this->team1->getTeamId(),"GameSecondTeamId", $currentDate);
+		$this->game = new Game(null, $this->team->getTeamId(),"GameSecondTeamId", $currentDate);
 		$this->game->insert($this->getPDO());
 
 		//create and insert a Player to own the test playerStatistic
-		$this->player = new Player(null, "playerName", $this->team1->getTeamId(), 42);
+		$this->player = new Player(null, "playerName", $this->team->getTeamId(), 42);
 		$this->player->insert($this->getPDO());
-		$this->player2 = new Player2(null, "playerName", $this->team2->getTeamId(), 65);
+		$this->player2 = new Player(null, "playerName", $this->team2->getTeamId(), 65);
 		$this->player2->insert($this->getPDO());
 
 		//create and insert a Statistic to own the test playerStatistic
@@ -104,7 +104,7 @@ protected $team1 = null;
 		$numRows = $this->getConnection()->getRowCount("playerStatistic");
 
 		// create a new PlayerStatistics and insert to into mySQL
-		$playerStatistic = new PlayerStatistic(null, $this->plsayerStatistic->getPlayerStatisticId(), $this->VALID_PLAYERSTATISTIC);
+		$playerStatistic = new PlayerStatistic($this->player->getPlayerId(), $this->player2->getPlayerId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE );
 		$playerStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations

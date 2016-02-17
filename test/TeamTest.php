@@ -262,7 +262,7 @@ class TeamTest extends SprotsTest {
 		$team->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Team::getTeamByTeamName($this->getPDO(), $team->getTeamName());
+		$results = Team::getAllTeams($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("team"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Team", $results);
