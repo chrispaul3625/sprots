@@ -159,7 +159,7 @@ class Profile {
 	 *
 	 * @param string $newProfileHash
 	 * @throws \InvalidArgumentException if hash value is not a string
-	 * @throws \RangeException if profile hash is != 128
+	 * @throws \RangeException if profile hash is !== 128
 	 *
 	 **/
 	public function setProfileHash(string $newProfileHash) {
@@ -168,7 +168,7 @@ class Profile {
 		if($newProfileHash === false) {
 			throw (new\InvalidArgumentException("profile hash cannot be null"));
 		}
-		//make sure profile hash =  128 char
+
 		if($newProfileHash !== 128) {
 			throw(new \RangeException("profile hash has to be 128"));
 		}
