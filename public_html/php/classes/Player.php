@@ -4,22 +4,22 @@ namespace Edu\Cnm\Sprots;
 require_once("autoload.php");
 
 /**
- * player, player that a user will look up
+ * Player, Player that a user will look up
  *
- * player is uniqu
+ * Player is unique
  *
  * $author Jude Chavez <chavezjude7@gmail.com>
  *
  */
 class Player {
 	/**
-	 * id for the player; this is the primary key
-	 * @var int $playerId
+	 * Id for the Player; this is the primary key
+	 * @var int $PlayerId
 	 */
 	private $playerId;
 	/**
-	 * is unique player
-	 * @var string $playerName
+	 * is unique Player
+	 * @var string $PlayerName
 	 */
 	private $playerName;
 	/**
@@ -27,15 +27,15 @@ class Player {
 	 */
 	private $playerApiId;
 	/**
-	 * player is unique to team player cannot be on >1 teams
+	 * Player is unique to Team Player cannot be on >1 teams
 	 */
 	private $playerTeamId;
 
 	/**
-	 * @param int|null $newplayerId of this player or null if a new player
-	 * @param int $newplayername Id of the player
-	 * @param int $newplayerApi Api Id of the player
-	 * @param int $newplayerTeam Id of the player
+	 * @param int|null $newPlayerId of this Player or null if a New Player
+	 * @param int $newPlayerName Id of the Player
+	 * @param int $newPlayerApi Api Id of the Player
+	 * @param int $newPlayerTeamId Id of the Team the Player is on
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bouds (e.g, strings to long, negative intergers)
 	 * @throws \TypeError if data types violate type hints
@@ -65,49 +65,49 @@ class Player {
 	}
 
 	/**
-	 * accessor method for player id
+	 * accessor method for PlayerId
 	 *
-	 * @return int|null value of player Id
+	 * @return int|null value of PlayerId
 	 */
 
-	public function getplayerId() {
+	public function getPlayerId() {
 		return ($this->playerId);
 	}
 
 	/**
-	 * @param int $newplayerId new value of player Id
-	 * @throws InvalidArgumentException if player id is not an integer
-	 * @throws RangeException if profile id is negative
+	 * @param int $newplayerId new value of PlayerId
+	 * @throws InvalidArgumentException if PlayerId is not an integer
+	 * @throws RangeException if PlayerTeamId is negative
 	 */
 
-	public function setplayerId($newplayerId) {
-		if($newplayerId === null) {
+	public function setPlayerId($newPlayerId) {
+		if($newPlayerId === null) {
 			$this->playerId = null;
 			return;
 		}
-		$newplayerId = filter_var($newplayerId, FILTER_VALIDATE_INT);
-		if($newplayerId == false) {
+		$newPlayerId = filter_var($newPlayerId, FILTER_VALIDATE_INT);
+		if($newPlayerId == false) {
 		}
-		if($newplayerId <= 0) {
-			throw(new RangeException("player id must be positive"));
+		if($newPlayerId <= 0) {
+			throw(new RangeException("PlayerId must be positive"));
 		}
-		$this->playerId = $newplayerId;
+		$this->playerId = $newPlayerId;
 
 	}
 
 	/**
-	 * accessor method for playerid
+	 * accessor method for PlayerId
 	 *
-	 * @return int value of player id
+	 * @return int value of PlayerId
 	 */
 	public function getPlayerName() {
 		return $this->playerName;
 	}
 
 	/**
-	 * @param int $playerName new value of player name
-	 * @throws InvalidArgumentException if player name is not an integer
-	 * @throws RangeException if profile id is negative
+	 * @param int $PlayerName new value of PlayerName
+	 * @throws InvalidArgumentException if PlayerName is not an integer
+	 * @throws RangeException if TeamId is negative
 	 */
 
 	public function setPlayerName($playerName) {
@@ -119,15 +119,15 @@ class Player {
 		if($playerName == false) {
 		}
 		if($playerName <= 0) {
-			throw(new RangeException("player name must be positive"));
+			throw(new RangeException("Player name must be positive"));
 		}
 		$this->playerName = $playerName;
 	}
 
 	/**
-	 * accessor for player name
+	 * accessor for PlayerName
 	 *
-	 * @return int value of player name
+	 * @return int value of PlayerName
 	 */
 
 
@@ -136,9 +136,9 @@ class Player {
 	}
 
 	/**
-	 * @param int $playerApiId new value of player Api Id
-	 * @throws InvalidArgumentException if player Api Id is not an integer
-	 * @throws RangeException if profile Id is negative
+	 * @param int $playerApiId new value of PlayerApiId
+	 * @throws InvalidArgumentException if PlayerApiId is not an integer
+	 * @throws RangeException if TeamId is negative
 	 */
 	public function setPlayerApiId($playerApiId) {
 		if($playerApiId === null) {
@@ -149,50 +149,50 @@ class Player {
 		if($playerApiId == false) {
 		}
 		if($playerApiId <= 0) {
-			throw(new RangeException("player api Id must be positive"));
+			throw(new RangeException("Player api Id must be positive"));
 		}
 		$this->$playerApiId = $playerApiId;
 	}
 
 	/**
-	 * accessor for player Api id
+	 * accessor for PlayerApiId
 	 *
-	 * @return int value of player Api id
+	 * @return int value of PlayerApiId
 	 */
-	public function setplayerTeamId($playerTeamId) {
+	public function setPlayerTeamId($playerTeamId) {
 		if($playerTeamId === null) {
-			$this->playerteam = null;
+			$this->playerTeam = null;
 			return;
 			/**
-			 * @param int playerTeamId new value of playerTeamId
-			 * @throws InvalidArgumentException if player team Id is not an integer
-			 * @throws RangeException if player Id is negative
+			 * @param int PlayerTeamId new value of PlayerTeamId
+			 * @throws InvalidArgumentException if PlayerTeamId is not an integer
+			 * @throws RangeException if PlayerId is negative
 			 */
 		}
 		$playerTeamId = filter_var($playerTeamId, FILTER_VALIDATE_INT);
 		if($playerTeamId == false) {
 		}
 		if($playerTeamId <= 0) {
-			throw(new RangeException("player team Id must be positive"));
+			throw(new RangeException("PlayerTeamId must be positive"));
 		}
 		$this->$playerTeamId;
 	}
 
 	/**
-	 * inserts this player into mySQL
+	 * inserts this Player into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) {
-		// enforce the playerId is null (i.e., dont insert a player that already exists
+		// enforce the PlayerId is null (i.e., dont insert a Player that already exists
 		if($this->playerId !== null) {
-			throw(new \PDOException("not a new player"));
+			throw(new \PDOException("not a new Player"));
 		}
 
 		// create query template
-		$query = "INSERT INTO player(playerName, PlayerApiId, playerTeamId) VALUES(:playerId, :playerName, PlayerApiId, :playerTeamId)";
+		$query = "INSERT INTO Player(PlayerName, PlayerApiId, PlayerTeamId) VALUES(:PlayerId, :PlayerName, PlayerApiId, :PlayerTeamId)";
 		$statement = $pdo->prepare($query);
 
 		// update the null playerId with what mySql just gave us
@@ -201,7 +201,7 @@ class Player {
 	}
 
 	/**
-	 * updates this player in mySQL
+	 * updates this Player in mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -209,21 +209,21 @@ class Player {
 	 **/
 	public function update(\PDO $pdo) {
 		if($this->playerId === null) {
-			throw(new \PDOException("unable to update a player that does not exist"));
+			throw(new \PDOException("unable to update a Player that does not exist"));
 		}
-		$query = "UPDATE player SET playerNameId = :playerNameId, PlayerApiId = :PlayerApiId, playerTeamId = :playerTeamId WHERE playerId = :playerId";
+		$query = "UPDATE Player SET PlayerNameId = :PlayerNameId, PlayerApiId = :PlayerApiId, PlayerTeamId = :PlayerTeamId WHERE PlayerId = :PlayerId";
 		$statement = $pdo->prepare($query);
 
 
 		$formattedDate = $this->playerId->format("Y-m-d H:i:s");
-		$parameters = ["playerNameId" => $this->playerNameId, "playerApiId" => $this->playerApiId, "playerTeamId" => $this->playerTeamId, "playerId" => $this->playerId];
+		$parameters = ["PlayerNameId" => $this->playerNameId, "PlayerApiId" => $this->playerApiId, "PlayerTeamId" => $this->playerTeamId, "PlayerId" => $this->playerId];
 		$statement->execute($parameters);
 	}
 
 
 
 	/**
-	 * deletes player from mySQL
+	 * deletes Player from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -231,24 +231,24 @@ class Player {
 	 *
 	 **/
 	public function delete(\PDO $pdo) {
-		//enforce the playerId is not null (i.e., don't delete a player that hasn't been inserted)
+		//enforce the PlayerId is not null (i.e., don't delete a player that hasn't been inserted)
 		if($this->playerId === null) {
-			throw(new \PDOException("unable to delete a player that does not exist"));
+			throw(new \PDOException("unable to delete a Player that does not exist"));
 		}
 
 		// create query template
-		$query = "DELETE FROM player WHERE playerId = :playerId";
+		$query = "DELETE FROM Player WHERE PlayerId = :PlayerId";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holder in the template
-		$parameters = ["playerId" => $this->playerId];
+		$parameters = ["PlayerId" => $this->PlayerId];
 		$statement->execute($parameters);
 		}
 
 	/**
-	 * accessor for player Team Id
+	 * accessor for PlayerTeamId
 	 *
-	 * @return int value of player Team id
+	 * @return int value of PlayerTeamId
 	 */
 }
 
