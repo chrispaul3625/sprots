@@ -232,10 +232,10 @@ class Team {
 			throw(new \PDOException("not a new team"));
 		}
 // create query template
-		$query = "INSERT INTO team(teamApiId, teamCity, teamName, teamSportId) VALUES(:teamApiId, :teamCity, :teamName, :teamSportId)";
+		$query = "INSERT INTO team(teamSportId, teamApiId, teamCity, teamName) VALUES(:teamSportId, :teamApiId, :teamCity, :teamName)";
 		$statement = $pdo->prepare($query);
 //bind the member variables to the place holders in the template
-		$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName, "teamSportId" => $this->teamSportId];
+		$parameters = ["teamSportId" => $this->teamSportId, "teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName];
 		$statement->execute($parameters);
 // update the null teamId with what mySQL just gave us
 		$this->teamId = intval($pdo->lastInsertId());
@@ -250,13 +250,14 @@ class Team {
 	 **/
 
 	public function delete(\PDO $pdo) {
-// enforce the team id is not null (i.e., don't delete a tweet that hasn't been inserted)
+// enforce the team id is not null (i.e., don't delete a team that hasn't been inserted)
 		if($this->teamId === null) {
 			throw(new \PDOException("unable to delete a team that does not exist"));
 		}
 		// create query template
 		$query = "DELETE FROM team WHERE teamId = :teamId";
 		$statement = $pdo->prepare($query);
+
 		//bind the member variables to the place holder in the template
 		$parameters = ["teamId" => $this->teamId];
 		$statement->execute($parameters);
@@ -278,11 +279,11 @@ class Team {
 		}
 
 		// Create query template
-		$query = "UPDATE team SET teamApiId = :teamApiId, teamCity = :teamCity, teamName = :teamName";
+		$query = "UPDATE team SET teamSportId = :teamSportId, teamApiId = :teamApiId, teamCity = :teamCity, teamName = :teamName";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in the template
-		$parameters = ["teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName, "teamSportId" => $this->teamSportId];
+		$parameters = ["teamSportId" => $this->teamSportId, "teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName, ];
 		$statement->execute($parameters);
 	}
 
@@ -301,7 +302,7 @@ class Team {
 			throw(new \PDOException("team id is not positive"));
 		}
 		// Create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team WHERE teamId = :teamId";
+		$query = "SELECT teamId, teamSportId, teamApiId, teamCity, teamName FROM team WHERE teamId = :teamId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the team id to the place holder in the template
@@ -340,7 +341,7 @@ class Team {
 			throw(new \PDOException("team Api id is not positive"));
 		}
 		// Create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team WHERE teamApiId = :teamApiId";
+		$query = "SELECT teamId,  teamSportId, teamApiId, teamCity, teamName FROM team WHERE teamApiId = :teamApiId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the team id to the place holder in the template
@@ -375,7 +376,7 @@ class Team {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
-	public static function getTeamByTeamCity(\PDO $pdo, int $teamCity) {
+	public static function getTeamByTeamCity(\PDO $pdo, string $teamCity) {
 // sanitize the description before searching
 		$teamCity = trim($teamCity);
 		$teamCity = filter_var($teamCity, FILTER_SANITIZE_STRING);
@@ -384,21 +385,21 @@ class Team {
 		}
 
 		// create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team WHERE teamCity LIKE :teamCity";
+		$query = "SELECT teamId, teamSportId, teamApiId, teamCity, teamName FROM team WHERE teamCity LIKE :teamCity";
 		$statement = $pdo->prepare($query);
 
 
 		// bind the team city to the place holder in the template
-		$teamCity = "%$teamCity";
+		$teamCity = "%$teamCity%";
 		$parameters = array("teamCity" => $teamCity);
 		$statement->execute($parameters);
 
 		// build an array of Team cities
 		$teamCities = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		While(($row = $statement->fetch()) !== false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
-				$teamCity = new $teamCity($row["teamId"], $row["teamApiId"], $row["teamName"], $row["teamSportId"]);
+				$teamCity = new team ($row["teamId"], $row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
 				$teamCities[$teamCities->key()] = $teamCity;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
@@ -428,12 +429,12 @@ class Team {
 		}
 
 		// create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team WHERE teamName LIKE :teamName";
+		$query = "SELECT teamId, teamSportId, teamApiId, teamCity, teamName FROM team WHERE teamName LIKE :teamName";
 		$statement = $pdo->prepare($query);
 
 
 		// bind the team name to the place holder in the template
-		$teamName = "%$teamName";
+		$teamName = "%$teamName%";
 		$parameters = array("teamName" => $teamName);
 		$statement->execute($parameters);
 
@@ -442,7 +443,7 @@ class Team {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$teamName = new $teamName($row["teamId"], $row["teamApiId"], $row["teamCity"], $row["teamSportId"]);
+				$teamName = new $teamName($row["teamId"],$row["teamSportId"], $row["teamApiId"], $row["teamCity"]);
 				$teamNames[$teamNames->key()] = $teamName;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
@@ -468,7 +469,7 @@ class Team {
 			throw(new \PDOException("team Sport id is not positive"));
 		}
 		// Create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team WHERE teamSportId = :teamSportId";
+		$query = "SELECT teamId, teamSportId, teamApiId, teamCity, teamName FROM team WHERE teamSportId = :teamSportId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the team id to the place holder in the template
@@ -502,7 +503,7 @@ class Team {
 
 	public static function getAllTeams(\PDO $pdo) {
 		//create query template
-		$query = "SELECT teamId, teamApiId, teamCity, teamName, teamSportId FROM team";
+		$query = "SELECT teamId, teamSportId, teamApiId, teamCity, teamName FROM team";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
