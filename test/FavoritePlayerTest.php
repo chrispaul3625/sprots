@@ -54,6 +54,7 @@ Class FavoritePlayerTest extends SprotsTest {
 		//run the default setup() method first
 		parent::setUp();
 
+		//Generate  Hash and Salt
 		$password = "abc123";
 		$this->salt = bin2hex(random_bytes(16));
 		$this->hash = hash_pbkdf2("sha512", $password, $this->salt, 262144);
@@ -64,7 +65,7 @@ Class FavoritePlayerTest extends SprotsTest {
 		$this->VALID_SPORT = new Sport(null, "basketball", "ABC");
 		$this->VALID_SPORT->insert($this->getPDO());
 
-		$this->VALID_TEAM = new Team(null, $this->VALID_SPORT->getSportId(), 1, "Albuquerque", "lobos");
+		$this->VALID_TEAM = new Team(null, $this->VALID_SPORT->getSportId(), 1, "Albuquerque", "Lobos");
 		$this->VALID_TEAM->insert($this->getPDO());
 
 
@@ -75,7 +76,7 @@ Class FavoritePlayerTest extends SprotsTest {
 	}
 
 	/**
-	 * test inserting a valid player and verify that the actual mySQL data matches
+	 * test inserting a valid player and verify that the actual MySQL data matches
 	 **/
 	public function testInsertValidFavoritePlayer() {
 		//count the number of rows and save it for later
@@ -103,7 +104,6 @@ Class FavoritePlayerTest extends SprotsTest {
 	 * test inserting a valid player that has already been inserted and watch it fail
 	 *
 	 * @expectedException \PDOException
-	 *
 	 */
 	public function testInsertInvalidFavoritePlayer(){
 		//create a new favoritePlayer and insert it into mySQL
@@ -112,6 +112,41 @@ Class FavoritePlayerTest extends SprotsTest {
 		$favoritePlayer->insert($this->getPDO());
 
 		}
+
+	/**
+	 * test deleting favorite player from MySQL
+	 *
+	 * @expectedException \PDOException
+	 */
+
+	public function testDeleteFavoritePlayer(){
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("favoritePlayer");
+
+		//create a new favoritePlayer and insert it into mySQL
+		$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(),$this->VALID_PLAYER->getPlayerId());
+		$favoritePlayer->insert($this->getPDO());
+
+		// delete the Favorite Player from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favoritePlayer"));
+		$favoritePlayer->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the Favorite Player does not exist
+		$pdoFavoritePlayer = FavoritePlayer::getFavoritePlayerbyPlayerId($this->getPDO(), $favoritePlayer->getPlayerId());
+		$this->assertNull($pdoFavoritePlayer);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("favoritePlayer"));
+
+	}
+
+
+	/**
+	 * test inserting a favorite player that does not exist
+	 *
+	 * @expectedException \PDOException
+	 */
+
+
+
 
 
 	}

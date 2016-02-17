@@ -153,8 +153,8 @@ Class FavoritePlayer {
 	 **/
 
 	public function update(\PDO $pdo) {
-		//enforce the id's are not null
-		if($this->favoritePlayerProfileId === null || $this->favoriteTeamTeamId === null) {
+		//enforce the Profile and Player id's are not null
+		if($this->favoritePlayerProfileId === null || $this->favoritePlayerPlayerId === null) {
 			throw(new \PDOException("Ids do not exist to update"));
 		}
 		//create query template

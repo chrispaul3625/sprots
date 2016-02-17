@@ -268,7 +268,7 @@ Class ProfileTest extends SprotsTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileEmail($this->getPDO(),$this->VALID_PROFILEEMAIL_2());
 		$this->assertNull($pdoProfile);
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+
 	}
 
 }
