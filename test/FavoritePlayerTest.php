@@ -3,6 +3,7 @@
 namespace Edu\Cnm\Sprots\Test;
 
 use Edu\Cnm\Sprots\FavoritePlayer;
+use Edu\Cnm\Sprots\Player;
 
 require_once ("SprotsTest.php");
 
@@ -20,24 +21,31 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 Class FavoritePlayerTest extends SprotsTest {
 
+	protected $VALID_SPORT;
+
+
 	/**
 	 * Player is valid
 	 * @var string $VALID_TEAM
 	 */
-	protected $VALID_TEAM = null;
+	protected $VALID_TEAM;
 
 	/**
 	 * Confirm valid Player
 	 * @var string $VALID_PLAYER
 	 */
 
-	protected $VALID_PLAYER = null;
+	protected $VALID_PLAYER;
 
 	/**
 	 * confirm Player Id
-	 * @var $VALID_PLAYERID
+	 * @var int $VALID_PLAYERID
 	 */
-	protected $VALID_PLAYERID = null;
+	protected $VALID_PROFILE;
+
+	protected $hash;
+
+	protected $salt;
 
 	/**
 	 * Create dependent objects before running each test
@@ -46,15 +54,24 @@ Class FavoritePlayerTest extends SprotsTest {
 		//run the default setup() method first
 		parent::setUp();
 
-		// create and insert a team that the player would play for
-		$this->team = new Team (null, "teamName", "teamCity");
-		$this->team->insert($this->getPDO());
-		// create and insert a ;player that would be favorited
-		$this->player = new Player(null, "PlayerName", "PlayerApiId");
-		$this->player->insert($this->getPDO());
-		// create and insert a Profile to own the FavoritePlayer
-		$this->profile = new Profile(null, "", "");
-		$this->profile->insert($this->getPDO());
+		$password = "abc123";
+		$this->salt = bin2hex(random_bytes(16));
+		$this->hash = hash_pbkdf2("sha512", $password, $this->salt, 262144);
+
+		$this->VALID_PROFILE = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
+		$this->VALID_PROFILE->insert($this->getPDO());
+
+		$this->VALID_SPORT = new Sport(null, "basketball", "ABC");
+		$this->VALID_SPORT->insert($this->getPDO());
+
+		$this->VALID_TEAM = new Team(null, $this->VALID_SPORT->getSportId(), 1, "Albuquerque", "lobos");
+		$this->VALID_TEAM->insert($this->getPDO());
+
+
+		$this->VALID_PLAYER = new Player(null,"Mike", 1, $this->VALID_TEAM->getTeamId());
+		$this->VALID_PLAYER->insert($this->getPDO());
+
+
 	}
 
 	/**
@@ -65,12 +82,36 @@ Class FavoritePlayerTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("favoritePlayer");
 
 		//create a new favoritePlayer and insert it into mySQL
-		$profile = new FavoritePlayer(null, $this->favoritePlayer->getfavoritePlayer(), $this->VALID_PLAYER);
-		$profile->insert($this->getPDO());
+		$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(),$this->VALID_PLAYER->getPlayerId());
+		$favoritePlayer->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectation
-		$pdoProfile = Profile::getProfilebyProfileId($this->$PDO(), $profile->getProfileid());
+		$pdoFavoritePlayers = FavoritePlayer::getFavoritePlayerByPlayerId($this->getPDO(),$this->VALID_PLAYER->getPlayerId());
+
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favoritePlayer"));
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoProfile->getProfileFirstName(), $this->VALID_PROFILEUSERNAME);
+
+		foreach($pdoFavoritePlayers as $pdoFavoritePlayer){
+			if($pdoFavoritePlayer->getFavoritePlayerId() === $this->VALID_PLAYER->getPlayerId()) {
+				$this->assertEquals($pdoFavoritePlayer->getFavoritePlayerId(), $favoritePlayer->getFavoritePlayerId());
+				$this->assertEquals($pdoFavoritePlayer->getFavoritePlayerProfileId(), $favoritePlayer->getFavoritePlayerProfileId());
+
+
+			}
+		}
+	}
+	/**
+	 * test inserting a valid player that has already been inserted and watch it fail
+	 *
+	 * @expectedException \PDOException
+	 *
+	 */
+	public function testInsertInvalidFavoritePlayer(){
+		//create a new favoritePlayer and insert it into mySQL
+		$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(),$this->VALID_PLAYER->getPlayerId());
+		$favoritePlayer->insert($this->getPDO());
+		$favoritePlayer->insert($this->getPDO());
+
+		}
+
+
 	}

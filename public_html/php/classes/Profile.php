@@ -1,7 +1,9 @@
 <?php
 
 namespace Cnm\Edu\Sprots;
-//require_once("autoload.php"); http://www.php-fig.org/psr/psr-4/ //
+
+
+require_once("autoload.php");
 
 Class Profile {
 	/**
