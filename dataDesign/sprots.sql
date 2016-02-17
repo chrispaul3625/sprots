@@ -24,9 +24,9 @@ CREATE TABLE profile (
 
 CREATE TABLE sport (
 	sportId     INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	sportTeam   VARCHAR(32)                 NOT NULL,
+	sportName   VARCHAR(32)                 NOT NULL,
 	sportLeague VARCHAR(32)                 NOT NULL,
-	UNIQUE (sportTeam),
+	UNIQUE (sportName),
 	UNIQUE (sportLeague),
 	PRIMARY KEY (sportId)
 );
