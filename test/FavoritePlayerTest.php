@@ -144,6 +144,17 @@ Class FavoritePlayerTest extends SprotsTest {
 	 *
 	 * @expectedException \PDOException
 	 */
+		public function testInsertInvalidFavoritePlayer (){
+			//create new player with a null profile Id and watch it fail
+			$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(),SprotsTest::INVALID_KEY );
+			$favoritePlayer->insert($this->getPDO());
+
+	}
+
+	/**
+	 * test getting favorite players by profile id
+	 *
+	 */
 
 
 

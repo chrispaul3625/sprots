@@ -20,7 +20,7 @@ Class FavoritePlayer {
 	private $favoritePlayerPlayerId;
 
 	/**
-	 * constructor for favoriting a Player.
+	 * constructor for favoriting a Player
 	 *
 	 * @param int $newFavoritePlayerProfileId this will be inherited from the profileId
 	 * @param int $newFavoritePlayerPlayerId this will be inherited from the playerId
@@ -107,8 +107,8 @@ Class FavoritePlayer {
 	 **/
 
 	public function insert(\PDO $pdo) {
-		if($this->favoritePlayerProfileId === null || $this->favoritePlayerPlayerId) {
-			throw(new \PDOException("Id doesn't exist"));
+		if($this->favoritePlayerProfileId === null || $this->favoritePlayerPlayerId === null) {
+			throw(new \PDOException("player does not exist"));
 		}
 		//create query template
 		$query = "INSERT INTO favoritePlayer(favoritePlayerProfileId, favoritePlayerPlayerId) VALUES (:favoritePlayerProfileId :favoritePlayerPlayerId)";
