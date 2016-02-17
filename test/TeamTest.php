@@ -213,15 +213,15 @@ class TeamTest extends SprotsTest {
 		$results = Team::getTeamByTeamCity($this->getPDO(), $team->getTeamCity());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("team"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Team", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Team", $results);
 
 		// grab the result from the array and validate it
 		$pdoTeam = $results[0];
-		$this->assertEquals($pdoTeam->getTeamId(), $this->sport->getSportId());
+		$this->assertEquals($pdoTeam->getTeamSportId(), $this->sport->getSportId());
 		$this->assertEquals($pdoTeam->getTeamApiId(), $this->VALID_TEAMAPIID);
 		$this->assertEquals($pdoTeam->getTeamCity(), $this->VALID_TEAMCITY);
 		$this->assertEquals($pdoTeam->getTeamName(), $this->VALID_TEAMNAME);
-		$this->assertEquals($pdoTeam->getTeamSportId(), $this->VALID_TEAMSPORTID);
+		//$this->assertEquals($pdoTeam->getTeamSportId(), $this->VALID_TEAMSPORTID);
 	}
 
 	/**
@@ -239,15 +239,15 @@ class TeamTest extends SprotsTest {
 		$results = Team::getTeamByTeamName($this->getPDO(), $team->getTeamName());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("team"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Team", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Team", $results);
 
 		// grab the result from the array and validate it
 		$pdoTeam = $results[0];
-		$this->assertEquals($pdoTeam->getTeamId(), $this->sport->getSportId());
+		$this->assertEquals($pdoTeam->getTeamSportId(), $this->sport->getSportId());
 		$this->assertEquals($pdoTeam->getTeamApiId(), $this->VALID_TEAMAPIID);
 		$this->assertEquals($pdoTeam->getTeamCity(), $this->VALID_TEAMCITY);
 		$this->assertEquals($pdoTeam->getTeamName(), $this->VALID_TEAMNAME);
-		$this->assertEquals($pdoTeam->getTeamSportId(), $this->VALID_TEAMSPORTID);
+		//$this->assertEquals($pdoTeam->getTeamSportId(), $this->VALID_TEAMSPORTID);
 	}
 
 	/**
@@ -265,15 +265,15 @@ class TeamTest extends SprotsTest {
 		$results = Team::getTeamByTeamName($this->getPDO(), $team->getTeamName());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("team"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Public_html\\Php\\Classes\\Team", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Team", $results);
 
 		// grab the result from the array and validate it
 		$pdoTeam = $results[0];
-		$this->assertEquals($pdoTeam->getTeamId(), $this->sport->getSportId());
+		$this->assertEquals($pdoTeam->getTeamSportId(), $this->sport->getSportId());
 		$this->assertEquals($pdoTeam->getTeamApiId(), $this->VALID_TEAMAPIID);
 		$this->assertEquals($pdoTeam->getTeamCity(), $this->VALID_TEAMCITY);
 		$this->assertEquals($pdoTeam->getTeamName(), $this->VALID_TEAMNAME);
-		$this->assertEquals($pdoTeam->getTeamSportId(), $this->VALID_TEAMSPORTID);
+		//$this->assertEquals($pdoTeam->getTeamSportId(), $this->VALID_TEAMSPORTID);
 	}
 
 
