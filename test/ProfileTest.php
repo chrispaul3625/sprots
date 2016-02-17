@@ -95,7 +95,7 @@ Class ProfileTest extends SprotsTest {
 	 **/
 	public function testInsertInvalidProfile() {
 		//create new profile with a null profile Id and watch it fail
-		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
+		$profile = new Profile(1, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt);
 		$profile->insert($this->getPDO());
 
 		//insert profile again and watch it fail

@@ -1,11 +1,11 @@
 <?php
 
-namespace Cnm\Edu\Sprots;
+namespace Edu\Cnm\Sprots;
 
 
 require_once("autoload.php");
 
-Class Profile {
+class Profile {
 	/**
 	 * id for this Profile; this is the primary key
 	 * @var int $profileId
@@ -34,7 +34,7 @@ Class Profile {
 
 	/**
 	 * Profile constructor.
-	 * @param int|null $newProfileId
+	 * @param int $newProfileId
 	 * @param string $newProfileUserName
 	 * @param string $newProfileEmail
 	 * @param string $newProfileHash

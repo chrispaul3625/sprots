@@ -2,6 +2,7 @@
 
 namespace Edu\Cnm\Sprots\Test;
 
+use Cnm\Edu\Sprots\Profile;
 use Edu\Cnm\Sprots\FavoritePlayer;
 use Edu\Cnm\Sprots\Player;
 
@@ -54,7 +55,7 @@ Class FavoritePlayerTest extends SprotsTest {
 		//run the default setup() method first
 		parent::setUp();
 
-		//Generate  Hash and Salt
+		//Generate Hash and Salt
 		$password = "abc123";
 		$this->salt = bin2hex(random_bytes(16));
 		$this->hash = hash_pbkdf2("sha512", $password, $this->salt, 262144);
@@ -114,7 +115,7 @@ Class FavoritePlayerTest extends SprotsTest {
 		}
 
 	/**
-	 * test deleting favorite player from MySQL
+	 * test deleting a favorite player from MySQL
 	 *
 	 * @expectedException \PDOException
 	 */
@@ -155,6 +156,22 @@ Class FavoritePlayerTest extends SprotsTest {
 	 * test getting favorite players by profile id
 	 *
 	 */
+
+	public function testGetFavoritePlayerByProfileId (){
+
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("favoritePlayer");
+
+		//create a new profile from which to get favorite players
+		$profile = new Profile(1, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt );
+		$profile->insert($this->getPDO());
+
+
+
+
+
+
+	}
 
 
 

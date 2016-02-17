@@ -75,7 +75,7 @@ Class FavoritePlayer {
 	/**
 	 * accessor method for favoritePlayerPlayerId
 	 *
-	 * @return int|null value of favorite player Id
+	 * @return int value of favorite player Id
 	 **/
 
 	public function getFavoritePlayerPlayerId() {
@@ -100,7 +100,7 @@ Class FavoritePlayer {
 	}
 
 	/**
-	 * Inserts this favorite player into the FavoritePlayer class
+	 * Inserts a favorite player into the FavoritePlayer class
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -123,7 +123,7 @@ Class FavoritePlayer {
 	}
 
 	/**
-	 * Deletes this favorite player from the FavoritePlayer class
+	 * Deletes a favorite player from the FavoritePlayer class
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -146,7 +146,7 @@ Class FavoritePlayer {
 	}
 
 	/**
-	 * updates this profiles favorite team in mySQL
+	 * updates this favorite player in mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -158,7 +158,6 @@ Class FavoritePlayer {
 			throw(new \PDOException("Ids do not exist to update"));
 		}
 		//create query template
-		// Create query template
 		$query = "UPDATE favoritePlayer SET favoritePlayerProfileId = :favoritePlayerProfileId, favoritePlayerPlayerId = :favoritePlayerPlayerId";
 		$statement = $pdo->prepare($query);
 
