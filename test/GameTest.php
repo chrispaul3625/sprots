@@ -6,8 +6,9 @@ require_once("SprotsTest.php");
 //grab the class under scrutiny
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
-use Edu\Cnm\Sprots\{
-	Game, Team,Sport};
+use Edu\Cnm\Sprots\Game;
+use Edu\Cnm\Sprots\Team;
+use Edu\Cnm\Sprots\Sport;
 
 /**
  * Full PHPUnit test for Game class
@@ -109,7 +110,7 @@ class GameTest extends SprotsTest {
 	/**
 	 * test inserting a Game that already exists
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 	public function testInsertInvalidGame(){
 		//create a game with a non null game id adn watch it fail
@@ -193,6 +194,40 @@ class GameTest extends SprotsTest {
 		$this->assertEquals($pdoGame->getGameFirstTeamId(), $this->team->getTeamId());
 		$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME);
 	}
+	/**
+	 * test for grabbing getGameByGameFirstTeamId
+	 */
+	public function testGetGameByGameFirstTeamId(){
+		$numRows = $this->getConnection()->getRowCount("game");
+
+		//create a new Game and insert into mySql
+		$game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
+		$game->insert($this->getPDO());
+
+
+		//grab data from mySQL and enforce the fields to match
+		$pdoGame = Game::getGameByGameFirstTeamId($this->getPDO(), $game->getGameId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
+		$this->assertEquals($pdoGame->getGameFirstTeamId(), $this->team->getTeamId());
+		$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME);
+	}
+	/**
+	 * testing grabbing for getGameByGamSecondTeamId
+	 */
+	public function testGetGameByGameSecondTeamId() {
+			$numRows = $this->getConnection()->getRowCount("game");
+
+			//create a new Game and insert into mySql
+			$game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
+			$game->insert($this->getPDO());
+
+
+			//grab data from mySQL and enforce the fields to match
+			$pdoGame = Game::getGameByGameSecondTeamId($this->getPDO(), $game->getGameId());
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
+			$this->assertEquals($pdoGame->getGameFirstTeamId(), $this->team->getTeamId());
+			$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME);
+		}
 	/**
 	 * test grabbing a Game that does not exist
 	 **/
