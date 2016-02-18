@@ -8,7 +8,7 @@ require_once("autoload.php");
  *
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
-class Team {
+Class Team {
 
 
 	/**
