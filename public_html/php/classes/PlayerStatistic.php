@@ -262,49 +262,49 @@ class PlayerStatistic {
 	 **/
 
 	public static function getPlayerStatisticByPlayerStatisticGameId(\PDO $pdo, int $playerStatisticGameId) {
-// sanitize the description before searching
-		$playerStatisticGameId = trim($playerStatisticGameId);
-		$playerStatisticGameId = filter_var($playerStatisticGameId, FILTER_SANITIZE_STRING);
-		if(empty($playerStatisticGameId) === true) {
-			throw(new \PDOException("player Statistic Game Id is invalid"));
+		// sanitize the player statistic statistic id before searching
+		if($playerStatisticGameId <= 0) {
+			throw (new \PDOException("player statistic game id is not positive"));
 		}
-
 		// create query template
 		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticGameId LIKE :playerStatisticGameId";
 		$statement = $pdo->prepare($query);
 
 
-		// bind the player Statistic Game Id to the place holder in the template
+		// bind the player Statistic game Id to the place holder in the template
 		$playerStatisticGameId = "%$playerStatisticGameId";
 		$parameters = array("playerStatisticGameId" => $playerStatisticGameId);
 		$statement->execute($parameters);
 
-		// build an array of player statistic player id
-		$playerStatisticGameId = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		While(($row = $statement->fetch()) !== false) {
-			try {
-				$playerStatisticGameId = new $playerStatisticGameId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatisticGameId[$playerStatisticGameId->key()] = $playerStatisticGameId;
-			} catch(\Exception $exception){
-			}
-		}
-
-		// Grab the player Statistic Game Id from mySQL
+		// Grab the player Statistic game Id from mySQL
 		try {
-			$playerStatistic = null;
+			$playerStatisticGameId = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$playerStatistic = new Playerstatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatisticGameId = new PlayerStatisticGameId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 			}
-		} catch
-		(\Exception $exception) {
+		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
-
 		}
-		return ($playerStatistic);
+		return ($playerStatisticGameId);
+
+		// build an array of player statistic
+		$playerStatistic = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		While(($row = $statement->fetch()) !== false) {
+			try {
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistics[$playerStatistics->key()] = $playerStatistics;
+				$playerStatistic->next();
+			} catch
+			(\Exception $exception) {
+
+
+				return ($playerStatistics);
+			}
+		}
 	}
 
 
@@ -319,27 +319,14 @@ class PlayerStatistic {
 	 **/
 
 	public static function getPlayerStatisticByPlayerStatisticPlayerId(\PDO $pdo, int $playerStatisticPlayerId) {
-// sanitize the description before searching
-		$playerStatisticPlayerId = trim($playerStatisticPlayerId);
-		$playerStatisticPlayerId = filter_var($playerStatisticPlayerId, FILTER_SANITIZE_STRING);
-		if(empty($playerStatisticPlayerId) === true) {
-			throw(new \PDOException("player Statistic Player Id is invalid"));
+		// sanitize the player statistic statistic id before searching
+		if($playerStatisticPlayerId <= 0) {
+			throw (new \PDOException("player statistic player id is not positive"));
 		}
-
 		// create query template
 		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticPlayerId LIKE :playerStatisticPlayerId";
 		$statement = $pdo->prepare($query);
 
-// build an array of player statistic player id
-		$playerStatisticPlayerId = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		While(($row = $statement->fetch()) !== false) {
-			try {
-				$playerStatisticPlayerId = new $playerStatisticPlayerId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatisticPlayerId[$playerStatisticPlayerId->key()] = $playerStatisticPlayerId;
-			} catch(\Exception $exception){
-			}
-		}
 
 		// bind the player Statistic Player Id to the place holder in the template
 		$playerStatisticPlayerId = "%$playerStatisticPlayerId";
@@ -348,21 +335,34 @@ class PlayerStatistic {
 
 		// Grab the player Statistic Player Id from mySQL
 		try {
-			$playerStatistic = null;
+			$playerStatisticPlayerId = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$playerStatistic = new Playerstatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatisticPlayerId = new PlayerStatisticPlayerId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 			}
-		} catch
-		(\Exception $exception) {
+		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
-
 		}
-		return ($playerStatistic);
-	}
+		return ($playerStatisticPlayerId);
 
+		// build an array of player statistic
+		$playerStatistic = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		While(($row = $statement->fetch()) !== false) {
+			try {
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistics[$playerStatistics->key()] = $playerStatistics;
+				$playerStatistic->next();
+			} catch
+			(\Exception $exception) {
+
+
+				return ($playerStatistics);
+			}
+		}
+	}
 
 	/**
 	 * gets the PlayerStatistic by playerStatisticStatisticId
@@ -375,6 +375,10 @@ class PlayerStatistic {
 	 **/
 
 	public static function getPlayerStatisticByPlayerStatisticStatisticId(\PDO $pdo, int $playerStatisticStatisticId) {
+		// sanitize the player statistic statistic id before searching
+		if($playerStatisticStatisticId <= 0) {
+			throw (new \PDOException("player statistic statistic id is not positive"));
+		}
 		// create query template
 		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticStatisticId LIKE :playerStatisticStatisticId";
 		$statement = $pdo->prepare($query);
@@ -385,36 +389,39 @@ class PlayerStatistic {
 		$parameters = array("playerStatisticStatisticId" => $playerStatisticStatisticId);
 		$statement->execute($parameters);
 
-		// build an array of player statistic id
-		$playerStatisticStatisticId = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		While(($row = $statement->fetch()) !== false) {
-			try {
-				$playerStatisticStatisticId = new $playerStatisticStatisticId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatisticStatisticId[$playerStatisticStatisticId->key()] = $playerStatisticStatisticId;
-			} catch(\Exception $exception){
-		}
-	}
 		// Grab the player Statistic Statistic Id from mySQL
 		try {
-			$playerStatistic = null;
+			$playerStatisticStatisticId = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$playerStatistic = new Playerstatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatisticStatisticId = new PlayerstatisticStatisticId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 			}
-		} catch
-		(\Exception $exception) {
+		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
-
 		}
-		return ($playerStatistic);
+		return ($playerStatisticStatisticId);
+
+		// build an array of player statistic
+		$playerStatistic = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		While(($row = $statement->fetch()) !== false) {
+			try {
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistics[$playerStatistics->key()] = $playerStatistics;
+				$playerStatistic->next();
+			} catch
+			(\Exception $exception) {
+
+
+				return ($playerStatistics);
+			}
+		}
 	}
 
-
 	/**
-	 * gets the TeamStatistic by playerStatisticValue
+	 * gets the PlayerStatistic by playerStatisticValue
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $playerStatisticStatisticValue player statistic value  to search for
@@ -436,30 +443,22 @@ class PlayerStatistic {
 		$statement->execute($parameters);
 
 		// build an array of player statistic id
-		$playerStatisticStatisticValue = new \SplFixedArray($statement->rowCount());
+		$playerStatisticStatisticValues = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$playerStatisticStatisticValue = new $playerStatisticStatisticValue($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatisticStatisticValue[$playerStatisticStatisticValue->key()] = $playerStatisticStatisticValue;
-			} catch(\Exception $exception){
-			}
-		}
-		// Grab the player Statistic Statistic Id from mySQL
-		try {
-			$playerStatistic= null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$playerStatistic = new playerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-			}
-		} catch
-		(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+				$playerStatisticStatisticValue = new PlayerStatisticStatisticValue($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatisticStatisticValues[$playerStatisticStatisticValues->key()] = $playerStatisticStatisticValue;
+				$playerStatisticStatisticValues->next();
+			} catch(\Exception $exception) {
 
-		}
-		return ($playerStatistic);
+				// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+}
+
+
+		return ($playerStatisticStatisticValues);
 	}
 
 	/**
@@ -478,19 +477,19 @@ class PlayerStatistic {
 		$statement->execute();
 
 		// build an array of Player Statistics
-		$playerStatistic = new \SplFixedArray($statement->rowCount());
+		$playerStatistics = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatistic[$playerStatistic->key()] = $playerStatistic;
-				$playerStatistic->next();
+				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
+				$playerStatistics->next();
 			} Catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($playerStatistic);
+		return ($playerStatistics);
 	}
 
 
