@@ -132,7 +132,7 @@ class Game {
 	 *
 	 * @return int|null value of gameSecondTeamId
 	 */
-	public function gameSecondTeamId() {
+	public function getGameSecondTeamId() {
 		return ($this->gameSecondTeamId);
 	}
 
@@ -245,11 +245,11 @@ class Game {
 			throw(new \PDOException("unable to update a game that does not exist"));
 		}
 		//query template
-		$query = "UPDATE game SET gameFirstTeamId = :gameFirstTeamId, gameSecondTeamId = :gameSecondTeamId, gameTime = :gameTime ";
+		$query = "UPDATE game SET gameTime = :gameTime ";
 		$statement = $pdo->prepare($query);
 		//bind the member variable to the place holders
 		$formattedDate = $this->gameTime->format("Y-m-d H:i:s");
-		$parameters  = ["gameTime" => $formattedDate, "gameFirstTeamId => $this->gameFirstTeamId", "gameSecondTeamId => $this->gameSecondTeamId()"];
+		$parameters  = ["gameTime" => $formattedDate];
 		$statement->execute($parameters);
 	}
 	/**

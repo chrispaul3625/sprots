@@ -18,20 +18,15 @@ use Edu\Cnm\Sprots\{
  */
 class GameTest extends SprotsTest {
 	/**
-	 * content of Game
-	 * @var  string $VALID_GAME
-	 */
-	protected $VALID_GAME = "PHPUnit test passing ";
-	/**
-	 * content of updated Game
-	 * @var string $VALID_GAME
-	 */
-	protected $VALID_GAME2 = "PHPUnit test still passing ";
-	/**
 	 * timestamp of the Game; this starts as null and is assigned later
 	 * @var \DateTime $VALID_GAMETIME
 	 */
 	protected $VALID_GAMETIME = null;
+	/**
+	 * timestamp of the Game; this starts as null and is assigned later
+	 * @var \DateTime $VALID_GAMETIME
+	 */
+	protected $VALID_GAMETIME2 = null;
 	/**
 	 * content of Team
 	 * @var int $VALID_TEAMAPIID
@@ -90,6 +85,7 @@ class GameTest extends SprotsTest {
 
 		// calculate the date (same as unit test)
 		$this->VALID_GAMETIME = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
+		$this->VALID_GAMETIME2 = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
 	}
 		/**
 		 * test inserting a valid Game and verify that the actual mySQL data matches
@@ -107,7 +103,7 @@ class GameTest extends SprotsTest {
 			$pdoGame = Game::getGameByGameId($this->getPDO(),$game->getGameId());
 			//var_dump($pdoGame);
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
-			$this->assertEquals($pdoGame->getTeamId(), $this->team->getTeamId());
+			$this->assertEquals($pdoGame->getGameFirstTeamId(), $this->team->getTeamId());
 			$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME);
 		}
 	/**
@@ -131,14 +127,15 @@ class GameTest extends SprotsTest {
 		$game->insert($this->getPDO());
 
 		//edit Game and update it in mySql
-		$game->setGame($this->VALID_GAME2);
+//		$game->setGameByGameSecondTeamId($this->VALID_GAME2);
+		$game->setGameTime($this->VALID_GAMETIME2);
 		$game->update($this->getPDO());
 
 		//grab data from mySQL and enforce the fields to match
 		$pdoGame = Game::getGameByGameId($this->getPDO(), $game->getGameId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
-		$this->assertEquals($pdoGame->getTeamId(), $this->team->getTeamId());
-		$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME, $this->VALID_GAME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$this->assertEquals($pdoGame->getGameFirstTeamId(), $this->team->getTeamId());
+		$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME);
 	}
 	/**
 	 * test updating a Game that already exists
@@ -147,7 +144,7 @@ class GameTest extends SprotsTest {
 	 **/
 	public function testUpdateInvalidGame(){
 		//create a  Game with  non null game id an watch it fail
-		$game = new Game(null,$this->team->getTeamId(), $this->VALID_GAME, $this->VALID_GAMETIME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$game = new Game(null,$this->team->getTeamId(),$this->team2->getTeamId(), $this->VALID_GAMETIME);
 		$game->update($this->getPDO());
 	}
 	/**
@@ -171,11 +168,11 @@ class GameTest extends SprotsTest {
 	/**
 	 * test deleting a Game that does not exist
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 	public function testDeleteInvalidGame(){
 		//create a game and try to delete it without actually inserting it
-		$game = new Game(null, $this->team->getGameId(), $this->VALID_GAME, $this->VALID_GAMETIME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
 		$game->delete($this->getPDO());
 	}
 	/**
@@ -193,8 +190,8 @@ class GameTest extends SprotsTest {
 		//grab data from mySQL and enforce the fields to match
 		$pdoGame = Game::getGameByGameId($this->getPDO(), $game->getGameId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("game"));
-		$this->assertEquals($pdoGame->getTeamId(), $this->team->getTeamId());
-		$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME, $this->VALID_GAME, $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$this->assertEquals($pdoGame->getGameFirstTeamId(), $this->team->getTeamId());
+		$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME);
 	}
 	/**
 	 * test grabbing a Game that does not exist
@@ -216,17 +213,14 @@ class GameTest extends SprotsTest {
 		$game->insert($this->getPDO());
 
 		//grab the dat from mySQL and enforce the fields match
-		$results = Game::getAllGames($this->getPDO());
+		$results = Game::getAllGame($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount('game'));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Game",$results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Game", $results);
 
 		//grab the results from the array and validate
 		$pdoGame = $results[0];
-		$this->assertEquals($pdoGame->getTeamId(), $this->team->getTeamId());
-		$this->assertEquals($pdoGame->getGameTime(), $this->VALID_GAMETIME);
-		$this->assertEquals($pdoGame->getTeamApiId(),$this->VALID_TEAMAPIID);
-		$this->assertEquals($pdoGame->getTeamCity(), $this->VALID_TEAMCITY);
-		$this->assertEquals($pdoGame->getTeamName(), $this->VALID_TEAMNAME);
+		$this->assertEquals($pdoGame->getGameFirstTeamId(), $this->team->getTeamId());
+
 	}
 }
