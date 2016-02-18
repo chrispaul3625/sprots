@@ -276,36 +276,23 @@ class PlayerStatistic {
 		$parameters = array("playerStatisticGameId" => $playerStatisticGameId);
 		$statement->execute($parameters);
 
-		// Grab the player Statistic game Id from mySQL
-		try {
-			$playerStatisticGameId = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$playerStatisticGameId = new PlayerStatisticGameId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($playerStatisticGameId);
-
 		// build an array of player statistic
-		$playerStatistic = new \SplFixedArray($statement->rowCount());
+		$playerStatistics = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
 				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatistics[$playerStatistics->key()] = $playerStatistics;
-				$playerStatistic->next();
+				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
+				$playerStatistics->next();
 			} catch
 			(\Exception $exception) {
-
-
-				return ($playerStatistics);
+				throw(new \PDOException($exception->getMessage(),0,$exception));
 			}
+
 		}
+		return ($playerStatistics);
 	}
+
 
 
 	/**
@@ -333,35 +320,22 @@ class PlayerStatistic {
 		$parameters = array("playerStatisticPlayerId" => $playerStatisticPlayerId);
 		$statement->execute($parameters);
 
-		// Grab the player Statistic Player Id from mySQL
-		try {
-			$playerStatisticPlayerId = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$playerStatisticPlayerId = new PlayerStatisticPlayerId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($playerStatisticPlayerId);
 
 		// build an array of player statistic
-		$playerStatistic = new \SplFixedArray($statement->rowCount());
+		$playerStatistics = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
 				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatistics[$playerStatistics->key()] = $playerStatistics;
-				$playerStatistic->next();
+				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
+				$playerStatistics->next();
 			} catch
 			(\Exception $exception) {
+			throw(new \PDOException($exception->getMessage(),0,$exception));
+				}
 
-
-				return ($playerStatistics);
-			}
 		}
+		return ($playerStatistics);
 	}
 
 	/**
@@ -389,35 +363,21 @@ class PlayerStatistic {
 		$parameters = array("playerStatisticStatisticId" => $playerStatisticStatisticId);
 		$statement->execute($parameters);
 
-		// Grab the player Statistic Statistic Id from mySQL
-		try {
-			$playerStatisticStatisticId = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$playerStatisticStatisticId = new PlayerstatisticStatisticId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($playerStatisticStatisticId);
-
 		// build an array of player statistic
-		$playerStatistic = new \SplFixedArray($statement->rowCount());
+		$playerStatistics = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
 				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatistics[$playerStatistics->key()] = $playerStatistics;
-				$playerStatistic->next();
+				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
+				$playerStatistics->next();
 			} catch
 			(\Exception $exception) {
-
-
-				return ($playerStatistics);
+				throw(new \PDOException($exception->getMessage(),0,$exception));
 			}
+
 		}
+		return ($playerStatistics);
 	}
 
 	/**
@@ -496,4 +456,4 @@ class PlayerStatistic {
 
 
 
-}b
+}
