@@ -58,12 +58,13 @@ class PlayerStatisticTest extends SprotsTest {
 	 * Team that is associated with the Player
 	 * @var team $team
 	 */
-protected $team = null;
+	protected $team = null;
 	/**
 	 * Team that is associated with the Player
 	 * @var team2 $team2
 	 */
 	protected $team2 = null;
+
 	/**
 	 * Create dependent objects before running each test
 	 */
@@ -83,7 +84,7 @@ protected $team = null;
 
 		//create and insert a Game to own the test playerStatistic
 		$currentDate = new \DateTime();
-		$this->game = new Game(null, $this->team->getTeamId(),"GameSecondTeamId", $currentDate);
+		$this->game = new Game(null, $this->team->getTeamId(), "GameSecondTeamId", $currentDate);
 		$this->game->insert($this->getPDO());
 
 		//create and insert a Player to own the test playerStatistic
@@ -96,6 +97,7 @@ protected $team = null;
 		$this->statistic = new Statistic(null, "statisticName");
 		$this->statistic->insert($this->getPDO());
 	}
+
 	/**
 	 * test inserting a valid PlayerStatistic and verify that the actual mySQL data matches
 	 **/
@@ -104,13 +106,15 @@ protected $team = null;
 		$numRows = $this->getConnection()->getRowCount("playerStatistic");
 
 		// create a new PlayerStatistics and insert to into mySQL
-		$playerStatistic = new PlayerStatistic($this->player->getPlayerId(), $this->player2->getPlayerId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE );
+		$playerStatistic = new PlayerStatistic($this->player->getPlayerId(), $this->player2->getPlayerId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE);
 		$playerStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameId($this->getPDO(), $playerStatistic->getPlayerStatisticStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
-		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticStatisticId(), $this->sport->getSportId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticStatisticId(), $this->statistic->getStatisticId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticValue(), $this->VALID_PLAYERSTATISTICVALUE);
 
 	}
@@ -121,7 +125,7 @@ protected $team = null;
 	 * @expectedException \PDOException
 	 **/
 	public function testInsertInvalidPlayerStatistic() {
-// create a friend with a non null friendId and watch it fail
+	// create a friend with a non null friendId and watch it fail
 		$playerStatistic = new PlayerStatistic(SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, $this->VALID_PLAYERSTATISTICVALUE);
 		$playerStatistic->insert($this->getPDO());
 	}
@@ -129,34 +133,122 @@ protected $team = null;
 	/**
 	 * test creating a PlayerStatistic and then deleting it
 	 **/
-	public function testDeleteValidPlayerStatistic() {
-// count the number of rows and save it for later
+	public function testUpdateValidPlayerStatistic() {
+	// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("playerStatistic");
 
-// create a new Player Statistic and insert to into mySQL
-		$playerStatistic = new PlayerStatistic($this->player->getPlayerId(), $this->player2->getPlayerId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE );
+	// create a new Player Statistic and insert to into mySQL
+		$playerStatistic = new PlayerStatistic($this->player->getPlayerId(), $this->player2->getPlayerId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE);
 		$playerStatistic->insert($this->getPDO());
 
-// delete the Profile from mySQL
+	// Edit the playerStatistic and update it in mySQL
+		$playerStatistic->setPlayerStatisticValue($this->VALID_PLAYERSTATISTICVALUE);
+		$playerStatistic->update($this->getPDO());
+
+	// grab the data from mySQL and enforce the fields match our expectations
+		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameId($this->getPDO(), $playerStatistic->getPlayerStatisticStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
-		$playerStatistic->delete($this->getPDO());
-
-// grab the data from mySQL and enforce the PlayerStatistic does not exist
-		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticPlayerId($this->getPDO(), $playerStatistic->getPlayerId());
-
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticStatisticId(), $this->statistic->getStatisticId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticValue(), $this->VALID_PLAYERSTATISTICVALUE);
 
 	}
 
+	/**
+	 * test updating a PlayerStatistic that already exists
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testUpdateInvalidPlayerStatistic() {
+	// create a friend with a non null friendId and watch it fail
+		$playerStatistic = new PlayerStatistic(SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, $this->VALID_PLAYERSTATISTICVALUE);
+		$playerStatistic->update($this->getPDO());
+	}
 
+	/**
+	 * test creating a PlayerStatistic and then deleting it
+	 **/
+	public function testDeleteValidPlayerStatistic() {
+	// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("playerStatistic");
 
+		// create a new Player Statistic and insert to into mySQL
+		$playerStatistic = new PlayerStatistic($this->player->getPlayerId(), $this->player2->getPlayerId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE);
+		$playerStatistic->insert($this->getPDO());
 
+	// Delete the Player from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$playerStatistic->delete($this->getPDO());
 
+	// grab the data from mySQL and enforce the fields match our expectations
+		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameId($this->getPDO(), $playerStatistic->getPlayerStatisticStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticStatisticId(), $this->statistic->getStatisticId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticValue(), $this->VALID_PLAYERSTATISTICVALUE);
+	}
 
+	/**
+	 * test deleting a PlayerStatistic That does not exist
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testDeleteInvalidPlayerStatistic() {
+// create a friend with a non null friendId and watch it fail
+		$playerStatistic = new PlayerStatistic(SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, $this->VALID_PLAYERSTATISTICVALUE);
+		$playerStatistic->delete($this->getPDO());
+	}
 
+	/**
+	 * test inserting a PlayerStatistic and regrabbing it from mySQL
+	 **/
+	public function testGetValidPlayerStatistic() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("playerStatistic");
 
+		// create a new PlayerStatistics and insert to into mySQL
+		$playerStatistic = new PlayerStatistic($this->player->getPlayerId(), $this->player2->getPlayerId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE);
+		$playerStatistic->insert($this->getPDO());
 
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = PlayerStatistic::getAllPlayerStatistics($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\PlayerStatistic", $results);
 
+		// grab the result from the array and validate it
+		$pdoPlayerStatistic = $results[0];
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticStatisticId(), $this->statistic->getStatisticId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticValue(), $this->VALID_PLAYERSTATISTICVALUE);
+	}
 
+	/**
+	 * test grabbing a PlayerStatistic that does not exist
+	 **/
+	public function testGetInvalidPlayerStatistic() {
+// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("playerStatistic");
 
+		// create a new PlayerStatistics and insert to into mySQL
+		$playerStatistic = new PlayerStatistic($this->player->getPlayerId(), $this->player2->getPlayerId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE);
+		$playerStatistic->insert($this->getPDO());
 
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = PlayerStatistic::getAllPlayerStatistics($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\PlayerStatistic", $results);
+
+		// grab the result from the array and validate it
+		$pdoPlayerStatistic = $results[0];
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticStatisticId(), $this->statistic->getStatisticId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticValue(), $this->VALID_PLAYERSTATISTICVALUE);
+
+	}
 }
