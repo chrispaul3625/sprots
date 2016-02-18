@@ -279,6 +279,17 @@ class PlayerStatistic {
 		$parameters = array("playerStatisticGameId" => $playerStatisticGameId);
 		$statement->execute($parameters);
 
+		// build an array of player statistic player id
+		$playerStatisticGameId = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		While(($row = $statement->fetch()) !== false) {
+			try {
+				$playerStatisticGameId = new $playerStatisticGameId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatisticGameId[$playerStatisticGameId->key()] = $playerStatisticGameId;
+			} catch(\Exception $exception){
+			}
+		}
+
 		// Grab the player Statistic Game Id from mySQL
 		try {
 			$playerStatistic = null;
@@ -319,6 +330,16 @@ class PlayerStatistic {
 		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticPlayerId LIKE :playerStatisticPlayerId";
 		$statement = $pdo->prepare($query);
 
+// build an array of player statistic player id
+		$playerStatisticPlayerId = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		While(($row = $statement->fetch()) !== false) {
+			try {
+				$playerStatisticPlayerId = new $playerStatisticPlayerId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatisticPlayerId[$playerStatisticPlayerId->key()] = $playerStatisticPlayerId;
+			} catch(\Exception $exception){
+			}
+		}
 
 		// bind the player Statistic Player Id to the place holder in the template
 		$playerStatisticPlayerId = "%$playerStatisticPlayerId";
@@ -344,7 +365,7 @@ class PlayerStatistic {
 
 
 	/**
-	 * gets the TeamStatistic by playerStatisticStatisticId
+	 * gets the PlayerStatistic by playerStatisticStatisticId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $playerStatisticStatisticId player statistic statistic id to search for
@@ -354,13 +375,6 @@ class PlayerStatistic {
 	 **/
 
 	public static function getPlayerStatisticByPlayerStatisticStatisticId(\PDO $pdo, int $playerStatisticStatisticId) {
-// sanitize the description before searching
-		$playerStatisticStatisticId= trim($playerStatisticStatisticId);
-		$playerStatisticStatisticId= filter_var($playerStatisticStatisticId, FILTER_SANITIZE_STRING);
-		if(empty($playerStatisticStatisticId) === true) {
-			throw(new \PDOException("player Statistic Statistic Id is invalid"));
-		}
-
 		// create query template
 		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticStatisticId LIKE :playerStatisticStatisticId";
 		$statement = $pdo->prepare($query);
@@ -371,6 +385,16 @@ class PlayerStatistic {
 		$parameters = array("playerStatisticStatisticId" => $playerStatisticStatisticId);
 		$statement->execute($parameters);
 
+		// build an array of player statistic id
+		$playerStatisticStatisticId = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		While(($row = $statement->fetch()) !== false) {
+			try {
+				$playerStatisticStatisticId = new $playerStatisticStatisticId($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatisticStatisticId[$playerStatisticStatisticId->key()] = $playerStatisticStatisticId;
+			} catch(\Exception $exception){
+		}
+	}
 		// Grab the player Statistic Statistic Id from mySQL
 		try {
 			$playerStatistic = null;
@@ -393,19 +417,13 @@ class PlayerStatistic {
 	 * gets the TeamStatistic by playerStatisticValue
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $playerStatisticValue player statistic value  to search for
+	 * @param string $playerStatisticStatisticValue player statistic value  to search for
 	 * @return \SplFixedArray SplFixedArray of player statistic value found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
 	public static function getPlayerStatisticByPlayerStatisticStatisticValue(\PDO $pdo, int $playerStatisticStatisticValue) {
-// sanitize the description before searching
-		$playerStatisticStatisticValue= trim($playerStatisticStatisticValue);
-		$playerStatisticStatisticValue = filter_var($playerStatisticStatisticValue, FILTER_SANITIZE_STRING);
-		if(empty($playerStatisticStatisticValue) === true) {
-			throw(new \PDOException("player Statistic Statistic Value is invalid"));
-		}
 
 		// create query template
 		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticValue LIKE :playerStatisticStatisticValue";
@@ -417,20 +435,31 @@ class PlayerStatistic {
 		$parameters = array("playerStatisticStatisticValue" => $playerStatisticStatisticValue);
 		$statement->execute($parameters);
 
-		// build an array of player statistic values
-		$playerStatisticStatisticValues = new \SplFixedArray($statement->rowCount());
+		// build an array of player statistic id
+		$playerStatisticStatisticValue = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
 				$playerStatisticStatisticValue = new $playerStatisticStatisticValue($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatisticStatisticValues[$playerStatisticStatisticValues->key()] = $playerStatisticStatisticValue;
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+				$playerStatisticStatisticValue[$playerStatisticStatisticValue->key()] = $playerStatisticStatisticValue;
+			} catch(\Exception $exception){
 			}
 		}
-		return ($playerStatisticStatisticValue);
+		// Grab the player Statistic Statistic Id from mySQL
+		try {
+			$playerStatistic= null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$playerStatistic = new playerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+			}
+		} catch
+		(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 
+		}
+		return ($playerStatistic);
 	}
 
 	/**

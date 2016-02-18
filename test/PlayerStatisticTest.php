@@ -113,11 +113,39 @@ protected $team = null;
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticStatisticId(), $this->sport->getSportId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticValue(), $this->VALID_PLAYERSTATISTICVALUE);
 
-
 	}
 
+	/**
+	 * test inserting a PlayerStatistic that already exists
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testInsertInvalidPlayerStatistic() {
+// create a friend with a non null friendId and watch it fail
+		$playerStatistic = new PlayerStatistic(SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, $this->VALID_PLAYERSTATISTICVALUE);
+		$playerStatistic->insert($this->getPDO());
+	}
+
+	/**
+	 * test creating a PlayerStatistic and then deleting it
+	 **/
+	public function testDeleteValidPlayerStatistic() {
+// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+
+// create a new Player Statistic and insert to into mySQL
+		$playerStatistic = new PlayerStatistic($this->player->getPlayerId(), $this->player2->getPlayerId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE );
+		$playerStatistic->insert($this->getPDO());
+
+// delete the Profile from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$playerStatistic->delete($this->getPDO());
+
+// grab the data from mySQL and enforce the PlayerStatistic does not exist
+		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticPlayerId($this->getPDO(), $playerStatistic->getPlayerId());
 
 
+	}
 
 
 
