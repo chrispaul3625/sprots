@@ -2,7 +2,7 @@
 
 namespace Edu\Cnm\Sprots\Test;
 
-use Cnm\Edu\Sprots\Profile;
+use Edu\Cnm\Sprots\Profile;
 use Edu\Cnm\Sprots\FavoritePlayer;
 use Edu\Cnm\Sprots\Player;
 
@@ -69,10 +69,8 @@ Class FavoritePlayerTest extends SprotsTest {
 		$this->VALID_TEAM = new Team(null, $this->VALID_SPORT->getSportId(), 1, "Albuquerque", "Lobos");
 		$this->VALID_TEAM->insert($this->getPDO());
 
-
 		$this->VALID_PLAYER = new Player(null,"Mike", 1, $this->VALID_TEAM->getTeamId());
 		$this->VALID_PLAYER->insert($this->getPDO());
-
 
 	}
 
@@ -83,11 +81,11 @@ Class FavoritePlayerTest extends SprotsTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favoritePlayer");
 
-		//create a new favoritePlayer and insert it into mySQL
+		//create a new favoritePlayer and insert it into MySQL
 		$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(),$this->VALID_PLAYER->getPlayerId());
 		$favoritePlayer->insert($this->getPDO());
 
-		//grab the data from mySQL and enforce the fields match our expectation
+		//grab the data from MySQL and enforce the fields match our expectation
 		$pdoFavoritePlayers = FavoritePlayer::getFavoritePlayerByPlayerId($this->getPDO(),$this->VALID_PLAYER->getPlayerId());
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favoritePlayer"));
@@ -163,8 +161,22 @@ Class FavoritePlayerTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("favoritePlayer");
 
 		//create a new profile from which to get favorite players
-		$profile = new Profile(1, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt );
+		$profile = new Profile(null, $this->VALID_PROFILEUSERNAME, $this->VALID_PROFILEEMAIL, $this->hash, $this->salt );
 		$profile->insert($this->getPDO());
+
+
+		//grab the data from MySQL and enforce the fields match our expectation
+		$pdoFavoritePlayers = FavoritePlayer::getFavoritePlayerByProfileId($this->getPDO(),->getPlayerId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favoritePlayer"));
+
+		foreach($pdoFavoritePlayers as $pdoFavoritePlayer){
+			if($pdoFavoritePlayer->getFavoritePlayerId() === $this->VALID_PLAYER->getPlayerId()) {
+				$this->assertEquals($pdoFavoritePlayer->getFavoritePlayerId(), $favoritePlayer->getFavoritePlayerId());
+				$this->assertEquals($pdoFavoritePlayer->getFavoritePlayerProfileId(), $favoritePlayer->getFavoritePlayerProfileId());
+
+
+			}
 
 
 

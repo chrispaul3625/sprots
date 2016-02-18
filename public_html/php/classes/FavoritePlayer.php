@@ -1,6 +1,6 @@
 <?php
 
-namespace Cnm\Edu\Sprots;
+namespace Edu\Cnm\Sprots;
 
 require_once ("autoload.php");
 
