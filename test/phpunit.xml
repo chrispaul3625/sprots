@@ -1,7 +1,7 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="Sprots">
-			<!--<file>FavoritePlayerTest.php</file>-->
+			<file>FavoritePlayerTest.php</file>
 			<!--<file>FavoriteTeamTest.php</file>-->
 			<file>GameTest.php</file>
 			<!--<file>PlayerTest.php</file>-->

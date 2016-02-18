@@ -30,7 +30,7 @@ Class FavoritePlayer {
 	 * @throws \Exception if some other exception occurs
 	 **/
 
-	public function __construct(int $newFavoritePlayerProfileId = null, int $newFavoritePlayerPlayerId = null) {
+	public function __construct(int $newFavoritePlayerProfileId, int $newFavoritePlayerPlayerId) {
 
 		try {
 			$this->setFavoritePlayerProfileId($newFavoritePlayerProfileId);
