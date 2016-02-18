@@ -332,12 +332,10 @@ Class Sport {
 		//grab the sport from the db
 		try {
 			$sport = null;
-			// var_dump($sport);
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
 				$sport = new Sport($row["sportId"], $row["sportLeague"], $row["sportName"]);
-				// var_dump($sport);
 			}
 		} catch(\Exception $exception) {
 			//if the row can't be converted, rethrow it
