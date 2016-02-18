@@ -478,19 +478,19 @@ class PlayerStatistic {
 		$statement->execute();
 
 		// build an array of Player Statistics
-		$playerStatistics = new \SplFixedArray($statement->rowCount());
+		$playerStatistic = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
-				$playerStatistics->next();
+				$playerStatistic[$playerStatistic->key()] = $playerStatistic;
+				$playerStatistic->next();
 			} Catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($playerStatistics);
+		return ($playerStatistic);
 	}
 
 
