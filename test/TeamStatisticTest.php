@@ -2,13 +2,13 @@
 
 namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots\{TeamStatistic, Player};
+use Edu\Cnm\Sprots\{Statistic, Player, Team};
 
 // grab the project test parameters
 require_once("SprotsTest.php");
 
 // grab the class under scrutiny
-require_once(dirname(__DIR__) . "public_html/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 /**
  * Full PHPUnit test for the TeamStatistic class
@@ -26,63 +26,65 @@ class TeamStatistictTest extends SprotsTest {
 	 * Id of the TeamStatistic
 	 * @var string $VALID_TEAMSTATISTICTEAMID
 	 **/
-	Protected $VALID_TEAMSTATISTICTEAMID = null;
+	protected $VALID_TEAMSTATISTICTEAMID = null;
 
 	/**
 	 * content of the updated teamStatisticId
 	 * @var string $VALID_TEAMSTATISTICTEAMID2
 	 **/
 
-	Protected $VALID_TEAMSTATISTICTEAMID2 = null;
+	protected $VALID_TEAMSTATISTICTEAMID2 = null;
 
 	/**
 	 * is unique value of the teamStatistic
 	 * @var string $VALID_TEAMSTATISTICVALUE
 	 **/
 
-	Protected $VALID_TEAMSTATISTICVALUE = null;
+	protected $VALID_TEAMSTATISTICVALUE = null;
 
 	/**
 	 * content of the updated teamStatisticValue
 	 * @var string $VALID_TEAMSTATISTICVALUE2
 	 **/
 
-	Protected $VALID_TEAMSTATISTICVALUE2 = null;
+	protected $VALID_TEAMSTATISTICVALUE2 = null;
 
 	/**
 	 * is unique to Statistic and Team
 	 * @var string $VALID_TEAMSTATISTICSTATISTICID
 	 */
 
-	Protected $VALID_TEAMSTATISTICSTATISTICID = null;
+	protected $VALID_TEAMSTATISTICSTATISTICID = null;
 
 	/**
 	 * content of the updated statistic and team
 	 * @var string $VALID_TEAMSTATISTICSTATISTICID2
 	 **/
 
-	Protected $VALID_TEAMSTATISTICSTATISTICID2 = null;
+	protected $VALID_TEAMSTATISTICSTATISTICID2 = Touchdowns;
 
 	/**
 	 * is unique to Team and Game Played
 	 * @var string $VALID_TEAMSTATISTICGAMEID
 	 */
 
-	Protected $VALID_TEAMSTATISTICGAMEID = null;
+	protected $VALID_TEAMSTATISTICGAMEID = null;
 
 	/**
 	 * content of updated TeamStatisticGameId
 	 * @var string $VALID_TEAMSTATISTICGAMEID2
 	 */
 
-	Protected $VALID_TEAMSTATISTICGAMEID2 = null;
+	protected $VALID_TEAMSTATISTICGAMEID2 = null;
 
 	/**
 	 * Team that Statistic belongs to
 	 * @var string $VALID_TEAM
 	 */
 
-	Protected $team = "PHPUnit test still passing";
+	protected $team = null;
+	protected $statistic = null;
+	protected $game = null;
 
 	/**
 	 * create dependent objects before running each test
@@ -93,7 +95,7 @@ class TeamStatistictTest extends SprotsTest {
 		parent::setUp();
 
 		// Create and insert a sport to own the test teamstatistic
-		$this->team = new team (null, "teamApiId", "teamApiId2", "teamCity", "teamCity2", "teamName", "teamName2");
+		$this->team = new Team (null, 24, 24, Chicago, Chicago, Bears, Bears);
 		$this->team->insert($this->getPDO());
 
 	}
@@ -101,12 +103,12 @@ class TeamStatistictTest extends SprotsTest {
 	/**
 	 * test inserting a valid team and verify that the actual mySQL data matches
 	 */
-public function testInsertValidIdTeamStatistic(){
+public function testInsertValidTeamStatistic() {
 	// count the number of rows and save it for later
-$numRows = $this->getConnection()->getRowCount("teamStatistic");
+	$numRows = $this->getConnection()->getRowCount(42);
 
 	// create a new teamStatistic and insert into mySQL
-$teamStatistic = new teamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
+$teamStatistic = new teamStatistic(null, $this->team->getTeamId(Bears), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 $teamStatistic->insert($this->getPDO());
 }
 
@@ -115,7 +117,7 @@ $teamStatistic->insert($this->getPDO());
  *
  * @expectedException PDOException
  **/
-public function testInsertValidTeamStatistic() {
+public function testInsertInvalidTeamStatistic() {
 	// create a teamStatsitc with a non null TeamStatisticId and watch it fail
 	$teamStatistic = new teamStatistic(SprotsTest::INVALID_KEY, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 	$teamStatistic->insert($this->getPDO());

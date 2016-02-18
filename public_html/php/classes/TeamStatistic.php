@@ -12,37 +12,25 @@ class TeamStatistic {
 	 * Id for the Statistic; this is the primary key
 	 * @var int $teamStatistic
 	 */
-		private $teamStatisticTeamId;
+	private $teamStatisticTeamId;
 
 	/**
 	 * is unique statistic, unique to team
-	 * @return int $teamStatisticId
+	 * @return int $teamStatisticStatisticId
 	 */
-
-	private $teamStatisticValue;
+	private $teamStatisticStatisticId;
 
 	/**
 	 * is unique value of statistic
 	 * @return int $teamStatisticValue
 	 */
-
-	private $teamStatisticStatisticId;
-
-	/**
-	 * is unique to Statistic and Team
-	 * @return int $teamStatisticStatisticId
-	 */
-
-	private $teamStatisticGameId;
+	private $teamStatisticValue;
 
 	/**
 	 * is unique to Team and Game Played
-	 * @return int
+	 * @return int $teamStatisticGameId
 	 */
-
-		public function getTeamStatisticTeamId() {
-			return $this->teamStatisticTeamId;
-		}
+	private $teamStatisticGameId;
 
 	/**
 	 * @param int $teamStatisticId
@@ -82,11 +70,11 @@ class TeamStatistic {
 
 
 
-/**
- * @param $teamStatisticTeamId
- * @param InvalidArgumentExceptioin if teamStatisticTeamId is not an integer
- * @throws RangeException if teamStatistic TeamId is negatice
- */
+	/**
+	 * @param $teamStatisticTeamId
+	 * @param InvalidArgumentExceptioin if teamStatisticTeamId is not an integer
+	 * @throws RangeException if teamStatistic TeamId is negatice
+	 */
 
 	public function setTeamStatisticTeamId($teamStatisticTeamId) {
 			if($teamStatisticTeamId === null) {
@@ -104,14 +92,13 @@ class TeamStatistic {
 			}
 		}
 
-	/**
-	 * accessor for teamStatisticTeamId
-	 * @return int value of TeamStatisticTeamId
-	 *
-	 */
-			public function getTeamStatisticValue() {
-				return $this->teamStatisticValue;
-			}
+		/**
+		 * accessor for teamStatisticTeamId
+		 * @return int value of TeamStatisticTeamId
+		 **/
+		public function getTeamStatisticValue() {
+			return $this->teamStatisticValue;
+		}
 
 	/**
 	 * @param int $teamStatisticValue new values of TeamStatisticValue
@@ -148,8 +135,7 @@ class TeamStatistic {
 				 * @throws RangeException if Statistic is negative
 				 */
 
-		public
-		function setTeamStatisticStatisticId($teamStatisticStatisticId) {
+		public function setTeamStatisticStatisticId($teamStatisticStatisticId) {
 			if($teamStatisticStatisticId === null) {
 				$this->teamStatisticStatisticId = null;
 						return;
@@ -189,6 +175,14 @@ class TeamStatistic {
 					}
 					$this->teamStatisticGameId = $teamStatisticGameId;
 				}
+
+	/**
+	 * is unique to Team and Game Played
+	 * @return int
+	 */
+	public function getTeamStatisticTeamId() {
+		return $this->teamStatisticTeamId;
+	}
 
 /**
  * inserts this teamStatistic into mySQL
