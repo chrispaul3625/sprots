@@ -86,10 +86,10 @@ Class FavoritePlayerTest extends SprotsTest {
 		$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(), $this->VALID_PLAYER->getPlayerId());
 		$favoritePlayer->insert($this->getPDO());
 
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favoritePlayer"));
+
 		//grab the data from MySQL and enforce the fields match our expectation
 		$pdoFavoritePlayers = FavoritePlayer::getFavoritePlayerByPlayerId($this->getPDO(), $this->VALID_PLAYER->getPlayerId());
-
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favoritePlayer"));
 
 		foreach($pdoFavoritePlayers as $pdoFavoritePlayer) {
 			if($pdoFavoritePlayer->getFavoritePlayerId() === $this->VALID_PLAYER->getPlayerId()) {
