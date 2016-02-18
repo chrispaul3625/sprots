@@ -72,7 +72,7 @@ class TeamTest extends SprotsTest {
 		parent::setUp();
 
 		// Create and insert a sport to own the test team
-		$this->sport = new Sport (null, "sportLeague", "sportLeague2", "SportTeam", "SportTeam2");
+		$this->sport = new Sport (null, "sportLeague", "sportLeague2", "SportName", "SportName2");
 		$this->sport->insert($this->getPDO());
 
 	}
