@@ -36,12 +36,12 @@ class PlayerStatisticTest extends SprotsTest {
 	 * timestamp of the Game; this starts as null and is assigned later
 	 * @var \DateTime $VALID_GAMETIME
 	 */
-	protected $VALID_GAMETIME = 2015-03-23-14-20-04;
+	protected $VALID_GAMETIME = "2015-03-23 14:20:04";
 	/**
 	 * timestamp of the Game; this starts as null and is assigned later
 	 * @var \DateTime $VALID_GAMETIME
 	 */
-	protected $VALID_GAMETIME2 = 2015-02-23-14-23-02;
+	protected $VALID_GAMETIME2 = "2015-02-23 14:23:02";
 
 	/**
 	 * Sport that the Player is playing
@@ -87,14 +87,14 @@ class PlayerStatisticTest extends SprotsTest {
 		parent::setUp();
 
 		//create and insert a Sport to own the test playerStatistic
-		$this->sport = new Sport(null, "sportTeams", "sportLeagues");
+		$this->sport = new Sport(null, "sportName", "sportLeague");
 		$this->sport->insert($this->getPDO());
 
 		//create and insert a team to own the test playerStatistic
-		$this->team = new Team(null,$this->sport->getSportId(), 567, 54, "TeamCity", "TeamName");
+		$this->team = new Team(null,$this->sport->getSportId(), 567, "TeamCity", "TeamName");
 		$this->team->insert($this->getPDO());
 
-		$this->team2 = new Team(null, $this->sport->getSportId(),  35, 57, "TeamCity2", "TeamName2");
+		$this->team2 = new Team(null, $this->sport->getSportId(), 35, "TeamCity2", "TeamName2");
 		$this->team2->insert($this->getPDO());
 
 
@@ -104,10 +104,11 @@ class PlayerStatisticTest extends SprotsTest {
 
 		// calculate the date (same as unit test)
 		$this->VALID_GAMETIME = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
-		$this->VALID_GAMETIME2 = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
+		$this->VALID_GAMETIME2 = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 16:23:04");
 
 		//create and insert a Player to own the test playerStatistic
-		$this->player = new Player(null, $this->team->getTeamId(),986, 87,23,$this->sport->getSportId(),"PlayerName");
+		// int $newPlayerId = null, int $newPlayerApiId, int $newPlayerTeamId, int $newPlayerSportId, string $newPlayerName
+		$this->player = new Player(null, 986, $this->team->getTeamId(), $this->sport->getSportId(), "PlayerName");
 		$this->player->insert($this->getPDO());
 
 		$this->player2 = new Player(null, $this->team2->getTeamId(),708, 75,66,$this->sport->getSportId(), "PlayerNames");
