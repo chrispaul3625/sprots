@@ -24,14 +24,14 @@ class Player {
 	private $playerApiId;
 	/**
 	 * Player is unique to Team Player cannot be on >1 teams
-	 * @var int $teamId
+	 * @var int $playerTeamId
 	 */
-	private $teamId;
+	private $playerTeamId;
 	/**
 	 * Id associated with sport
-	 * @var int $sportId
+	 * @var int $playerSportId
 	 */
-	private $sportId;
+	private $playerSportId;
 	/**
 	 * is unique Player
 	 * @var string $PlayerName
@@ -45,20 +45,20 @@ class Player {
 	 *
 	 * @param int|null $newPlayerId id of the player that is being created
 	 * @param int $newPlayerApiId Id that is associated with the sport
-	 * @param int $newTeamId id that is associated with team
-	 * @param int $newSportId id associated with sport
+	 * @param int $newPlayerTeamId id that is associated with team
+	 * @param int $newPlayerSportId id associated with sport
 	 * @param string $newPlayerName name associated with team
 	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate type hints
 	 */
 
 
-	public function __construct(int $newPlayerId = null, int $newPlayerApiId, int $newTeamId, int $newSportId, string $newPlayerName) {
+	public function __construct(int $newPlayerId = null, int $newPlayerApiId, int $newPlayerTeamId, int $newPlayerSportId, string $newPlayerName) {
 		try {
 			$this->setPlayerId($newPlayerId);
 			$this->setPlayerApiId($newPlayerApiId);
-			$this->setTeamId($newTeamId);
-			$this->setSportId($newSportId);
+			$this->setTeamId($newPlayerTeamId);
+			$this->setSportId($newPlayerSportId);
 			$this->setPlayerName($newPlayerName);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the exception to the caller
@@ -135,61 +135,61 @@ class Player {
 	}
 
 	/**
-	 *accessor method for team id
+	 *accessor method for player team id
 	 *
-	 * @return int|null value of  team id
+	 * @return int value of player team id
 	 **/
-	public function getTeamId() {
-		return ($this->teamId);
+	public function getPlayerTeamId() {
+		return ($this->playerTeamId);
 	}
 
 	/**
 	 * mutator method for team id
 	 *
-	 * @param int|null $newTeamId new value of  team id
-	 * @throws \RangeException if the $newTeamId is not positive
-	 * @throws \TypeError if $newTeamId is not an integer
+	 * @param int $newPlayerTeamId new value of player team id
+	 * @throws \RangeException if the $newPlayerTeamId is not positive
+	 * @throws \TypeError if $newPlayerTeamId is not an integer
 	 **/
-	public function setTeamId(int $newTeamId) {
+	public function setPlayerTeamId(int $newPlayerTeamId) {
 // Verify the team is positive
-		if($newTeamId <= 0) {
-			throw(new \RangeException("team id is not positive"));
+		if($newPlayerTeamId <= 0) {
+			throw(new \RangeException("player team id is not positive"));
 		}
 // Convert and store the player team id
-		$this->teamId = $newTeamId;
+		$this->playerTeamId = $newPlayerTeamId;
 	}
 
 	/**
-	 * accessor method for PlayerId
+	 * accessor method for PlayerSportId
 	 *
-	 * @return int|null value of PlayerId
+	 * @return int value of PlayerSportId
 	 */
 
-	public function getSportId() {
-		return ($this->sportId);
+	public function getPlayerSportId() {
+		return ($this->playerSportId);
 	}
 
 	/**
-	 * mutator method for PlayerId
+	 * mutator method for PlayerSportId
 	 *
-	 * @param int|null $newSportId new value of sport id
-	 * @throws \RangeException if the $newSportId is not positive
-	 * @throws \TypeError if $newPlayerId is not an integer
+	 * @param int $newPlayerSportId new value of player sport id
+	 * @throws \RangeException if the $newPlayerSportId is not positive
+	 * @throws \TypeError if $newPlayerSportId is not an integer
 	 **/
-	public function setSportId(int $newSportId = null) {
+	public function setPlayerSportId(int $newPlayerSportId) {
 		// base case: if sport id is null, this is a new player without a MySQL assigned id (yet)
-		if($newSportId <= 0) {
-			throw(new \RangeException("sport id is not positive"));
+		if($newPlayerSportId <= 0) {
+			throw(new \RangeException("player sport id is not positive"));
 
 		}
 
-		// Verify the sport id is positive
-		if($newSportId <= 0) {
-			throw(new \RangeException("sport id is not positive"));
+		// Verify the player sport id is positive
+		if($newPlayerSportId <= 0) {
+			throw(new \RangeException("player sport id is not positive"));
 		}
 
-		// Convert and store the player id
-		$this->sportId = $newSportId;
+		// Convert and store the player sport id
+		$this->playerSportId = $newPlayerSportId;
 	}
 	/**
 	 * accessor method for PlayerName
@@ -238,11 +238,11 @@ class Player {
 		}
 
 		// create query template
-		$query = "INSERT INTO player(playerId, playerApiId, teamId, sportId, playerName) VALUES(:playerId, :playerApiId, :teamId,:sportId, :playerName)";
+		$query = "INSERT INTO player(playerId, playerApiId, playerTeamId, playerSportId, playerName) VALUES(:playerId, :playerApiId, :playerTeamId,:playerSportId, :playerName)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
-		$parameters = ["playerId" => $this->playerId, "playerApiId" => $this->playerApiId, "playerTeamId" => $this->teamId, "sportId" => $this->sportId,"playerName" => $this->playerName];
+		$parameters = ["playerId" => $this->playerId, "playerApiId" => $this->playerApiId, "playerTeamId" => $this->playerTeamId, "playerSportId" => $this->playerSportId,"playerName" => $this->playerName];
 		$statement->execute($parameters);
 
 		// update the null playerId with what mySQL just gave us
@@ -263,11 +263,11 @@ class Player {
 		}
 
 		// create query template
-		$query = "INSERT INTO player(playerId, playerApiId, teamId, sportId, playerName) VALUES(:playerID, :playerApiId, :teamID,:sportId, :playerName)";
+		$query = "INSERT INTO player(playerId, playerApiId, playerTeamId, playerSportId, playerName) VALUES(:playerID, :playerApiId, :teamID,:sportId, :playerName)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
-		$parameters = ["playerId" => $this->playerId, "playerApiId" => $this->playerApiId, "playerTeamId" => $this->teamId, "sportId" => $this->sportId,"playerName" => $this->playerName];;
+		$parameters = ["playerId" => $this->playerId, "playerApiId" => $this->playerApiId, "playerTeamId" => $this->playerTeamId, "playerSportId" => $this->playerSportId,"playerName" => $this->playerName];;
 		$statement->execute($parameters);
 
 		// update the null playerId with what mySQL just gave us
@@ -311,7 +311,7 @@ class Player {
 			throw(new \PDOException("player id is not positive"));
 		}
 		// Create query template
-		$query = "SELECT playerId, playerApiId, teamId, sportId, playerName FROM player WHERE playerId = :playerId";
+		$query = "SELECT playerId, playerApiId, playerTeamId, playerSportId, playerName FROM player WHERE playerId = :playerId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the player id to the place holder in the template
@@ -324,7 +324,7 @@ class Player {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$player = new Player($row["playerId"], $row["playerApiId"], $row["teamId"], $row["sportId"], $row["playerName"]);
+				$player = new Player($row["playerId"], $row["playerApiId"], $row["playerTeamId"], $row["playerSportId"], $row["playerName"]);
 			}
 		} catch
 		(\Exception $exception) {
@@ -350,7 +350,7 @@ class Player {
 				throw(new \PDOException("playerApi id is not positive"));
 			}
 			// Create query template
-			$query = "SELECT playerId, playerApiId, teamId, sportId, playerName FROM player WHERE playerApiId = :playerApiId";
+			$query = "SELECT playerId, playerApiId, playerTeamId, playerSportId, playerName FROM player WHERE playerApiId = :playerApiId";
 			$statement = $pdo->prepare($query);
 
 			// Bind the player API id to the place holder in the template
@@ -363,7 +363,7 @@ class Player {
 				$statement->setFetchMode(\PDO::FETCH_ASSOC);
 				$row = $statement->fetch();
 				if($row !== false) {
-					$player = new Player($row["playerId"], $row["playerApiId"], $row["teamId"], $row["sportId"], $row["playerName"]);
+					$player = new Player($row["playerId"], $row["playerApiId"], $row["playerTeamId"], $row["playerSportId"], $row["playerName"]);
 				}
 			} catch
 			(\Exception $exception) {
@@ -375,25 +375,25 @@ class Player {
 		}
 
 			/**
-			 * gets the Player by teamId
+			 * gets the Player by playerTeamId
 			 *
 			 * @param \PDO $pdo PDO connection object
-			 * @param int $teamId team id to search for
+			 * @param int $playerTeamId player team id to search for
 			 * @return Player|null Player found or null if not found
 			 * @throws \PDOException when mySql related errors occur
 			 * @throws \TypeError when variable are not the correct data type
 			 */
-			public static function getPlayerByTeamId(\PDO $pdo, int $teamId) {
-				// sanitize the $teamId before searching
-				if($teamId <= 0) {
-					throw(new \PDOException("teamId id is not positive"));
+			public static function getPlayerByPlayerTeamId(\PDO $pdo, int $playerTeamId) {
+				// sanitize the $playerTeamId before searching
+				if($playerTeamId <= 0) {
+					throw(new \PDOException("playerTeamId id is not positive"));
 				}
 				// Create query template
-				$query = "SELECT playerId, playerApiId, teamId, sportId, playerName FROM player WHERE $teamId = :teamId";
+				$query = "SELECT playerId, playerApiId, playerTeamId, playerSportId, playerName FROM player WHERE $playerTeamId = :playerTeamId";
 				$statement = $pdo->prepare($query);
 
-				// Bind the team id to the place holder in the template
-				$parameters = array("$teamId" => $teamId);
+				// Bind the player team id to the place holder in the template
+				$parameters = array("$playerTeamId" => $playerTeamId);
 				$statement->execute($parameters);
 
 				// Grab the player from mySQL
@@ -402,7 +402,7 @@ class Player {
 					$statement->setFetchMode(\PDO::FETCH_ASSOC);
 					$row = $statement->fetch();
 					if($row !== false) {
-						$player = new Player($row["playerId"], $row["playerApiId"], $row["teamId"], $row["sportId"], $row["playerName"]);
+						$player = new Player($row["playerId"], $row["playerApiId"], $row["playerTeamId"], $row["playerSportId"], $row["playerName"]);
 					}
 				} catch
 				(\Exception $exception) {
@@ -414,25 +414,25 @@ class Player {
 			}
 
 	/**
-	 * gets the Player by sportId
+	 * gets the Player by playerSportId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $sportId team id to search for
+	 * @param int $playerSportId player sport id to search for
 	 * @return Player|null Player found or null if not found
 	 * @throws \PDOException when mySql related errors occur
 	 * @throws \TypeError when variable are not the correct data type
 	 */
-	public static function getPlayerBySportId(\PDO $pdo, int $sportId) {
-		// sanitize the $sportId before searching
-		if($sportId <= 0) {
-			throw(new \PDOException("teamId id is not positive"));
+	public static function getPlayerByPlayerSportId(\PDO $pdo, int $playerSportId) {
+		// sanitize the $PlayerSportId before searching
+		if($playerSportId <= 0) {
+			throw(new \PDOException("playerSportId is not positive"));
 		}
 		// Create query template
-		$query = "SELECT playerId, playerApiId, teamId, sportId, playerName FROM player WHERE $sportId = :sportId";
+		$query = "SELECT playerId, playerApiId, playerTeamId, playerSportId, playerName FROM player WHERE $playerSportId = :playerSportId";
 		$statement = $pdo->prepare($query);
 
-		// Bind the sport id to the place holder in the template
-		$parameters = array("$sportId" => $sportId);
+		// Bind the player sport id to the place holder in the template
+		$parameters = array("$playerSportId" => $playerSportId);
 		$statement->execute($parameters);
 
 		// Grab the player from mySQL
@@ -441,7 +441,7 @@ class Player {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$player = new Player($row["playerId"], $row["playerApiId"], $row["teamId"], $row["sportId"], $row["playerName"]);
+				$player = new Player($row["playerId"], $row["playerApiId"], $row["playerTeamId"], $row["playerSportId"], $row["playerName"]);
 			}
 		} catch
 		(\Exception $exception) {
@@ -468,7 +468,7 @@ class Player {
 			throw(new \PDOException("playerName is not valid"));
 		}
 		// Create query template
-		$query = "SELECT playerId, playerApiId, teamId, sportId, playerName FROM player WHERE $playerName = :playerName";
+		$query = "SELECT playerId, playerApiId, playerTeamId, playerSportId, playerName FROM player WHERE $playerName = :playerName";
 		$statement = $pdo->prepare($query);
 
 		// Bind the player Name to the place holder in the template
@@ -481,7 +481,7 @@ class Player {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$player = new Player($row["playerId"], $row["playerApiId"], $row["teamId"], $row["sportId"], $row["playerName"]);
+				$player = new Player($row["playerId"], $row["playerApiId"], $row["playerTeamId"], $row["playerSportId"], $row["playerName"]);
 			}
 		} catch
 		(\Exception $exception) {
@@ -503,7 +503,7 @@ class Player {
 
 	public static function getAllPlayers(\PDO $pdo) {
 		//create query template
-		$query = "SELECT playerId, playerApiId, teamId, sportId, playerName FROM player";
+		$query = "SELECT playerId, playerApiId, playerTeamId, playerSportId, playerName FROM player";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
@@ -512,7 +512,7 @@ class Player {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$player = new Player($row["playerId"], $row["playerApiId"], $row["teamId"], $row["sportId"], $row["playerName"]);
+				$player = new Player($row["playerId"], $row["playerApiId"], $row["playerTeamId"], $row["playerSportId"], $row["playerName"]);
 				$players[$players->key()] = $player;
 				$players->next();
 			} Catch(\Exception $exception) {

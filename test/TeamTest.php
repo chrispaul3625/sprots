@@ -1,15 +1,16 @@
 <?php
 namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots\{
-	Team, Sport
-};
+
 
 
 require_once("SprotsTest.php");
 
 //grab the project test parameters
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
+
+use Edu\Cnm\Sprots\Team;
+use Edu\Cnm\Sprots\Sport;
 
 /**
  * Full PHPUnit test for the PlayerStatistic class
