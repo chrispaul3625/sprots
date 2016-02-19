@@ -295,7 +295,7 @@ class Game {
 	 * gets the Game by gameFirstId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int gameFirstTeamId Game  id to search for
+	 * @param \int gameFirstTeamId Game  id to search for
 	 * @return Game|null Game found or null if not found
 	 * @throws \PDOException when mySql related errors occur
 	 * @throws \TypeError when variable are not the correct data type

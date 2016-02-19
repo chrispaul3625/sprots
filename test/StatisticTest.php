@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots\{Statistic};
+use Edu\Cnm\Sprots\Statistic;
 
 // grab the project test parameters
 require_once("SprotsTest.php");
@@ -54,6 +54,16 @@ class StatisticTest extends SprotsTest {
 		$pdoStatistic = Statistic::getStatisticByStatisticId($this->getPDO(), $statistic->getStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowcount("statistic"));
 		$this->assertEquals($pdoStatistic->getStatisticName(), $this->VALID_STATISTICNAME);
+	}
+	/**
+	 * test inserting a Statistic  that already exists
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testInsertInvalidGame(){
+		//create a game with a non null game id adn watch it fail
+		$statistic = new Statistic(SprotsTest::INVALID_KEY, $this->VALID_STATISTICNAME);
+		$statistic->insert($this->getPDO());
 	}
 	/**
 	 * test inserting statistic editing and update
