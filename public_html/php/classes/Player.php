@@ -23,46 +23,48 @@ class Player {
 	 */
 	private $playerName;
 	/**
-	 * uniquename
+	 * ID associated with the player from api
+	 * @var int $playerApiId
 	 */
 	private $playerApiId;
 	/**
 	 * Player is unique to Team Player cannot be on >1 teams
+	 * @var int $teamId
 	 */
-	private $playerTeamId;
+	private $teamId;
 
 	/**
-	 * @param int|null $newPlayerId of this Player or null if a New Player
-	 * @param int $newPlayerName Id of the Player
-	 * @param int $newPlayerApi Api Id of the Player
-	 * @param int $newPlayerTeamId Id of the Team the Player is on
-	 * @throws \InvalidArgumentException if data types are not valid
-	 * @throws \RangeException if data values are out of bouds (e.g, strings to long, negative intergers)
-	 * @throws \TypeError if data types violate type hints
+	 * Constructor for this team
+	 *
+	 * @param int|null $newPlayerId id of the player that is being created
+	 * @param int $newPlayerApiId Id that is associated with the sport
+	 * @param int $newTeamId id that is associated with team
+	 * @param string $newPlayerName name associated with team
 	 * @throws \Exception if some other exception occurs
+	 * @throws \TypeError if data types violate type hints
 	 */
 
 
-	public function __construct(int $newPlayerId = null, string $newPlayerName, int $newPlayerApiId, int $newPlayerTeamId = null) {
+	public function __construct(int $newPlayerId = null, int $newPlayerApiId, int $newTeamId = null, string $newPlayerName) {
 		try {
 			$this->setPlayerId($newPlayerId);
-			$this->setPlayerName($newPlayerName);
 			$this->setPlayerApiId($newPlayerApiId);
-			$this->setPlayerTeamId($newPlayerTeamId);
+			$this->setTeamId($newTeamId);
+			$this->setPlayerName($newPlayerName);
 		} catch(\InvalidArgumentException $invalidArgument) {
-			// rethrow exception to caller
-			throw(new \InvalidArgumetException($invalidArgument->getMessage(), 0, $invalidArgument));
-		} catch(\RangeException $range) {
-			//rethrow exception to caller
-			throw(new \RangeException($range->getMessage(), 0, $range));
-		} catch(\TypeError $typeError) {
 			// rethrow the exception to the caller
-			throw(new \RangeException($typeError->getMessage(), 0, $typeError));
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			// rethrow the exception to the caller
+			throw(new \RangeException($range->getMessage(), 0, $range));
 		} catch(\Exception $exception) {
 			// rethrow the exception to the caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
+		} catch(\TypeError $typeError) {
+			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
 		}
 	}
+
 
 	/**
 	 * accessor method for PlayerId
@@ -75,183 +77,184 @@ class Player {
 	}
 
 	/**
-	 * @param int $newplayerId new value of PlayerId
-	 * @throws InvalidArgumentException if PlayerId is not an integer
-	 * @throws RangeException if PlayerTeamId is negative
-	 */
-
-	public function setPlayerId($newPlayerId) {
+	 * mutator method for PlayerId
+	 *
+	 * @param int|null $newPlayerId new value of player id
+	 * @throws \RangeException if the $newPlayerId is not positive
+	 * @throws \TypeError if $newPlayerId is not an integer
+	 **/
+	public function setPlayerId(int $newPlayerId = null) {
+		// base case: if playerId is null, this is a new player without a MySQL assigned id (yet)
 		if($newPlayerId === null) {
 			$this->playerId = null;
 			return;
 		}
-		$newPlayerId = filter_var($newPlayerId, FILTER_VALIDATE_INT);
-		if($newPlayerId == false) {
-		}
-		if($newPlayerId <= 0) {
-			throw(new RangeException("PlayerId must be positive"));
-		}
-		$this->playerId = $newPlayerId;
 
+		// Verify the player id is positive
+		if($newPlayerId <= 0) {
+			throw(new \RangeException("team id is not positive"));
+		}
+
+		// Convert and store the player id
+		$this->playerId = $newPlayerId;
 	}
 
+
 	/**
-	 * accessor method for PlayerId
+	 * accessor method for PlayerName
 	 *
-	 * @return int value of PlayerId
+	 * @return string value of PlayerName
 	 */
 	public function getPlayerName() {
 		return $this->playerName;
 	}
 
 	/**
-	 * @param int $PlayerName new value of PlayerName
-	 * @throws InvalidArgumentException if PlayerName is not an integer
-	 * @throws RangeException if TeamId is negative
-	 */
-
-	public function setPlayerName($playerName) {
-		if($playerName === null) {
-			$this->playerName = null;
-			return;
+	 * mutator method for player name
+	 *
+	 * @param string $newPlayerName new value of player name
+	 * @throws \InvalidArgumentException if $newPlayerName is not a string or insecure
+	 * @throws \RangeException if $newPlayerName is >32 characters
+	 * @throws \TypeError if $newPlayerName is not a string
+	 **/
+	public function setPlayerName(string $newPlayerName) {
+		//verify the player name is secure
+		$newPlayerName = trim($newPlayerName);
+		$newPlayerName = filter_var($newPlayerName, FILTER_SANITIZE_STRING);
+		if(empty($newPlayerName) === true) {
+			throw(new \InvalidArgumentException("Player name is empty or insecure"));
 		}
-		$playerName = filter_var($playerName, FILTER_VALIDATE_INT);
-		if($playerName == false) {
+//verify the player name will fit in the database
+		if(strlen($newPlayerName) > 32) {
+			throw(new \RangeException("player name is too large"));
 		}
-		if($playerName <= 0) {
-			throw(new RangeException("Player name must be positive"));
-		}
-		$this->playerName = $playerName;
+// store the new player name
+		$this->playerName = $newPlayerName;
 	}
 
 	/**
-	 * accessor for PlayerName
+	 *accessor method for player Api id
 	 *
-	 * @return int value of PlayerName
-	 */
-
-
+	 * @return int|null value of player api id
+	 **/
 	public function getPlayerApiId() {
-		return $this->playerApiId;
+		return ($this->playerApiId);
 	}
 
 	/**
-	 * @param int $playerApiId new value of PlayerApiId
-	 * @throws InvalidArgumentException if PlayerApiId is not an integer
-	 * @throws RangeException if TeamId is negative
-	 */
-	public function setPlayerApiId($playerApiId) {
-		if($playerApiId === null) {
-			$this->playerApiId = null;
-			return;
-		}
-		$playerApiId = filter_var($playerApiId, FILTER_VALIDATE_INT);
-		if($playerApiId == false) {
-		}
-		if($playerApiId <= 0) {
-			throw(new RangeException("Player api Id must be positive"));
-		}
-		$this->$playerApiId = $playerApiId;
-	}
-
-	/**
-	 * accessor for PlayerApiId
+	 * mutator method for player Api id
 	 *
-	 * @return int value of PlayerApiId
-	 */
-	public function setPlayerTeamId($playerTeamId) {
-		if($playerTeamId === null) {
-			$this->playerTeam = null;
-			return;
-			/**
-			 * @param int PlayerTeamId new value of PlayerTeamId
-			 * @throws InvalidArgumentException if PlayerTeamId is not an integer
-			 * @throws RangeException if PlayerId is negative
-			 */
+	 * @param int|null $newPlayerApiId new value of player Api id
+	 * @throws \RangeException if the $newPlayerApiId is not positive
+	 * @throws \TypeError if $newPlayerApiId is not an integer
+	 **/
+	public function setPlayerApiId(int $newPlayerApiId) {
+// Verify the player id is positive
+		if($newPlayerApiId <= 0) {
+			throw(new \RangeException("player api id is not positive"));
 		}
-		$playerTeamId = filter_var($playerTeamId, FILTER_VALIDATE_INT);
-		if($playerTeamId == false) {
-		}
-		if($playerTeamId <= 0) {
-			throw(new RangeException("PlayerTeamId must be positive"));
-		}
-		$this->$playerTeamId;
+// Convert and store the player api id
+		$this->playerApiId = $newPlayerApiId;
 	}
 
 	/**
-	 * inserts this Player into mySQL
+	 *accessor method for team id
 	 *
-	 * @param \PDO $pdo PDO connection object
+	 * @return int|null value of  team id
+	 **/
+	public function getTeamId() {
+		return ($this->teamId);
+	}
+
+	/**
+	 * mutator method for team id
+	 *
+	 * @param int|null $newTeamId new value of  team id
+	 * @throws \RangeException if the $newTeamId is not positive
+	 * @throws \TypeError if $newTeamId is not an integer
+	 **/
+	public function setTeamId(int $newTeamId) {
+// Verify the team is positive
+		if($newTeamId <= 0) {
+			throw(new \RangeException("team id is not positive"));
+		}
+// Convert and store the player team id
+		$this->teamId = $newTeamId;
+	}
+
+	/**
+	 * inserts this player into mySQL
+	 *
+	 * @param \PDO $pdo connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) {
-		// enforce the PlayerId is null (i.e., dont insert a Player that already exists
+		// enforces that player id is null (i.e., don't insert a team that already exists.
 		if($this->playerId !== null) {
-			throw(new \PDOException("not a new Player"));
+			throw(new \PDOException("not a new player"));
 		}
 
 		// create query template
-		$query = "INSERT INTO Player(PlayerName, PlayerApiId, PlayerTeamId) VALUES(:PlayerId, :PlayerName, PlayerApiId, :PlayerTeamId)";
+		$query = "INSERT INTO player(playerId, playerApiId, teamId, playerName) VALUES(:playerID, :playerApiId, :playerTeamID, :playerName)";
 		$statement = $pdo->prepare($query);
 
-		// update the null playerId with what mySql just gave us
-		$this->playerId = interval($pdo->lastInsertId());
+		//bind the member variables to the place holders in the template
+		$parameters = ["playerID" => $this->playerId, "playerApiId" => $this->playerApiId, "teamId" => $this->teamId, "playerName" => $this->playerName];
+		$statement->execute($parameters);
 
+		// update the null playerId with what mySQL just gave us
+		$this->playerId = intval($pdo->lastInsertId());
 	}
 
 	/**
-	 * updates this Player in mySQL
+	 * updates this player into mySQL
 	 *
-	 * @param \PDO $pdo PDO connection object
+	 * @param \PDO $pdo connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function update(\PDO $pdo) {
-		if($this->playerId === null) {
-			throw(new \PDOException("unable to update a Player that does not exist"));
+		// enforces that player id is null (i.e., don't insert a team that already exists.
+		if($this->playerId !== null) {
+			throw(new \PDOException("not a new player"));
 		}
-		$query = "UPDATE Player SET PlayerNameId = :PlayerNameId, PlayerApiId = :PlayerApiId, PlayerTeamId = :PlayerTeamId WHERE PlayerId = :PlayerId";
+
+		// create query template
+		$query = "INSERT INTO player(playerId, playerApiId, teamId, playerName) VALUES(:playerID, :playerApiId, :playerTeamID, :playerName)";
 		$statement = $pdo->prepare($query);
 
-
-		$formattedDate = $this->playerId->format("Y-m-d H:i:s");
-		$parameters = ["PlayerNameId" => $this->playerNameId, "PlayerApiId" => $this->playerApiId, "PlayerTeamId" => $this->playerTeamId, "PlayerId" => $this->playerId];
+		//bind the member variables to the place holders in the template
+		$parameters = ["playerID" => $this->playerId, "playerApiId" => $this->playerApiId, "teamId" => $this->teamId, "playerName" => $this->playerName];
 		$statement->execute($parameters);
+
+		// update the null playerId with what mySQL just gave us
+		$this->playerId = intval($pdo->lastInsertId());
 	}
 
-
-
 	/**
-	 * deletes Player from mySQL
+	 * deletes player from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
-	 *
 	 **/
-	public function delete(\PDO $pdo) {
-		//enforce the PlayerId is not null (i.e., don't delete a player that hasn't been inserted)
-		if($this->playerId === null) {
-			throw(new \PDOException("unable to delete a Player that does not exist"));
-		}
 
+	public function delete(\PDO $pdo) {
+// enforce the player id is not null (i.e., don't delete a player that hasn't been inserted)
+		if($this->teamId === null) {
+			throw(new \PDOException("unable to delete a player that does not exist"));
+		}
 		// create query template
-		$query = "DELETE FROM Player WHERE PlayerId = :PlayerId";
+		$query = "DELETE FROM player WHERE playerId = :playerId";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holder in the template
-		$parameters = ["PlayerId" => $this->PlayerId];
+		$parameters = ["playerId" => $this->playerId];
 		$statement->execute($parameters);
-		}
+	}
 
-	/**
-	 * accessor for PlayerTeamId
-	 *
-	 * @return int value of PlayerTeamId
-	 */
 }
-
 
 
 

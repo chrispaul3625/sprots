@@ -104,9 +104,9 @@ class PlayerStatisticTest extends SprotsTest {
 		$this->VALID_GAMETIME2 = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
 
 		//create and insert a Player to own the test playerStatistic
-		$this->player = new Player(null, $this->game->getGameId(), "playerNames",5993, 4784);
+		$this->player = new Player(null, $this->game->getGameId(),5993, 4784, "playerNames");
 		$this->player->insert($this->getPDO());
-		$this->player2 = new Player(null, $this->game->getGameId(), "playerName",5656, 4224);
+		$this->player2 = new Player(null, $this->game->getGameId(),53, 784, "playerNames");
 		$this->player2->insert($this->getPDO());
 
 		//create and insert a Statistic to own the test playerStatistic
