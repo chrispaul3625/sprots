@@ -8,6 +8,8 @@ require_once("autoload.php");
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
 class PlayerStatistic {
+
+	use ValidateDate;
 	/**
 	 * $playerStatisticGameId id for player in a specific game; this is a foreign key
 	 * @var int $playerStatisticGameId

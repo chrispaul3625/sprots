@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots\{
+use Edu\Cnm\Sprots\{Team,
 	Game, Player, Sport, Statistic
 };
 use Edu\Cnm\Sprots\PlayerStatistic;
@@ -28,6 +28,17 @@ class PlayerStatisticTest extends SprotsTest {
 	 * @var int $VALID_PLAYERSTATISTICVALUE
 	 **/
 	protected $VALID_PLAYERSTATISTICVALUE = 1678;
+
+	/**
+	 * timestamp of the Game; this starts as null and is assigned later
+	 * @var \DateTime $VALID_GAMETIME
+	 */
+	protected $VALID_GAMETIME = 2015-03-23-14-20-04;
+	/**
+	 * timestamp of the Game; this starts as null and is assigned later
+	 * @var \DateTime $VALID_GAMETIME
+	 */
+	protected $VALID_GAMETIME2 = 2015-02-23-14-23-02;
 
 	/**
 	 * Sport that the Player is playing
@@ -73,28 +84,33 @@ class PlayerStatisticTest extends SprotsTest {
 		parent::setUp();
 
 		//create and insert a Sport to own the test playerStatistic
-		$this->sport = new Sport(null, "sportTeam", "sportLeague");
+		$this->sport = new Sport(null, "sportTeams", "sportLeagues");
 		$this->sport->insert($this->getPDO());
 
 		//create and insert a team to own the test playerStatistic
-		$this->team = new Player(null, "playerName", $this->team->getTeamId(), 42);
+		$this->team = new Team(null,$this->sport->getSportId(), 567, 54, "TeamCity", "TeamName");
 		$this->team->insert($this->getPDO());
-		$this->team2 = new Player(null, "playerName", $this->team2->getTeamId(), 42);
+
+		$this->team2 = new Team(null,$this->sport->getSportId(), 35, 57, "TeamCity2", "TeamName2");
 		$this->team2->insert($this->getPDO());
 
+
 		//create and insert a Game to own the test playerStatistic
-		$currentDate = new \DateTime();
-		$this->game = new Game(null, $this->team->getTeamId(), "GameSecondTeamId", $currentDate);
+		$this->game = new Game(null,$this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
 		$this->game->insert($this->getPDO());
 
+		// calculate the date (same as unit test)
+		$this->VALID_GAMETIME = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
+		$this->VALID_GAMETIME2 = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
+
 		//create and insert a Player to own the test playerStatistic
-		$this->player = new Player(null, "playerName", $this->team->getTeamId(), 42);
+		$this->player = new Player(null, $this->game->getGameId(), "playerName",5993, 4784);
 		$this->player->insert($this->getPDO());
-		$this->player2 = new Player(null, "playerName", $this->team2->getTeamId(), 65);
+		$this->player2 = new Player(null, $this->game->getGameId(), "playerName",5656, 4224);
 		$this->player2->insert($this->getPDO());
 
 		//create and insert a Statistic to own the test playerStatistic
-		$this->statistic = new Statistic(null, "statisticName");
+		$this->statistic = new Statistic(null,$this->player->getPlayerId(), "statisticName");
 		$this->statistic->insert($this->getPDO());
 	}
 
