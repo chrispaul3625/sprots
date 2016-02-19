@@ -57,8 +57,8 @@ class Player {
 		try {
 			$this->setPlayerId($newPlayerId);
 			$this->setPlayerApiId($newPlayerApiId);
-			$this->setTeamId($newPlayerTeamId);
-			$this->setSportId($newPlayerSportId);
+			$this->setPlayerTeamId($newPlayerTeamId);
+			$this->setPlayerSportId($newPlayerSportId);
 			$this->setPlayerName($newPlayerName);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the exception to the caller
