@@ -2,6 +2,7 @@
 
 require_once("autoload.php");
 
+
 /**
  * TeamStatistic, This is a field in which all statistics related to a team are going to be held.
  *
@@ -38,7 +39,7 @@ class TeamStatistic {
 	 * @param int $newTeamStatisticStatisticId
 	 * @param int $newTeamStatisticGameId
 	 * @throws Exception if some other exception occurs
-	 * @throws InvalidArgumetException
+	 * @throws InvalidArgumentException
 	 * @internal param int|null $teamStatisticTeam of this teamStatistic or null if a New Player
 	 * @internal param int $teamStatisticTeamId Id of the teamStatistic
 	 * @internal param int $teamStatisticValue Statistic value of the Team
@@ -54,7 +55,7 @@ class TeamStatistic {
 			$this->setTeamStatisticGameId($newTeamStatisticGameId);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow exception to caller
-			throw(new \InvalidArgumetException($invalidArgument->getMessage(), 0, $invalidArgument));
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
 			//rethrow exception to caller
 			throw(new \RangeException($range->getMessage(), 0, $range));
@@ -70,7 +71,7 @@ class TeamStatistic {
 
 	/**
 	 * @param $teamStatisticTeamId
-	 * @param InvalidArgumentExceptioin if teamStatisticTeamId is not an integer
+	 * @param InvalidArgumentException if teamStatisticTeamId is not an integer
 	 * @throws RangeException if teamStatistic TeamId is negatice
 	 */
 
@@ -84,10 +85,8 @@ class TeamStatistic {
 		}
 		if($teamStatisticTeamId <= 0) {
 			throw (new RangeException("PlayerStatisticId must be postive"));
-			{
-				$this->teamStatisticTeamId = $teamStatisticTeamId;
-			}
 		}
+		$this->teamStatisticTeamId = $teamStatisticTeamId;
 	}
 
 	/**
@@ -114,8 +113,8 @@ class TeamStatistic {
 		}
 		if($teamStatisticValue <= 0) {
 			throw (new RangeException("PlayerStatisticValue must be positive"));
-			$this->teamStatisticValue = $teamStatisticValue;
 		}
+		$this->teamStatisticValue = $teamStatisticValue;
 	}
 
 	/**
