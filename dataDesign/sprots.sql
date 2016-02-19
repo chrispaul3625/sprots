@@ -46,13 +46,13 @@ CREATE TABLE team (
 CREATE TABLE player (
 	playerId    INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	playerApiId INT UNSIGNED                NOT NULL,
-	sportId     INT UNSIGNED                NOT NULL,
-	teamId      INT UNSIGNED                NOT NULL,
+	playerSportId     INT UNSIGNED                NOT NULL,
+	playerTeamId      INT UNSIGNED                NOT NULL,
 	playerName  VARCHAR(64)                 NOT NULL,
 	UNIQUE (playerApiId),
 	UNIQUE (playerId),
-	FOREIGN KEY (sportId) REFERENCES sport (sportId),
-	FOREIGN KEY (teamId) REFERENCES team (teamId),
+	FOREIGN KEY (playerSportId) REFERENCES sport (sportId),
+	FOREIGN KEY (playerTeamId) REFERENCES team (teamId),
 	PRIMARY KEY (playerId)
 );
 
