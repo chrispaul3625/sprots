@@ -355,7 +355,7 @@ class TeamStatistic {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($teamStatistic);
+		return ($teamStatistic);
 	}
 
 	/**
@@ -393,10 +393,57 @@ class TeamStatistic {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($teamStatistic);
+		return ($teamStatistic);
+	}
+
+	/**
+	 * gets all TeamStatistics
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of TeamStatistics found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllTeamStatistics(\PDO $pdo) {
+		// create query template
+		$query = "SELECT teamStatisticTeamId, teamStatisticStatisticId, teamStatistic, teamStatisticId FROM teamStatisticId = :teamStatisticId";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of tweets
+		$teamStatistic = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$teamStatistic = new TeamStatisticGameId($row["teamStatisticId"], $row["teamId"]);
+				$teamStatistic[$teamStatistic->key()] = $teamStatistic;
+				$teamStatistic->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($teamStatistic);
+	}
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		$fields["teamStatistic"] = intval($this->TeamStatistic->format("U")) * 1000;
+		return ($fields);
 	}
 
 }
+
+
+
+
+
+
 
 
 
