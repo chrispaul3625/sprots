@@ -43,7 +43,7 @@ class Player {
 	 */
 
 
-	public function __construct(int $newPlayerId = null, int $newPlayerName, int $newPlayerApiId, int $newPlayerTeamId = null) {
+	public function __construct(int $newPlayerId = null, string $newPlayerName, int $newPlayerApiId, int $newPlayerTeamId = null) {
 		try {
 			$this->setPlayerId($newPlayerId);
 			$this->setPlayerName($newPlayerName);
