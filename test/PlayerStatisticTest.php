@@ -82,7 +82,7 @@ class PlayerStatisticTest extends SprotsTest {
 	public final function setUp() {
 		//run the default setUp() method first
 		parent::setUp();
-s
+
 		//create and insert a Sport to own the test playerStatistic
 		$this->sport = new Sport(null, "sportTeams", "sportLeagues");
 		$this->sport->insert($this->getPDO());
