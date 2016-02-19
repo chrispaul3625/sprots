@@ -43,7 +43,7 @@ class Profile {
 	 * @throws \RangeException if data values are out of bounds
 	 * @throws \Exception is some other exception occurs
 	 **/
-	public function __construct(int $newProfileId = null, string $newProfileUserName, string $newProfileEmail, $newProfileHash, $newProfileSalt = null) {
+	public function __construct($newProfileId, string $newProfileUserName, string $newProfileEmail, $newProfileHash, $newProfileSalt) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileUserName($newProfileUserName);
@@ -66,7 +66,7 @@ class Profile {
 	 * @throws \RangeException if $newProfileId is not positive
 	 *
 	 **/
-	public function setProfileId(int $newProfileId) {
+	public function setProfileId(int $newProfileId =null) {
 		//base case: if the profile id is null, this is a new profile without a mySQL assigned id (yet)
 		if($newProfileId === null) {
 			$this->profileId = null;
@@ -159,7 +159,7 @@ class Profile {
 	 *
 	 * @param string $newProfileHash
 	 * @throws \InvalidArgumentException if hash value is not a string
-	 * @throws \RangeException if profile hash is !== 128
+	 * @throws \RangeException if profile hash string length !== 128
 	 *
 	 **/
 	public function setProfileHash(string $newProfileHash) {
@@ -192,7 +192,7 @@ class Profile {
 	 *
 	 * @param string $newProfileSalt
 	 * @throws \InvalidArgumentException if salt is not a string
-	 * @throws \RangeException if $newProfileSalt is !=64
+	 * @throws \RangeException if $newProfileSalt string length !==64
 	 *
 	 **/
 
@@ -202,9 +202,9 @@ class Profile {
 		if($newProfileSalt === false) {
 			throw (new \InvalidArgumentException("salt must be a string value"));
 
-			//make sure profile salt =  64
+			//make sure profile salt string length ===  64
 
-			if($newProfileSalt !== 64) {
+			if strlen($newProfileSalt !== 64) {
 				throw(new \RangeException("profile salt has to be 64"));
 
 			}
