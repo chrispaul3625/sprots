@@ -3,9 +3,11 @@
 namespace Edu\Cnm\Sprots\Test;
 
 use Edu\Cnm\Sprots\Statistic;
-use Edu\Cnm\Sprots\Team;
 use Edu\Cnm\Sprots\Game;
 use Edu\Cnm\Sprots\Sport;
+use Edu\Cnm\Sprots\Team;
+use Edu\Cnm\Sprots\TeamStatistic;
+
 // grab the project test parameters
 require_once("SprotsTest.php");
 
@@ -151,12 +153,15 @@ class TeamStatisticTest extends SprotsTest {
 		// run the default setUp() method first
 		parent::setUp();
 
+		//create and insert a Sport to own the test playerStatistic
+		$this->sport = new Sport(null, "sportName", "sportLeague");
+		$this->sport->insert($this->getPDO());
+
 		// Create and insert a sport to own the test teamstatistic
-		$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, "TeamCity", "TeamName");
 		$this->team->insert($this->getPDO());
 
-		// create and insert a Team t own the test
-		$this->team2 = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID2, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME2);
+		$this->team2 = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID2, "TeamCity2", "TeamName2");
 		$this->team2->insert($this->getPDO());
 
 		//create and insert a Statistic to own the test playerStatistic
@@ -166,10 +171,6 @@ class TeamStatisticTest extends SprotsTest {
 		//create and insert a Game to own the test playerStatistic
 		$this->game = new Game(null,$this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
 		$this->game->insert($this->getPDO());
-
-		//create and insert a Sport to own the test playerStatistic
-		$this->sport = new Sport(null, "sportName", "sportLeague");
-		$this->sport->insert($this->getPDO());
 
 	}
 
@@ -181,10 +182,10 @@ class TeamStatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("teamStatistic");
 
 		// create a new teamStatistic and insert into mySQL
-	$teamStatistic = new teamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
+		$teamStatistic = new TeamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 		$teamStatistic->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoTeamStatistic = \TeamStatistic::getTeamStatisticByTeamStatisticGameId($this->getPDO(), $teamStatistic->getTeamStatisticStatisticId());
+		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticGameId($this->getPDO(), $teamStatistic->getTeamStatisticStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamStatistic"));
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticTeamId(), $this->team->getTeamId());
@@ -195,11 +196,11 @@ class TeamStatisticTest extends SprotsTest {
 	/**
 	 * test inserting a Statistic that already exists
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 	public function testInsertInvalidTeamStatistic() {
 		// create a teamStatsitc with a non null TeamStatisticId and watch it fail
-		$teamStatistic = new teamStatistic(SprotsTest::INVALID_KEY, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
+		$teamStatistic = new TeamStatistic(SprotsTest::INVALID_KEY, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 		$teamStatistic->insert($this->getPDO());
 	}
 
@@ -219,7 +220,7 @@ class TeamStatisticTest extends SprotsTest {
 		$teamStatistic->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoTeamStatistic = teamStatisitc::getTeamStatisticByTeamStatisticId($this->getPDO(), $teamStatistic->getTeamId());
+		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticId($this->getPDO(), $teamStatistic->getTeamId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamStatistic"));
 		$this->assertEquals($pdoTeamStatistic->getTeamId(), $this->team->getTeamId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticContent(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
@@ -236,7 +237,7 @@ class TeamStatisticTest extends SprotsTest {
 	 **/
 	public function testUpdateInvalidTeamStatistic() {
 		// create a TeamStatistic with a non null TeamStatisticId and watch it fail
-		$teamStatistic = new teamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
+		$teamStatistic = new TeamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 		$teamStatistic->update($this->getPDO());
 	}
 
@@ -249,7 +250,7 @@ class TeamStatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("teamStatistic");
 
 		// create a new TeamStatistic and insert to into mySQL
-		$teamStatistic = new teamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
+		$teamStatistic = new TeamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 		$teamStatistic->insert($this->getPDO());
 
 		// delete the TeamStatistic from mySQL
@@ -257,7 +258,7 @@ class TeamStatisticTest extends SprotsTest {
 		$teamStatistic->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce the TeamStatistic does not exist
-		$pdoTeamStatistic = teamStatistic::getTeamStatisticByTeamStatisticId($this->getPDO(), $teamStatistic->getTeamStatisticId());
+		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticId($this->getPDO(), $teamStatistic->getTeamStatisticId());
 		$this->assertNull($pdoTeamStatistic);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("teamStatistic"));
 	}
@@ -270,7 +271,7 @@ class TeamStatisticTest extends SprotsTest {
 	 **/
 	public function testDeleteInvalidTeamStatistic() {
 		// create a TeamStatistic and try to delete it without actually inserting it
-		$teamStatistic = new teamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
+		$teamStatistic = new TeamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 		$teamStatistic->delete($this->getPDO());
 	}
 
@@ -282,11 +283,11 @@ class TeamStatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("teamStatistic");
 
 		// create a new TeamStatistic and insert to into mySQL
-		$teamStatistic = new teamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
+		$teamStatistic = new TeamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 		$teamStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoTeamStatistic = teamStatistic::getTeamStatisticByTeamStatisticId($this->getPDO(), $teamStatistic->getTeamStatisticId());
+		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticId($this->getPDO(), $teamStatistic->getTeamStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamStatistic"));
 		$this->assertEquals($pdoTeamStatistic->getTeamId(), $this->team->getTeamId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticId(), $this->VALID_TEAMSTATISTICID);
@@ -300,7 +301,7 @@ class TeamStatisticTest extends SprotsTest {
 	 **/
 	public function testGetInvalidTeamStatisticByTeamStatisticId() {
 		// grab a teamStatisticId that exceeds the maximum allowable team id
-		$teamStatistic = teamStatistic::getTeamStatisticByTeamStatisticId($this->getPDO(), SprotsTest::INVALID_KEY);
+		$teamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticId($this->getPDO(), SprotsTest::INVALID_KEY);
 		$this->assertNull($teamStatistic);
 	}
 
@@ -312,11 +313,11 @@ class TeamStatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("teamStatistic");
 
 		// create a new TeamStatistic and insert to into mySQL
-		$teamStatistic = new teamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->TEAMSTATISTICGAMEID);
+		$teamStatistic = new TeamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->TEAMSTATISTICGAMEID);
 		$teamStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = teamStatistic::getTeamStatisticByTeamStatisticContent($this->getPDO(), $teamStatistic->getTeamStatisticContent());
+		$results = TeamStatistic::getTeamStatisticByTeamStatisticContent($this->getPDO(), $teamStatistic->getTeamStatisticContent());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamstatistic"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Test", $results);
@@ -336,7 +337,7 @@ class TeamStatisticTest extends SprotsTest {
 	 **/
 	public function testGetInvalidTeamStatisticByTeamStatisticContent() {
 		// grab a team id that exceeds the maximum allowable team id
-		$teamStatistic = teamStatistic::getTeamStatisticByTeamStatisticContent($this->getPDO(), "teamStatistic does not exist");
+		$teamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticContent($this->getPDO(), "teamStatistic does not exist");
 		$this->assertCount(0, $teamStatistic);
 	}
 
@@ -348,11 +349,11 @@ class TeamStatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("teamStatistic");
 
 		// create a new teamStatistic and insert to into mySQL
-		$teamStatistic = new teamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
+		$teamStatistic = new TeamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 		$teamStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = teamStatistic::getAllTeamStatistics($this->getPDO());
+		$results = TeamStatistic::getAllTeamStatistics($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamStatistic"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Test", $results);

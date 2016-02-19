@@ -1,4 +1,5 @@
 <?php
+namespace Edu\Cnm\Sprots;
 
 require_once("autoload.php");
 
@@ -8,7 +9,7 @@ require_once("autoload.php");
  *
  * @author Jude Chavez <Chavezjude7@gmail.com>
  */
-class TeamStatistic {
+class TeamStatistic implements \JsonSerializable {
 	/**
 	 * Id for the Statistic; this is the primary key
 	 * @var int $teamStatistic
@@ -33,7 +34,7 @@ class TeamStatistic {
 	private $teamStatisticGameId;
 
 	/**
-	 * @param int $teamStatisticId
+	 * @param int $newTeamStatisticId
 	 * @param int $newTeamStatisticTeamId
 	 * @param int $newTeamStatisticValue
 	 * @param int $newTeamStatisticStatisticId
@@ -47,7 +48,7 @@ class TeamStatistic {
 	 * @internal param int $teamStatisticGameId Id of the Game that the Statistic is coming from
 	 */
 
-	public function __construct(int $teamStatisticId = null, int $newTeamStatisticTeamId, int $newTeamStatisticValue, int $newTeamStatisticStatisticId, int $newTeamStatisticGameId = null) {
+	public function __construct(int $newTeamStatisticId = null, int $newTeamStatisticTeamId, int $newTeamStatisticValue, int $newTeamStatisticStatisticId, int $newTeamStatisticGameId = null) {
 		try {
 			$this->setTeamStatisticTeamId($newTeamStatisticTeamId);
 			$this->setTeamStatisticValue($newTeamStatisticValue);
