@@ -21,6 +21,11 @@ class PlayerStatistic {
 	 **/
 	private $playerStatisticPlayerId;
 	/**
+	 * $playerStatisticTeamId id for players statistic to team , this is a foreign key
+	 * @var int $playerStatisticTeamId
+	 **/
+	private $playerStatisticTeamId;
+	/**
 	 * $playerStatisticStatisticId id for the players individual statistic, this is a foreign key
 	 * @var int $playerStatisticStatisticId
 	 **/
@@ -36,6 +41,7 @@ class PlayerStatistic {
 	 *
 	 * @param int $newPlayerStatisticGameId id of game the player is in
 	 * @param int $newPlayerStatisticPlayerId statistic id of the player
+	 * @param int $newPlayerStatisticTeamId statistic id of the player referencing team
 	 * @param int $newPlayerStatisticStatisticId name associated with team
 	 * @param int $newPlayerStatisticValue Value of the statistic
 	 * @throws \InvalidArgumentException if data types are not valid
@@ -44,10 +50,11 @@ class PlayerStatistic {
 	 * @throws \Exception if some other exception occurs
 	 **/
 
-	public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatisticPlayerId, int $newPlayerStatisticStatisticId, int $newPlayerStatisticValue) {
+	public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatisticPlayerId, int $newPlayerStatisticTeamId, int $newPlayerStatisticStatisticId, int $newPlayerStatisticValue) {
 		try {
 			$this->setPlayerStatisticGameId($newPlayerStatisticGameId);
 			$this->setPlayerStatisticPlayerId($newPlayerStatisticPlayerId);
+			$this->setPlayerStatisticTeamId($newPlayerStatisticTeamId);
 			$this->setPlayerStatisticStatisticId($newPlayerStatisticStatisticId);
 			$this->setPlayerStatisticValue($newPlayerStatisticValue);
 		} catch(\InvalidArgumentException $InvalidArgument) {
@@ -80,8 +87,7 @@ class PlayerStatistic {
 	 **/
 	public function setPlayerStatisticGameId(int $newPlayerStatisticGameId) {
 		if($newPlayerStatisticGameId === null) {
-			$this->playerStatisticGameId = null;
-			return;
+			throw(new \InvalidArgumentException("Id cannot be null"));
 		}
 // Verify the PlayerStatisticGameId is positive
 		if($newPlayerStatisticGameId <= 0) {
@@ -110,8 +116,7 @@ class PlayerStatistic {
 	public function setPlayerStatisticPlayerId(int $newPlayerStatisticPlayerId = null) {
 		// base case: if PlayerStatisticPlayerId is null, this is a new player statistic player id without a MySQL assigned id (yet)
 		if($newPlayerStatisticPlayerId === null) {
-			$this->playerStatisticPlayerId = null;
-			return;
+			throw(new \InvalidArgumentException("Id cannot be null"));
 		}
 // Verify the Player Statistic Player Id is positive
 		if($newPlayerStatisticPlayerId <= 0) {
@@ -120,7 +125,34 @@ class PlayerStatistic {
 // Convert and store the Player Statistic Player Id
 		$this->playerStatisticPlayerId = $newPlayerStatisticPlayerId;
 	}
+	/**
+	 *accessor method for Player Statistic Team Id
+	 *
+	 * @return int|null value of Player Statistic Team Id
+	 **/
+	public function getPlayerStatisticTeamId() {
+		return ($this->playerStatisticTeamId);
+	}
 
+	/**
+	 * mutator method for Player Statistic Team Id
+	 *
+	 * @param int|null $newPlayerStatisticTeamId new value of Player Statistic Team Id
+	 * @throws \RangeException if the $newPlayerStatisticTeamId is not positive
+	 * @throws \TypeError if $newPlayerStatisticTeamId is not an integer
+	 **/
+	public function setPlayerStatisticTeamId(int $newPlayerStatisticTeamId = null) {
+		// base case: if PlayerStatisticTeamId is null, this is a new player statistic team id without a MySQL assigned id (yet)
+		if($newPlayerStatisticTeamId === null) {
+			throw(new \InvalidArgumentException("Id cannot be null"));
+		}
+// Verify the Player Statistic Team Id is positive
+		if($newPlayerStatisticTeamId <= 0) {
+			throw(new \RangeException("Player Statistic Team Id is not positive"));
+		}
+// Convert and store the Player Statistic Player Id
+		$this->playerStatisticTeamId = $newPlayerStatisticTeamId;
+	}
 	/**
 	 * accessor method for Player Statistic Statistic Id
 	 *
@@ -138,19 +170,17 @@ class PlayerStatistic {
 	 * @throws \RangeException if $newPlayerStatisticStatisticId is >32 characters
 	 * @throws \TypeError if $newPlayerStatisticStatisticId is not an integer
 	 **/
-	public function setPlayerStatisticStatisticId(int $newPlayerStatisticStatisticId) {
-		//verify the Player Statistic Statistic Id is secure
-		$newPlayerStatisticStatisticId = trim($newPlayerStatisticStatisticId);
-		$newPlayerStatisticStatisticId = filter_var($newPlayerStatisticStatisticId);
-		if(empty($newPlayerStatisticStatisticId) === true) {
-			throw(new \InvalidArgumentException("Player Statistic Statistic Id is empty or insecure"));
+	public function setPlayerStatisticStatisticId(int $newPlayerStatisticStatisticId = null) {
+		// base case: if PlayerStatisticStatisticId is null, this is a new player statistic Statistic id without a MySQL assigned id (yet)
+		if($newPlayerStatisticStatisticId === null) {
+			throw(new \InvalidArgumentException("Id cannot be null"));
 		}
-//verify the Player Statistic Statistic Id will fit in the database
-		if(strlen($newPlayerStatisticStatisticId) > 32) {
-			throw(new \RangeException("Player Statistic Statistic Id is too large"));
+// Verify the Player Statistic Statistic Id is positive
+		if($newPlayerStatisticStatisticId <= 0) {
+			throw(new \RangeException("Player Statistic Player Id is not positive"));
 		}
-// store the new Player Statistic Statistic Id
-		$this->$newPlayerStatisticStatisticId = $newPlayerStatisticStatisticId;
+// Convert and store the Player Statistic Player Id
+		$this->playerStatisticStatisticId = $newPlayerStatisticStatisticId;
 	}
 
 	/**
@@ -172,20 +202,19 @@ class PlayerStatistic {
 	 * @throws \TypeError if $newPlayerStatisticValue is not an integer
 	 **/
 
-	public function setPlayerStatisticValue(int $newPlayerStatisticValue) {
-		//verify the Player Statistic Value is secure
-		$newPlayerStatisticValue = trim($newPlayerStatisticValue);
-		$newPlayerStatisticValue = filter_var($newPlayerStatisticValue);
-		if(empty($newPlayerStatisticValue) === true) {
-			throw(new \InvalidArgumentException("Player Statistic Value is empty or insecure"));
+	public function setPlayerStatisticValue(int $newPlayerStatisticValue = null) {
+		// base case: if PlayerStatisticStatisticId is null, this is a new player statistic Statistic id without a MySQL assigned id (yet)
+		if($newPlayerStatisticValue === null) {
+			throw(new \InvalidArgumentException("Value cannot be null"));
 		}
-//verify the Player Statistic Value will fit in the database
-		if(strlen($newPlayerStatisticValue) > 32) {
-			throw(new \RangeException("Player Statistic Value is too large"));
+// Verify the Player Statistic Statistic Id is positive
+		if($newPlayerStatisticValue <= 0) {
+			throw(new \RangeException("Player Statistic Player Id is not positive"));
 		}
-// store the new Player Statistic Value
-		$this->$newPlayerStatisticValue = $newPlayerStatisticValue;
+// Convert and store the Player Statistic Player Id
+		$this->playerStatisticValue = $newPlayerStatisticValue;
 	}
+
 
 	/**
 	 * Inserts this player statistics into mySQL
@@ -196,16 +225,16 @@ class PlayerStatistic {
 	 **/
 
 	public function insert(\PDO $pdo) {
-		// enforce the player statistic game id, the player statistic player id, and the player statistic statistic id is exists
-		if($this->playerStatisticGameId === null || $this->playerStatisticPlayerId === null || $this->playerStatisticStatisticId === null) {
+		// enforce the player statistic game id, the player statistic player id, and the player statistic statistic id exist
+		if($this->playerStatisticGameId === null || $this->playerStatisticPlayerId === null || $this->playerStatisticTeamId === null || $this->playerStatisticStatisticId === null) {
 			throw(new \PDOException("Ids do not exist"));
 		}
 		// Create query template
-		$query = "INSERT INTO playerStatistic(playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue) VALUES(:playerStatisticGameId, :playerStatisticPlayerId, :playerStatisticStatisticId, :playerStatisticValue)";
+		$query = "INSERT INTO playerStatistic(playerStatisticGameId, playerStatisticPlayerId,playerStatisticTeamId, playerStatisticStatisticId, playerStatisticValue) VALUES(:playerStatisticGameId, :playerStatisticPlayerId,:playerStatisticTeamId, :playerStatisticStatisticId, :playerStatisticValue)";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in template
-		$parameters = ["playerStatisticGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
+		$parameters = ["playerStatisticGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId,"playerStatisticTeamId" => $this->playerStatisticTeamId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
 		$statement->execute($parameters);
 	}
 
@@ -219,15 +248,15 @@ class PlayerStatistic {
 
 	public function delete(\PDO $pdo) {
 		//enforce the Ids are not null
-		if($this->playerStatisticGameId === null || $this->playerStatisticPlayerId === null || $this->playerStatisticStatisticId === null) {
+		if($this->playerStatisticGameId === null || $this->playerStatisticPlayerId === null || $this->playerStatisticTeamId === null || $this->playerStatisticStatisticId === null) {
 			throw(new \PDOException("Ids do not exist to delete"));
 		}
 		// Create query template
-		$query = "DELETE FROM playerStatistic WHERE playerStatisticGameId | playerStatisticPlayerId | playerStatisticStatisticId | playerStatisticValue = playerStatisticGameId | playerStatisticPlayerId | playerStatisticStatisticId | playerStatisticValue";
+		$query = "DELETE FROM playerStatistic WHERE playerStatisticGameId | playerStatisticPlayerId | playerStatisticTeamId| playerStatisticStatisticId | playerStatisticValue = playerStatisticGameId | playerStatisticPlayerId | playerStatisticTeamId| playerStatisticStatisticId | playerStatisticValue";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in template
-		$parameters = ["playerStatisticGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
+		$parameters = ["playerStatisticGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId,"playerStatisticTeamId" => $this->playerStatisticTeamId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
 		$statement->execute($parameters);
 	}
 
@@ -241,15 +270,15 @@ class PlayerStatistic {
 
 	public function update(\PDO $pdo) {
 		//enforce the Ids are not null
-		if($this->playerStatisticGameId === null || $this->playerStatisticPlayerId === null || $this->playerStatisticStatisticId === null) {
+		if($this->playerStatisticGameId === null || $this->playerStatisticPlayerId === null || $this->playerStatisticTeamId === null || $this->playerStatisticStatisticId === null) {
 			throw(new \PDOException("Ids do not exist to update"));
 		}
 		// Create query template
-		$query = "UPDATE playerStatistic SET playerStatisticGameId = :playerStatisticGameId, playerStatisticPlayerId = :playerStatisticPlayerId, playerStatisticStatisticId = :playerStatisticStatisticId, playerStatisticValue = :playerStatisticValue";
+		$query = "UPDATE playerStatistic SET playerStatisticGameId = :playerStatisticGameId, playerStatisticPlayerId = :playerStatisticPlayerId,playerStatisticTeamId = :playerStatisticTeamId, playerStatisticStatisticId = :playerStatisticStatisticId, playerStatisticValue = :playerStatisticValue";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in template
-		$parameters = ["playerStatisticGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
+		$parameters = ["playerStatisticGameId" => $this->playerStatisticGameId, "playerStatisticPlayerId" => $this->playerStatisticPlayerId,"playerStatisticTeamId" => $this->playerStatisticTeamId, "playerStatisticStatisticId" => $this->playerStatisticStatisticId, "playerStatisticValue" => $this->playerStatisticValue];
 		$statement->execute($parameters);
 	}
 
@@ -257,7 +286,7 @@ class PlayerStatistic {
 	 * gets the TeamStatistic by playerStatisticGameId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $playerStatisticGameId player statistic game id to search for
+	 * @param int $playerStatisticGameId player statistic game id to search for
 	 * @return \SplFixedArray SplFixedArray of player statistic game ids found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -269,12 +298,12 @@ class PlayerStatistic {
 			throw (new \PDOException("player statistic game id is not positive"));
 		}
 		// create query template
-		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticGameId LIKE :playerStatisticGameId";
+		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticTeamId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticGameId LIKE :playerStatisticGameId";
 		$statement = $pdo->prepare($query);
 
 
 		// bind the player Statistic game Id to the place holder in the template
-		$playerStatisticGameId = "%$playerStatisticGameId";
+		$playerStatisticGameId = "%$playerStatisticGameId%";
 		$parameters = array("playerStatisticGameId" => $playerStatisticGameId);
 		$statement->execute($parameters);
 
@@ -283,12 +312,12 @@ class PlayerStatistic {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"],$row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
 				$playerStatistics->next();
 			} catch
 			(\Exception $exception) {
-				throw(new \PDOException($exception->getMessage(),0,$exception));
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 
 		}
@@ -296,29 +325,28 @@ class PlayerStatistic {
 	}
 
 
-
 	/**
 	 * gets the TeamStatistic by playerStatisticPlayerId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $playerStatisticPlayerId player statistic player id to search for
+	 * @param int $playerStatisticPlayerId player statistic player id to search for
 	 * @return \SplFixedArray SplFixedArray of player statistic player ids found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
 	public static function getPlayerStatisticByPlayerStatisticPlayerId(\PDO $pdo, int $playerStatisticPlayerId) {
-		// sanitize the player statistic statistic id before searching
+		// sanitize the player statistic player id before searching
 		if($playerStatisticPlayerId <= 0) {
 			throw (new \PDOException("player statistic player id is not positive"));
 		}
 		// create query template
-		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticPlayerId LIKE :playerStatisticPlayerId";
+		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticTeamId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticPlayerId LIKE :playerStatisticPlayerId";
 		$statement = $pdo->prepare($query);
 
 
 		// bind the player Statistic Player Id to the place holder in the template
-		$playerStatisticPlayerId = "%$playerStatisticPlayerId";
+		$playerStatisticPlayerId = "%$playerStatisticPlayerId%";
 		$parameters = array("playerStatisticPlayerId" => $playerStatisticPlayerId);
 		$statement->execute($parameters);
 
@@ -328,13 +356,55 @@ class PlayerStatistic {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"],$row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
 				$playerStatistics->next();
 			} catch
 			(\Exception $exception) {
-			throw(new \PDOException($exception->getMessage(),0,$exception));
-				}
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+
+		}
+		return ($playerStatistics);
+	}
+	/**
+	 * gets the TeamStatistic by playerStatisticTeamId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $playerStatisticTeamId player statistic team id to search for
+	 * @return \SplFixedArray SplFixedArray of player statistic team ids found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	public static function getPlayerStatisticByPlayerStatisticTeamId(\PDO $pdo, int $playerStatisticTeamId) {
+		// sanitize the player statistic Team id before searching
+		if($playerStatisticTeamId <= 0) {
+			throw (new \PDOException("player statistic player id is not positive"));
+		}
+		// create query template
+		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticTeamId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticTeamId LIKE :playerStatisticTeamId";
+		$statement = $pdo->prepare($query);
+
+
+		// bind the player Statistic Player Id to the place holder in the template
+		$playerStatisticTeamId = "%$playerStatisticTeamId%";
+		$parameters = array("playerStatisticTeamId" => $playerStatisticTeamId);
+		$statement->execute($parameters);
+
+
+		// build an array of player statistic
+		$playerStatistics = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		While(($row = $statement->fetch()) !== false) {
+			try {
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"],$row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
+				$playerStatistics->next();
+			} catch
+			(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 
 		}
 		return ($playerStatistics);
@@ -344,7 +414,7 @@ class PlayerStatistic {
 	 * gets the PlayerStatistic by playerStatisticStatisticId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $playerStatisticStatisticId player statistic statistic id to search for
+	 * @param int $playerStatisticStatisticId player statistic statistic id to search for
 	 * @return \SplFixedArray SplFixedArray of player statistic statistic ids found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -356,26 +426,26 @@ class PlayerStatistic {
 			throw (new \PDOException("player statistic statistic id is not positive"));
 		}
 		// create query template
-		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticStatisticId LIKE :playerStatisticStatisticId";
+		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticTeamId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticStatisticId LIKE :playerStatisticStatisticId";
 		$statement = $pdo->prepare($query);
 
 
 		// bind the player Statistic Statistic Id to the place holder in the template
 		$playerStatisticStatisticId = "%$playerStatisticStatisticId";
-		$parameters = array("playerStatisticStatisticId" => $playerStatisticStatisticId);
+		$parameters = array("playerStatisticStatisticId%" => $playerStatisticStatisticId);
 		$statement->execute($parameters);
 
-		// build an array of player statistic
+		// build an array of player statistics
 		$playerStatistics = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"],$row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
 				$playerStatistics->next();
 			} catch
 			(\Exception $exception) {
-				throw(new \PDOException($exception->getMessage(),0,$exception));
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 
 		}
@@ -386,41 +456,39 @@ class PlayerStatistic {
 	 * gets the PlayerStatistic by playerStatisticValue
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $playerStatisticStatisticValue player statistic value  to search for
+	 * @param int $playerStatisticValue player statistic value  to search for
 	 * @return \SplFixedArray SplFixedArray of player statistic value found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
-	public static function getPlayerStatisticByPlayerStatisticStatisticValue(\PDO $pdo, int $playerStatisticStatisticValue) {
+	public static function getPlayerStatisticByPlayerStatisticValue(\PDO $pdo, int $playerStatisticValue) {
 
 		// create query template
-		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticValue LIKE :playerStatisticStatisticValue";
+		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticTeamId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticValue LIKE :playerStatisticValue";
 		$statement = $pdo->prepare($query);
 
 
-		// bind the player Statistic Statistic Value to the place holder in the template
-		$playerStatisticStatisticValue = "%$playerStatisticStatisticValue";
-		$parameters = array("playerStatisticStatisticValue" => $playerStatisticStatisticValue);
+		// bind the player Statistic Value to the place holder in the template
+		$playerStatisticValue = "%$playerStatisticValue%";
+		$parameters = array("playerStatisticValue" => $playerStatisticValue);
 		$statement->execute($parameters);
 
-		// build an array of player statistic id
-		$playerStatisticStatisticValues = new \SplFixedArray($statement->rowCount());
+		// build an array of player statistic values
+		$playerStatistics = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$playerStatisticStatisticValue = new PlayerStatisticStatisticValue($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
-				$playerStatisticStatisticValues[$playerStatisticStatisticValues->key()] = $playerStatisticStatisticValue;
-				$playerStatisticStatisticValues->next();
-			} catch(\Exception $exception) {
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"],$row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
+				$playerStatistics->next();
+			} catch
+			(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 
-				// if the row couldn't be converted, rethrow it
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
-	}
-}
-
-
-		return ($playerStatisticStatisticValues);
+		}
+		return ($playerStatistics);
 	}
 
 	/**
@@ -434,7 +502,7 @@ class PlayerStatistic {
 
 	public static function getAllPlayerStatistics(\PDO $pdo) {
 		//create query template
-		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic";
+		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticTeamId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
@@ -443,7 +511,7 @@ class PlayerStatistic {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 				$playerStatistics[$playerStatistics->key()] = $playerStatistic;
 				$playerStatistics->next();
 			} Catch(\Exception $exception) {
@@ -453,9 +521,6 @@ class PlayerStatistic {
 		}
 		return ($playerStatistics);
 	}
-
-
-
 
 
 }

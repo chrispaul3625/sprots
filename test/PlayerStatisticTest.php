@@ -139,8 +139,9 @@ class PlayerStatisticTest extends SprotsTest {
 		$this->player2->insert($this->getPDO());
 
 		//create and insert a Statistic to own the test playerStatistic
-		$this->statistic = new Statistic(null,$this->player->getPlayerId(), "statisticName");
+		$this->statistic = new Statistic(null, "statisticName");
 		$this->statistic->insert($this->getPDO());
+
 	}
 
 	/**
@@ -150,8 +151,10 @@ class PlayerStatisticTest extends SprotsTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("playerStatistic");
 
+
 		// create a new PlayerStatistics and insert to into mySQL
-		$playerStatistic = new PlayerStatistic($this->player->getPlayerId(), $this->player2->getPlayerId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE);
+		$playerStatistic = new PlayerStatistic($this->game->getGameId(),$this->player->getPlayerID(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE );
+
 		$playerStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
