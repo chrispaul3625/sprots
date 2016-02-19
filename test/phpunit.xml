@@ -6,12 +6,12 @@
 			<!--<file>GameTest.php</file>-->
 			<!--<file>PlayerTest.php</file>-->
 			<!--<file>MasterTestIgnore.php</file>-->
-			<!--<file>ProfileTest.php</file>-->
+			<file>ProfileTest.php</file>
 			<!--<file>SportTest.php</file>-->
 			<!--<file>StatisticTest.php</file>-->
 			<!--<file>TeamTest.php</file>-->
 			<!--<file>TeamStatisticTest.php</file>-->
-			<file>PlayerStatisticTest.php</file>
+			<!--<file>PlayerStatisticTest.php</file>-->
 		</testsuite>
 	</testsuites>
 	<filter>
