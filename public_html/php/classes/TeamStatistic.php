@@ -245,7 +245,7 @@ class TeamStatistic {
 
 
 	/**
-	 * gets the Team Statistic by teamStatisticId
+	 * gets the teamStatistic by teamStatisticId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $teamStatisticId teamStatistic id to search for
@@ -321,7 +321,7 @@ class TeamStatistic {
 	}
 
 	/**
-	 * gets the TeamStatistic by TeamStatisticValue
+	 * gets the teamStatistic by TeamStatisticValue
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $teamStatisticValue Team Statistic Value to search for
@@ -359,7 +359,7 @@ class TeamStatistic {
 	}
 
 	/**
-	 * gets the TeamStatistic by TeamStatisticGameId
+	 * gets the teamStatistic by TeamStatisticGameId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $teamStatisticGameId Game Id to search for
@@ -397,7 +397,7 @@ class TeamStatistic {
 	}
 
 	/**
-	 * gets all TeamStatistics
+	 * gets all teamStatistics
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @return \SplFixedArray SplFixedArray of TeamStatistics found or null if not found
@@ -410,7 +410,7 @@ class TeamStatistic {
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// build an array of tweets
+		// build an array of teamStatistics
 		$teamStatistic = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
