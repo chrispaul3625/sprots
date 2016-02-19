@@ -167,6 +167,10 @@ class TeamStatisticTest extends SprotsTest {
 		$this->game = new Game(null,$this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
 		$this->game->insert($this->getPDO());
 
+		//create and insert a Sport to own the test playerStatistic
+		$this->sport = new Sport(null, "sportName", "sportLeague");
+		$this->sport->insert($this->getPDO());
+
 	}
 
 	/**
