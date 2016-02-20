@@ -27,15 +27,18 @@ Class FavoritePlayerTest extends SprotsTest {
 	protected $VALID_SPORT;
 
 	/**
-	 * Player is valid
+	 * confirm valid team
 	 * @var string $VALID_TEAM
 	 */
 	protected $VALID_TEAM;
+
+	protected $VALID_TEAMID;
 
 	/**
 	 * Confirm valid Player
 	 * @var string $VALID_PLAYER
 	 */
+
 
 	protected $VALID_PLAYER;
 
@@ -43,6 +46,9 @@ Class FavoritePlayerTest extends SprotsTest {
 	 * confirm Player Id
 	 * @var int $VALID_PLAYERID
 	 */
+	protected $VALID_PLAYERID;
+
+
 	protected $VALID_PROFILE;
 
 	protected $hash;
@@ -58,8 +64,8 @@ Class FavoritePlayerTest extends SprotsTest {
 
 		//Generate Hash and Salt
 		$password = "abc123";
-		$this->salt = bin2hex(random_bytes(16));
-		$this->hash = hash_pbkdf2("sha512", $password, $this->salt, 262144);
+		$this->salt = bin2hex(openssl_random_pseudo_bytes(32));
+		$this->hash = hash_pbkdf2("sha512", $password, $this->salt, 262144, 128);
 
 		$this->VALID_PROFILE = new Profile(null, "Ronald McDonald", "ronnie@mcdonalds.com", $this->hash, $this->salt);
 		$this->VALID_PROFILE->insert($this->getPDO());
@@ -70,7 +76,7 @@ Class FavoritePlayerTest extends SprotsTest {
 		$this->VALID_TEAM = new Team(null, $this->VALID_SPORT->getSportId(), 1, "Albuquerque", "Lobos");
 		$this->VALID_TEAM->insert($this->getPDO());
 
-		$this->VALID_PLAYER = new Player(null, "Mike", 1, $this->VALID_TEAM->getTeamId());
+		$this->VALID_PLAYER = new Player(null, 42,52,73, "Mike");
 		$this->VALID_PLAYER->insert($this->getPDO());
 
 	}
@@ -86,6 +92,7 @@ Class FavoritePlayerTest extends SprotsTest {
 		$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(), $this->VALID_PLAYER->getPlayerId());
 		$favoritePlayer->insert($this->getPDO());
 
+		//test that the new favorite player was inserted into MySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favoritePlayer"));
 
 		//grab the data from MySQL and enforce the fields match our expectation
@@ -95,8 +102,6 @@ Class FavoritePlayerTest extends SprotsTest {
 			if($pdoFavoritePlayer->getFavoritePlayerId() === $this->VALID_PLAYER->getPlayerId()) {
 				$this->assertEquals($pdoFavoritePlayer->getFavoritePlayerId(), $favoritePlayer->getFavoritePlayerId());
 				$this->assertEquals($pdoFavoritePlayer->getFavoritePlayerProfileId(), $favoritePlayer->getFavoritePlayerProfileId());
-
-
 			}
 		}
 	}
@@ -111,9 +116,19 @@ Class FavoritePlayerTest extends SprotsTest {
 		$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(), $this->VALID_PLAYER->getPlayerId());
 		$favoritePlayer->insert($this->getPDO());
 		$favoritePlayer->insert($this->getPDO());
-
 	}
 
+	/**
+	 * test inserting a favorite player that does not exist
+	 *
+	 * @expectedException \PDOException
+	 */
+	/**public function testInsertInvalidFavoritePlayer() {
+		//create new player with a null profile Id and watch it fail
+		$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(), SprotsTest::INVALID_KEY);
+		$favoritePlayer->insert($this->getPDO());
+
+	}
 	/**
 	 * test deleting a favorite player from MySQL
 	 *
@@ -139,18 +154,6 @@ Class FavoritePlayerTest extends SprotsTest {
 
 	}
 
-
-	/**
-	 * test inserting a favorite player that does not exist
-	 *
-	 * @expectedException \PDOException
-	 */
-	public function testInsertInvalidFavoritePlayer() {
-		//create new player with a null profile Id and watch it fail
-		$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(), SprotsTest::INVALID_KEY);
-		$favoritePlayer->insert($this->getPDO());
-
-	}
 
 	/**
 	 * test getting favorite player by profile id
