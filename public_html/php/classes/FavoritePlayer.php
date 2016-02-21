@@ -6,7 +6,7 @@ require_once ("autoload.php");
 
 //This is the class for users to select favorite player(s)//
 
-Class FavoritePlayer {
+class FavoritePlayer {
 
 	/**
 	 * Id for this FavoritePlayer class, this is the foreign key

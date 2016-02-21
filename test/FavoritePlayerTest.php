@@ -30,9 +30,9 @@ Class FavoritePlayerTest extends SprotsTest {
 	 * confirm valid team
 	 * @var string $VALID_TEAM
 	 */
-	protected $VALID_TEAM;
+	protected $VALID_TEAM = "Bears";
 
-	protected $VALID_TEAMID;
+	protected $VALID_TEAMID = "123";
 
 	/**
 	 * Confirm valid Player
@@ -46,7 +46,10 @@ Class FavoritePlayerTest extends SprotsTest {
 	 * confirm Player Id
 	 * @var int $VALID_PLAYERID
 	 */
-	protected $VALID_PLAYERID;
+	protected $VALID_PLAYERID = "42";
+
+	protected $VALID_PLAYERAPIID = "77";
+	protected $VALID_PLAYERSPORTID  ;
 
 
 	protected $VALID_PROFILE;
@@ -76,7 +79,7 @@ Class FavoritePlayerTest extends SprotsTest {
 		$this->VALID_TEAM = new Team(null, $this->VALID_SPORT->getSportId(), 1, "Albuquerque", "Lobos");
 		$this->VALID_TEAM->insert($this->getPDO());
 
-		$this->VALID_PLAYER = new Player(null, 42,52,73, "Mike");
+		$this->VALID_PLAYER = new Player(null, $this->VALID_PLAYERAPIID, $this->VALID_TEAMID, $this->VALID_PLAYERSPORTID,"Mike");
 		$this->VALID_PLAYER->insert($this->getPDO());
 
 	}
