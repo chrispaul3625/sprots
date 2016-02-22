@@ -21,7 +21,7 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * @see PlayerStatistic
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
-class PlayerStatisticTest extends SprotsTest {
+class MasterTestIgnore extends SprotsTest {
 	/**
 	 * Sport that the Player is playing
 	 * @var Sport $VALID_SPORT
