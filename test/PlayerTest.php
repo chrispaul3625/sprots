@@ -97,7 +97,7 @@ public final function setUp() {
 	// run the default setUp() method first
 	parent::setUp();
 
-	// create and insert a Profile to own the test Tweet
+	// create and insert a Profile to own the test Team
 	$this->team = new Team(null, "teamApiId", "teamApiId2", "teamCity", "teamCity2", "teamName", "teamName2");
 	$this->team->insert($this->getPDO());
 

@@ -89,7 +89,7 @@ class Player {
 	/**
 	 * mutator method for PlayerId
 	 *
-	 * @param int|null $newPlayerId new value of player id
+	 * @param int|null $newPlayerId new value of playerId
 	 * @throws \RangeException if the $newPlayerId is not positive
 	 * @throws \TypeError if $newPlayerId is not an integer
 	 **/
@@ -523,7 +523,19 @@ class Player {
 		}
 		return ($players);
 	}
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		$fields["player"] = intval($this->player->format("U")) * 1000;
+		return($fields);
+	}
 }
+
 
 
 

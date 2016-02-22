@@ -38,8 +38,8 @@ class TeamStatistic implements \JsonSerializable {
 	 * @param int $newTeamStatisticValue
 	 * @param int $newTeamStatisticStatisticId
 	 * @param int $newTeamStatisticGameId
-	 * @throws Exception if some other exception occurs
-	 * @throws InvalidArgumentException
+	 * @throws \Exception if some other exception occurs
+	 * @throws \InvalidArgumentException
 	 * @internal param int|null $teamStatisticTeam of this teamStatistic or null if a New Player
 	 * @internal param int $teamStatisticTeamId Id of the teamStatistic
 	 * @internal param int $teamStatisticValue Statistic value of the Team
@@ -47,7 +47,7 @@ class TeamStatistic implements \JsonSerializable {
 	 * @internal param int $teamStatisticGameId Id of the Game that the Statistic is coming from
 	 */
 
-	public function __construct(int $newTeamStatisticId = null, int $newTeamStatisticTeamId, int $newTeamStatisticValue, int $newTeamStatisticStatisticId, int $newTeamStatisticGameId = null) {
+	public function __construct(int $newTeamStatisticTeamId, int $newTeamStatisticValue, int $newTeamStatisticStatisticId, int $newTeamStatisticGameId = null) {
 		try {
 			$this->setTeamStatisticTeamId($newTeamStatisticTeamId);
 			$this->setTeamStatisticValue($newTeamStatisticValue);
@@ -71,8 +71,8 @@ class TeamStatistic implements \JsonSerializable {
 
 	/**
 	 * @param $teamStatisticTeamId
-	 * @param InvalidArgumentException if teamStatisticTeamId is not an integer
-	 * @throws RangeException if teamStatistic TeamId is negatice
+	 * @param \InvalidArgumentException if teamStatisticTeamId is not an integer
+	 * @throws \RangeException if teamStatistic TeamId is negative
 	 */
 
 	public function setTeamStatisticTeamId($teamStatisticTeamId) {
@@ -84,7 +84,7 @@ class TeamStatistic implements \JsonSerializable {
 		if($teamStatisticTeamId == false) {
 		}
 		if($teamStatisticTeamId <= 0) {
-			throw (new RangeException("PlayerStatisticId must be postive"));
+			throw (new \RangeException("PlayerStatisticId must be postive"));
 		}
 		$this->teamStatisticTeamId = $teamStatisticTeamId;
 	}
@@ -99,8 +99,8 @@ class TeamStatistic implements \JsonSerializable {
 
 	/**
 	 * @param int $teamStatisticValue new values of TeamStatisticValue
-	 * @throws InvalidArgumentException if Statistic TeamId is not an integer
-	 * @throws RangeException if StatisticTeamId is negative
+	 * @throws \InvalidArgumentException if Statistic TeamId is not an integer
+	 * @throws \RangeException if StatisticTeamId is negative
 	 */
 
 	public function setTeamStatisticValue($teamStatisticValue) {
@@ -112,7 +112,7 @@ class TeamStatistic implements \JsonSerializable {
 		if($teamStatisticValue == false) {
 		}
 		if($teamStatisticValue <= 0) {
-			throw (new RangeException("PlayerStatisticValue must be positive"));
+			throw (new \RangeException("PlayerStatisticValue must be positive"));
 		}
 		$this->teamStatisticValue = $teamStatisticValue;
 	}
@@ -128,8 +128,8 @@ class TeamStatistic implements \JsonSerializable {
 
 	/**
 	 * @param int $teamStatisticStatisticId new values of TeamStatisticValue
-	 * @throws InvalidArgumentException if StatisticTeamId is not an integer
-	 * @throws RangeException if Statistic is negative
+	 * @throws \InvalidArgumentException if StatisticTeamId is not an integer
+	 * @throws \RangeException if Statistic is negative
 	 */
 
 	public function setTeamStatisticStatisticId($teamStatisticStatisticId) {
@@ -141,7 +141,7 @@ class TeamStatistic implements \JsonSerializable {
 		if($teamStatisticStatisticId == false) {
 		}
 		if($teamStatisticStatisticId <= 0) {
-			throw (new RangeException("TeamStatistic must be posititve"));
+			throw (new \RangeException("TeamStatistic must be posititve"));
 		}
 		$this->teamStatisticStatisticId = $teamStatisticStatisticId;
 	}
@@ -156,8 +156,8 @@ class TeamStatistic implements \JsonSerializable {
 
 	/**
 	 * @param int $teamStatisticGameId new values of teamStatisticValue
-	 * @throws InvalidArgumentException if StatisticTeamId is not an integer
-	 * @throws RangeException if Statistic is negative
+	 * @throws \InvalidArgumentException if StatisticTeamId is not an integer
+	 * @throws \RangeException if Statistic is negative
 	 */
 	public function setTeamStatisticGameId($teamStatisticGameId) {
 		if($teamStatisticGameId === null) {
@@ -168,7 +168,7 @@ class TeamStatistic implements \JsonSerializable {
 		if($teamStatisticGameId == false) {
 		}
 		if($teamStatisticGameId <= 0) {
-			throw (new RangeException("TeamStatistic must be positive"));
+			throw (new \RangeException("TeamStatistic must be positive"));
 		}
 		$this->teamStatisticGameId = $teamStatisticGameId;
 	}
@@ -195,7 +195,7 @@ class TeamStatistic implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "INSERT INTO teamStatistic(playerId, teamStatisticTeamId) VALUES(:teamStatisticTeamId, :teamStatisticValue, :teamStatisticStatisticId, :teamStatisticGameId)";
+		$query = "INSERT INTO TeamStatistic(playerId, TeamStatisticTeamId) VALUES(:TeamStatisticTeamId, :TeamStatisticValue, :TeamStatisticStatisticId, :TeamStatisticGameId)";
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["TeamStatisticTeamId" => $this->teamStatisticTeamId, "TeamStatisticValue" => $this->teamStatisticValue, "teamStatisticStatisticId" => $this->teamStatisticStatisticId, "teamStatisticGameId" => $this->teamStatisticGameId];
@@ -217,7 +217,7 @@ class TeamStatistic implements \JsonSerializable {
 		if($this->teamStatisticTeamId === null) {
 			throw(new \PDOException("unable to update a player that does not exist"));
 		}
-		$query = "UPDATE teamStatistic SET teamStatisticTeamId = :teamStatisticTeamId, teamStatisticValue = :teamStatisticValue, teamStatisticStatisticId = :teamStatisticStatisticId, teamStatisticGameId = :teamStatisticGameId WHERE teamStatisticTeamId = :TeamStatisticTeamId";
+		$query = "UPDATE TeamStatistic SET TeamStatisticTeamId = :TeamStatisticTeamId, teamStatisticValue = :TeamStatisticValue, teamStatisticStatisticId = :TeamStatisticStatisticId, teamStatisticGameId = :teamStatisticGameId WHERE teamStatisticTeamId = :TeamStatisticTeamId";
 		$statement = $pdo->prepare($query);
 	}
 
@@ -247,7 +247,7 @@ class TeamStatistic implements \JsonSerializable {
 	 * gets the teamStatistic by teamStatisticId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $teamStatisticId teamStatistic id to search for
+	 * @param int $teamStatisticId teamStatisticId to search for
 	 * @return TeamStatistic|null TeamStatistic found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -259,7 +259,7 @@ class TeamStatistic implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT teamStatisticId, teamStatisticStatisticId, teamStatisticValue, FROM teamStatistic WHERE teamStatisticId = :teamStatisticId";
+		$query = "SELECT TeamStatisticTeamId, TeamStatisticStatisticId, TeamStatistic, TeamStatisticId FROM TeamStatisticId = :TeamStatisticId";
 		$statement = $pdo->prepare($query);
 
 		// bind the teamStatistic id to the place holder in the template
@@ -297,7 +297,7 @@ class TeamStatistic implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT teamStatisticId, teamStatisticStatisticId, teamStatisticValue, FROM teamStatistic WHERE teamStatisticId = :teamStatisticId";
+		$query = "SELECT TeamStatisticTeamId, TeamStatisticStatisticId, TeamStatistic, TeamStatisticId FROM TeamStatisticId = :TeamStatisticId";
 		$statement = $pdo->prepare($query);
 
 		// bind the teamStatisticStatisticId to the place holder in the template
@@ -335,7 +335,7 @@ class TeamStatistic implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT teamStatisticId, teamStatisticStatisticId, teamStatisticValue, FROM teamStatistic WHERE teamStatisticId = :teamStatisticId";
+		$query = "SELECT TeamStatisticTeamId, TeamStatisticStatisticId, TeamStatistic, TeamStatisticId FROM TeamStatisticId = :TeamStatisticId";
 		$statement = $pdo->prepare($query);
 
 		// bind the teamStatistic id to the place holder in the template
@@ -373,7 +373,7 @@ class TeamStatistic implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT teamStatisticId, teamStatisticStatisticId, teamStatisticValue, FROM teamStatistic WHERE teamStatisticId = :teamStatisticId";
+		$query = "SELECT TeamStatisticTeamId, TeamStatisticStatisticId, TeamStatistic, TeamStatisticId FROM TeamStatisticId = :TeamStatisticId";
 		$statement = $pdo->prepare($query);
 
 		// bind the teamStatisticGameId id to the place holder in the template
@@ -405,7 +405,7 @@ class TeamStatistic implements \JsonSerializable {
 	 **/
 	public static function getAllTeamStatistics(\PDO $pdo) {
 		// create query template
-		$query = "SELECT teamStatisticTeamId, teamStatisticStatisticId, teamStatistic, teamStatisticId FROM teamStatisticId = :teamStatisticId";
+		$query = "SELECT TeamStatisticTeamId, TeamStatisticStatisticId, TeamStatistic, TeamStatisticId FROM TeamStatisticId = :TeamStatisticId";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 

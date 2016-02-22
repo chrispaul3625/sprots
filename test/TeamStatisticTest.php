@@ -182,7 +182,7 @@ class TeamStatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("teamStatistic");
 
 		// create a new TeamStatistic and insert to into mySQL
-		$teamStatistic = new TeamStatistic(null, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
+		$teamStatistic = new TeamStatistic($this->statistic->getStatisticId(), $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 		$teamStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
