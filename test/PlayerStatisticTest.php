@@ -62,36 +62,6 @@ class PlayerStatisticTest extends SprotsTest {
 	protected $VALID_PLAYERAPIID = 242;
 
 	/**
-	 * Player Statistic ID that the team belongs to
-	 * @var int $VALID_PLAYERSTATISTICID
-	 */
-	protected $VALID_PLAYERSTATISTICID = 652;
-
-	/**
-	 * Player Statistic ID that the team belongs to
-	 * @var int $VALID_PLAYERSTATISTICPLAYERID
-	 */
-	protected $VALID_PLAYERSTATISTICPLAYERID = 864;
-
-	/**
-	 * Player Statistic ID that the team belongs to
-	 * @var int $VALID_PLAYERSTATISTICGAMEID
-	 */
-	protected $VALID_PLAYERSTATISTICGAMEID = 652;
-
-	/**
-	 * Player Statistic ID that the team belongs to
-	 * @var int $VALID_PLAYERSTATISTICTEAMID
-	 */
-	protected $VALID_PLAYERSTATISTICTEAMID = 642;
-
-	/**
-	 * Player Statistic ID that the team belongs to
-	 * @var int $VALID_PLAYERSTATISTICSTATISTICID
-	 */
-	protected $VALID_PLAYERSTATISTICSTATISTICID = 212;
-
-	/**
 	 * content of the updated team api id
 	 * @var string $VALID_PLAYERAPIID2
 	 **/
@@ -188,14 +158,13 @@ class PlayerStatisticTest extends SprotsTest {
 		$playerStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticStatisticGameId($this->getPDO(), $this->game->getGameId(), $this->player->getPlayerId(),$this->player->getPlayerId(),$this->team->getTeamId(), $this->statistic->getStatisticId());
+		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameId($this->getPDO(), $this->game->getGameId(), $this->player->getPlayerId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
-		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->VALID_PLAYERSTATISTICGAMEID);
-		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->VALID_PLAYERSTATISTICPLAYERID);
-		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticTeamId(), $this->VALID_PLAYERSTATISTICTEAMID);
-		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticStatisticId(), $this->VALID_PLAYERSTATISTICSTATISTICID);
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticTeamId(), $this->team->getTeamId());
+		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticStatisticId(), $this->statistic->getStatisticId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticValue(), $this->VALID_PLAYERSTATISTICVALUE);
-
 	}
 
 	/**
