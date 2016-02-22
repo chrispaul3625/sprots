@@ -198,24 +198,24 @@ class Statistic {
 		$statement = $pdo->prepare($query);
 
 		//bind statistic name t o the place holder in template
-		$statisticName = "%statisticName%";
+		$statisticName = "%$statisticName%";
 		$parameters = array("statisticName" => $statisticName);
 		$statement->execute($parameters);
 
 		// build and array for statistic
-		$statistic = new \SplFixedArray($statement->rowCount());
+		$statistics = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$statistic = new Statistic($row["statisticId"], $row["statisticName"]);
-				$statistic[$statistic->key()] = $statistic;
-				$statistic->next();
+				$statistics[$statistics->key()] = $statistic;
+				$statistics->next();
 			} catch(\Exception $exception){
 				//if the row couldn't be converted rethrow
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 	}
-		return ($statistic);
+		return ($statistics);
 	}
 	/**
 	 * gets the Statistic by StatisticId

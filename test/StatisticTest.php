@@ -125,6 +125,23 @@ class StatisticTest extends SprotsTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("statistic"));
 		$this->assertEquals($pdoStatistic->getStatisticName(), $this->VALID_STATISTICNAME);
 	}
+	public function testGetValidStatisticByStatisticName(){
+		//count the numbers of rows and save
+		$numRows = $this->getConnection()->getRowCount("statistic");
+
+		//create a new Game and insert into mySQL
+		$statistic = new Statistic(null, $this->VALID_STATISTICNAME);
+		$statistic->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields
+		$results = Statistic::getStatisticByStatisticName($this->getPDO(), $this->VALID_STATISTICNAME);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount('statistic'));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Statistic", $results);
+		// grab the result from the array and validate it
+		$pdoStatistic = $results[0];
+		$this->assertEquals($pdoStatistic->getStatisticName(), $this->VALID_STATISTICNAME);
+	}
 	/**we
 	 * test grab all statistic
 	 */
