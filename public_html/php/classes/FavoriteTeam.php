@@ -220,6 +220,7 @@ class favoriteTeam {
 			try {
 				$favoriteTeam = new FavoriteTeam($row["favoriteTeamProfileId"], $row["favoriteTeamTeamId"]);
 				$favoriteTeams[$favoriteTeams->key()] = $favoriteTeam;
+				$favoriteTeams->next();
 			} catch(\Exception $exception) {
 				// if the row can't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
