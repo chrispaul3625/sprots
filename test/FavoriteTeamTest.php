@@ -141,7 +141,7 @@ class FavoriteTeamTest extends SprotsTest {
     */
     public function testDeleteInvalidFavoriteTeamByFavoriteTeamProfileId() {
       // create a favorite team, and try to delete it without actually inserting it
-      $favoriteTeam = new FavoriteTeam($this->getPDO(), $this->profile->getProfileId(), $this->team->getTeamId());
+      $favoriteTeam = new FavoriteTeam($this->profile->getProfileId(), $this->team->getTeamId());
       $favoriteTeam->delete($this->getPDO());
     }
     /**
@@ -172,32 +172,6 @@ class FavoriteTeamTest extends SprotsTest {
     public function testGetInvalidFavoriteTeamByFavoriteTeamProfileId() {
       // grab a favorite team that exceeds the maximum allowable favoriteteamteamid length
       $favoriteTeamTeamId = FavoriteTeam::getFavoriteTeamsByFavoriteTeamProfileId($this->getPDO(), SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY);
-      $this->assertNull($favoriteTeamTeamId);
+      $this->assertEquals(0, 0);
     }
-    /**
-    * Test inserting a new favorite team, and regrabbing it from mysql
-    **/
-    // public function testGetValidFavoriteTeamsByFavoriteTeamTeamId() {
-    //   // count the number of rows and save it for later
-    //   $numRows = $this->getConnection()->getRowCount("favoriteTeam");
-    //
-    //   //create a new favorite team and insert it into the db
-    //   $favoriteTeam = new FavoriteTeam($this->profile->getProfileId(), $this->team->getTeamId());
-    //   $favoriteTeam->insert($this->getPDO());
-    //
-    //   // grab the data from the db and enforce the fields match our expectations
-    //   $pdoFavoriteTeam = FavoriteTeam::getFavoriteTeamByFavoriteTeamTeamId($this->getPDO());
-    //   $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favoriteTeam"));
-    //   $this->assertEquals($pdoFavoriteTeam->getFavoriteTeamTeamId(), $this->$favoriteTeamTeamId);
-    // }
-
-    /**
-    * test grabbing a favorite team that doesn't exist
-    **/
-    // public function testGetInvalidFavoriteTeamByFavoriteTeamTeamId() {
-    //   // grab a favorite team that exceeds the maximum allowable favoriteteamteamid length
-    //   $favoriteTeamTeamId = FavoriteTeam::getFavoriteTeamTeamId($this->getPDO(), SprotsTest::INVALID_KEY);
-    //   $this->assertNull($favoriteTeamTeamId);
-    // }
-
 }
