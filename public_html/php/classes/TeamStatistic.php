@@ -7,8 +7,7 @@ require_once("autoload.php");
 /**
  * TeamStatistic, This is a field in which all statistics related to a team are going to be held.
  *
- * @author Jude Chavez <Chavezjude7@gmail.com>
- */
+ * @author Jude Chavez <Chavezjude7@gmail.com>*/
 class TeamStatistic implements \JsonSerializable {
 	/**
 	 * Id for the Statistic; this is the primary key
@@ -286,7 +285,7 @@ class TeamStatistic implements \JsonSerializable {
 	 * gets the teamStatistic by teamStatisticStatisticId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $teamStatisticStatisticId Team Statistic Statistic Id to search for
+	 * @param int $teamStatisticStatisticId TeamStatisticStatisticId to search for
 	 * @return TeamStatistic|null TeamStatisticStatistic found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
