@@ -4,12 +4,15 @@ namespace Edu\Cnm\Sprots;
 
 require_once ("autoload.php");
 
-//This is the class for users to select favorite player(s)//
+/**This is the class for a profile to select favorite player
+ *
+ * @author Mike Prinz <mnprinz@gmail.com>
+ **/
 
-class FavoritePlayer {
+class favoritePlayer {
 
 	/**
-	 * Id for this FavoritePlayer class, this is the foreign key
+	 * Id for the profile that has favorites; this is the foreign key
 	 * @var int $favoritePlayerProfileId
 	 **/
 	private $favoritePlayerProfileId;
@@ -20,7 +23,7 @@ class FavoritePlayer {
 	private $favoritePlayerPlayerId;
 
 	/**
-	 * constructor for favoriting a Player
+	 * constructor for favoring a Player
 	 *
 	 * @param int $newFavoritePlayerProfileId this will be inherited from the profileId
 	 * @param int $newFavoritePlayerPlayerId this will be inherited from the playerId
@@ -61,15 +64,13 @@ class FavoritePlayer {
 	 *
 	 * @param int|null $newFavoritePlayerProfileId new value of the favoritePlayerProfileId
 	 * @throws \Exception if the $newFavoritePlayerProfileId is not positive
-	 * @return int $newFavoritePlayerProfileId
 	 **/
 
 	public function setFavoritePlayerProfileId(int $newFavoritePlayerProfileId) {
-		if($newFavoritePlayerProfileId === null) {
-			throw (new \Exception ("new favorite player profile Id cannot be null"));
-
+		if($newFavoritePlayerProfileId <=0) {
+			throw (new \RangeException ("favoritePlayerProfileId is not a positive number"));
 		}
-		return $this->favoritePlayerProfileId = $newFavoritePlayerProfileId;
+		$this->favoritePlayerProfileId = $newFavoritePlayerProfileId;
 	}
 
 	/**
@@ -91,16 +92,15 @@ class FavoritePlayer {
 	 **/
 
 	public function setFavoritePlayerPlayerId(int $newFavoritePlayerPlayerId) {
-		if($newFavoritePlayerPlayerId === null) {
-			throw (new \Exception ("new favorite player player Id cannot be null"));
-
+		if($newFavoritePlayerPlayerId <= 0) {
+			throw (new \RangeException ("favoritePlayePlayerId is not a positive number"));
 			}
-
-			return $this->favoritePlayerPlayerId = $newFavoritePlayerPlayerId;
+		//convert and store the favoritePlayerPlayerId//
+		$this->favoritePlayerPlayerId = $newFavoritePlayerPlayerId;
 	}
 
 	/**
-	 * Inserts a favorite player into the FavoritePlayer class
+	 * Inserts the favoritePlayerProfileId into the favoritePlayer table
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -108,7 +108,7 @@ class FavoritePlayer {
 
 	public function insert(\PDO $pdo) {
 		if($this->favoritePlayerProfileId === null || $this->favoritePlayerPlayerId === null) {
-			throw(new \PDOException("player does not exist"));
+			throw(new \PDOException("ID's don't exist"));
 		}
 		//create query template
 		$query = "INSERT INTO favoritePlayer(favoritePlayerProfileId, favoritePlayerPlayerId) VALUES (:favoritePlayerProfileId :favoritePlayerPlayerId)";

@@ -24,35 +24,53 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 Class FavoritePlayerTest extends SprotsTest {
 
-	protected $VALID_SPORT;
+	/**
+	 * content of playerId
+	 * @var null
+	 */
+	protected $VALID_PLAYERID = null;
 
 	/**
-	 * confirm valid team
-	 * @var string $VALID_TEAM
+	 * content of playerApiId
+	 * @var int
 	 */
-	protected $VALID_TEAM = "Bears";
-
-	protected $VALID_TEAMID = "123";
+	protected $VALID_PLAYERAPIID = 77;
 
 	/**
-	 * Confirm valid Player
-	 * @var string $VALID_PLAYER
+	 * content of playerTeamId
+	 * @var null
 	 */
-
-
-	protected $VALID_PLAYER;
+	protected $VALID_PLAYERTEAMID = 99;
 
 	/**
-	 * confirm Player Id
-	 * @var int $VALID_PLAYERID
+	 * content of playerSportId
+	 * @var null
 	 */
-	protected $VALID_PLAYERID = "42";
+	protected $VALID_PLAYERSPORTID = 123;
 
-	protected $VALID_PLAYERAPIID = "77";
-	protected $VALID_PLAYERSPORTID  ;
+	/**
+	 * content of playerName
+	 * @var string
+	 */
+
+	protected $VALID_PLAYERNAME = "Mike";
+
+	protected $VALID_TEAMSPORTID = 42;
+
+	protected $VALID_TEAMAPIID = 24;
+
+	protected $VALID_TEAMCITY = "Nashville";
+
+	protected $VALID_TEAMNAME = "Titans";
 
 
-	protected $VALID_PROFILE;
+	protected $sport = null;
+
+	protected $team = null;
+
+	protected $player = null;
+
+	protected $profile = null;
 
 	protected $hash;
 
@@ -70,17 +88,17 @@ Class FavoritePlayerTest extends SprotsTest {
 		$this->salt = bin2hex(openssl_random_pseudo_bytes(32));
 		$this->hash = hash_pbkdf2("sha512", $password, $this->salt, 262144, 128);
 
-		$this->VALID_PROFILE = new Profile(null, "Ronald McDonald", "ronnie@mcdonalds.com", $this->hash, $this->salt);
-		$this->VALID_PROFILE->insert($this->getPDO());
+		$this->profile = new Profile(null, "Ronald McDonald", "ronnie@mcdonalds.com", $this->hash, $this->salt);
+		$this->profile->insert($this->getPDO());
 
-		$this->VALID_SPORT = new Sport(null, "basketball", "ABC");
-		$this->VALID_SPORT->insert($this->getPDO());
+		$this->sport = new Sport(null, "basketball", "ABC");
+		$this->sport->insert($this->getPDO());
 
-		$this->VALID_TEAM = new Team(null, $this->VALID_SPORT->getSportId(), 1, "Albuquerque", "Lobos");
-		$this->VALID_TEAM->insert($this->getPDO());
+		$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
+		$this->team->insert($this->getPDO());
 
-		$this->VALID_PLAYER = new Player(null, $this->VALID_PLAYERAPIID, $this->VALID_TEAMID, $this->VALID_PLAYERSPORTID,"Mike");
-		$this->VALID_PLAYER->insert($this->getPDO());
+		$this->player = new Player(null, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID, $this->VALID_PLAYERSPORTID, $this->VALID_PLAYERNAME);
+		$this->player->insert($this->getPDO());
 
 	}
 
