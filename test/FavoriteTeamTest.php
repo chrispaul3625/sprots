@@ -107,7 +107,7 @@ class FavoriteTeamTest extends SprotsTest {
     /**
     * test inserting a favorite team, that already exists
     *
-    * @expectedException PDOException
+    * @expectedException \PDOException
     **/
     public function testInsertInvalidFavoriteTeam() {
       // create a favorite team with a non null favorite team id, and watch it fail
