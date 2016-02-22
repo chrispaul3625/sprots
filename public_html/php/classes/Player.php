@@ -239,7 +239,7 @@ class Player {
 		}
 
 		// create query template
-		$query = "INSERT INTO player(playerId, playerApiId, playerTeamId, playerSportId, playerName) VALUES(:playerId, :playerApiId, :playerTeamId,:playerSportId, :playerName)";
+		$query = "INSERT INTO player(playerId, playerSportId, playerTeamId, playerApiId, playerName) VALUES(:playerId, :playerSportId, :playerTeamId, :playerApiId, :playerName)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
@@ -469,7 +469,7 @@ class Player {
 			throw(new \PDOException("playerName is not valid"));
 		}
 		// Create query template
-		$query = "SELECT playerId, playerApiId, playerTeamId, playerSportId, playerName FROM player WHERE $playerName = :playerName";
+		$query = "SELECT playerId, playerApiId, playerTeamId, playerSportId, playerName FROM Player WHERE $playerName = :playerName";
 		$statement = $pdo->prepare($query);
 
 		// Bind the player Name to the place holder in the template

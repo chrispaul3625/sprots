@@ -3,6 +3,7 @@
 namespace Edu\Cnm\Sprots\Test;
 
 
+use Edu\Cnm\Sprots\Player;
 use Edu\Cnm\Sprots\Sport;
 use Edu\Cnm\Sprots\Team;
 use Edu\Cnm\Sprots\TeamStatistic;
@@ -59,14 +60,14 @@ class PlayerTest extends SprotsTest {
 	 * @var string $VALID_PLAYERAPIID
 	 **/
 
-	Protected $VALID_PLAYERAPIID = null;
+	Protected $VALID_PLAYERAPIID = 49;
 
 	/**
 	 * content of the updated player Api Id
 	 * @var string $VALID_PLAYERAPIID2
 	 **/
 
-	Protected $VALID_PLAYERAPIID2 = null;
+	Protected $VALID_PLAYERAPIID2 = 50;
 
 /**
  * player is unique to team, player can not be associated with >1 team
@@ -82,10 +83,28 @@ Protected $VALID_PLAYERTEAMID = null;
 
 Protected $VALID_PLAYERTEAMID2 = null;
 
-/**
- * Team that Player Belongs to
- * @var string $VALID_TEAM
- **/
+	/**
+	 * @var int Sport league belongs to
+	 */
+
+//protected $VALID_SPORTID = 1;
+
+protected $VALID_SPORTLEAGUE = "string";
+
+	/**
+	 * @var int name of sport player belongs to
+	 */
+
+protected $VALID_SPORTNAME = "string1";
+
+	/**
+	 * Team that Player Belongs to
+	 * @var string $VALID_TEAM
+	 **/
+
+
+
+protected $sport = "sport";
 
 Protected $team = "PHPUnit test still passing";
 
@@ -97,9 +116,23 @@ public final function setUp() {
 	// run the default setUp() method first
 	parent::setUp();
 
+	$this->sport = new Sport(null, $this->VALID_SPORTLEAGUE, $this->VALID_SPORTNAME);
+	$this->sport->insert($this->getPDO());
+
+
 	// create and insert a Profile to own the test Team
-	$this->team = new Team(null, "teamApiId", "teamApiId2", "teamCity", "teamCity2", "teamName", "teamName2");
+	$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_PLAYERAPIID, "teamCity", "teamCity2", "teamName", "teamName2");
 	$this->team->insert($this->getPDO());
+
+/**
+	$this->player = new Player(null, $this->VALID_SPORTID, $this->VALID_PLAYERAPIID, "playerName", "playerName2", playerTeamId, playerTeamId2);
+	$this->player->insert($this->getPDO());
+
+	$this->player = new Player(null, "playerId", "playerName", "teamName", "teamName2", "teamApiId", "teamApiId2", "playerSportId", "playerSportId2");
+	$this->player->insert($this->getPDO());
+  */
+
+
 
 }
 
@@ -111,8 +144,17 @@ public function testInsertValidIdPlayer(){
 	$numRows = $this->getConnection()->getRowCount("player");
 
 	// create a new player and insert into mySQL
-	$player = new player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
+	$player = new Player(null, $this->sport->getSportId(), $this->team->getTeamId(), $this->VALID_PLAYERAPIID, "Im a little teapot");
 	$player->insert($this->getPDO());
+
+	$pdoPlayer = Player::getPlayerByPlayerId($this->getPDO(), $player->getPlayerId());
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("player"));
+	$this->assertEqulas($pdoPlayer->getPlayerSportId(), $this->sport->getPlayerSportId());
+	$this->assertEquals($pdoPlayer->getTeamId(), $this->team->getTeamId());
+	$this->assertEquals($pdoPlayer->getPlayerId(), $this->VALID_PLAYERID);
+	$this->assertEquals($pdoPlayer->getPlayerName(), $this->VALID_PLAYERNAME);
+	$this->assertEquals($pdoPlayer->getPlayerApiId(), $this->VALID_PLAYERAPIID);
+	$this->assertEquals($pdoPlayer->getPlayerTeamId(), $this->VALID_PLAYERTEAMID);
 }
 
 /**
@@ -123,11 +165,11 @@ public function testUpdateValidPlayer() {
 	$numRows = $this->getConnection()->getRowCount("player");
 
 	// create a new player and update it in mySQL
-	$player = new player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
+	$player = new Player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
 	$player->insert($this->getPDO());
 
 	// edit the date from mySQL and enforce the fields match out expectations
-	$pdoPlayer = player::getPlayerByPlayerId($this->getPDO(), $player->getTeamId());
+	$pdoPlayer = Player::getPlayerByPlayerId($this->getPDO(), $player->getTeamId());
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("player"));
 	$this->assertEquals($pdoPlayer->getTeamId(), $this->team->getTeamId());
 	$this->assertEquals($pdoPlayer->getPlayerId(), $this->VALID_PLAYERID);
@@ -143,7 +185,7 @@ public function testUpdateValidPlayer() {
  **/
 public function testUpdateinValidPlayer() {
 	// create a player with a non null playerId and watch it fann_get_bit_fail
-	$player = new player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
+	$player = new Player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
 	$player->update($this->getPDO());
 }
 
@@ -155,7 +197,7 @@ public function testDeleteValidPlayer() {
 	$numRows = $this->getConnection()->getRowCount("player");
 
 	// create a new player and insert into mySQL
-	$player = new player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
+	$player = new Player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
 	$player->insert($this->getPDO());
 
 	// delete the player from mySQL
@@ -163,7 +205,7 @@ public function testDeleteValidPlayer() {
 	$player->delete($this->getPDO());
 
 	// grab the data from mySQL and enforce the player does not exist
-	$pdoPlayer = player::getPlayerByPlayerId($this->getPDO(), $player->getPlayerId());
+	$pdoPlayer = Player::getPlayerByPlayerId($this->getPDO(), $player->getPlayerId());
 	$this->assertNull($pdoPlayer);
 	$this->assertEquals($numRows, $this->getConnection()->getRowCount("player"));
 }
@@ -175,7 +217,7 @@ public function testDeleteValidPlayer() {
  **/
 public function testDeleteInvalidPlayer() {
 	// creat a player and try to delete it without actually inserting it
-	$player = new player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
+	$player = new Player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
 	$player->delete($this->getPDO());
 }
 
@@ -187,7 +229,7 @@ public function testGetValidPlayerByPlayerId() {
 	$numRows = $this->getConnection()->getRowCount("player");
 
 	//create a new player and insert to into mySQL
-	$player = new player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
+	$player = new Player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
 	$player->insert($this->getPDO());
 
 	// grab the data from mySQL and enforce the fields match our ecpectations
@@ -205,7 +247,7 @@ public function testGetValidPlayerByPlayerId() {
  **/
 public function testGetInvalidPlayerByPlayerId() {
 	// grab a player that exceeds the maximum allowable team id
-	$player = player::getPlayerByPlayerId($this->getPDO(), SprotsTest::INVALID_KEY);
+	$player = Player::getPlayerByPlayerId($this->getPDO(), SprotsTest::INVALID_KEY);
 	$this->assertNull($player);
 }
 
@@ -217,11 +259,11 @@ public function testGetValidPlayerByPlayerContent() {
 	$numRows = $this->getConnection()->getRowCount("player");
 
 	// create a new Player and insert to into mySQL
-	$player = new player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
+	$player = new Player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
 	$player->insert($this->getPDO());
 
 	// grab the data from mySQL and enforce the fields match our expectations
-	$results = player::getPlayerByPlayerContent($this->getPDO(), $player->getPlayerContent());
+	$results = Player::getPlayerByPlayerContent($this->getPDO(), $player->getPlayerContent());
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("player"));
 	$this->assertCount(1, $results);
 	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Test", $results);
@@ -252,11 +294,11 @@ public function testGetAllValidPlayers() {
 	$numRows = $this->getConnection()->getRowCount("player");
 
 	// create a new player and insert to into mySQL
-	$player = new player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
+	$player = new Player(null, $this->team->getTeamId(), $this->VALID_PLAYERID, $this->VALID_PLAYERNAME, $this->VALID_PLAYERAPIID, $this->VALID_PLAYERTEAMID);
 	$player->insert($this->getPDO());
 
 	// grab the data from mySQL and enforce the fields match our expectations
-	$results = player::getAllPlayers($this->getPDO());
+	$results = Player::getAllPlayers($this->getPDO());
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("player"));
 	$this->assertCount(1, $results);
 	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\Test", $results);
