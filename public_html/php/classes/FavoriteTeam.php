@@ -142,54 +142,6 @@ class favoriteTeam {
 					// Bind the member variables to the place holders in template
 		$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->favoriteTeamTeamId]; $statement->execute($parameters);
 	}
-	/**
-	* gets a team to favorite by the name
-	*
-	* @param \PDO $pdo connection object
-	* @param string $FavoriteTeam to search for
-	* @return \SplFixedArray SplFixedArray of favorite teams found
-	* @throws \PDOException when db related errors occur
-	* @throws \TypeError when variables are not correct data type
-	* public static function getFavoriteTeamByFavoriteTeamName(\PDO $pdo, string $teamName)
-	**/
-
-	/**
-	* gets a favoriteTeam by the favoriteTeamTeamId
-	*
-	* @param \PDO $pdo connection object
-	* @param int $FavoriteTeam to search for
-	* @return \SplFixedArray SplFixedArray of favorite teams found
-	* @throws \PDOException when db related errors occur
-	* @throws \TypeError when variables are not correct data type
-	**/
-	// public static function getFavoriteTeamByFavoriteTeamTeamId(\PDO $pdo, int $favoriteTeamTeamId) {
-	// 	// sanitize favoriteTeamTeamId number before searching
-	// 	if($favoriteTeamTeamId <= 0) {
-	// 		throw(new \PDOException("that favoriteTeamTeamId is not positive"));
-	// 	}
-	//
-	// 	// create query template
-	// 	$query = "SELECT favoriteTeamTeamId FROM favoriteTeam WHERE favoriteTeamTeamId = :favoriteTeamTeamId";
-	// 	$statement = $pdo->prepare($query);
-	//
-	// 	// bind the favoriteTeamTeamId to the place holder in the template
-	// 	$parameters = array("favoriteTeamTeamId" => $favoriteTeamTeamId);
-	// 	$statement->execute($parameters);
-	//
-	// 	// grab the team from the db
-	// 	try {
-	// 		$favoriteTeam = null;
-	// 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-	// 		$row = $statement->fetch();
-	// 		if($row !== false) {
-	// 			$favoriteTeam = new FavoriteTeam($row["favoriteTeamTeamId"]);
-	// 		}
-	// 	} catch(\Exception $exception) {
-	// 		// if the row can't be converted rethrow it
-	// 		throw(new \PDOException($exception->getMessage(), 0, $exception));
-	// 	}
-	// 	return ($favoriteTeam);
-	// }
 
 	/**
 	* gets the list of this profiles favorite teams
@@ -230,7 +182,7 @@ class favoriteTeam {
 	}
 
 	/**
- * determines whether or not a Follower relationship between two profiles exists, and if so returns said relationship
+ * Gets both the favorite teams, and profile that favorited them.
  *
  * @param \PDO $pdo
  * @param int $favoriteTeamProfileId the one doing the favoriting
