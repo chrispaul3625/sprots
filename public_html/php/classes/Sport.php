@@ -258,21 +258,21 @@ class Sport {
 				$sportLeagues->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
-					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 			return ($sportLeagues);
 		}
 	}
 
 	/**
-	* gets the sport by the sport name
-	*
-	* @param \PDO $pdo connection object
-	* @param string $sportName sport Name to search for
-	* @return \SplFixedArray SplFixedArray of names found
-	* @throws \PDOException when db related errors occur
-	* @throws \TypeError when variables are not correct data type
-	**/
+	 * gets the sport by the sport name
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param string $sportName sport Name to search for
+	 * @return \SplFixedArray SplFixedArray of names found
+	 * @throws \PDOException when db related errors occur
+	 * @throws \TypeError when variables are not correct data type
+	 **/
 	public static function getSportBySportName(\PDO $pdo, string $sportName) {
 		// sanitize the description before searching
 		$sportName = trim($sportName);
@@ -293,7 +293,7 @@ class Sport {
 		//build array of sport names
 		$sportNames = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$sport = new sport($row["sportId"], $row["sportLeague"], $row["sportName"]);
 				$sportNames[$sportNames->key()] = $sport;
@@ -373,12 +373,12 @@ class Sport {
 	}
 
 	/**
-	* gets all sport Names
-	* @param \PDO $pdo PDO connection object
-	* @return \SplFixedArray SplFixedArray of sports found or null if nothing was found
-	* @throws \PDOException when db related errors occur
-	* @throws \TypeError when variables are not the correct data type
-	**/
+	 * gets all sport Names
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of sports found or null if nothing was found
+	 * @throws \PDOException when db related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 	public static function getAllSportNames(\PDO $pdo) {
 		// create a query template
 		$query = "SELECT sportId, sportLeague, sportName FROM sport";
@@ -386,7 +386,7 @@ class Sport {
 		$statement->execute();
 
 		// build an array of sports
-		$allSportNames =new \SplFixedArray($statement->rowCount());
+		$allSportNames = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -399,8 +399,6 @@ class Sport {
 		}
 		return ($allSportNames);
 	}
-
-
 
 
 }

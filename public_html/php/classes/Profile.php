@@ -169,7 +169,7 @@ class Profile {
 			throw (new\InvalidArgumentException("profile hash cannot be null"));
 		}
 
-		if(strlen($newProfileHash) !== 128 ) {
+		if(strlen($newProfileHash) !== 128) {
 			throw(new \RangeException("profile hash has to be 128"));
 		}
 
@@ -195,7 +195,7 @@ class Profile {
 	 * @throws \RangeException if $newProfileSalt is !=64
 	 *
 	 **/
-	 public function setProfileSalt($newProfileSalt) {
+	public function setProfileSalt($newProfileSalt) {
 		// verify salt is exactly string of 64
 		if((ctype_xdigit($newProfileSalt)) === false) {
 			if(empty($newProfileSalt) === true) {
@@ -410,13 +410,13 @@ class Profile {
 					$row["profileHash"], $row["profileSalt"]);
 			}
 
-			} catch (\Exception $exception)	{
-					// if the row couldn't be converted, rethrow it
-					throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
 
 		return $profile;
 
-		}
+	}
 } //end of class
 ?>

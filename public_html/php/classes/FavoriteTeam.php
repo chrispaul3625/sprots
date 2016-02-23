@@ -139,19 +139,20 @@ class favoriteTeam {
 		$query = "DELETE FROM favoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId AND favoriteTeamTeamId = :favoriteTeamTeamId";
 		$statement = $pdo->prepare($query);
 
-					// Bind the member variables to the place holders in template
-		$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->favoriteTeamTeamId]; $statement->execute($parameters);
+		// Bind the member variables to the place holders in template
+		$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->favoriteTeamTeamId];
+		$statement->execute($parameters);
 	}
 
 	/**
-	* gets the list of this profiles favorite teams
-	*
-	* @param \PDO $pdo connection object
-	* @param int $allFavoriteTeams search for
-	* @return \SplFixedArray SplFixedArray of all teams favorited found
-	* @throws \PDOException when db related errors occur
-	* @throws \TypeError when variables are not correct data type
-	**/
+	 * gets the list of this profiles favorite teams
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param int $allFavoriteTeams search for
+	 * @return \SplFixedArray SplFixedArray of all teams favorited found
+	 * @throws \PDOException when db related errors occur
+	 * @throws \TypeError when variables are not correct data type
+	 **/
 	public static function getFavoriteTeamsByFavoriteTeamProfileId(\PDO $pdo, int $favoriteTeamProfileId) {
 		// sanitize the favoriteTeamProfileId
 		if($favoriteTeamProfileId <= 0) {
@@ -182,42 +183,42 @@ class favoriteTeam {
 	}
 
 	/**
- * Gets both the favorite teams, and profile that favorited them.
- *
- * @param \PDO $pdo
- * @param int $favoriteTeamProfileId the one doing the favoriting
- * @param int $favoriteTeamTeamId the one being followed
- * @return Follower|null Follower found or null if not found
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError when variables are not the correct data type
- **/
-public static function getFavoriteTeamByFavoriteTeamProfileIdAndFavoriteTeamTeamId(\PDO $pdo, int $favoriteTeamProfileId, int $favoriteTeamTeamId) {
-	//Sanitize the follower id
-	if($favoriteTeamProfileId <= 0) {
-		throw(new \PDOException("profileId id is not positive"));
-	}
-	//Sanitize the followed id
-	if($favoriteTeamTeamId <= 0) {
-		throw(new \PDOException("teamId Id is not positive"));
-	}
-	//Create a query template
-	$query = "SELECT favoriteTeamProfileId, favoriteTeamTeamId FROM favoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId AND favoriteTeamTeamId = :favoriteTeamTeamId";
-	$statement = $pdo->prepare($query);
-	//Search based on both profile, and team
-	$parameters = ["favoriteTeamProfileId" => $favoriteTeamProfileId, "favoriteTeamTeamId" => $favoriteTeamTeamId];
-	$statement->execute($parameters);
-	//Grab the them from mySQL
-	try {
-		$favoriteTeam = null;
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		$row = $statement->fetch();
-		if($row !== false) {
-			$favoriteTeam = new FavoriteTeam($row["favoriteTeamProfileId"], $row["favoriteTeamTeamId"]);
+	 * Gets both the favorite teams, and profile that favorited them.
+	 *
+	 * @param \PDO $pdo
+	 * @param int $favoriteTeamProfileId the one doing the favoriting
+	 * @param int $favoriteTeamTeamId the one being followed
+	 * @return Follower|null Follower found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getFavoriteTeamByFavoriteTeamProfileIdAndFavoriteTeamTeamId(\PDO $pdo, int $favoriteTeamProfileId, int $favoriteTeamTeamId) {
+		//Sanitize the follower id
+		if($favoriteTeamProfileId <= 0) {
+			throw(new \PDOException("profileId id is not positive"));
 		}
-	} catch(\Exception $exception) {
-		//If the row couldn't be converted, rethrow it
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
+		//Sanitize the followed id
+		if($favoriteTeamTeamId <= 0) {
+			throw(new \PDOException("teamId Id is not positive"));
+		}
+		//Create a query template
+		$query = "SELECT favoriteTeamProfileId, favoriteTeamTeamId FROM favoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId AND favoriteTeamTeamId = :favoriteTeamTeamId";
+		$statement = $pdo->prepare($query);
+		//Search based on both profile, and team
+		$parameters = ["favoriteTeamProfileId" => $favoriteTeamProfileId, "favoriteTeamTeamId" => $favoriteTeamTeamId];
+		$statement->execute($parameters);
+		//Grab the them from mySQL
+		try {
+			$favoriteTeam = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$favoriteTeam = new FavoriteTeam($row["favoriteTeamProfileId"], $row["favoriteTeamTeamId"]);
+			}
+		} catch(\Exception $exception) {
+			//If the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($favoriteTeam);
 	}
-	return($favoriteTeam);
-}
 }

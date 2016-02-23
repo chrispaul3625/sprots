@@ -4,9 +4,9 @@ namespace Edu\Cnm\Sprots\Test;
 
 use Edu\Cnm\Sprots\Profile;
 
-require_once ("SprotsTest.php");
+require_once("SprotsTest.php");
 
-require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 /**
  * Full PHPUnit test for the Profile class
@@ -17,7 +17,6 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * @see Profile
  * @author Mike Prinz <mnprinz@gmail.com>
  **/
-
 Class ProfileTest extends SprotsTest {
 
 
@@ -50,7 +49,6 @@ Class ProfileTest extends SprotsTest {
 	protected $salt;
 
 	protected $hash;
-
 
 
 	/**
@@ -193,7 +191,7 @@ Class ProfileTest extends SprotsTest {
 	 **/
 	public function testGetInvalidProfileByProfileId() {
 		//grab a profile with invalid profile Id and watch it fail
-		$profile = Profile::getProfileByProfileId($this->getPDO(),SprotsTest::INVALID_KEY);
+		$profile = Profile::getProfileByProfileId($this->getPDO(), SprotsTest::INVALID_KEY);
 		$this->assertNull($profile);
 	}
 
@@ -209,7 +207,7 @@ Class ProfileTest extends SprotsTest {
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getProfileByProfileUserName($this->getPDO(),$profile->getProfileUserName());
+		$pdoProfile = Profile::getProfileByProfileUserName($this->getPDO(), $profile->getProfileUserName());
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
@@ -227,6 +225,7 @@ Class ProfileTest extends SprotsTest {
 		$pdoProfile = Profile::getProfileByProfileUserName($this->getPDO(), "That profile user name doesn't exist");
 		$this->assertNull($pdoProfile);
 	}
+
 	/**
 	 * test grabbing a Profile by profile email
 	 **/

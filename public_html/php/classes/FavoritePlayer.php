@@ -2,7 +2,7 @@
 
 namespace Edu\Cnm\Sprots;
 
-require_once ("autoload.php");
+require_once("autoload.php");
 
 //This is the class for users to select favorite player(s)//
 
@@ -94,9 +94,9 @@ class FavoritePlayer {
 		if($newFavoritePlayerPlayerId === null) {
 			throw (new \Exception ("new favorite player player Id cannot be null"));
 
-			}
+		}
 
-			return $this->favoritePlayerPlayerId = $newFavoritePlayerPlayerId;
+		return $this->favoritePlayerPlayerId = $newFavoritePlayerPlayerId;
 	}
 
 	/**
@@ -202,14 +202,15 @@ class FavoritePlayer {
 			if($row !== false) {
 				$favoritePlayer = new FavoritePlayer($row["favoritePlayerProfileId"], $row["favoritePlayerPlayerId"]);
 			}
-				// $favoritePlayers[$favoritePlayers->key()] = $favoritePlayer;
-				// $favoritePlayers->next();
+			// $favoritePlayers[$favoritePlayers->key()] = $favoritePlayer;
+			// $favoritePlayers->next();
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
+		}
 		return ($favoritePlayer);
 	}
+
 	/**
 	 * get a favorite player by profile id
 	 *
@@ -232,7 +233,7 @@ class FavoritePlayer {
 		$statement->execute($parameters);
 
 		// build an array of favorite players
-		$favoritePlayers= new \SplFixedArray($statement->rowCount());
+		$favoritePlayers = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {

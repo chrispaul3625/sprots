@@ -8,9 +8,9 @@ use Edu\Cnm\Sprots\Player;
 use Edu\Cnm\Sprots\Sport;
 use Edu\Cnm\Sprots\Team;
 
-require_once ("SprotsTest.php");
+require_once("SprotsTest.php");
 
-require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 /**
  * Full PHPUnit test for the Favorite Player class
@@ -21,7 +21,6 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * @see Favorite Player
  * @author Mike Prinz <mnprinz@gmail.com>
  **/
-
 Class FavoritePlayerTest extends SprotsTest {
 
 	protected $VALID_SPORT;
@@ -72,7 +71,7 @@ Class FavoritePlayerTest extends SprotsTest {
 		$this->sport->insert($this->getPDO());
 
 		$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, $this->VALID_TEAMCITY, $this->VALID_TEAMNAME);
-    $this->team->insert($this->getPDO());
+		$this->team->insert($this->getPDO());
 
 		$this->player = new Player(null, $this->VALID_PLAYERAPIID, $this->team->getTeamId(), $this->sport->getSportId(), "PlayerName");
 		$this->player->insert($this->getPDO());
@@ -131,12 +130,12 @@ Class FavoritePlayerTest extends SprotsTest {
 	 *
 	 */
 	/**public function testInsertInvalidFavoritePlayer() {
-		//create new player with a null profile Id and watch it fail
-		$favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(), SprotsTest::INVALID_KEY);
-		$favoritePlayer->insert($this->getPDO());
-
-	}
-	/**
+	 * //create new player with a null profile Id and watch it fail
+	 * $favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(), SprotsTest::INVALID_KEY);
+	 * $favoritePlayer->insert($this->getPDO());
+	 *
+	 * }
+	 * /**
 	 * test deleting a favorite player from MySQL
 	 *
 	 *
@@ -195,8 +194,8 @@ Class FavoritePlayerTest extends SprotsTest {
 	}
 
 	/**
-	* test getting a favorite player from favoritePlayerProfileId
-	**/
+	 * test getting a favorite player from favoritePlayerProfileId
+	 **/
 	public function testGetInvalidFavoritePlayerByFavoritePlayerProfileId() {
 		// grab a favorite player that exceeds the maximum allowable favoriteplayerplayerId length
 		$favoritePlayerPlayerId = FavoritePlayer::getFavoritePlayersByFavoritePlayerProfileId($this->getPDO(), SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY);
