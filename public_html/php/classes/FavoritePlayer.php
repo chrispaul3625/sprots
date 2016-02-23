@@ -4,15 +4,12 @@ namespace Edu\Cnm\Sprots;
 
 require_once ("autoload.php");
 
-/**This is the class for a profile to select favorite player
- *
- * @author Mike Prinz <mnprinz@gmail.com>
- **/
+//This is the class for users to select favorite player(s)//
 
-class favoritePlayer {
+class FavoritePlayer {
 
 	/**
-	 * Id for the profile that has favorites; this is the foreign key
+	 * Id for this FavoritePlayer class, this is the foreign key
 	 * @var int $favoritePlayerProfileId
 	 **/
 	private $favoritePlayerProfileId;
@@ -23,7 +20,7 @@ class favoritePlayer {
 	private $favoritePlayerPlayerId;
 
 	/**
-	 * constructor for favoring a Player
+	 * constructor for favoriting a Player
 	 *
 	 * @param int $newFavoritePlayerProfileId this will be inherited from the profileId
 	 * @param int $newFavoritePlayerPlayerId this will be inherited from the playerId
@@ -64,13 +61,15 @@ class favoritePlayer {
 	 *
 	 * @param int|null $newFavoritePlayerProfileId new value of the favoritePlayerProfileId
 	 * @throws \Exception if the $newFavoritePlayerProfileId is not positive
+	 * @return int $newFavoritePlayerProfileId
 	 **/
 
 	public function setFavoritePlayerProfileId(int $newFavoritePlayerProfileId) {
-		if($newFavoritePlayerProfileId <=0) {
-			throw (new \RangeException ("favoritePlayerProfileId is not a positive number"));
+		if($newFavoritePlayerProfileId === null) {
+			throw (new \Exception ("new favorite player profile Id cannot be null"));
+
 		}
-		$this->favoritePlayerProfileId = $newFavoritePlayerProfileId;
+		return $this->favoritePlayerProfileId = $newFavoritePlayerProfileId;
 	}
 
 	/**
@@ -92,33 +91,37 @@ class favoritePlayer {
 	 **/
 
 	public function setFavoritePlayerPlayerId(int $newFavoritePlayerPlayerId) {
-		if($newFavoritePlayerPlayerId <= 0) {
-			throw (new \RangeException ("favoritePlayePlayerId is not a positive number"));
+		if($newFavoritePlayerPlayerId === null) {
+			throw (new \Exception ("new favorite player player Id cannot be null"));
+
 			}
-		//convert and store the favoritePlayerPlayerId//
-		$this->favoritePlayerPlayerId = $newFavoritePlayerPlayerId;
+
+			return $this->favoritePlayerPlayerId = $newFavoritePlayerPlayerId;
 	}
 
 	/**
-	 * Inserts the favoritePlayerProfileId into the favoritePlayer table
+	 * Inserts a favorite player into the FavoritePlayer class
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 **/
 
 	public function insert(\PDO $pdo) {
-		if($this->favoritePlayerProfileId === null || $this->favoritePlayerPlayerId === null) {
-			throw(new \PDOException("ID's don't exist"));
+		if($this->favoritePlayerProfileId === null) {
+			throw(new \PDOException("profile id does not exist"));
+		}
+		if($this->favoritePlayerPlayerId === null) {
+			throw(new \PDOException("player id doesn't exist"));
 		}
 		//create query template
-		$query = "INSERT INTO favoritePlayer(favoritePlayerProfileId, favoritePlayerPlayerId) VALUES (:favoritePlayerProfileId :favoritePlayerPlayerId)";
+		$query = "INSERT INTO favoritePlayer(favoritePlayerProfileId, favoritePlayerPlayerId) VALUES (:favoritePlayerProfileId, :favoritePlayerPlayerId)";
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["favoritePlayerProfileId" => $this->favoritePlayerProfileId, "favoritePlayerPlayerId" => $this->favoritePlayerPlayerId];
 		$statement->execute($parameters);
 
 		//insert with what mySQL just gave us
-		$this->favoritePlayerProfileId = intval($pdo->lastInsertId());
+		// $this->favoritePlayerProfileId = intval($pdo->lastInsertId());
 
 	}
 
@@ -130,18 +133,19 @@ class favoritePlayer {
 	 **/
 
 	public function delete(\PDO $pdo) {
-		if($this->favoritePlayerProfileId === null || $this->favoritePlayerPlayerId === null) {
-			throw(new \PDOException("unable to delete favorite player profile that does not exist"));
-
+		if($this->favoritePlayerProfileId === null) {
+			throw(new \PDOException("profile id does not exist"));
 		}
-
+		if($this->favoritePlayerPlayerId === null) {
+			throw(new \PDOException("player id doesn't exist"));
+		}
 		//create query template
-		$query = "DELETE FROM favoritePlayer WHERE favoritePlayerProfileId  | favoritePlayerPlayerId = :favoritePlayerProfileId | :favoritePlayerPlayerId";
+		$query = "DELETE FROM favoritePlayer WHERE favoritePlayerProfileId = :favoritePlayerProfileId AND favoritePlayerPlayerId = :favoritePlayerPlayerId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
 		$parameters = ["favoritePlayerProfileId" => $this->favoritePlayerProfileId, "favoritePlayerPlayerId" => $this->favoritePlayerPlayerId];
-		$statement->excute($parameters);
+		$statement->execute($parameters);
 
 	}
 
@@ -174,27 +178,37 @@ class favoritePlayer {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getFavoritePlayerByPlayerId(\PDO $pdo, int $playerId) {
+	public static function getFavoritePlayerByFavoritePlayerProfileIdAndFavoritePlayerPlayerId(\PDO $pdo, int $favoritePlayerProfileId, int $favoritePlayerPlayerId) {
+		if($favoritePlayerProfileId <= 0) {
+			throw(new \PDOException("profile id is not positive"));
+		}
+		//Sanitize the team id
+		if($favoritePlayerPlayerId <= 0) {
+			throw(new \PDOException("Player Id is not positive"));
+		}
 		// create query template
-		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId  FROM favoritePlayer WHERE favoritePlayerPlayerId = :playerId";
+		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId FROM favoritePlayer WHERE favoritePlayerProfileId = :favoritePlayerProfileId AND favoritePlayerPlayerId = :favoritePlayerPlayerId";
 		$statement = $pdo->prepare($query);
-		$parameters = ["playerId" => $playerId];
+		$parameters = ["favoritePlayerProfileId" => $favoritePlayerProfileId, "favoritePlayerPlayerId" => $favoritePlayerPlayerId];
 		$statement->execute($parameters);
 
 		// build an array of favorite players
-		$favoritePlayers= new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
+		// $favoritePlayers= new \SplFixedArray($statement->rowCount());
+		// while(($row = $statement->fetch()) !== false)
+		try {
+			$favoritePlayer = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
 				$favoritePlayer = new FavoritePlayer($row["favoritePlayerProfileId"], $row["favoritePlayerPlayerId"]);
-				$favoritePlayers[$favoritePlayers->key()] = $favoritePlayer;
-				$favoritePlayers->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		}
-		return ($favoritePlayers);
+				// $favoritePlayers[$favoritePlayers->key()] = $favoritePlayer;
+				// $favoritePlayers->next();
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		return ($favoritePlayer);
 	}
 	/**
 	 * get a favorite player by profile id
@@ -206,11 +220,15 @@ class favoritePlayer {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
-	public static function getFavoritePlayerByProfileId(\PDO $pdo, int $profileId) {
+	public static function getFavoritePlayersByFavoritePlayerProfileId(\PDO $pdo, int $favoritePlayerProfileId) {
+
+		if($favoritePlayerProfileId <= 0) {
+			throw(new \PDOException("this profile doesn't exist"));
+		}
 		// create query template
-		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId  FROM favoritePlayer WHERE favoritePlayerPlayerId = :playerId";
+		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId  FROM favoritePlayer WHERE favoritePlayerProfileId = :favoritePlayerProfileId";
 		$statement = $pdo->prepare($query);
-		$parameters = ["playerId" => $profileId];
+		$parameters = ["favoritePlayerProfileId" => $favoritePlayerProfileId];
 		$statement->execute($parameters);
 
 		// build an array of favorite players
