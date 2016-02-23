@@ -236,6 +236,7 @@ public function testGetValidPlayerByPlayerId() {
 
 }
 
+
 /**
  * test grabbing a player that does not exist
  **/
@@ -252,6 +253,7 @@ public function testGetValidPlayerByPlayerApiId() {
 	$player = Player::getPlayerByPlayerApiId($this->getPDO(), SprotsTest::INVALID_KEY);
 	$this->assertNull($player);
 }
+
 
 	/**
 	 * test grabbing a player by player content
