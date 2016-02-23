@@ -330,6 +330,8 @@ class Team {
 		return ($team);
 	}
 
+
+
 	/**
 	 * gets the Team by teamApiId
 	 *
@@ -458,44 +460,6 @@ class Team {
 
 	}
 
-	/**
-	 * gets the Team by teamSportId
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $teamSportId team sport id to search for
-	 * @return Team|null Team found or null if not found
-	 * @throws \PDOException when mySql related errors occur
-	 * @throws \TypeError when variable are not the correct data type
-	 */
-	public static function getTeamByTeamSportId(\PDO $pdo, int $teamSportId) {
-		// sanitize the teamApiId before searching
-		if($teamSportId <= 0) {
-			throw(new \PDOException("team Sport id is not positive"));
-		}
-		// Create query template
-		$query = "SELECT teamId, teamSportId, teamApiId, teamCity, teamName FROM team WHERE teamSportId = :teamSportId";
-		$statement = $pdo->prepare($query);
-
-		// Bind the team id to the place holder in the template
-		$parameters = array("teamSportId" => $teamSportId);
-		$statement->execute($parameters);
-
-		// Grab the team from mySQL
-		try {
-			$team = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$team = new Team($row["teamId"], $row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
-			}
-		} catch
-		(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-
-		}
-		return ($team);
-	}
 	/**
 	 * gets all Teams
 	 *

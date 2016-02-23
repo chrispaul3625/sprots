@@ -2,11 +2,16 @@
 
 namespace Edu\Cnm\Sprots\Test;
 
-use Edu\Cnm\Sprots\Statistic;
-use Edu\Cnm\Sprots\Game;
-use Edu\Cnm\Sprots\Sport;
-use Edu\Cnm\Sprots\Team;
 use Edu\Cnm\Sprots\TeamStatistic;
+use Edu\Cnm\Sprots\Sport;
+use Edu\Cnm\Sprots\Game;
+use Edu\Cnm\Sprots\Team;
+use Edu\Cnm\Sprots\Statistic;
+
+
+
+
+
 
 // grab the project test parameters
 require_once("SprotsTest.php");
@@ -188,7 +193,7 @@ class TeamStatisticTest extends SprotsTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticId($this->getPDO(), $teamStatistic->getTeamStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamStatistic"));
-		$this->assertEquals($pdoTeamStatistic->getTeamId(), $this->team->getTeamId());
+		$this->assertEquals($this->team->getTeamId(), $pdoTeamStatistic->getTeamId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticTeamId(), $this->VALID_TEAMSTATISTICTEAMID);
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticValue(), $this->VALID_TEAMSTATISTICVALUE);
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticStatisticId(), $this->VALID_TEAMSTATISTICSTATISTICID);

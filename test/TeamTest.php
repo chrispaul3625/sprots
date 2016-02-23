@@ -99,6 +99,8 @@ class TeamTest extends SprotsTest {
 		$this->assertEquals($pdoTeam->getTeamSportId(), $this->sport->getSportId());
 	}
 
+
+
 	/**
 	 * test inserting a Team that already exists
 	 *
