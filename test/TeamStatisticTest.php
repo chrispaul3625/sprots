@@ -121,12 +121,12 @@ class TeamStatisticTest extends SprotsTest {
 
 
 		// create a new PlayerStatistics and insert to into mySQL
-		$teamStatistic = new TeamStatistic($this->game->getGameId(),$this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE );
+		$teamStatistic = new TeamStatistic($this->game->getGameId(),$this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE);
 
 		$teamStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticGameIdAndTeamStatisticTeamIdAndTeamStatisticTeamIdAndTeamStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->team->getTeamId(), $this->teamStatistic->getTeamStatisticId());
+		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticGameIdAndTeamStatisticTeamIdAndTeamStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamStatistic"));
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticTeamId(), $this->team->getTeamId());
@@ -143,13 +143,13 @@ class TeamStatisticTest extends SprotsTest {
 
 
 		// create a new PlayerStatistics and insert to into mySQL
-		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->teamStatistic->getTeamStatisticId(), $this->VALID_TEAMSTATISTICVALUE );
+		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE );
 
 		$teamStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticGameId($this->getPDO(), $this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamStatistic"));
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticTeamId(), $this->team->getTeamId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticStatisticId(), $this->statistic->getStatisticId());
@@ -215,13 +215,12 @@ class TeamStatisticTest extends SprotsTest {
 
 
 		// create a new PlayerStatistics and insert to into mySQL
-		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE );
-
+		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE);
 		$teamStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamStatistic"));
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticTeamId(), $this->team->getTeamId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticStatisticId(), $this->statistic->getStatisticId());
@@ -248,7 +247,7 @@ class TeamStatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("teamStatistic");
 
 		// create a new Team Statistic and insert to into mySQL
-		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE );
+		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE );
 		$teamStatistic->insert($this->getPDO());
 
 		// Edit the teamStatistic and update it in mySQL
@@ -256,8 +255,8 @@ class TeamStatisticTest extends SprotsTest {
 		$teamStatistic->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticGameIdAndTeamStatisticTeamIdAndPlayerStatisticTeamIdAndPlayerStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticGameIdAndTeamStatisticTeamIdAndTeamStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("teamStatistic"));
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticTeamId(), $this->team->getTeamId());
 		$this->assertEquals($pdoTeamStatistic->getTeamStatisticStatisticId(), $this->statistic->getStatisticId());
@@ -292,7 +291,7 @@ class TeamStatisticTest extends SprotsTest {
 		$teamStatistic->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticGameIdAndTeamStatisticTeamIdAndTeamStatisticTeamIdAndTeamStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
+		$pdoTeamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticGameIdAndTeamStatisticTeamIdAndTeamStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
 		$this->assertNull($pdoTeamStatistic);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("teamStatistic"));
 	}

@@ -24,7 +24,7 @@ class TeamStatistic {
 	 * $playerStatisticStatisticId id for the players individual statistic, this is a foreign key
 	 * @var int $playerStatisticStatisticId
 	 **/
-	private $teamrStatisticStatisticId;
+	private $teamStatisticStatisticId;
 	/**
 	 * $playerStatisticValue the value of individual stats, number value for a stat
 	 * @var int $playerStatisticValue
@@ -194,7 +194,7 @@ class TeamStatistic {
 
 	public function insert(\PDO $pdo) {
 		// enforce the player statistic game id, the player statistic player id, and the player statistic statistic id exist
-		if($this->teamStatisticGameId === null || $this->teamStatisticPlayerId === null || $this->teamStatisticTeamId === null || $this->teamStatisticStatisticId === null) {
+		if($this->teamStatisticGameId === null || $this->teamStatisticTeamId === null || $this->teamStatisticStatisticId === null) {
 			throw(new \PDOException("Ids do not exist"));
 		}
 		// Create query template
@@ -216,7 +216,7 @@ class TeamStatistic {
 
 	public function delete(\PDO $pdo) {
 		//enforce the Ids are not null
-		if($this->teamStatisticGameId === null || $this->teamStatisticPlayerId === null || $this->teamStatisticTeamId === null || $this->teamStatisticStatisticId === null) {
+		if($this->teamStatisticGameId === null || $this->teamStatisticTeamId === null || $this->teamStatisticStatisticId === null) {
 			throw(new \PDOException("Ids do not exist to delete"));
 		}
 		// Create query template
@@ -428,7 +428,7 @@ class TeamStatistic {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
-	public static function getTeamStatisticByTeamStatisticTeamId(\PDO $pdo, int $teamStatisticGameId, int $teamStatisticPlayerId, int $teamStatisticTeamId, int $teamStatisticStatisticId) {
+	public static function getTeamStatisticByTeamStatisticTeamId(\PDO $pdo, int $teamStatisticGameId, int $teamStatisticTeamId, int $teamStatisticStatisticId) {
 		// sanitize the player statistic statistic id before searching
 		if($teamStatisticGameId <= 0) {
 			throw (new \PDOException("team statistic game id is not positive"));
@@ -442,7 +442,7 @@ class TeamStatistic {
 			throw (new \PDOException("team statistic game id is not positive"));
 		}
 		// create query template
-		$query = "SELECT teamStatisticGameId, teamStatisticPlayerId, teamStatisticTeamId, teamStatisticStatisticId, teamStatisticValue FROM teamStatistic WHERE teamStatisticGameId = :teamStatisticGameId AND teamStatisticTeamId = :teamStatisticTeamId AND teamStatisticStatisticId = :teamStatisticStatisticId";
+		$query = "SELECT teamStatisticGameId, teamStatisticTeamId, teamStatisticStatisticId, teamStatisticValue FROM teamStatistic WHERE teamStatisticGameId = :teamStatisticGameId AND teamStatisticTeamId = :teamStatisticTeamId AND teamStatisticStatisticId = :teamStatisticStatisticId";
 		$statement = $pdo->prepare($query);
 
 
@@ -537,7 +537,7 @@ class TeamStatistic {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$teamStatistic = new TeamStatistic($row["teamStatisticGameId"], $row["teamStatisticTeamId"], $row["playerStatisticStatisticId"], $row["teamStatisticValue"]);
+				$teamStatistic = new TeamStatistic($row["teamStatisticGameId"], $row["teamStatisticTeamId"], $row["teamStatisticStatisticId"], $row["teamStatisticValue"]);
 				$teamStatistics[$teamStatistics->key()] = $teamStatistic;
 				$teamStatistics->next();
 			} Catch(\Exception $exception) {
