@@ -219,6 +219,8 @@ class TeamStatistic implements \JsonSerializable {
 		}
 		$query = "UPDATE TeamStatistic SET TeamStatisticTeamId = :TeamStatisticTeamId, teamStatisticValue = :TeamStatisticValue, teamStatisticStatisticId = :TeamStatisticStatisticId, teamStatisticGameId = :teamStatisticGameId WHERE teamStatisticTeamId = :TeamStatisticTeamId";
 		$statement = $pdo->prepare($query);
+
+		$parameters
 	}
 
 
