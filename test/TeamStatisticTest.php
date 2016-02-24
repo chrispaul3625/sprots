@@ -208,7 +208,7 @@ class TeamStatisticTest extends SprotsTest {
 	 **/
 	public function testInsertInvalidTeamStatistic() {
 		// create a teamStatistic with a non null TeamStatisticId and watch it fail
-		$teamStatistic = new TeamStatistic(SprotsTest::INVALID_KEY, $this->team->getTeamId(), $this->VALID_TEAMSTATISTICTEAMID, SprotsTest::INVALID_KEY, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
+		$teamStatistic = new TeamStatistic(SprotsTest::INVALID_KEY, $this->team->getTeamId(), SprotsTest::INVALID_KEY, $this->VALID_TEAMSTATISTICVALUE, $this->VALID_TEAMSTATISTICSTATISTICID, $this->VALID_TEAMSTATISTICGAMEID);
 		$teamStatistic->insert($this->getPDO());
 	}
 
