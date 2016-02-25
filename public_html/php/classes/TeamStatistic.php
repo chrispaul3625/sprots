@@ -359,7 +359,7 @@ class TeamStatistic {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $teamStatisticGameId team statistic game id to search for
-	 * @param int $teamrStatisticTeamId team statistic game id to search for
+	 * @param int $teamStatisticTeamId team statistic game id to search for
 	 * @param int $teamStatisticStatisticId team statistic game id to search for
 	 * @return \SplFixedArray SplFixedArray of team statistic game ids found
 	 * @throws \PDOException when mySQL related errors occur
