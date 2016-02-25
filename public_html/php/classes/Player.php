@@ -5,7 +5,7 @@ namespace Edu\Cnm\Sprots;
 require_once("autoload.php");
 
 /**
- * Player, Player that a user will look up
+ * Play, Player that a user will look up
  *
  * Player is unique
  *
