@@ -2,12 +2,7 @@
 namespace Edu\Cnm\Sprots;
 
 require_once("autoload.php");
-/**
- * Created by PhpStorm.
- * User: OldManVin
- * Date: 2/2/2016
- * Time: 1:09 PM
- */
+
 
 /**
  * game is the record of what teams played  each other and the scores
