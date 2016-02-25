@@ -33,4 +33,7 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 
 }
 
 //sanitize and trim other fields
-$
+$gameId = filter_input(INPUT_GET, "gameId", FILTER_VALIDATE_INT);
+$gameFirstTeamId = filter_input(INPUT_GET, "gameFirstTeamId", FILTER_VALIDATE_INT);
+$gameSecondTeamId = filter_input(INPUT_GET, "gameSecondTeamID", FILTER_VALIDATE_INT);
+$gameTime = filter_input(INPUT_GET, "gameTime", FILTER_VALIDATE_DATE);
