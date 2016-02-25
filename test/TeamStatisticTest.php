@@ -13,7 +13,6 @@ use Edu\Cnm\Sprots\Team;
 use Edu\Cnm\Sprots\Statistic;
 
 
-
 /**
  * Full PHPUnit test for the PlayerStatistic class
  *
@@ -91,7 +90,7 @@ class TeamStatisticTest extends SprotsTest {
 		$this->sport->insert($this->getPDO());
 
 		//create and insert a team to own the test TeamStatistic
-		$this->team = new Team(null,$this->sport->getSportId(), $this->VALID_TEAMAPIID, "TeamCity", "TeamName");
+		$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, "TeamCity", "TeamName");
 		$this->team->insert($this->getPDO());
 
 		$this->team2 = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID2, "TeamCity2", "TeamName2");
@@ -99,7 +98,7 @@ class TeamStatisticTest extends SprotsTest {
 
 
 		//create and insert a Game to own the test playerStatistic
-		$this->game = new Game(null,$this->team->getTeamId(), $this->team2->getTeamId(), "2015-03-23 15:23:04");
+		$this->game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), "2015-03-23 15:23:04");
 		$this->game->insert($this->getPDO());
 
 		// calculate the date (same as unit test)
@@ -121,7 +120,7 @@ class TeamStatisticTest extends SprotsTest {
 
 
 		// create a new PlayerStatistics and insert to into mySQL
-		$teamStatistic = new TeamStatistic($this->game->getGameId(),$this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE);
+		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE);
 
 		$teamStatistic->insert($this->getPDO());
 
@@ -143,7 +142,7 @@ class TeamStatisticTest extends SprotsTest {
 
 
 		// create a new PlayerStatistics and insert to into mySQL
-		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE );
+		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE);
 
 		$teamStatistic->insert($this->getPDO());
 
@@ -167,7 +166,7 @@ class TeamStatisticTest extends SprotsTest {
 
 
 		// create a new PlayerStatistics and insert to into mySQL
-		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE );
+		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE);
 
 		$teamStatistic->insert($this->getPDO());
 
@@ -191,7 +190,7 @@ class TeamStatisticTest extends SprotsTest {
 
 
 		// create a new TeamStatistics and insert to into mySQL
-		$TeamStatistic = new TeamStatistic($this->game->getGameId(),$this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE );
+		$TeamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE);
 
 		$TeamStatistic->insert($this->getPDO());
 
@@ -247,7 +246,7 @@ class TeamStatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("teamStatistic");
 
 		// create a new Team Statistic and insert to into mySQL
-		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE );
+		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE);
 		$teamStatistic->insert($this->getPDO());
 
 		// Edit the teamStatistic and update it in mySQL
@@ -295,6 +294,7 @@ class TeamStatisticTest extends SprotsTest {
 		$this->assertNull($pdoTeamStatistic);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("teamStatistic"));
 	}
+
 	/**
 	 * test deleting a TeamStatistic That does not exist
 	 *
@@ -340,7 +340,7 @@ class TeamStatisticTest extends SprotsTest {
 		$numRows = $this->getConnection()->getRowCount("teamStatistic");
 
 		// create a new TeamStatistics and insert to into mySQL
-		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE );
+		$teamStatistic = new TeamStatistic($this->game->getGameId(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_TEAMSTATISTICVALUE);
 		$teamStatistic->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations

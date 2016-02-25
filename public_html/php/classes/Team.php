@@ -121,11 +121,11 @@ class Team {
 	 * @throws \TypeError if $newTeamApiId is not an integer
 	 **/
 	public function setTeamApiId(int $newTeamApiId) {
-// Verify the team id is positive
+		// Verify the team id is positive
 		if($newTeamApiId <= 0) {
 			throw(new \RangeException("team api id is not positive"));
 		}
-// Convert and store the team api id
+		// Convert and store the team api id
 		$this->teamApiId = $newTeamApiId;
 	}
 
@@ -153,11 +153,11 @@ class Team {
 		if(empty($newTeamCity) === true) {
 			throw(new \InvalidArgumentException("team name is empty or insecure"));
 		}
-//verify the team city name will fit in the database
+		//verify the team city name will fit in the database
 		if(strlen($newTeamCity) > 32) {
 			throw(new \RangeException("team city name is too large"));
 		}
-// store the new team city name
+		// store the new team city name
 		$this->teamCity = $newTeamCity;
 	}
 
@@ -187,11 +187,11 @@ class Team {
 		if(empty($newTeamName) === true) {
 			throw(new \InvalidArgumentException("team name is empty or insecure"));
 		}
-//verify the team name will fit in the database
+		//verify the team name will fit in the database
 		if(strlen($newTeamName) > 32) {
 			throw(new \RangeException("team name is too large"));
 		}
-// store the new team name
+		// store the new team name
 		$this->teamName = $newTeamName;
 	}
 
@@ -212,11 +212,11 @@ class Team {
 	 * @throws \TypeError if $newTeamSportId is not an integer
 	 **/
 	public function setTeamSportId(int $newTeamSportId) {
-// Verify the team id is positive
+		// Verify the team id is positive
 		if($newTeamSportId <= 0) {
 			throw(new \RangeException("team sport id is not positive"));
 		}
-// Convert and store the team id
+		// Convert and store the team id
 		$this->teamSportId = $newTeamSportId;
 	}
 
@@ -255,7 +255,7 @@ class Team {
 	 **/
 
 	public function delete(\PDO $pdo) {
-// enforce the team id is not null (i.e., don't delete a team that hasn't been inserted)
+		// enforce the team id is not null (i.e., don't delete a team that hasn't been inserted)
 		if($this->teamId === null) {
 			throw(new \PDOException("unable to delete a team that does not exist"));
 		}
@@ -287,7 +287,7 @@ class Team {
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in the template
-		$parameters = ["teamSportId" => $this->teamSportId, "teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName, ];
+		$parameters = ["teamSportId" => $this->teamSportId, "teamApiId" => $this->teamApiId, "teamCity" => $this->teamCity, "teamName" => $this->teamName,];
 		$statement->execute($parameters);
 	}
 
@@ -329,7 +329,6 @@ class Team {
 		}
 		return ($team);
 	}
-
 
 
 	/**
@@ -383,7 +382,7 @@ class Team {
 	 **/
 
 	public static function getTeamByTeamCity(\PDO $pdo, string $teamCity) {
-// sanitize the description before searching
+		// sanitize the description before searching
 		$teamCity = trim($teamCity);
 		$teamCity = filter_var($teamCity, FILTER_SANITIZE_STRING);
 		if(empty($teamCity) === true) {
@@ -427,7 +426,7 @@ class Team {
 	 **/
 
 	public static function getTeamByTeamName(\PDO $pdo, string $teamName) {
-// sanitize the description before searching
+		// sanitize the description before searching
 		$teamName = trim($teamName);
 		$teamName = filter_var($teamName, FILTER_SANITIZE_STRING);
 		if(empty($teamName) === true) {
@@ -449,7 +448,7 @@ class Team {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$teamName = new team($row["teamId"],$row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
+				$teamName = new team($row["teamId"], $row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
 				$teamNames[$teamNames->key()] = $teamName;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
