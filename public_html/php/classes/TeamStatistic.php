@@ -455,7 +455,7 @@ class TeamStatistic {
 	}
 
 	/**
-	 * gets all PlayrrStatistics
+	 * gets all TeamStatistics
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @return \SplFixedArray SplFixedArray of PlayerStatistics found or null if not found
