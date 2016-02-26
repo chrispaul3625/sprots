@@ -89,11 +89,11 @@ class PlayerStatistic {
 		if($newPlayerStatisticGameId === null) {
 			throw(new \InvalidArgumentException("Id cannot be null"));
 		}
-// Verify the PlayerStatisticGameId is positive
+		// Verify the PlayerStatisticGameId is positive
 		if($newPlayerStatisticGameId <= 0) {
 			throw(new \RangeException("PlayerStatisticGameId is not positive"));
 		}
-// Convert and store the PlayerStatisticGameId
+		// Convert and store the PlayerStatisticGameId
 		$this->playerStatisticGameId = $newPlayerStatisticGameId;
 	}
 
@@ -118,11 +118,11 @@ class PlayerStatistic {
 		if($newPlayerStatisticPlayerId === null) {
 			throw(new \InvalidArgumentException("Id cannot be null"));
 		}
-// Verify the Player Statistic Player Id is positive
+		// Verify the Player Statistic Player Id is positive
 		if($newPlayerStatisticPlayerId <= 0) {
 			throw(new \RangeException("Player Statistic Player Id is not positive"));
 		}
-// Convert and store the Player Statistic Player Id
+		// Convert and store the Player Statistic Player Id
 		$this->playerStatisticPlayerId = $newPlayerStatisticPlayerId;
 	}
 
@@ -147,11 +147,11 @@ class PlayerStatistic {
 		if($newPlayerStatisticTeamId === null) {
 			throw(new \InvalidArgumentException("Id cannot be null"));
 		}
-// Verify the Player Statistic Team Id is positive
+		// Verify the Player Statistic Team Id is positive
 		if($newPlayerStatisticTeamId <= 0) {
 			throw(new \RangeException("Player Statistic Team Id is not positive"));
 		}
-// Convert and store the Player Statistic Player Id
+		// Convert and store the Player Statistic Player Id
 		$this->playerStatisticTeamId = $newPlayerStatisticTeamId;
 	}
 
@@ -177,11 +177,11 @@ class PlayerStatistic {
 		if($newPlayerStatisticStatisticId === null) {
 			throw(new \InvalidArgumentException("Id cannot be null"));
 		}
-// Verify the Player Statistic Statistic Id is positive
+		// Verify the Player Statistic Statistic Id is positive
 		if($newPlayerStatisticStatisticId <= 0) {
 			throw(new \RangeException("Player Statistic Player Id is not positive"));
 		}
-// Convert and store the Player Statistic Player Id
+		// Convert and store the Player Statistic Player Id
 		$this->playerStatisticStatisticId = $newPlayerStatisticStatisticId;
 	}
 
@@ -209,11 +209,11 @@ class PlayerStatistic {
 		if($newPlayerStatisticValue === null) {
 			throw(new \InvalidArgumentException("Value cannot be null"));
 		}
-// Verify the Player Statistic Statistic Id is positive
+		// Verify the Player Statistic Statistic Id is positive
 		if($newPlayerStatisticValue <= 0) {
 			throw(new \RangeException("Player Statistic Player Id is not positive"));
 		}
-// Convert and store the Player Statistic Player Id
+		// Convert and store the Player Statistic Player Id
 		$this->playerStatisticValue = $newPlayerStatisticValue;
 	}
 
@@ -321,10 +321,9 @@ class PlayerStatistic {
 		$statement = $pdo->prepare($query);
 
 
-
 //Search based on Game, player, team, statistic ids
-$parameters = ["playerStatisticGameId" => $playerStatisticGameId,"playerStatisticPlayerId" => $playerStatisticPlayerId, "playerStatisticTeamId" => $playerStatisticTeamId,"playerStatisticStatisticId" => $playerStatisticStatisticId ];
-$statement->execute($parameters);
+		$parameters = ["playerStatisticGameId" => $playerStatisticGameId, "playerStatisticPlayerId" => $playerStatisticPlayerId, "playerStatisticTeamId" => $playerStatisticTeamId, "playerStatisticStatisticId" => $playerStatisticStatisticId];
+		$statement->execute($parameters);
 
 		//Grab the them from mySQL
 		try {
@@ -332,29 +331,28 @@ $statement->execute($parameters);
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"],$row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 			}
 		} catch(\Exception $exception) {
 			//If the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($playerStatistic);
+		return ($playerStatistic);
 	}
 
 
-
-/**
- * gets the TeamStatistic by playerStatisticGameId
- *
- * @param \PDO $pdo PDO connection object
- * @param int $playerStatisticGameId player statistic game id to search for
- * @param int $playerStatisticPlayerId player statistic game id to search for
- * @param int $playerStatisticTeamId player statistic game id to search for
- * @param int $playerStatisticStatisticId player statistic game id to search for
- * @return \SplFixedArray SplFixedArray of player statistic game ids found
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError when variables are not the correct data type
- **/
+	/**
+	 * gets the TeamStatistic by playerStatisticGameId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $playerStatisticGameId player statistic game id to search for
+	 * @param int $playerStatisticPlayerId player statistic game id to search for
+	 * @param int $playerStatisticTeamId player statistic game id to search for
+	 * @param int $playerStatisticStatisticId player statistic game id to search for
+	 * @return \SplFixedArray SplFixedArray of player statistic game ids found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 
 	public static function getPlayerStatisticByPlayerStatisticGameId(\PDO $pdo, int $playerStatisticGameId, int $playerStatisticPlayerId, int $playerStatisticTeamId, int $playerStatisticStatisticId) {
 		// sanitize the player statistic statistic id before searching
@@ -379,8 +377,8 @@ $statement->execute($parameters);
 		$query = "SELECT playerStatisticGameId, playerStatisticPlayerId, playerStatisticTeamId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic WHERE playerStatisticGameId = :playerStatisticGameId  AND playerStatisticPlayerID = :playerStatisticPlayerId AND playerStatisticTeamId = :playerStatisticTeamId AND playerStatisticStatisticId = :playerStatisticStatisticId";
 		$statement = $pdo->prepare($query);
 
-//Search based on Game, player, team, statistic ids
-		$parameters = ["playerStatisticGameId" => $playerStatisticGameId,"playerStatisticPlayerId" => $playerStatisticPlayerId, "playerStatisticTeamId" => $playerStatisticTeamId,"playerStatisticStatisticId" => $playerStatisticStatisticId ];
+		//Search based on Game, player, team, statistic ids
+		$parameters = ["playerStatisticGameId" => $playerStatisticGameId, "playerStatisticPlayerId" => $playerStatisticPlayerId, "playerStatisticTeamId" => $playerStatisticTeamId, "playerStatisticStatisticId" => $playerStatisticStatisticId];
 		$statement->execute($parameters);
 
 		//Grab the them from mySQL
@@ -389,13 +387,13 @@ $statement->execute($parameters);
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"],$row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 			}
 		} catch(\Exception $exception) {
 			//If the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($playerStatistic);
+		return ($playerStatistic);
 	}
 
 	/**
@@ -434,7 +432,7 @@ $statement->execute($parameters);
 
 
 		//Search based on Game, player, team, statistic ids
-		$parameters = ["playerStatisticGameId" => $playerStatisticGameId,"playerStatisticPlayerId" => $playerStatisticPlayerId, "playerStatisticTeamId" => $playerStatisticTeamId,"playerStatisticStatisticId" => $playerStatisticStatisticId ];
+		$parameters = ["playerStatisticGameId" => $playerStatisticGameId, "playerStatisticPlayerId" => $playerStatisticPlayerId, "playerStatisticTeamId" => $playerStatisticTeamId, "playerStatisticStatisticId" => $playerStatisticStatisticId];
 		$statement->execute($parameters);
 
 
@@ -444,13 +442,13 @@ $statement->execute($parameters);
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"],$row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 			}
 		} catch(\Exception $exception) {
 			//If the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($playerStatistic);
+		return ($playerStatistic);
 	}
 
 	/**
@@ -489,7 +487,7 @@ $statement->execute($parameters);
 
 
 		//Search based on Game, player, team, statistic ids
-		$parameters = ["playerStatisticGameId" => $playerStatisticGameId,"playerStatisticPlayerId" => $playerStatisticPlayerId, "playerStatisticTeamId" => $playerStatisticTeamId,"playerStatisticStatisticId" => $playerStatisticStatisticId ];
+		$parameters = ["playerStatisticGameId" => $playerStatisticGameId, "playerStatisticPlayerId" => $playerStatisticPlayerId, "playerStatisticTeamId" => $playerStatisticTeamId, "playerStatisticStatisticId" => $playerStatisticStatisticId];
 		$statement->execute($parameters);
 
 
@@ -499,13 +497,13 @@ $statement->execute($parameters);
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"],$row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 			}
 		} catch(\Exception $exception) {
 			//If the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($playerStatistic);
+		return ($playerStatistic);
 	}
 
 
@@ -544,7 +542,7 @@ $statement->execute($parameters);
 
 
 		//Search based on Game, player, team, statistic ids
-		$parameters = ["playerStatisticGameId" => $playerStatisticGameId,"playerStatisticPlayerId" => $playerStatisticPlayerId, "playerStatisticTeamId" => $playerStatisticTeamId,"playerStatisticStatisticId" => $playerStatisticStatisticId ];
+		$parameters = ["playerStatisticGameId" => $playerStatisticGameId, "playerStatisticPlayerId" => $playerStatisticPlayerId, "playerStatisticTeamId" => $playerStatisticTeamId, "playerStatisticStatisticId" => $playerStatisticStatisticId];
 		$statement->execute($parameters);
 
 
@@ -554,13 +552,13 @@ $statement->execute($parameters);
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"],$row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
+				$playerStatistic = new PlayerStatistic($row["playerStatisticGameId"], $row["playerStatisticPlayerId"], $row["playerStatisticTeamId"], $row["playerStatisticStatisticId"], $row["playerStatisticValue"]);
 			}
 		} catch(\Exception $exception) {
 			//If the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($playerStatistic);
+		return ($playerStatistic);
 	}
 
 	/**

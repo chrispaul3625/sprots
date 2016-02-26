@@ -2,12 +2,7 @@
 namespace Edu\Cnm\Sprots;
 
 require_once("autoload.php");
-/**
- * Created by PhpStorm.
- * User: OldManVin
- * Date: 2/2/2016
- * Time: 1:11 PM
- */
+
 
 /**
  * statistic , a list of information regarding stats for players and teams.
