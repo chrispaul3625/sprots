@@ -47,12 +47,33 @@ try {
 		if($game !== null && $game->getGameId() === $_SESSION["game"]->getGameId()){
 			$reply->data = $game;
 		}
+	}else if(empty($gameFirstTeamId) === false){
+		$game = Game::getGameByGameFirstTeamId($pdo, $id);
+		if($game !== null && $game->getGameId() === $_SESSION["game"]->getGameId()){
+			$reply->data = $game;
+		}
+	}else if(empty($gameSecondTeamId) === false){
+		$game = Game::getGameByGameSecondTeamId($pdo, $id);
+		if($game !== null && $game->getGameId() === $_SESSION["game"]->getGameId()){
+			$reply->data = $game;
+		}
+	}else if (empty($gameTime) === false){
+		$game = Game::getGameByGameTime($pdo,$gameTime);
+		if($game !== null && $game->getGameTime() === $_SESSION["game"]->getGameTime()){
+			$reply->data = $game;
+		}else {
+			$reply->data = Game::getGamebyGameId($pdo, $_SESSION["game"]->getGameId())->toArray();
+		}
 	}
 
 
-
+	//send Exception back to caller
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 
+}header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
 }
+echo json_encode($reply);
