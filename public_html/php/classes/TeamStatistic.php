@@ -416,7 +416,7 @@ class TeamStatistic {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getTeamStatisticByteamStatisticStatisticId(\PDO $pdo, int $teamStatisticGameId, int $teamStatisticTeamId, int $teamStatisticStatisticId) {
+	public static function getTeamStatisticByTeamStatisticStatisticId(\PDO $pdo, int $teamStatisticGameId, int $teamStatisticTeamId, int $teamStatisticStatisticId) {
 		// sanitize the player statistic statistic id before searching
 		if($teamStatisticGameId <= 0) {
 			throw (new \PDOException("player statistic game id is not positive"));
