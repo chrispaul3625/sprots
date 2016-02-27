@@ -1,8 +1,12 @@
 <?php
 
+// auto loader
 require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
+// imports xsrf
 require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
+// a security file that's on the schools server, that Dylan created, so it'll show not found.
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
+
 /**
  * api for profile class
  * @author Dom Kratos <dom@domkratos.com>
@@ -17,7 +21,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 // prepare an empty reply
 $reply = new stdClass();
 $reply->status = 200;
-$reply->data = null;
+$reply->message = null;
 
 try {
 	// grab the db connection
