@@ -52,9 +52,9 @@ try {
 	// create the hash
 	$profileHash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profileSalt, 262144, 128);
 
-	// create a new profile, and insert into db
+	// create a new Profile, and insert into db
 	$profile = new Profile(null, $requestObject->profileEmail, $profileEmailActivation, $profile->insert($pdo);
-	$reply->message = "A new profile has been created";
+	$reply->message = "A new Profile has been created";
 }
 
 // create Swift Message

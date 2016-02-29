@@ -47,12 +47,12 @@ try {
 	if($profile->getProfileId() === true) {
 		$urlglue = $basePath . "/template/email-validation-login.php";
 	} else {
-		// have to log-in the new profile, and allow them to update/change their password
+		// have to log-in the new Profile, and allow them to update/change their password
 		$profile->setProfileId(true);
-		$_SESSION["profile"] = $profile;
+		$_SESSION["Profile"] = $profile;
 		$repy->status = 200;
 		$reply->message = "Successfully Logged in";
-		$urlglue = $basePath . "/template/new-profile-login.php";
+		$urlglue = $basePath . "/template/new-Profile-login.php";
 	}
 } catch(Exception $exception) {
 	$reply->status = $exception->getcode();

@@ -8,7 +8,7 @@ require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 /**
- * api for profile class
+ * api for Profile class
  * @author Dom Kratos <dom@domkratos.com>
  *
  */
@@ -27,8 +27,8 @@ try {
 	// grab the db connection
 	$pdo = connectToEncryptedMySql("/etc/apache2/capstone-mysql/sprots.ini");
 
-	// if the profile session is empty, the user is not logged in, throw an exception
-	if(empty($_SESSION["profile"]) === true) {
+	// if the Profile session is empty, the user is not logged in, throw an exception
+	if(empty($_SESSION["Profile"]) === true) {
 		setXsrfCookie("/");
 		throw(new RuntimeException("Please log-in, or sign up", 401));
 	}
@@ -52,36 +52,36 @@ try {
 		// set XSRF cookie
 		setXsrfCookie("/");
 
-		// get the profile based on the field
+		// get the Profile based on the field
 		if(empty($id) === false) {
 			$profile = Profile::getProfileByProfileId($pdo, $id);
-			if($profile !== null && $profile->getProfileId() === $_SESSION["profile"]->getProfileId()) {
+			if($profile !== null && $profile->getProfileId() === $_SESSION["Profile"]->getProfileId()) {
 				$reply->data = $profile;
 			}
 		} elseif(empty($profileUserName) === false) {
 			$profile = Profile::getProfileByProfileUserName($pdo, $profileUserName);
-			if($profile !== null && $profile->getProfileId() === $_SESSION["profile"]->getProfileId()) {
+			if($profile !== null && $profile->getProfileId() === $_SESSION["Profile"]->getProfileId()) {
 				$reply->data = $profile;
 			}
 		} elseif(empty($profileEmail) === false) {
 			$profile = Profile::getProfileByProfileEmail($pdo, $id);
-			if($profile !== null && $profile->getProfileId() === $_SESSION["profile"]->getProfileId()) {
+			if($profile !== null && $profile->getProfileId() === $_SESSION["Profile"]->getProfileId()) {
 				$reply->data = $profile;
 			}
 		}
 	}
-	// create, update, and delete of profile
+	// create, update, and delete of Profile
 	if($method === "PUT") {
 		verifyXsrf();
 		$profile = Profile::getProfileId($pdo, $id);
 		if($profile === null) {
 			throw(new RuntimeException ("Profile does not exist"));
 		}
-		// make sure the user is only trying to edit their own profile information
-		$security = Profile::getProfileByProfileId($pdo, $_SESSION["profile"]->getProfileId());
-		if(($security->getProfileId() === false) && ($_SESSION["profile"]->getProfileId() !== $profile->getProfileId())) {
-			$_SESSION["profile"]->setProfileId(false);
-			throw(new RunTimeException("You can only modify your own profile", 403));
+		// make sure the user is only trying to edit their own Profile information
+		$security = Profile::getProfileByProfileId($pdo, $_SESSION["Profile"]->getProfileId());
+		if(($security->getProfileId() === false) && ($_SESSION["Profile"]->getProfileId() !== $profile->getProfileId())) {
+			$_SESSION["Profile"]->setProfileId(false);
+			throw(new RunTimeException("You can only modify your own Profile", 403));
 		}
 		$profile->setProfileUserName($requestObject->profileUserName);
 		$profile->setProfileEmail($requestObject->profileEmail);
@@ -97,7 +97,7 @@ try {
 		if(($profile->getProfileId() === false) && ($requestObject->profilePassword !== null))
 			$profile->update($pdo);
 		$reply->message = "Profile Updated";
-	} // creating a profile
+	} // creating a Profile
 	elseif($method === "POST") {
 
 		// hash the pw, and set it
@@ -105,8 +105,8 @@ try {
 		$salt = bin2hex(openssl_random_pseudo_bytes(32));
 		$hash = hash_pbkdf2("sha512", $password, $salt, 262144, 128);
 		$emailActivation = bin2hex(openssl_random_pseudo_bytes(8));
-		// create new profile
-		$profile = new Profile($id, $_SESSION["profile"]->getProfileId(), $requestObject->profileUserName, $requestObject->profleEmail, $hash, $salt);
+		// create new Profile
+		$profile = new Profile($id, $_SESSION["Profile"]->getProfileId(), $requestObject->profileUserName, $requestObject->profleEmail, $hash, $salt);
 		$profile->insert($pdo);
 		$reply->message = "Profile Created!";
 		// compose and send the email for confirmation and setting a new password
@@ -137,7 +137,7 @@ try {
 			$lastSlash = strrpos($basePath, "/");
 			$basePath = substr($basePath, 0, $lastSlash);
 		}
-		$urlglue = $basePath . "/controllers/email-confirmation?emailActivation=" . $profile->getProfileEmail();
+		$urlglue = $basePath . "/controllers/emailConfirmation?emailActivation=" . $profile->getProfileEmail();
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
 		$message = <<< EOF
 		<h1>You've been registered for Sprots, the best in up to date professional sport statistics!</h1>
@@ -173,11 +173,11 @@ EOF;
 		}
 	} elseif($method === "DELETE") {
 		verifyXsrf();
-		// make sure the user is only deleting their own profile.
-		$security = Profile::getProfileByProfileId($pdo, $_SESSION["profile"]->getProfileId());
-		if(($security->getProfileId() === false) && ($_SESSION["profile"]->getProfileId() !== $profile->getProfileId())) {
-			$_SESSION["profile"]->setProfileId(false);
-			throw(new RunTimeException("You can only modify your own profile", 403));
+		// make sure the user is only deleting their own Profile.
+		$security = Profile::getProfileByProfileId($pdo, $_SESSION["Profile"]->getProfileId());
+		if(($security->getProfileId() === false) && ($_SESSION["Profile"]->getProfileId() !== $profile->getProfileId())) {
+			$_SESSION["Profile"]->setProfileId(false);
+			throw(new RunTimeException("You can only modify your own Profile", 403));
 		}
 		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
