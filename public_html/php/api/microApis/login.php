@@ -1,11 +1,4 @@
 <?php
-// auto loader
-require_once(dirname(dirname(dirname(__DIR__)) . "/php/classes/atoloder.php"));
-// imports xsrf
-require_once(dirname(dirname(__DIR__) . "/lib/xsrf.php"));
-// a security file that's on the schools server, that Dylan created, so it'll show not found.
-require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
-
 /**
  *
  * micro api for logging in
@@ -13,6 +6,13 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
  * Date: 2/26/16
  * Time: 10:59 AM
  */
+
+// auto loader
+require_once(dirname(dirname(dirname(__DIR__)) . "/php/classes/atoloder.php"));
+// imports xsrf
+require_once(dirname(dirname(__DIR__) . "/lib/xsrf.php"));
+// a security file that's on the schools server, that Dylan created, so it'll show not found.
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 // prepare the default error message
 $reply = new stdClass();
@@ -27,7 +27,7 @@ try {
 	}
 	verifyXsrf();
 
-	// grab the db connection
+	// connect to the db
 	$pdo = connectToEncryptedMySql("/etc/apache2/capstone-mysql/sprots.ini");
 
 	// convert JSON to an object
