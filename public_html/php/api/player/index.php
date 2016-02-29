@@ -10,7 +10,6 @@ require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/vendor/autoload");
  */
 
 //verify the xsrf challenge
-
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
@@ -45,8 +44,17 @@ try {
 		// set XSRF cookie
 		setXsrfCookie("/");
 
+			//get the player based on the given field
+			if(empty($playerId) === false) {
+					$player = Player::getPlayerByPlayerId($pdo, $id);
+					if($player !== null && $player->getPlayerId() === $_SESSION["player"]->getPlayerId()) {
+					$reply->data = $player;
+				}
+			} elseif(empty($TeamId === false) {
+					$player = Player::getPlayerByPlayerTeamId($pdo, $id);
+					if($player !== null && $player->get)
 
-	}
+			}
 
 
 
