@@ -1,109 +1,63 @@
 <?php
-
-require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
+require_once dirname(dirname(__DIR__)) . "/classes/autoloader.php";
 require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/vendor/autoload.php");
+
 /**
- * api for teamstatistic class
- * author Jude Chavez <chavezjude7@gmail.com>
+ * controller/api for the teamStatistic  class
+ *
+ * @author Jude Chavez <chavezjude7@gmail.com>
  */
 
-// verify the xsrf challenge
+//verify the xsrf challenge
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
 
-// prepare an empty reply
+//prepare an empty reply
 $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
-try {
-	// grab the db connection
-	$pdo = connectToEncryptedMySql("/etc/apache2/capstone-mysql/sprots.ini");
 
-	// determine which HTTP method was used
-	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+//grab the mySQL connection
+$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 
-	//sanitize inputs
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	//make sure the id is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
-		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
+//sanitize inputs
+$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+
+//sanitize and trim other fields
+$teamStatisticGameId= filter_input(INPUT_GET, "GameId", FILTER_SANITIZE_NUMBER_INT);
+$teamStatisticTeamId = filter_input(INPUT_GET, "TeamId", FILTER_SANITIZE_NUMBER_INT);
+$teamStatisticStatisticId = filter_input(INPUT_GET, "StatisticId", FILTER_SANITIZE_NUMBER_INT);
+$teamStatisticValue = filter_input(INPUT_GET, "Team Statistic Value", FILTER_SANITIZE_NUMBER_INT);
+
+//handle REST calls, while only allowing administrators to access database-modifying methods
+if($method === "GET") {
+	//set XSRF cookie
+	setXsrfCookie("/");
+	//get the teamStatistic based on the given field
+} else if(empty($teamStatisticGameId) === false) {
+	$teamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticGameId($pdo, $teamStatisticGameId);
+	if($teamStatistic !== null && $teamStatistic->getGameId() === $_SESSION["teamStatistic"]->getGameId()) {
+		$reply->data = $teamStatistic;
 	}
-
-//Grab Statistic
-	$teamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticId($pdo, $Id);
-	$points = [];
-	foreach($teamStatistic as $teamStatistic) {
-		$points[] = [TeamStatistic::getTeamStatisticbyTeamStatisticId($pdo, $teamStatistic->getTeamStatisticId())_>getTeamStatisticStart()->getY(), TeamStatistic::getTeamStatisticbyTeamStatisticId($pdo, $teamStatistic->getTeamStatisticId())->getTeamStatisticStart()->getX()];
-		$points[] = [TeamStatistic::getTeamStatisticByTeamStatisticId($pdo, $teamStatistic->getTeamStatisticId())->getTeamStatistic())->getStatisticStop()->getY(), TeamStatistic::getTeamStatisticByTeamStatisticId($pdo, $teamStatistic->getTeamStatisticId())->getTeamStatisticStop()->getX()];
+} else if(empty($teamStatisticTeamId) === false) {
+	$teamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticTeamId($pdo, $teamStatisticTeamId);
+	if($teamStatistic !== null && $teamStatistic->getPlayerId() === $_SESSION["teamStatistic"]->getTeamId()) {
+		$reply->data = $teamStatistic;
 	}
-//add teamstatistics to reply
-	$reply->points = $points;
-} elseif(empty($teamStatisticId) === false) {
-	$reply->data = TeamStatistic::getTeamStatisticByTeamStatisticId($pdo, $teamStatisticId)->toArray();
-} elseif(empty($teamStatisticGameId) === false) {
-	$reply->data = TeamStatistic::getTeamStatisticByTeamStatisticGameId($pdo, $teamStatisticGameId)->toArray();
-} elseif(empty($teamStatisticTeamId) === false) {
-	$reply->data = TeamStatistic::getTeamStatisticByTeamStatisticTeamId($pdo, $teamStatisticTeamId)->toArray();
-} elseif(empty($teamStatisticStatisticId) === false) {
-	$reply->data = TeamStatistic::getTeamStatisticByTeamStatisticStatisticId($pdo, $teamStatisticStatisticId)->toArray();
-} else {
-	$reply->data = TeamStatistic::getAllTeamStatistics($pdo)->toArray();
-}
-
-//verify user and verify object is not empty
-
-// if the session belongs to an active user allow post
-if(empty($_session["teamStatistic"]) === false && $_SESSION["teamStatistic"]->getUserAccountType() !== "X") {
-	if($method === "PUT" || $method === "POST") {
-
-		//verify the XSRF cookie is correct
-		verifyXsrf();
-		$requestConetent = file_get_contents("php://input");
-		$requestObject = json_decode($requestConetent);
-
-		//make sure all fields are present, in order to prevent database issues
-		if(empty($requestObject->submitTeamStatisticId) === true ) {
-			throw(new InvalidArgumentException("Team Statistic Id cannot be empty"));
-		}
-		if(empty($requestObject->submitTeamStatisticGameId) === true) {
-			$requestObject->submitTeamStatisticGameId = null;
-		}
-		if(empty($requestObject->submitTeamStatisticTeamId)->toArray(); {
-			$requestObject->submitTeamStatisticGameId = null;
-		}
-		if(empty($requestObject->submitTeamStatisticTeamId)->toArray(); {
-			$requestObject->submitTeamStatisticTeamId = null;
-		}
-		if(empty($requestObject->submitTeamStatisticStatisitcId)->toArray(); {
-			$requestObject->submitTeamStatisticStatisticId = null;
-		}
-		if($method === "PUT") {
-			verifyXsrf();
-			$teamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticId($pdo, $teamStatisticId);
-			if($teamStatistic === null) {
-				throw(new RuntimeException("Team Statistic does not Exist" , 404));
-			}
-			$teamStatistic = new TeamStatistic($teamStatisticId, $requestObject->userId, $teamStatistic->getbroswer(), $teamStatistic->getIpAdress(), $requestObject->$teamStatisticId, $requestObject->$teamStatisticGameId, $requestObject->$teamStatisticTeamId, $requestObject->$teamStatisticStatisticId, $trail->update($pdo);
-			$reply->message = "teamStatistic submitted okay";
-		}
+} else if(empty($teamStatisticStatisticId) === false) {
+	$teamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticStatisticId($pdo, $teamStatisticStatisticId);
+	if($teamStatistic !== null && $teamStatistic->getStatisticId() === $_SESSION["teamStatistic"]->getStatisticId()) {
+		$reply->data = $teamStatistic;
 	}
-} else {
-	// if not active user and attempting a method other than get, throw an exception
-	if((empty($method) === false) && ($method !=="GET")) {
-		throw(new RuntimeException("only active users are allowed to modify entries", 401));
-		}
-	}
-} catch(exception $exception) {
-	$reply->status = $exception->getCode();
-	$reply->message = $exception->getMessage();
-
-	//blob
 }
 header("Content-type: application/json");
 if($reply->data === null) {
 	unset($reply->data);
 }
 echo json_encode($reply);
+
+
