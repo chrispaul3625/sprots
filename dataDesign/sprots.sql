@@ -119,4 +119,6 @@ CREATE TABLE playerStatistic (
 	FOREIGN KEY (playerStatisticPlayerId) REFERENCES player (playerId),
 	FOREIGN KEY (playerStatisticTeamId) REFERENCES team (teamId),
 	FOREIGN KEY (playerStatisticGameId) REFERENCES game (gameId)
-)
+);
+
+
