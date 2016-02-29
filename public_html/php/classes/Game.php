@@ -5,7 +5,7 @@ require_once("autoload.php");
 
 
 /**
- * game is the record of what teams played  each other and the scores
+ * Game is the record of what teams played  each other and the scores
  *
  * @author Dominic Cuneo < cueno94@gmail.com
  *
@@ -37,10 +37,10 @@ class Game {
 	 * constructor fo Game
 	 *
 	 * @param int|null $newGameId id of this Game or null if a new Tweet
-	 * @param int $newGameId for the last game played for a sport
-	 * @param int $newGameFirstTeamId id for the first team in a game
-	 * @param int $newGameSecondTeamId id  fo the second team in a game
-	 * @param \DateTime|null $newGameTime date and time for when game was played
+	 * @param int $newGameId for the last Game played for a Sport
+	 * @param int $newGameFirstTeamId id for the first Team in a Game
+	 * @param int $newGameSecondTeamId id  fo the second Team in a Game
+	 * @param \DateTime|null $newGameTime date and time for when Game was played
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values exceed limits
 	 * @throws \TypeError if data types violate type hints
@@ -68,39 +68,39 @@ class Game {
 	}
 
 	/**
-	 * accessor method for game id
+	 * accessor method for Game id
 	 *
-	 * @return int|null value for game id
+	 * @return int|null value for Game id
 	 */
 	public function getGameId() {
 		return $this->gameId;
 	}
 
 	/**
-	 * mutator method for game id
+	 * mutator method for Game id
 	 *
-	 * @param int|null $newGameId new value for game id
+	 * @param int|null $newGameId new value for Game id
 	 * @throws \RangeException if $newGameId id not positive
 	 * @throws \TypeError if $newGameId is not an integer
 	 */
 	public function setGameId(int $newGameId = null) {
-		// base case: if game id is null this is a new game without a mySQL assigned id yet
+		// base case: if Game id is null this is a new Game without a mySQL assigned id yet
 		if($newGameId === null) {
 			$this->gameId = null;
 			return;
 		}
-		// verify the game id is positive
+		// verify the Game id is positive
 		if($newGameId <= 0) {
-			throw(new \RangeException("game id is not positive"));
+			throw(new \RangeException("Game id is not positive"));
 		}
-		// convert and store game id
+		// convert and store Game id
 		$this->gameId = $newGameId;
 	}
 
 	/**
 	 * accessor for GameFirstTeamId
 	 *
-	 * @return int value of game id
+	 * @return int value of Game id
 	 */
 	public function getGameFirstTeamId() {
 		return $this->gameFirstTeamId;
@@ -139,7 +139,7 @@ class Game {
 	 * @throws \TypeError if $newGameSecondTeamId is not an integer
 	 **/
 	public function setGameSecondTeamId(int $newGameSecondTeamId = null) {
-		// base case if gameSecondTeamId id is null this is a $new game
+		// base case if gameSecondTeamId id is null this is a $new Game
 		if($newGameSecondTeamId === null) {
 			$this->gameSecondTeamId = null;
 			return;
@@ -155,7 +155,7 @@ class Game {
 	/**
 	 * accessor for gameTime
 	 *
-	 * @return \DateTime value of  game
+	 * @return \DateTime value of  Game
 	 */
 	public function getGameTime() {
 		return $this->gameTime;
@@ -173,7 +173,7 @@ class Game {
 			$this->newGameTime = new \DateTime();
 			return;
 		}
-		//store game data
+		//store Game data
 		try {
 			$newGameTime = $this->validateDate($newGameTime);
 		} catch(\InvalidArgumentException $invalidArgument) {
@@ -194,10 +194,10 @@ class Game {
 	public function insert(\PDO $pdo) {
 		// enforce the gameId is null
 		if($this->gameId !== null) {
-			throw(new \PDOException("not a new game"));
+			throw(new \PDOException("not a new Game"));
 		}
 		//query template
-		$query = "INSERT INTO game(gameFirstTeamId, gameSecondTeamId, gameTime) VALUES(:gameFirstTeamId, :gameSecondTeamId, :gameTime)";
+		$query = "INSERT INTO Game(gameFirstTeamId, gameSecondTeamId, gameTime) VALUES(:gameFirstTeamId, :gameSecondTeamId, :gameTime)";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holder
 		$formattedDate = $this->gameTime->format("Y-m-d H:i:s");
@@ -217,10 +217,10 @@ class Game {
 	public function delete(\PDO $pdo) {
 		// enforce the tweetId is not null (
 		if($this->gameId === null) {
-			throw(new \PDOException("unable to delete a game that does not exist"));
+			throw(new \PDOException("unable to delete a Game that does not exist"));
 		}
 		// query template
-		$query = "DELETE FROM game WHERE gameId = :gameId";
+		$query = "DELETE FROM Game WHERE gameId = :gameId";
 		$statement = $pdo->prepare($query);
 		//bind member variables to the place holder
 		$parameters = ["gameId" => $this->gameId];
@@ -237,10 +237,10 @@ class Game {
 	public function update(\PDO $pdo) {
 		// enforce the gameId is not null
 		if($this->gameId === null) {
-			throw(new \PDOException("unable to update a game that does not exist"));
+			throw(new \PDOException("unable to update a Game that does not exist"));
 		}
 		//query template
-		$query = "UPDATE game SET gameTime = :gameTime ";
+		$query = "UPDATE Game SET gameTime = :gameTime ";
 		$statement = $pdo->prepare($query);
 		//bind the member variable to the place holders
 		$formattedDate = $this->gameTime->format("Y-m-d H:i:s");
@@ -251,7 +251,7 @@ class Game {
 	 * gets the Game by gameId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $gameId game id to search for
+	 * @param int $gameId Game id to search for
 	 * @return Game|null Game found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -259,18 +259,18 @@ class Game {
 	public static function getGameByGameId(\PDO $pdo, int $gameId){
 	// sanitize the gameId before searching
 		if($gameId <=0){
-			throw(new \PDOException("game id is not positive"));
+			throw(new \PDOException("Game id is not positive"));
 		}
 
 		//create query template
-		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game WHERE gameId = :gameId";
+		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM Game WHERE gameId = :gameId";
 		$statement = $pdo->prepare($query);
 
-		// bind the game id to the player holder in the template
+		// bind the Game id to the Player holder in the template
 		$parameters = array("gameId"=> $gameId);
 		$statement->execute($parameters);
 
-		//grab the game form mySQL
+		//grab the Game form mySQL
 		try {
 			$game = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -301,14 +301,14 @@ class Game {
 			throw(new \PDOException("gameFirstTeam Id is not positive"));
 		}
 		// Create query template
-		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game ";
+		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM Game ";
 		$statement = $pdo->prepare($query);
 
-		// Bind the game id to the place holder in the template
+		// Bind the Game id to the place holder in the template
 		$parameters = array("gameFirstTeamId" => $gameFirstTeamId);
 		$statement->execute($parameters);
 
-		// Grab the game from mySQL
+		// Grab the Game from mySQL
 		try {
 			$game = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -340,14 +340,14 @@ class Game {
 		}
 
 		//create query template
-		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game WHERE gameId = :gameId";
+		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM Game WHERE gameId = :gameId";
 		$statement = $pdo->prepare($query);
 
-		// bind the game id to the player holder in the template
+		// bind the Game id to the Player holder in the template
 		$parameters = array("gameId"=> $gameSecondTeamId);
 		$statement->execute($parameters);
 
-		//grab the game form mySQL
+		//grab the Game form mySQL
 		try {
 			$game = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -367,7 +367,7 @@ class Game {
 	 * gets the Game by GameTime
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param \DateTime $gameTime game time to search for
+	 * @param \DateTime $gameTime Game time to search for
 	 * @return Game|null Game found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -379,14 +379,14 @@ class Game {
 		}
 
 		//create query template
-		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game WHERE gameId = :gameId";
+		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM Game WHERE gameId = :gameId";
 		$statement = $pdo->prepare($query);
 
-		// bind the game id to the player holder in the template
+		// bind the Game id to the Player holder in the template
 		$parameters = array("gameId"=>  $gameTime);
 		$statement->execute($parameters);
 
-		//grab the game form mySQL
+		//grab the Game form mySQL
 		try {
 			$game = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -412,11 +412,11 @@ class Game {
 	 **/
 	public static function getAllGame(\PDO $pdo){
 		//create query template
-		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM game ";
+		$query = "SELECT gameId, gameFirstTeamId, gameSecondTeamId, gameTime FROM Game ";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		//build an array of game
+		//build an array of Game
 		$games =new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false){

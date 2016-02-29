@@ -22,12 +22,12 @@ class Profile {
 	 **/
 	private $profileEmail;
 	/**
-	 * Hash of profile
+	 * Hash of Profile
 	 * @var string $profileHash
 	 **/
 	private $profileHash;
 	/**
-	 * Salt of profile
+	 * Salt of Profile
 	 * @var string $profileSalt
 	 **/
 	private $profileSalt;
@@ -67,7 +67,7 @@ class Profile {
 	 *
 	 **/
 	public function setProfileId(int $newProfileId = null) {
-		//base case: if the profile id is null, this is a new profile without a mySQL assigned id (yet)
+		//base case: if the Profile id is null, this is a new Profile without a mySQL assigned id (yet)
 		if($newProfileId === null) {
 			$this->profileId = null;
 			return;
@@ -78,7 +78,7 @@ class Profile {
 
 		//if filter_var() rejects the new id, throw an Exception
 		if($newProfileId <= 0) {
-			throw(new \RangeException("profile id is not positive"));
+			throw(new \RangeException("Profile id is not positive"));
 		}
 
 		//save the object
@@ -159,21 +159,21 @@ class Profile {
 	 *
 	 * @param string $newProfileHash
 	 * @throws \InvalidArgumentException if hash value is not a string
-	 * @throws \RangeException if profile hash is !== 128
+	 * @throws \RangeException if Profile hash is !== 128
 	 *
 	 **/
 	public function setProfileHash(string $newProfileHash) {
 		$newProfileHash = filter_var($newProfileHash, FILTER_SANITIZE_STRING);
 
 		if($newProfileHash === false) {
-			throw (new\InvalidArgumentException("profile hash cannot be null"));
+			throw (new\InvalidArgumentException("Profile hash cannot be null"));
 		}
 
 		if(strlen($newProfileHash) !== 128) {
-			throw(new \RangeException("profile hash has to be 128"));
+			throw(new \RangeException("Profile hash has to be 128"));
 		}
 
-		//convert and store profile activation
+		//convert and store Profile activation
 		$this->profileHash = $newProfileHash;
 	}
 
@@ -214,10 +214,10 @@ class Profile {
 	// 	if($newProfileSalt === false) {
 	// 		throw (new \InvalidArgumentException("salt must be a string value"));
 	//
-	// 		//make sure profile salt =  64
+	// 		//make sure Profile salt =  64
 	//
 	// 		if($newProfileSalt !== 64) {
-	// 			throw(new \RangeException("profile salt has to be 64"));
+	// 			throw(new \RangeException("Profile salt has to be 64"));
 	//
 	// 		}
 	// 		$this->profileSalt = $newProfileSalt;
@@ -241,10 +241,10 @@ class Profile {
 	 **/
 	public function insert(\PDO $pdo) {
 		if($this->profileId !== null) {
-			throw (new \PDOException ("this profile already exists"));
+			throw (new \PDOException ("this Profile already exists"));
 		}
 		//create query template//
-		$query = "INSERT INTO profile(profileUserName, profileEmail, profileHash, profileSalt) VALUES (:profileUserName, :profileEmail, :profileHash, :profileSalt)";
+		$query = "INSERT INTO Profile(profileUserName, profileEmail, profileHash, profileSalt) VALUES (:profileUserName, :profileEmail, :profileHash, :profileSalt)";
 		$statement = $pdo->prepare($query);
 
 		$parameters = array("profileUserName" => $this->profileUserName, "profileEmail" => $this->profileEmail, "profileHash" => $this->getProfileHash(), "profileSalt" => $this->getProfileSalt());
@@ -252,7 +252,7 @@ class Profile {
 		$this->profileId = intval($pdo->lastInsertId());
 	}
 
-	/** Deletes this profile from mySQL
+	/** Deletes this Profile from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related error occurs
@@ -261,17 +261,17 @@ class Profile {
 
 	public function delete(\PDO $pdo) {
 		if($this->profileId === null) {
-			throw(new \PDOException("unable to delete a profile that does not exist"));
+			throw(new \PDOException("unable to delete a Profile that does not exist"));
 		}
 
-		$query = "DELETE FROM profile WHERE profileId = :profileId";
+		$query = "DELETE FROM Profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["profileId" => $this->profileId];
 		$statement->execute($parameters);
 	}
 
-	/** Updates the profile in mySQL
+	/** Updates the Profile in mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related error occurs
@@ -279,17 +279,17 @@ class Profile {
 	 **/
 	public function update(\PDO $pdo) {
 		if($this->profileId === null) {
-			throw(new \PDOException("unable to update a profile that hasn't been entered"));
+			throw(new \PDOException("unable to update a Profile that hasn't been entered"));
 		}
 		//create query template
-		$query = "UPDATE profile SET profileUserName = :profileUserName, profileEmail = :profileEmail, profileHash = :profileHash, profileSalt = :profileSalt WHERE profileId = :profileId";
+		$query = "UPDATE Profile SET profileUserName = :profileUserName, profileEmail = :profileEmail, profileHash = :profileHash, profileSalt = :profileSalt WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["profileUserName" => $this->profileUserName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileId" => $this->profileId];
 		$statement->execute($parameters);
 	}
 
-	/** this function retrieves a profile by using profileId
+	/** this function retrieves a Profile by using profileId
 	 * @param \PDO $pdo -pdo connection object
 	 * @param int $profileId to look for
 	 * @return Profile|null Profile found or null if not found
@@ -301,18 +301,18 @@ class Profile {
 	public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
 		// sanitize the profileId before searching
 		if($profileId <= 0) {
-			throw(new \PDOException("profile id is not positive"));
+			throw(new \PDOException("Profile id is not positive"));
 		}
 
 		// create query template
-		$query = "SELECT profileId, profileUserName, profileEmail, profileHash, profileSalt FROM profile WHERE profileId = :profileId";
+		$query = "SELECT profileId, profileUserName, profileEmail, profileHash, profileSalt FROM Profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
-		// bind the profile id to the place holder in the template
+		// bind the Profile id to the place holder in the template
 		$parameters = array("profileId" => $profileId);
 		$statement->execute($parameters);
 
-		// grab the profile from mySQL
+		// grab the Profile from mySQL
 		try {
 			$profile = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -329,7 +329,7 @@ class Profile {
 	}
 
 
-	/** this function retrieves a profile by using profileUserName
+	/** this function retrieves a Profile by using profileUserName
 	 * @param \PDO $pdo -pdo connection object
 	 * @param string $profileUserName to look for
 	 * @return Profile|null Profile found or null if not found
@@ -343,19 +343,19 @@ class Profile {
 		$profileUserName = trim($profileUserName);
 		$profileUserName = filter_var($profileUserName, FILTER_SANITIZE_STRING);
 		if(empty($profileUserName) === true) {
-			throw(new \PDOException("profile user name is invalid"));
+			throw(new \PDOException("Profile user name is invalid"));
 		}
 
 
 		// create query template
-		$query = "SELECT profileId, profileUserName, profileEmail, profileHash, profileSalt FROM profile WHERE profileUserName = :profileUserName";
+		$query = "SELECT profileId, profileUserName, profileEmail, profileHash, profileSalt FROM Profile WHERE profileUserName = :profileUserName";
 		$statement = $pdo->prepare($query);
 
-		// bind the profile id to the place holder in the template
+		// bind the Profile id to the place holder in the template
 		$parameters = array("profileUserName" => $profileUserName);
 		$statement->execute($parameters);
 
-		// grab the profile from mySQL
+		// grab the Profile from mySQL
 		try {
 			$profile = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -369,10 +369,10 @@ class Profile {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		return ($profile);
-	} //get profile by user name
+	} //get Profile by user name
 
 
-	/** this function retrieves a profile by using profileEmail
+	/** this function retrieves a Profile by using profileEmail
 	 * @param \PDO $pdo pdo connection object
 	 * @param string $profileEmail to look for
 	 * @return Profile|null Profile found or null if not found
@@ -386,19 +386,19 @@ class Profile {
 		// validate the profileEmail before searching
 		$profileEmail = filter_var($profileEmail, FILTER_SANITIZE_STRING);
 		if(empty($profileEmail) === true) {
-			throw(new \PDOException("profile email is not valid"));
+			throw(new \PDOException("Profile email is not valid"));
 		}
 
 
 		// create query template
-		$query = "SELECT profileId, profileUserName,profileEmail, profileHash, profileSalt FROM profile WHERE profileEmail = :profileEmail";
+		$query = "SELECT profileId, profileUserName,profileEmail, profileHash, profileSalt FROM Profile WHERE profileEmail = :profileEmail";
 		$statement = $pdo->prepare($query);
 
-		// bind the profile email to the place holder in the template
+		// bind the Profile email to the place holder in the template
 		$parameters = array("profileEmail" => $profileEmail);
 		$statement->execute($parameters);
 
-		// grab the profile from mySQL
+		// grab the Profile from mySQL
 		try {
 
 			$profile = null;

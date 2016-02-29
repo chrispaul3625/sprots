@@ -41,7 +41,7 @@ try {
 	if($profile !== null) {
 		$profileHash = hash_pbkdf2("sha512", $requestObject->password, $profile->getProfileSalt(), 262144, 128);
 		if($profileHash === $profile->getProfileHash()) {
-			$_SESSION["profile"] = $profile;
+			$_SESSION["Profile"] = $profile;
 			$reply->status = 200;
 			$reply->message = "Successfully logged in";
 		} else {

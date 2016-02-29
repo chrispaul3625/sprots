@@ -6,5 +6,5 @@ $CURRENT_DIR = __DIR__;
 $PAGE_TITLE = "MY PAGE TITLE";
 
 /*load head-utils.php - edit path as needed*/
-require_once("php/templates/head-utils.php");
+require_once("php/Templates/head-utils.php");
 ?>

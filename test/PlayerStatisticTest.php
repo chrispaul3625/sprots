@@ -43,25 +43,25 @@ class PlayerStatisticTest extends SprotsTest {
 	protected $VALID_GAMETIME2 = "2015-02-23 14:23:02";
 
 	/**
-	 * Team Api ID that the team belongs to
+	 * Team Api ID that the Team belongs to
 	 * @var int $VALID_TEAMAPIID
 	 */
 	protected $VALID_TEAMAPIID = 462;
 
 	/**
-	 * content of the updated team api id
+	 * content of the updated Team api id
 	 * @var string $VALID_TEAMAPIID2
 	 **/
 	protected $VALID_TEAMAPIID2 = 371;
 
 	/**
-	 * Team Api ID that the team belongs to
+	 * Team Api ID that the Team belongs to
 	 * @var int $VALID_PLAYERAPIID
 	 */
 	protected $VALID_PLAYERAPIID = 242;
 
 	/**
-	 * content of the updated team api id
+	 * content of the updated Team api id
 	 * @var string $VALID_PLAYERAPIID2
 	 **/
 	protected $VALID_PLAYERAPIID2 = 771;
@@ -87,7 +87,7 @@ class PlayerStatisticTest extends SprotsTest {
 	 */
 	protected $player2 = null;
 	/**
-	 * Statistic that is associated with the player
+	 * Statistic that is associated with the Player
 	 * @var Statistic $statistic
 	 */
 	protected $statistic = null;
@@ -109,11 +109,11 @@ class PlayerStatisticTest extends SprotsTest {
 		//run the default setUp() method first
 		parent::setUp();
 
-		//create and insert a Sport to own the test playerStatistic
+		//create and insert a Sport to own the test PlayerStatistic
 		$this->sport = new Sport(null, "sportName", "sportLeague");
 		$this->sport->insert($this->getPDO());
 
-		//create and insert a team to own the test playerStatistic
+		//create and insert a Team to own the test PlayerStatistic
 		$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, "TeamCity", "TeamName");
 		$this->team->insert($this->getPDO());
 
@@ -121,7 +121,7 @@ class PlayerStatisticTest extends SprotsTest {
 		$this->team2->insert($this->getPDO());
 
 
-		//create and insert a Game to own the test playerStatistic
+		//create and insert a Game to own the test PlayerStatistic
 		$this->game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), "2015-03-23 15:23:04");
 		$this->game->insert($this->getPDO());
 
@@ -129,7 +129,7 @@ class PlayerStatisticTest extends SprotsTest {
 		$this->VALID_GAMETIME = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
 		$this->VALID_GAMETIME2 = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 16:23:04");
 
-		//create and insert a Player to own the test playerStatistic
+		//create and insert a Player to own the test PlayerStatistic
 		// int $newPlayerId = null, int $newPlayerApiId, int $newPlayerTeamId, int $newPlayerSportId, string $newPlayerName
 		$this->player = new Player(null, $this->VALID_PLAYERAPIID, $this->team->getTeamId(), $this->sport->getSportId(), "PlayerName");
 		$this->player->insert($this->getPDO());
@@ -137,7 +137,7 @@ class PlayerStatisticTest extends SprotsTest {
 		$this->player2 = new Player(null, $this->VALID_PLAYERAPIID2, $this->team2->getTeamId(), $this->sport->getSportId(), "PlayerNames");
 		$this->player2->insert($this->getPDO());
 
-		//create and insert a Statistic to own the test playerStatistic
+		//create and insert a Statistic to own the test PlayerStatistic
 		$this->statistic = new Statistic(null, "statisticName");
 		$this->statistic->insert($this->getPDO());
 
@@ -148,7 +148,7 @@ class PlayerStatisticTest extends SprotsTest {
 	 **/
 	public function testInsertValidPlayerStatistic() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+		$numRows = $this->getConnection()->getRowCount("PlayerStatistic");
 
 
 		// create a new PlayerStatistics and insert to into mySQL
@@ -158,7 +158,7 @@ class PlayerStatisticTest extends SprotsTest {
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameIdAndPlayerStatisticPlayerIdAndPlayerStatisticTeamIdAndPlayerStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->player->getPlayerId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("PlayerStatistic"));
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticTeamId(), $this->team->getTeamId());
@@ -171,7 +171,7 @@ class PlayerStatisticTest extends SprotsTest {
 	 **/
 	public function testInsertValidPlayerStatisticByPlayerStatisticGameId() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+		$numRows = $this->getConnection()->getRowCount("PlayerStatistic");
 
 
 		// create a new PlayerStatistics and insert to into mySQL
@@ -181,7 +181,7 @@ class PlayerStatisticTest extends SprotsTest {
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameId($this->getPDO(), $this->game->getGameId(), $this->player->getPlayerId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("PlayerStatistic"));
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticTeamId(), $this->team->getTeamId());
@@ -196,7 +196,7 @@ class PlayerStatisticTest extends SprotsTest {
 	 **/
 	public function testInsertValidPlayerStatisticByPlayerStatisticPlayerId() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+		$numRows = $this->getConnection()->getRowCount("PlayerStatistic");
 
 
 		// create a new PlayerStatistics and insert to into mySQL
@@ -206,7 +206,7 @@ class PlayerStatisticTest extends SprotsTest {
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticPlayerId($this->getPDO(), $this->game->getGameId(), $this->player->getPlayerId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("PlayerStatistic"));
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticTeamId(), $this->team->getTeamId());
@@ -221,7 +221,7 @@ class PlayerStatisticTest extends SprotsTest {
 	 **/
 	public function testInsertValidPlayerStatisticByPlayerStatisticTeamId() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+		$numRows = $this->getConnection()->getRowCount("PlayerStatistic");
 
 
 		// create a new PlayerStatistics and insert to into mySQL
@@ -231,7 +231,7 @@ class PlayerStatisticTest extends SprotsTest {
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticTeamId($this->getPDO(), $this->game->getGameId(), $this->player->getPlayerId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("PlayerStatistic"));
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticTeamId(), $this->team->getTeamId());
@@ -246,7 +246,7 @@ class PlayerStatisticTest extends SprotsTest {
 	 **/
 	public function testInsertValidPlayerStatisticByPlayerStatisticStatisticId() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+		$numRows = $this->getConnection()->getRowCount("PlayerStatistic");
 
 
 		// create a new PlayerStatistics and insert to into mySQL
@@ -256,7 +256,7 @@ class PlayerStatisticTest extends SprotsTest {
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->player->getPlayerId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("PlayerStatistic"));
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticTeamId(), $this->team->getTeamId());
@@ -281,19 +281,19 @@ class PlayerStatisticTest extends SprotsTest {
 	 **/
 	public function testUpdateValidPlayerStatistic() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+		$numRows = $this->getConnection()->getRowCount("PlayerStatistic");
 
 		// create a new Player Statistic and insert to into mySQL
 		$playerStatistic = new PlayerStatistic($this->game->getGameId(), $this->player->getPlayerID(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE);
 		$playerStatistic->insert($this->getPDO());
 
-		// Edit the playerStatistic and update it in mySQL
+		// Edit the PlayerStatistic and update it in mySQL
 		$playerStatistic->setPlayerStatisticValue($this->VALID_PLAYERSTATISTICVALUE);
 		$playerStatistic->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameIdAndPlayerStatisticPlayerIdAndPlayerStatisticTeamIdAndPlayerStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->player->getPlayerId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("PlayerStatistic"));
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticGameId(), $this->game->getGameId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticPlayerId(), $this->player->getPlayerId());
 		$this->assertEquals($pdoPlayerStatistic->getPlayerStatisticTeamId(), $this->team->getTeamId());
@@ -318,20 +318,20 @@ class PlayerStatisticTest extends SprotsTest {
 	 **/
 	public function testDeleteValidPlayerStatistic() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+		$numRows = $this->getConnection()->getRowCount("PlayerStatistic");
 
 		// create a new Player Statistic and insert to into mySQL
 		$playerStatistic = new PlayerStatistic($this->game->getGameId(), $this->player->getPlayerID(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE);
 		$playerStatistic->insert($this->getPDO());
 
 		// Delete the Player from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("PlayerStatistic"));
 		$playerStatistic->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoPlayerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameIdAndPlayerStatisticPlayerIdAndPlayerStatisticTeamIdAndPlayerStatisticStatisticId($this->getPDO(), $this->game->getGameId(), $this->player->getPlayerId(), $this->team->getTeamId(), $this->statistic->getStatisticId());
 		$this->assertNull($pdoPlayerStatistic);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("PlayerStatistic"));
 	}
 
 	/**
@@ -340,7 +340,7 @@ class PlayerStatisticTest extends SprotsTest {
 	 * @expectedException \PDOException
 	 **/
 	public function testDeleteInvalidPlayerStatistic() {
-	// create a playerStatistic with a non null foreign key and watch it fail
+	// create a PlayerStatistic with a non null foreign key and watch it fail
 		$playerStatistic = new PlayerStatistic(SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY);
 		$playerStatistic->insert($this->getPDO());
 		$playerStatistic->delete($this->getPDO());
@@ -351,7 +351,7 @@ class PlayerStatisticTest extends SprotsTest {
 	 **/
 	public function testGetValidPlayerStatistic() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+		$numRows = $this->getConnection()->getRowCount("PlayerStatistic");
 
 		// create a new PlayerStatistics and insert to into mySQL
 		$playerStatistic = new PlayerStatistic($this->game->getGameId(), $this->player->getPlayerID(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE);
@@ -359,7 +359,7 @@ class PlayerStatisticTest extends SprotsTest {
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = PlayerStatistic::getAllPlayerStatistics($this->getPDO());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("PlayerStatistic"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\PlayerStatistic", $results);
 
@@ -377,7 +377,7 @@ class PlayerStatisticTest extends SprotsTest {
 	 **/
 	public function testGetInvalidPlayerStatistic() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("playerStatistic");
+		$numRows = $this->getConnection()->getRowCount("PlayerStatistic");
 
 		// create a new PlayerStatistics and insert to into mySQL
 		$playerStatistic = new PlayerStatistic($this->game->getGameId(), $this->player->getPlayerID(), $this->team->getTeamId(), $this->statistic->getStatisticId(), $this->VALID_PLAYERSTATISTICVALUE);
@@ -385,7 +385,7 @@ class PlayerStatisticTest extends SprotsTest {
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = PlayerStatistic::getAllPlayerStatistics($this->getPDO());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("playerStatistic"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("PlayerStatistic"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Sprots\\PlayerStatistic", $results);
 
