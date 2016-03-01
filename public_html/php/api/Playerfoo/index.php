@@ -1,13 +1,13 @@
 <?php
-
+/**
+ * API to collect Player data
+ */
 require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
-require_once dirname(dirname(__DIR__)) . "/lib./xsrf.php";
+require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/vendor/autoload");
 
-/**
- * API for the player class
- */
+
 
 //verify the xsrf challenge
 if(session_status() !== PHP_SESSION_ACTIVE) {
@@ -39,25 +39,36 @@ try {
 		$playerSportId = filter_input(INPUT_GET, "playerSportId", FILTER_VALIDATE_INT);
 		$playerName = filter_input(INPUT_GET, "playerName", FILTER_SANITIZE_STRING);
 
-		//handle rest calls
-		if (method ==="GET") {
-		// set XSRF cookie
-		setXsrfCookie("/");
+
 
 			//get the player based on the given field
-			if(empty($playerId) === false) {
-					$player = Player::getPlayerByPlayerId($pdo, $id);
-					if($player !== null && $player->getPlayerId() === $_SESSION["player"]->getPlayerId()) {
+			if(empty($id) === false) {
+				$player = Player::getPlayerByPlayerId($pdo, $id);
+				if($player !== null && $player->getPlayerId() === $_SESSION["player"]->getPlayerId()) {
 					$reply->data = $player;
 				}
-			} elseif(empty($TeamId === false) {
-					$player = Player::getPlayerByPlayerTeamId($pdo, $id);
-					if($player !== null && $player->get)
-
+			} elseif(empty($teamId) === false) {
+				$player = Player::getPlayerByPlayerTeamId($pdo, $id);
+				if($player !== null && $player->getPlayerId() === $_SESSION["player"]->getPlayerId()){
+					$reply->date = $player;
+					}
+			} elseif(empty($sportId) === false) {
+				$player = Player::getPlayerByPlayerSportId($pdo, $id);
+				if($player !== null && $player->getPlayerId() ===$_SESSION["player]"]->getPlayerId()){
+					$reply->date = $player;
+				}
+			} elseif(empty($playerName)=== false) {
+				$player = Player::getPlayerByPlayerName($pdo, $id);
+				if($player !== null && $player->getPlayerId() ===$_SESSION["player"]->getPlayerId()) {
+					$reply->date =$player;
+				}
 			}
 
 
 
+} catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
 }
 
 
