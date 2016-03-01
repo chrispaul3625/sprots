@@ -1,21 +1,14 @@
 <?php
 /**
- * This is an api to collect Teams,Player, and Game from Fantasy data
- *
+ * This is an api to collect Teams from Fantasy data
+ * @author Dom Kratos <dom@domkratos.com>
+ * Date: 2/26/16
+ * Time: 11:23 AM
  */
 require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
-require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-//verify the xsrf challange
-if(session_status() !== PHP_SESSION_ACTIVE) {
-	session_start();
-}
 
-// prepare an empty reply
-$reply = new stdClass();
-$reply->status = 200;
-$reply->data = null;
 try {
 	// grab the db connection
 	$pdo = connetToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
@@ -66,7 +59,6 @@ try {
 		} catch(TypeError $typeError) {
 			$reply->status = $typeError->getCode();
 			$reply->message = $typeError->getMessage();
-
 		}
 		foreach($reply->data as $team) {
 			$teamToInsert = new Team(null, $team->Name, $team->City, $team->KEY, 1);
