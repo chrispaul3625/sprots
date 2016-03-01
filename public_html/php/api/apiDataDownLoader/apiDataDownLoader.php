@@ -1,9 +1,7 @@
 <?php
 /**
- * This is an api to collect Teams from Fantasy data
- * @author Dom Kratos <dom@domkratos.com>
- * Date: 2/26/16
- * Time: 11:23 AM
+ * This is an api to collect Teams,Player, and Game from Fantasy data
+ *
  */
 require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
 require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
@@ -62,8 +60,13 @@ try {
 
 			$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Teams/$season", false, $context);
 			$reply->data = json_decode($response);
-		} catch() {
-			// todo
+		} catch(Exception $exception) {
+			$reply->status = $exception->getCode();
+			$reply->message = $exception->getMessage();
+		} catch(TypeError $typeError) {
+			$reply->status = $typeError->getCode();
+			$reply->message = $typeError->getMessage();
+
 		}
 		foreach($reply->data as $team) {
 			$teamToInsert = new Team(null, $team->Name, $team->City, $team->KEY, 1);
