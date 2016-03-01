@@ -5,7 +5,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/vendor/autoload");
 
 /**
- * API for the game class
+ * API for the gamefoo class
  * @author Dominic Cuneo < cuneo94@gmail.com
  */
 
@@ -41,28 +41,28 @@ try {
 	$gameTime /= 1000;
 	$gameTime = DateTime::createFromFormat("U", strval($gameTime));
 
-	// get the game based on the given field
+	// get the gamefoo based on the given field
 	if(empty($id) === false){
 		$game = Game::getGameByGameId($pdo, $id);
-		if($game !== null && $game->getGameId() === $_SESSION["game"]->getGameId()){
+		if($game !== null && $game->getGameId() === $_SESSION["gamefoo"]->getGameId()){
 			$reply->data = $game;
 		}
 	}else if(empty($gameFirstTeamId) === false){
 		$game = Game::getGameByGameFirstTeamId($pdo, $id);
-		if($game !== null && $game->getGameId() === $_SESSION["game"]->getGameId()){
+		if($game !== null && $game->getGameId() === $_SESSION["gamefoo"]->getGameId()){
 			$reply->data = $game;
 		}
 	}else if(empty($gameSecondTeamId) === false){
 		$game = Game::getGameByGameSecondTeamId($pdo, $id);
-		if($game !== null && $game->getGameId() === $_SESSION["game"]->getGameId()){
+		if($game !== null && $game->getGameId() === $_SESSION["gamefoo"]->getGameId()){
 			$reply->data = $game;
 		}
 	}else if (empty($gameTime) === false){
 		$game = Game::getGameByGameTime($pdo,$gameTime);
-		if($game !== null && $game->getGameTime() === $_SESSION["game"]->getGameTime()){
+		if($game !== null && $game->getGameTime() === $_SESSION["gamefoo"]->getGameTime()){
 			$reply->data = $game;
 		}else {
-			$reply->data = Game::getGamebyGameId($pdo, $_SESSION["game"]->getGameId())->toArray();
+			$reply->data = Game::getGamebyGameId($pdo, $_SESSION["gamefoo"]->getGameId())->toArray();
 		}
 	}
 
