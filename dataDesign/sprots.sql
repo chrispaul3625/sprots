@@ -36,7 +36,7 @@ CREATE TABLE team (
 	teamSportId INT UNSIGNED              NOT NULL,
 	teamApiId INT UNSIGNED                NOT NULL,
 	teamName  VARCHAR(32)                 NOT NULL,
-	teamCity  VARCHAR(32)                 NOT NULL,
+	teamCity  VARCHAR(50)                 NOT NULL,
 	UNIQUE (teamApiId),
 	UNIQUE (teamName),
 	FOREIGN KEY (teamSportId) REFERENCES sport (sportId),
@@ -121,4 +121,5 @@ CREATE TABLE playerStatistic (
 	FOREIGN KEY (playerStatisticGameId) REFERENCES game (gameId)
 );
 
-
+INSERT INTO sport(sportName, sportLeague) VALUES("Football", "NFL");
+INSERT INTO sport(spor)
