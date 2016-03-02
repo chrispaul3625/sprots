@@ -1,6 +1,5 @@
 <?php
 namespace Edu\Cnm\Sprots;
-
 require_once("autoload.php");
 
 /**
@@ -29,7 +28,6 @@ class favoriteTeam {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-
 	public function __construct(int $newFavoriteTeamProfileId, int $newFavoriteTeamTeamId) {
 		try {
 			$this->setFavoriteTeamProfileId($newFavoriteTeamProfileId);
@@ -102,7 +100,6 @@ class favoriteTeam {
 	 * @throws \PDOException when db related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-
 	public function insert(\PDO $pdo) {
 		//make sure both the favoriteteamteamid, and favoritePlayerProfileId are not null.
 		if($this->favoriteTeamProfileId === null) {
@@ -111,11 +108,9 @@ class favoriteTeam {
 		if($this->favoriteTeamTeamId === null) {
 			throw(new \PDOException("Team id doesn't exist"));
 		}
-
 		//create query
 		$query = "INSERT INTO favoriteTeam(favoriteTeamProfileId, favoriteTeamTeamId) VALUES(:favoriteTeamProfileId, :favoriteTeamTeamId)";
 		$statement = $pdo->prepare($query);
-
 		//bind the member variables to the place holders in the template
 		$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->favoriteTeamTeamId];
 		$statement->execute($parameters);
@@ -138,7 +133,6 @@ class favoriteTeam {
 		// Create query template
 		$query = "DELETE FROM favoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId AND favoriteTeamTeamId = :favoriteTeamTeamId";
 		$statement = $pdo->prepare($query);
-
 		// Bind the member variables to the place holders in template
 		$parameters = ["favoriteTeamProfileId" => $this->favoriteTeamProfileId, "favoriteTeamTeamId" => $this->favoriteTeamTeamId];
 		$statement->execute($parameters);
@@ -161,11 +155,9 @@ class favoriteTeam {
 		// create a query template
 		$query = "SELECT favoriteTeamProfileId, favoriteTeamTeamId FROM favoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId";
 		$statement = $pdo->prepare($query);
-
 		// bind the favoriteTeamTeamId to the place holder in the template
 		$parameters = ["favoriteTeamProfileId" => $favoriteTeamProfileId];
 		$statement->execute($parameters);
-
 		// build an array of favorite teams
 		$favoriteTeams = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);

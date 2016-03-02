@@ -17,5 +17,5 @@
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">../public_html/php/classes</directory>
 		</whitelist>
-	</filter> ass
+	</filter>
 </phpunit>

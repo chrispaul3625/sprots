@@ -58,7 +58,7 @@ require_once("../php/templates/head-utils.php");
 						<li><a href="#">NFL</a></li>
 						<li><a href="#">NBA</a></li>
 						<li><a href="#">MLB</a></li>
-						<li><a href="#">EPL</a></li>
+						<li><a href="#">NHL</a></li>
 					</ul>
 					</li>
 					</ul>
@@ -88,13 +88,9 @@ require_once("../php/templates/head-utils.php");
 								Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
 								the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
 								of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-								but also the leap into electronic typesetting, remaining essentially unchanged. It was
-								popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-								and more recently with desktop publishing software like Aldus PageMaker including versions of
-								Lorem Ipsum.
-							</div>
+								but also the leap into electronic typesetting, remaining essentially unchanged.
 						</div>
-
+				</div>
 						<div class="col-md-4">
 							<div class="content-box">
 								<h2> News Updates </h2>
@@ -103,8 +99,7 @@ require_once("../php/templates/head-utils.php");
 								distribution of letters, as opposed to using 'Content here, content here', making it look like
 								readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as
 								their default model text, and a search for 'lorem ipsum' will uncover many web sites still in
-								their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on
-								purpose (injected humour and the like).
+								their infancy.
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -115,10 +110,7 @@ require_once("../php/templates/head-utils.php");
 								Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin
 								words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in
 								classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32
-								and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero,
-								written in 45 BC. This book is a treatise on the theory of ethics, very popular during the
-								Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
-								section 1.10.32.
+								and 1.10.33 of "de
 							</div>
 						</div>
 					</div>

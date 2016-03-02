@@ -121,5 +121,3 @@ CREATE TABLE playerStatistic (
 	FOREIGN KEY (playerStatisticGameId) REFERENCES game (gameId)
 );
 
-INSERT INTO sport(sportName, sportLeague) VALUES("Football", "NFL");
-INSERT INTO sport(spor)
