@@ -42,13 +42,13 @@ class TeamStatisticTest extends SprotsTest {
 	protected $VALID_GAMETIME2 = "2015-02-23 14:23:02";
 
 	/**
-	 * Team Api ID that the Team belongs to
+	 * Team Api ID that the team belongs to
 	 * @var int $VALID_TEAMAPIID
 	 */
 	protected $VALID_TEAMAPIID = 462;
 
 	/**
-	 * content of the updated Team api id
+	 * content of the updated team api id
 	 * @var string $VALID_TEAMAPIID2
 	 **/
 	protected $VALID_TEAMAPIID2 = 371;
@@ -63,7 +63,7 @@ class TeamStatisticTest extends SprotsTest {
 	 */
 	protected $game = null;
 	/**
-	 * Statistic that is associated with the Player
+	 * Statistic that is associated with the player
 	 * @var Statistic $statistic
 	 */
 	protected $statistic = null;
@@ -89,7 +89,7 @@ class TeamStatisticTest extends SprotsTest {
 		$this->sport = new Sport(null, "sportName", "sportLeague");
 		$this->sport->insert($this->getPDO());
 
-		//create and insert a Team to own the test TeamStatistic
+		//create and insert a team to own the test TeamStatistic
 		$this->team = new Team(null, $this->sport->getSportId(), $this->VALID_TEAMAPIID, "TeamCity", "TeamName");
 		$this->team->insert($this->getPDO());
 
@@ -97,7 +97,7 @@ class TeamStatisticTest extends SprotsTest {
 		$this->team2->insert($this->getPDO());
 
 
-		//create and insert a Game to own the test PlayerStatistic
+		//create and insert a Game to own the test playerStatistic
 		$this->game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), "2015-03-23 15:23:04");
 		$this->game->insert($this->getPDO());
 
@@ -105,7 +105,7 @@ class TeamStatisticTest extends SprotsTest {
 		$this->VALID_GAMETIME = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
 		$this->VALID_GAMETIME2 = \DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 16:23:04");
 
-		//create and insert a Statistic to own the test PlayerStatistic
+		//create and insert a Statistic to own the test playerStatistic
 		$this->statistic = new Statistic(null, "statisticName");
 		$this->statistic->insert($this->getPDO());
 
@@ -301,7 +301,7 @@ class TeamStatisticTest extends SprotsTest {
 	 * @expectedException \PDOException
 	 **/
 	public function testDeleteInvalidTeamStatistic() {
-// create a PlayerStatistic with a non null foreign key and watch it fail
+// create a playerStatistic with a non null foreign key and watch it fail
 		$teamStatistic = new TeamStatistic(SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY);
 		$teamStatistic->insert($this->getPDO());
 		$teamStatistic->delete($this->getPDO());

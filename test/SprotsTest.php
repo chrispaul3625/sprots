@@ -43,21 +43,21 @@ abstract class SprotsTest extends \PHPUnit_Extensions_Database_TestCase {
 
 		// add all the tables for the project here
 		// THESE TABLES *MUST* BE LISTED IN THE SAME ORDER THEY WERE CREATED!!!!
-		$dataset->addTable("Profile");
-		$dataset->addTable("Sport");
-		$dataset->addTable("Team");
-		$dataset->addTable("Player");
-		$dataset->addTable("Game");
-		$dataset->addTable("FavoriteTeam");
+		$dataset->addTable("profile");
+		$dataset->addTable("sport");
+		$dataset->addTable("team");
+		$dataset->addTable("player");
+		$dataset->addTable("game");
+		$dataset->addTable("favoriteTeam");
 		$dataset->addTable("favoritePlayer");
 		$dataset->addTable("statistic");
 		$dataset->addTable("teamStatistic");
-		$dataset->addTable("PlayerStatistic");
+		$dataset->addTable("playerStatistic");
 		return($dataset);
 	}
 
 	/**
-	 * Templates the setUp method that runs before each test; this method expunges the database before each run
+	 * templates the setUp method that runs before each test; this method expunges the database before each run
 	 *
 	 * @see https://phpunit.de/manual/current/en/fixtures.html#fixtures.more-setup-than-teardown PHPUnit Fixtures: setUp and tearDown
 	 * @see https://github.com/sebastianbergmann/dbunit/issues/37 TRUNCATE fails on tables which have foreign key constraints
@@ -71,7 +71,7 @@ abstract class SprotsTest extends \PHPUnit_Extensions_Database_TestCase {
 	}
 
 	/**
-	 * Templates the tearDown method that runs after each test; this method expunges the database after each run
+	 * templates the tearDown method that runs after each test; this method expunges the database after each run
 	 *
 	 * @return \PHPUnit_Extensions_Database_Operation_IDatabaseOperation delete command for the database
 	 **/

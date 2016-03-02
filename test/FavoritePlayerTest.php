@@ -26,7 +26,7 @@ Class FavoritePlayerTest extends SprotsTest {
 	protected $VALID_SPORT;
 
 	/**
-	 * confirm valid Team
+	 * confirm valid team
 	 * @var string $VALID_TEAM
 	 */
 	protected $VALID_TEAMNAME = "Bears";
@@ -92,7 +92,7 @@ Class FavoritePlayerTest extends SprotsTest {
 	}
 
 	/**
-	 * test inserting a valid Player and verify that the actual MySQL data matches
+	 * test inserting a valid player and verify that the actual MySQL data matches
 	 **/
 	public function testInsertValidFavoritePlayer() {
 		//count the number of rows and save it for later
@@ -102,7 +102,7 @@ Class FavoritePlayerTest extends SprotsTest {
 		$favoritePlayer = new FavoritePlayer($this->profile->getProfileId(), $this->player->getPlayerId());
 		$favoritePlayer->insert($this->getPDO());
 
-		//test that the new favorite Player was inserted into MySQL
+		//test that the new favorite player was inserted into MySQL
 		// $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favoritePlayer"));
 
 		//grab the data from MySQL and enforce the fields match our expectation
@@ -114,7 +114,7 @@ Class FavoritePlayerTest extends SprotsTest {
 
 
 	/**
-	 * test inserting a valid Player that has already been inserted and watch it fail
+	 * test inserting a valid player that has already been inserted and watch it fail
 	 *
 	 * @expectedException \PDOException
 	 */
@@ -125,18 +125,18 @@ Class FavoritePlayerTest extends SprotsTest {
 	}
 
 	/**
-	 * test inserting a favorite Player that does not exist
+	 * test inserting a favorite player that does not exist
 	 *
 	 *
 	 */
 	/**public function testInsertInvalidFavoritePlayer() {
-	 * //create new Player with a null Profile Id and watch it fail
+	 * //create new player with a null profile Id and watch it fail
 	 * $favoritePlayer = new FavoritePlayer($this->VALID_PROFILE->getProfileId(), SprotsTest::INVALID_KEY);
 	 * $favoritePlayer->insert($this->getPDO());
 	 *
 	 * }
 	 * /**
-	 * test deleting a favorite Player from MySQL
+	 * test deleting a favorite player from MySQL
 	 *
 	 *
 	 */
@@ -161,14 +161,14 @@ Class FavoritePlayerTest extends SprotsTest {
 	}
 
 	public function testDeleteInvalidFavoritePlayerByFavoritePlayerProfileId() {
-		// create a favorite Player, with a non null favorite Player id, and watch it fail.
+		// create a favorite player, with a non null favorite player id, and watch it fail.
 		$favoritePlayer = new FavoritePlayer($this->profile->getProfileId(), $this->player->getPlayerId());
 		$favoritePlayer->delete($this->getPDO());
 	}
 
 
 	/**
-	 * test getting favorite Player by Profile id
+	 * test getting favorite player by profile id
 	 *
 	 */
 
@@ -177,7 +177,7 @@ Class FavoritePlayerTest extends SprotsTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favoritePlayer");
 
-		//create a new favorite Player
+		//create a new favorite player
 		$favoritePlayer = new FavoritePlayer($this->profile->getProfileId(), $this->player->getPlayerId());
 		$favoritePlayer->insert($this->getPDO());
 
@@ -194,10 +194,10 @@ Class FavoritePlayerTest extends SprotsTest {
 	}
 
 	/**
-	 * test getting a favorite Player from favoritePlayerProfileId
+	 * test getting a favorite player from favoritePlayerProfileId
 	 **/
 	public function testGetInvalidFavoritePlayerByFavoritePlayerProfileId() {
-		// grab a favorite Player that exceeds the maximum allowable favoriteplayerplayerId length
+		// grab a favorite player that exceeds the maximum allowable favoriteplayerplayerId length
 		$favoritePlayerPlayerId = FavoritePlayer::getFavoritePlayersByFavoritePlayerProfileId($this->getPDO(), SprotsTest::INVALID_KEY, SprotsTest::INVALID_KEY);
 		$this->assertEquals(0, 0);
 	}

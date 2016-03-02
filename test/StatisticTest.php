@@ -61,7 +61,7 @@ class StatisticTest extends SprotsTest {
 	 * @expectedException \PDOException
 	 **/
 	public function testInsertInvalidGame(){
-		//create a Game with a non null Game id adn watch it fail
+		//create a game with a non null game id adn watch it fail
 		$statistic = new Statistic(SprotsTest::INVALID_KEY, $this->VALID_STATISTICNAME);
 		$statistic->insert($this->getPDO());
 	}
