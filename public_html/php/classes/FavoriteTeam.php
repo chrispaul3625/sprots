@@ -4,24 +4,24 @@ namespace Edu\Cnm\Sprots;
 require_once("autoload.php");
 
 /**
- * This will be the class for a Profile to chose favorite teams
+ * This will be the class for a profile to chose favorite teams
  *
  * @author Dom Kratos <mr.kratos85@gmail.com>
  **/
 class favoriteTeam {
 	/**
-	 *id for the Profile that has favorites; this is the foreign key
+	 *id for the profile that has favorites; this is the foreign key
 	 * @var int $favoriteTeamProfileId
 	 **/
 	private $favoriteTeamProfileId;
 	/**
-	 *id of the Team that is being favorited.
+	 *id of the team that is being favorited.
 	 * @var int $favoriteTeamTeamId
 	 **/
 	private $favoriteTeamTeamId;
 
 	/**
-	 * constructor for favoring a Team.
+	 * constructor for favoring a team.
 	 *
 	 * @param int|null $newFavoriteTeamProfileId this will be inherieted from the profileId
 	 * @param int|null $newFavoriteTeamTeamId this will be inherieted from the teamId
@@ -87,7 +87,7 @@ class favoriteTeam {
 	 * @throws \TypeError if $favoriteTeamTeamId is not an integer
 	 **/
 	public function setFavoriteTeamTeamId(int $newFavoriteTeamTeamId) {
-		//verify the favorite Team Team id is an integer
+		//verify the favorite team team id is an integer
 		if($newFavoriteTeamTeamId <= 0) {
 			throw(new \RangeException("favoriteTeamTeamId is not a positive number"));
 		}
@@ -106,14 +106,14 @@ class favoriteTeam {
 	public function insert(\PDO $pdo) {
 		//make sure both the favoriteteamteamid, and favoritePlayerProfileId are not null.
 		if($this->favoriteTeamProfileId === null) {
-			throw(new \PDOException("Profile id doesnt exist"));
+			throw(new \PDOException("profile id doesnt exist"));
 		}
 		if($this->favoriteTeamTeamId === null) {
 			throw(new \PDOException("Team id doesn't exist"));
 		}
 
 		//create query
-		$query = "INSERT INTO FavoriteTeam(favoriteTeamProfileId, favoriteTeamTeamId) VALUES(:favoriteTeamProfileId, :favoriteTeamTeamId)";
+		$query = "INSERT INTO favoriteTeam(favoriteTeamProfileId, favoriteTeamTeamId) VALUES(:favoriteTeamProfileId, :favoriteTeamTeamId)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
@@ -122,7 +122,7 @@ class favoriteTeam {
 	}
 
 	/**
-	 * Deletes this favorite Team from associated favoriteTeamProfileId
+	 * Deletes this favorite team from associated favoriteTeamProfileId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when database related errors occur
@@ -130,13 +130,13 @@ class favoriteTeam {
 	 **/
 	public function delete(\PDO $pdo) {
 		if($this->favoriteTeamProfileId === null) {
-			throw(new \PDOException("Profile id doesnt exist"));
+			throw(new \PDOException("profile id doesnt exist"));
 		}
 		if($this->favoriteTeamTeamId === null) {
 			throw(new \PDOException("Team id doesn't exist"));
 		}
 		// Create query template
-		$query = "DELETE FROM FavoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId AND favoriteTeamTeamId = :favoriteTeamTeamId";
+		$query = "DELETE FROM favoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId AND favoriteTeamTeamId = :favoriteTeamTeamId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in template
@@ -156,10 +156,10 @@ class favoriteTeam {
 	public static function getFavoriteTeamsByFavoriteTeamProfileId(\PDO $pdo, int $favoriteTeamProfileId) {
 		// sanitize the favoriteTeamProfileId
 		if($favoriteTeamProfileId <= 0) {
-			throw(new \PDOException("that Profile doesnt exist"));
+			throw(new \PDOException("that profile doesnt exist"));
 		}
 		// create a query template
-		$query = "SELECT favoriteTeamProfileId, favoriteTeamTeamId FROM FavoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId";
+		$query = "SELECT favoriteTeamProfileId, favoriteTeamTeamId FROM favoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the favoriteTeamTeamId to the place holder in the template
@@ -183,7 +183,7 @@ class favoriteTeam {
 	}
 
 	/**
-	 * Gets both the favorite teams, and Profile that favorited them.
+	 * Gets both the favorite teams, and profile that favorited them.
 	 *
 	 * @param \PDO $pdo
 	 * @param int $favoriteTeamProfileId the one doing the favoriting
@@ -202,9 +202,9 @@ class favoriteTeam {
 			throw(new \PDOException("teamId Id is not positive"));
 		}
 		//Create a query template
-		$query = "SELECT favoriteTeamProfileId, favoriteTeamTeamId FROM FavoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId AND favoriteTeamTeamId = :favoriteTeamTeamId";
+		$query = "SELECT favoriteTeamProfileId, favoriteTeamTeamId FROM favoriteTeam WHERE favoriteTeamProfileId = :favoriteTeamProfileId AND favoriteTeamTeamId = :favoriteTeamTeamId";
 		$statement = $pdo->prepare($query);
-		//Search based on both Profile, and Team
+		//Search based on both profile, and team
 		$parameters = ["favoriteTeamProfileId" => $favoriteTeamProfileId, "favoriteTeamTeamId" => $favoriteTeamTeamId];
 		$statement->execute($parameters);
 		//Grab the them from mySQL

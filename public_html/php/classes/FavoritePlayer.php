@@ -4,7 +4,7 @@ namespace Edu\Cnm\Sprots;
 
 require_once("autoload.php");
 
-//This is the class for users to select favorite Player(s)//
+//This is the class for users to select favorite player(s)//
 
 class FavoritePlayer {
 
@@ -14,7 +14,7 @@ class FavoritePlayer {
 	 **/
 	private $favoritePlayerProfileId;
 	/**
-	 * Id for the Player being favorited
+	 * Id for the player being favorited
 	 * @var int $favoritePlayerPlayerId
 	 */
 	private $favoritePlayerPlayerId;
@@ -46,7 +46,7 @@ class FavoritePlayer {
 	}
 
 	/**
-	 * accessor method for favorite Player Profile id
+	 * accessor method for favorite player profile id
 	 *
 	 * @return int|null value of favoritePlayerProfileId
 	 **/
@@ -66,7 +66,7 @@ class FavoritePlayer {
 
 	public function setFavoritePlayerProfileId(int $newFavoritePlayerProfileId) {
 		if($newFavoritePlayerProfileId === null) {
-			throw (new \Exception ("new favorite Player Profile Id cannot be null"));
+			throw (new \Exception ("new favorite player profile Id cannot be null"));
 
 		}
 		return $this->favoritePlayerProfileId = $newFavoritePlayerProfileId;
@@ -75,7 +75,7 @@ class FavoritePlayer {
 	/**
 	 * accessor method for favoritePlayerPlayerId
 	 *
-	 * @return int value of favorite Player Id
+	 * @return int value of favorite player Id
 	 **/
 
 	public function getFavoritePlayerPlayerId() {
@@ -92,7 +92,7 @@ class FavoritePlayer {
 
 	public function setFavoritePlayerPlayerId(int $newFavoritePlayerPlayerId) {
 		if($newFavoritePlayerPlayerId === null) {
-			throw (new \Exception ("new favorite Player Player Id cannot be null"));
+			throw (new \Exception ("new favorite player player Id cannot be null"));
 
 		}
 
@@ -100,7 +100,7 @@ class FavoritePlayer {
 	}
 
 	/**
-	 * Inserts a favorite Player into the FavoritePlayer class
+	 * Inserts a favorite player into the FavoritePlayer class
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -108,10 +108,10 @@ class FavoritePlayer {
 
 	public function insert(\PDO $pdo) {
 		if($this->favoritePlayerProfileId === null) {
-			throw(new \PDOException("Profile id does not exist"));
+			throw(new \PDOException("profile id does not exist"));
 		}
 		if($this->favoritePlayerPlayerId === null) {
-			throw(new \PDOException("Player id doesn't exist"));
+			throw(new \PDOException("player id doesn't exist"));
 		}
 		//create query template
 		$query = "INSERT INTO favoritePlayer(favoritePlayerProfileId, favoritePlayerPlayerId) VALUES (:favoritePlayerProfileId, :favoritePlayerPlayerId)";
@@ -126,7 +126,7 @@ class FavoritePlayer {
 	}
 
 	/**
-	 * Deletes a favorite Player from the FavoritePlayer class
+	 * Deletes a favorite player from the FavoritePlayer class
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -134,10 +134,10 @@ class FavoritePlayer {
 
 	public function delete(\PDO $pdo) {
 		if($this->favoritePlayerProfileId === null) {
-			throw(new \PDOException("Profile id does not exist"));
+			throw(new \PDOException("profile id does not exist"));
 		}
 		if($this->favoritePlayerPlayerId === null) {
-			throw(new \PDOException("Player id doesn't exist"));
+			throw(new \PDOException("player id doesn't exist"));
 		}
 		//create query template
 		$query = "DELETE FROM favoritePlayer WHERE favoritePlayerProfileId = :favoritePlayerProfileId AND favoritePlayerPlayerId = :favoritePlayerPlayerId";
@@ -150,7 +150,7 @@ class FavoritePlayer {
 	}
 
 	/**
-	 * updates this favorite Player in mySQL
+	 * updates this favorite player in mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -170,7 +170,7 @@ class FavoritePlayer {
 	}//end of update function
 
 	/**
-	 * get a favorite Player by favorite Player id
+	 * get a favorite player by favorite player id
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $playerId
@@ -180,9 +180,9 @@ class FavoritePlayer {
 	 **/
 	public static function getFavoritePlayerByFavoritePlayerProfileIdAndFavoritePlayerPlayerId(\PDO $pdo, int $favoritePlayerProfileId, int $favoritePlayerPlayerId) {
 		if($favoritePlayerProfileId <= 0) {
-			throw(new \PDOException("Profile id is not positive"));
+			throw(new \PDOException("profile id is not positive"));
 		}
-		//Sanitize the Team id
+		//Sanitize the team id
 		if($favoritePlayerPlayerId <= 0) {
 			throw(new \PDOException("Player Id is not positive"));
 		}
@@ -212,7 +212,7 @@ class FavoritePlayer {
 	}
 
 	/**
-	 * get a favorite Player by Profile id
+	 * get a favorite player by profile id
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $profileId
@@ -224,7 +224,7 @@ class FavoritePlayer {
 	public static function getFavoritePlayersByFavoritePlayerProfileId(\PDO $pdo, int $favoritePlayerProfileId) {
 
 		if($favoritePlayerProfileId <= 0) {
-			throw(new \PDOException("this Profile doesn't exist"));
+			throw(new \PDOException("this profile doesn't exist"));
 		}
 		// create query template
 		$query = "SELECT favoritePlayerProfileId, favoritePlayerPlayerId  FROM favoritePlayer WHERE favoritePlayerProfileId = :favoritePlayerProfileId";

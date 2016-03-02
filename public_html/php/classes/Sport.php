@@ -10,13 +10,13 @@ require_once("autoload.php");
  */
 class Sport {
 	/**
-	 * id for the Sport
+	 * id for the sport
 	 * @var int $sportId
 	 **/
 	private $sportId;
 
 	/**
-	 * this identifies the league of the particular Sport. Western Eastern conference etc.
+	 * this identifies the league of the particular sport. Western Eastern conference etc.
 	 * @var string $sportLeague
 	 */
 	private $sportLeague;
@@ -29,11 +29,11 @@ class Sport {
 
 
 	/**
-	 *Constructor for Sport class
+	 *Constructor for sport class
 	 *
-	 * @param int|null $newSportId id of the Sport or null if its a new Sport
-	 * @param string $newSportName Name of name in particular Sport
-	 * @param string $newSportLeague League to which the Sport belongs
+	 * @param int|null $newSportId id of the sport or null if its a new sport
+	 * @param string $newSportName Name of name in particular sport
+	 * @param string $newSportLeague League to which the sport belongs
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data is out of predetermined range
 	 * @throws \TypeError if data types violate type hints
@@ -61,17 +61,17 @@ class Sport {
 	}
 
 	/**
-	 *accessor method for Sport id
+	 *accessor method for sport id
 	 *
-	 * @return int|null value of Sport id
+	 * @return int|null value of sport id
 	 **/
 	public function getSportId() {
 		return ($this->sportId);
 	}
 
 	/**
-	 * Mutator method for Sport id
-	 * @param int|null $newSportId new value of Sport id
+	 * Mutator method for sport id
+	 * @param int|null $newSportId new value of sport id
 	 * @throws \RangeException if $newSportId is not positive
 	 * @throws \TypeError if $newSportId is not an integer
 	 **/
@@ -80,25 +80,25 @@ class Sport {
 			$this->sportId = null;
 			return;
 		}
-		// verify the Sport id is positive
+		// verify the sport id is positive
 		if($newSportId <= 0) {
-			throw(new \RangeException("Sport id is not positive"));
+			throw(new \RangeException("sport id is not positive"));
 		}
-		//convert and store the new Sport id
+		//convert and store the new sport id
 		$this->sportId = $newSportId;
 	}
 
 	/**
-	 * accessor method for Sport leage
+	 * accessor method for sport leage
 	 *
-	 * @return string value of Sport league
+	 * @return string value of sport league
 	 */
 	public function getSportLeague() {
 		return ($this->sportLeague);
 	}
 
 	/**
-	 * mutator method for Sport league
+	 * mutator method for sport league
 	 *
 	 * @param string *newSportLeague new value of the sports league
 	 * @throws \InvalidArgumentException if $newSportLeague is not a string, or is insecure
@@ -106,11 +106,11 @@ class Sport {
 	 * @throws \TypeError if $newSportLeage is not a string
 	 **/
 	public function setSportLeague(string $newSportLeague) {
-		//verify that the Sport leaguue is in a secure format
+		//verify that the sport leaguue is in a secure format
 		$newSportLeague = trim($newSportLeague);
 		$newSportLeague = filter_var($newSportLeague, FILTER_SANITIZE_STRING);
 		if(empty($newSportLeague) === true) {
-			throw(new\InvalidArgumentException("Sport league is empty, or not secure"));
+			throw(new\InvalidArgumentException("sport league is empty, or not secure"));
 		}
 		//verify that the name league will fit in the db
 		if(strlen($newSportLeague) > 32) {
@@ -121,18 +121,18 @@ class Sport {
 	}
 
 	/**
-	 * accessor method for Sport name
+	 * accessor method for sport name
 	 *
-	 * @return string value of Sport name name
+	 * @return string value of sport name name
 	 **/
 	public function getSportName() {
 		return ($this->sportName);
 	}
 
 	/**
-	 * mutator method for Sport name name
+	 * mutator method for sport name name
 	 *
-	 * @param string $newSportName new value of Sport name name
+	 * @param string $newSportName new value of sport name name
 	 * @throws \InvalidArgumentException if $newSportName is not a string or insecure
 	 * @throws \RangeException if $newSportName is >32 characters
 	 * @throws \TypeError if $newNameName is not a string
@@ -142,7 +142,7 @@ class Sport {
 		$newSportName = trim($newSportName);
 		$newSportName = filter_var($newSportName, FILTER_SANITIZE_STRING);
 		if(empty($newSportName) === true) {
-			throw(new \InvalidArgumentException("Sport name name is empty, or insecure"));
+			throw(new \InvalidArgumentException("sport name name is empty, or insecure"));
 		}
 
 		//verify that the name name will fit in the database
@@ -155,20 +155,20 @@ class Sport {
 	}
 
 	/**
-	 * inserts this Sport into the db
+	 * inserts this sport into the db
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when db related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) {
-		//enforce the sportId is null example: don't insert a Sport that already exists
+		//enforce the sportId is null example: don't insert a sport that already exists
 		if($this->sportId !== null) {
-			throw(new \PDOException("Sport already exists"));
+			throw(new \PDOException("sport already exists"));
 		}
 
 		//create query template
-		$query = "INSERT INTO Sport(sportLeague, sportName) VALUES(:sportLeague, :sportName)";
+		$query = "INSERT INTO sport(sportLeague, sportName) VALUES(:sportLeague, :sportName)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
@@ -180,7 +180,7 @@ class Sport {
 	}
 
 	/**
-	 * deletes this Sport from db
+	 * deletes this sport from db
 	 *
 	 * @para \PDO $pdo PDO connection object
 	 * @throws \PDOException when db related errors occur
@@ -189,11 +189,11 @@ class Sport {
 	public function delete(\PDO $pdo) {
 		// enforce that the sportId is not null
 		if($this->sportId === null) {
-			throw(new \PDOException("unable to delete a Sport that doesn't exist"));
+			throw(new \PDOException("unable to delete a sport that doesn't exist"));
 		}
 
 		//query template
-		$query = "DELETE FROM Sport WHERE sportId = :sportId";
+		$query = "DELETE FROM sport WHERE sportId = :sportId";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holder
@@ -202,7 +202,7 @@ class Sport {
 	}
 
 	/**
-	 * updates this Sport in db
+	 * updates this sport in db
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -211,10 +211,10 @@ class Sport {
 	public function update(\PDO $pdo) {
 		// encforce that the sportId is not null
 		if($this->sportId === null) {
-			throw(new \PDOException("cant update Sport that doesn't exist"));
+			throw(new \PDOException("cant update sport that doesn't exist"));
 		}
 		//query template
-		$query = "UPDATE Sport SET SportLeague = :sportLeague, sportName = :sportName WHERE sportId = :sportId";
+		$query = "UPDATE sport SET SportLeague = :sportLeague, sportName = :sportName WHERE sportId = :sportId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
@@ -223,10 +223,10 @@ class Sport {
 	}
 
 	/**
-	 * gets the Sport by Sport league
+	 * gets the sport by sport league
 	 *
 	 * @param \PDO $pdo connection object
-	 * @param string $sportLeague Sport league to search for
+	 * @param string $sportLeague sport league to search for
 	 * @return \SplFixedArray SplFixedArray of sports found
 	 * @throws \PDOException when db related errors occur
 	 * @throws \TypeError when variables are not correct data type
@@ -240,15 +240,15 @@ class Sport {
 		}
 
 		//create query template
-		$query = "SELECT sportId, sportLeague, sportName FROM Sport WHERE sportLeague LIKE :sportLeague";
+		$query = "SELECT sportId, sportLeague, sportName FROM sport WHERE sportLeague LIKE :sportLeague";
 		$statement = $pdo->prepare($query);
 
-		//bind the Sport league to the place holder in the template
+		//bind the sport league to the place holder in the template
 		$sportLeague = "%$sportLeague%";
 		$parameters = array("sportLeague" => $sportLeague);
 		$statement->execute($parameters);
 
-		//build array of Sport leagues
+		//build array of sport leagues
 		$sportLeagues = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
@@ -265,10 +265,10 @@ class Sport {
 	}
 
 	/**
-	 * gets the Sport by the Sport name
+	 * gets the sport by the sport name
 	 *
 	 * @param \PDO $pdo connection object
-	 * @param string $sportName Sport Name to search for
+	 * @param string $sportName sport Name to search for
 	 * @return \SplFixedArray SplFixedArray of names found
 	 * @throws \PDOException when db related errors occur
 	 * @throws \TypeError when variables are not correct data type
@@ -282,15 +282,15 @@ class Sport {
 		}
 
 		// create query template
-		$query = "SELECT sportId, sportName, sportLeague FROM Sport WHERE sportName LIKE :sportName";
+		$query = "SELECT sportId, sportName, sportLeague FROM sport WHERE sportName LIKE :sportName";
 		$statement = $pdo->prepare($query);
 
-		// bind the Sport name to the place holder in the template
+		// bind the sport name to the place holder in the template
 		$sportName = "%$sportName%";
 		$parameters = array("sportName" => $sportName);
 		$statement->execute($parameters);
 
-		//build array of Sport names
+		//build array of sport names
 		$sportNames = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
@@ -307,10 +307,10 @@ class Sport {
 	}
 
 	/**
-	 * gets the Sport by sportId
+	 * gets the sport by sportId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $sportId Sport id to search for
+	 * @param int $sportId sport id to search for
 	 * @return Sport|null Sport found or null if nt found
 	 * @throws \PDOException when db related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -322,14 +322,14 @@ class Sport {
 		}
 
 		//create query template
-		$query = "SELECT sportId, sportLeague, sportName FROM Sport WHERE sportId = :sportId";
+		$query = "SELECT sportId, sportLeague, sportName FROM sport WHERE sportId = :sportId";
 		$statement = $pdo->prepare($query);
 
 		//bind the sportId to the place holder in the template
 		$parameters = array("sportId" => $sportId);
 		$statement->execute($parameters);
 
-		//grab the Sport from the db
+		//grab the sport from the db
 		try {
 			$sport = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -353,7 +353,7 @@ class Sport {
 	 **/
 	public static function getAllSportLeagues(\PDO $pdo) {
 		//create query template
-		$query = "SELECT sportId, sportLeague, sportName FROM Sport";
+		$query = "SELECT sportId, sportLeague, sportName FROM sport";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
@@ -373,7 +373,7 @@ class Sport {
 	}
 
 	/**
-	 * gets all Sport Names
+	 * gets all sport Names
 	 * @param \PDO $pdo PDO connection object
 	 * @return \SplFixedArray SplFixedArray of sports found or null if nothing was found
 	 * @throws \PDOException when db related errors occur
@@ -381,7 +381,7 @@ class Sport {
 	 **/
 	public static function getAllSportNames(\PDO $pdo) {
 		// create a query template
-		$query = "SELECT sportId, sportLeague, sportName FROM Sport";
+		$query = "SELECT sportId, sportLeague, sportName FROM sport";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
