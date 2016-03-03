@@ -63,7 +63,7 @@ try {
 			$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Teams/$season", false, $context);
 			$reply->data = json_decode($response);
 		} catch() {
-			// todo
+
 		}
 		foreach($reply->data as $team) {
 			$teamToInsert = new Team(null, $team->Name, $team->City, $team->KEY, 1);
