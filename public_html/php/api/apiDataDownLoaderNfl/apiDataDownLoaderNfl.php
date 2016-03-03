@@ -20,13 +20,14 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 				$today = new DateTime();
 				$season = $today->format("Y");
 			}
+			$sport = Sport::getSportBySportLeague($pdo, "NFL")[0];
 
 			$config = readConfig("/etc/apache2/capstone-mysql/sprots.ini");
 
 			$opts = array(
 				'http' => array(
 					'method' => "GET",
-					'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"], 'content' => "{body}")
+					'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"]["NFL"], 'content' => "{body}")
 			);
 			$context = stream_context_create($opts);
 
@@ -38,7 +39,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 			echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 		}
 		foreach($reply->data as $team) {
-			$teamToInsert = new Team(null, $team->TeamID, $team->Key, 1,  $team->City, $team->Name);
+			$teamToInsert = new Team(null, $sport->getSportId(), $team->TeamID, $team->Key, $team->City, $team->Name);
 			$teamToInsert->insert($pdo);
 		}
 
@@ -56,20 +57,20 @@ try {
 	$opts = array(
 		'http' => array(
 			'method' => "GET",
-			'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"], 'content' => "{body}")
+			'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"]["NFL"], 'content' => "{body}")
 	);
 	$context = stream_context_create($opts);
 
-	$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Schedules//$season", false, $context);
-	$data = json_decode($response);
+	$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Schedules/$season", false, $context);
+	$reply->data = json_decode($response);
 } catch (Exception $exception) {
 	echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 } catch(TypeError $typeError) {
 	echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 }
-foreach($reply->data as $team) {
-	$teamToInsert = new Team(null, $team->TeamID, $team->Key, 1,  $team->City, $team->Name);
-	$teamToInsert->insert($pdo);
+foreach($reply->data as $game) {
+	$gameToInsert = new Team(null, $game->GameKey, 1, $game->Date, $game->Week, $game->SeasonType);
+	$gameToInsert->insert($pdo);
 }
 
 
@@ -81,27 +82,26 @@ try {
 		$today = new DateTime();
 		$season = $today->format("Y");
 	}
-
+	$sport = Sport::getSportBySportLeague($pdo, "NFL")[0];
 	$config = readConfig("/etc/apache2/capstone-mysql/sprots.ini");
 
 	$opts = array(
 		'http' => array(
 			'method' => "GET",
-			'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"], 'content' => "{body}")
+			'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"]["NFL"], 'content' => "{body}")
 	);
 	$context = stream_context_create($opts);
 
 	$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Players/$season", false, $context);
-	$data = json_decode($response);
+	$reply->data = json_decode($response);
 } catch (Exception $exception) {
 	echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 } catch(TypeError $typeError) {
 	echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 }
-foreach($reply->data as $team) {
-	$teamToInsert = new Team(null, $team->TeamID, $team->Key, 1,  $team->City, $team->Name);
-	$teamToInsert->insert($pdo);
-
+foreach($reply->data as $player) {
+	$playerToInsert = new Player(null, $sport->getSportId(), $player->PlayerID , 1,  $player->team, $player->FirstName, $player->LastName);
+	$playerToInsert->insert($pdo);
 }
 // downloader for standings NFL
 	try {
@@ -117,21 +117,21 @@ foreach($reply->data as $team) {
 		$opts = array(
 			'http' => array(
 				'method' => "GET",
-				'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"], 'content' => "{body}")
+				'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"]["NFL"], 'content' => "{body}")
 		);
 		$context = stream_context_create($opts);
 
 		$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Standings/$season", false, $context);
-		$data = json_decode($response);
+		$reply->data = json_decode($response);
 	} catch (Exception $exception) {
 		echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 	} catch(TypeError $typeError) {
 		echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 	}
-foreach($reply->data as $team) {
-	$teamToInsert = new Team(null, $team->TeamID, $team->Key, 1,  $team->City, $team->Name);
-	$teamToInsert->insert($pdo);
-}
+	foreach($reply->data as $standing) {
+		$standingToInsert = new Standing(null, $standing->SeasonType, 1, $standing->team, $standing->Name, $standing->LastName);
+		$standingToInsert->insert($pdo);
+	}
 
 		header("Content-type: application/json");
 if($reply->data === null) {
