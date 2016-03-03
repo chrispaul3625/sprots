@@ -10,10 +10,11 @@ require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 	// grab the db connection
-	$pdo = connetToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
+
 
 // Teams  Downloader for NFL
 		try {
+			$pdo = connetToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 			$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 			if(empty($season) === true) {
 				$today = new DateTime();
@@ -30,7 +31,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 			$context = stream_context_create($opts);
 
 			$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Teams/$season", false, $context);
-			$reply->data = json_decode($response);
+			$data = json_decode($response);
 		} catch(Exception $exception) {
 			$reply->status = $exception->getCode();
 			$reply->message = $exception->getMessage();
@@ -45,6 +46,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 // Schedules Downloader for NFL
 try {
+	$pdo = connetToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 	if(empty($season) === true) {
 		$today = new DateTime();
@@ -77,6 +79,7 @@ foreach($reply->data as $game) {
 
 	//downloader for players NFL
 try {
+	$pdo = connetToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 	if(empty($season) === true) {
 		$today = new DateTime();
@@ -107,6 +110,7 @@ foreach($reply->data as $player) {
 }
 // downloader for standings NFL
 	try {
+		$pdo = connetToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 		$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 		if(empty($season) === true) {
 			$today = new DateTime();
