@@ -1,13 +1,10 @@
 <?php
 /**
- * API to collect Player data
+ * This API is to collect Player data from FantasyData
  */
 require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
 require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/vendor/autoload");
-
-
 
 //verify the xsrf challenge
 if(session_status() !== PHP_SESSION_ACTIVE) {
@@ -48,17 +45,17 @@ try {
 					$reply->data = $player;
 				}
 			} elseif(empty($teamId) === false) {
-				$player = Player::getPlayerByPlayerTeamId($pdo, $id);
+				$player = Player::getPlayerByPlayerTeamId($pdo, $playerTeamId);
 				if($player !== null && $player->getPlayerId() === $_SESSION["player"]->getPlayerId()){
 					$reply->date = $player;
 					}
 			} elseif(empty($sportId) === false) {
-				$player = Player::getPlayerByPlayerSportId($pdo, $id);
+				$player = Player::getPlayerByPlayerSportId($pdo, $playerSportId);
 				if($player !== null && $player->getPlayerId() ===$_SESSION["player]"]->getPlayerId()){
 					$reply->date = $player;
 				}
 			} elseif(empty($playerName)=== false) {
-				$player = Player::getPlayerByPlayerName($pdo, $id);
+				$player = Player::getPlayerByPlayerName($pdo, $playerName);
 				if($player !== null && $player->getPlayerId() ===$_SESSION["player"]->getPlayerId()) {
 					$reply->date =$player;
 				}
@@ -69,7 +66,16 @@ try {
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
+} catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
+
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+echo json_encode($reply);
 
 
 
