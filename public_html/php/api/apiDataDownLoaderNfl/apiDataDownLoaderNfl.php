@@ -32,12 +32,10 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 			$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Teams/$season", false, $context);
 			$data = json_decode($response);
-		} catch(Exception $exception) {
-			$reply->status = $exception->getCode();
-			$reply->message = $exception->getMessage();
+		} catch (Exception $exception) {
+			echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 		} catch(TypeError $typeError) {
-			$reply->status = $typeError->getCode();
-			$reply->message = $typeError->getMessage();
+			echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 		}
 		foreach($reply->data as $team) {
 			$teamToInsert = new Team(null, $team->TeamID, $team->Key, 1,  $team->City, $team->Name);
@@ -63,17 +61,15 @@ try {
 	$context = stream_context_create($opts);
 
 	$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Schedules//$season", false, $context);
-	$reply->data = json_decode($response);
-} catch(Exception $exception) {
-	$reply->status = $exception->getCode();
-	$reply->message = $exception->getMessage();
+	$data = json_decode($response);
+} catch (Exception $exception) {
+	echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 } catch(TypeError $typeError) {
-	$reply->status = $typeError->getCode();
-	$reply->message = $typeError->getMessage();
+	echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 }
-foreach($reply->data as $game) {
-	$gameToInsert = new Team(null, $game->GameKey, 1, $game->Date, $game->Week, $game->SeasonType);
-	$gameToInsert->insert($pdo);
+foreach($reply->data as $team) {
+	$teamToInsert = new Team(null, $team->TeamID, $team->Key, 1,  $team->City, $team->Name);
+	$teamToInsert->insert($pdo);
 }
 
 
@@ -96,17 +92,16 @@ try {
 	$context = stream_context_create($opts);
 
 	$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Players/$season", false, $context);
-	$reply->data = json_decode($response);
-} catch(Exception $exception) {
-	$reply->status = $exception->getCode();
-	$reply->message = $exception->getMessage();
+	$data = json_decode($response);
+} catch (Exception $exception) {
+	echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 } catch(TypeError $typeError) {
-	$reply->status = $typeError->getCode();
-	$reply->message = $typeError->getMessage();
+	echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 }
-foreach($reply->data as $player) {
-	$playerToInsert = new Player(null, $player->PlayerID , 1,  $player->team, $player->FirstName, $player->LastName);
-	$playerToInsert->insert($pdo);
+foreach($reply->data as $team) {
+	$teamToInsert = new Team(null, $team->TeamID, $team->Key, 1,  $team->City, $team->Name);
+	$teamToInsert->insert($pdo);
+
 }
 // downloader for standings NFL
 	try {
@@ -127,18 +122,16 @@ foreach($reply->data as $player) {
 		$context = stream_context_create($opts);
 
 		$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Standings/$season", false, $context);
-		$reply->data = json_decode($response);
-	} catch(Exception $exception) {
-		$reply->status = $exception->getCode();
-		$reply->message = $exception->getMessage();
+		$data = json_decode($response);
+	} catch (Exception $exception) {
+		echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 	} catch(TypeError $typeError) {
-		$reply->status = $typeError->getCode();
-		$reply->message = $typeError->getMessage();
+		echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 	}
-	foreach($reply->data as $standing) {
-		$standingToInsert = new Standing(null, $standing->SeasonType, 1, $standing->team, $standing->Name, $standing->LastName);
-		$standingToInsert->insert($pdo);
-	}
+foreach($reply->data as $team) {
+	$teamToInsert = new Team(null, $team->TeamID, $team->Key, 1,  $team->City, $team->Name);
+	$teamToInsert->insert($pdo);
+}
 
 		header("Content-type: application/json");
 if($reply->data === null) {
