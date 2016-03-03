@@ -44,9 +44,8 @@ try {
 	// get the Game based on the given field
 	if(empty($id) === false){
 		$game = Game::getGameByGameId($pdo, $id);
-		if($game !== null && $game->getGameId() === $_SESSION["Game"]->getGameId()){
 			$reply->data = $game;
-		}
+
 	}else if(empty($gameFirstTeamId) === false){
 		$game = Game::getGameByGameFirstTeamId($pdo, $id);
 		if($game !== null && $game->getGameId() === $_SESSION["Game"]->getGameId()){
