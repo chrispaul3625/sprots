@@ -1,6 +1,6 @@
 <?php
 /**
- * This is a downloader, that will pull the teams, players, and game schedules, for NBA, NHL, and MLB
+ * This is a downloader, that will pull the t eams, players, and game schedules, for NBA, NHL, and MLB
  * @author Dom Kratos <dom@domkratos.com>
  * User: dom
  * Date: 3/2/16
