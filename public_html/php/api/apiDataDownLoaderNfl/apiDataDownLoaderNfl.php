@@ -14,7 +14,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 // Teams  Downloader for NFL
 		try {
-			$pdo = connetToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
+			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 			$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 			if(empty($season) === true) {
 				$today = new DateTime();
@@ -45,7 +45,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 // Schedules Downloader for NFL
 try {
-	$pdo = connetToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 	if(empty($season) === true) {
 		$today = new DateTime();
@@ -69,14 +69,14 @@ try {
 	echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 }
 foreach($reply->data as $game) {
-	$gameToInsert = new Team(null, $game->GameKey, 1, $game->Date, $game->Week, $game->SeasonType);
+	$gameToInsert = new Team(null, $game->GameKey, $game->Date, $game->Week, $game->SeasonType);
 	$gameToInsert->insert($pdo);
 }
 
 
 	//downloader for players NFL
 try {
-	$pdo = connetToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 	if(empty($season) === true) {
 		$today = new DateTime();
@@ -100,12 +100,12 @@ try {
 	echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 }
 foreach($reply->data as $player) {
-	$playerToInsert = new Player(null, $sport->getSportId(), $player->PlayerID , 1,  $player->team, $player->FirstName, $player->LastName);
+	$playerToInsert = new Player(null, $sport->getSportId(), $player->PlayerID , $player->team, $player->FirstName, $player->LastName);
 	$playerToInsert->insert($pdo);
 }
 // downloader for standings NFL
 	try {
-		$pdo = connetToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
+		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 		$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 		if(empty($season) === true) {
 			$today = new DateTime();
@@ -129,7 +129,7 @@ foreach($reply->data as $player) {
 		echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 	}
 	foreach($reply->data as $standing) {
-		$standingToInsert = new Standing(null, $standing->SeasonType, 1, $standing->team, $standing->Name, $standing->LastName);
+		$standingToInsert = new Standing(null, $standing->SeasonType, $standing->team, $standing->Name, $standing->LastName);
 		$standingToInsert->insert($pdo);
 	}
 
