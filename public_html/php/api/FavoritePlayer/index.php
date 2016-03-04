@@ -40,24 +40,11 @@ try {
 	//get the player based on the given field
 	if(empty($id) === false) {
 		$player = Player::getPlayerByPlayerId($pdo, $id);
-		if($player !== null && $player->getPlayerId() === $_SESSION["player"]->getPlayerId()) {
 			$reply->data = $player;
-		}
+
 	} elseif(empty($teamId) === false) {
 		$player = Player::getPlayerByPlayerTeamId($pdo, $playerTeamId);
-		if($player !== null && $player->getPlayerId() === $_SESSION["player"]->getPlayerId()){
-			$reply->date = $player;
-		}
-	} elseif(empty($sportId) === false) {
-		$player = Player::getPlayerByPlayerSportId($pdo, $playerSportId);
-		if($player !== null && $player->getPlayerId() ===$_SESSION["player]"]->getPlayerId()){
-			$reply->date = $player;
-		}
-	} elseif(empty($playerName)=== false) {
-		$player = Player::getPlayerByPlayerName($pdo, $playerName);
-		if($player !== null && $player->getPlayerId() ===$_SESSION["player"]->getPlayerId()) {
-			$reply->date =$player;
-		}
+				$reply->date = $player;
 	}
 
 

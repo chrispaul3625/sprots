@@ -1,6 +1,6 @@
 <?php
 /**
- * This API is to collect Player data from FantasyData
+ *
  */
 require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
 require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
@@ -41,24 +41,19 @@ try {
 			//get the player based on the given field
 			if(empty($id) === false) {
 				$player = Player::getPlayerByPlayerId($pdo, $id);
-				if($player !== null && $player->getPlayerId() === $_SESSION["player"]->getPlayerId()) {
-					$reply->data = $player;
-				}
+						$reply->data = $player;
+
 			} elseif(empty($teamId) === false) {
 				$player = Player::getPlayerByPlayerTeamId($pdo, $playerTeamId);
-				if($player !== null && $player->getPlayerId() === $_SESSION["player"]->getPlayerId()){
 					$reply->date = $player;
-					}
+
 			} elseif(empty($sportId) === false) {
 				$player = Player::getPlayerByPlayerSportId($pdo, $playerSportId);
-				if($player !== null && $player->getPlayerId() ===$_SESSION["player]"]->getPlayerId()){
 					$reply->date = $player;
-				}
+
 			} elseif(empty($playerName)=== false) {
 				$player = Player::getPlayerByPlayerName($pdo, $playerName);
-				if($player !== null && $player->getPlayerId() ===$_SESSION["player"]->getPlayerId()) {
 					$reply->date =$player;
-				}
 			}
 
 
