@@ -14,20 +14,19 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 // Teams  Downloader for NFL
 		try {
-			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 			$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 			if(empty($season) === true) {
 				$today = new DateTime();
 				$season = $today->format("Y");
 			}
 			$sport = Sport::getSportBySportLeague($pdo, "NFL")[0];
-
+			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 			$config = readConfig("/etc/apache2/capstone-mysql/sprots.ini");
-
+			$apiKeys =json_decode($config["fantasyData"]);
 			$opts = array(
 				'http' => array(
 					'method' => "GET",
-					'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"]["NFL"], 'content' => "{body}")
+					'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $apiKeys->$league, 'content' => "{body}")
 			);
 			$context = stream_context_create($opts);
 
@@ -45,19 +44,18 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 // Schedules Downloader for NFL
 try {
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 	if(empty($season) === true) {
 		$today = new DateTime();
 		$season = $today->format("Y");
 	}
-
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$config = readConfig("/etc/apache2/capstone-mysql/sprots.ini");
-
+	$apiKeys =json_decode($config["fantasyData"]);
 	$opts = array(
 		'http' => array(
 			'method' => "GET",
-			'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"]["NFL"], 'content' => "{body}")
+			'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $apiKeys->$league, 'content' => "{body}")
 	);
 	$context = stream_context_create($opts);
 
@@ -76,15 +74,15 @@ foreach($reply->data as $game) {
 
 	//downloader for players NFL
 try {
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 	if(empty($season) === true) {
 		$today = new DateTime();
 		$season = $today->format("Y");
 	}
 	$sport = Sport::getSportBySportLeague($pdo, "NFL")[0];
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$config = readConfig("/etc/apache2/capstone-mysql/sprots.ini");
-
+	$apiKeys =json_decode($config["fantasyData"]);
 	$opts = array(
 		'http' => array(
 			'method' => "GET",
@@ -105,19 +103,19 @@ foreach($reply->data as $player) {
 }
 // downloader for standings NFL
 	try {
-		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 		$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
 		if(empty($season) === true) {
 			$today = new DateTime();
 			$season = $today->format("Y");
 		}
 
+		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 		$config = readConfig("/etc/apache2/capstone-mysql/sprots.ini");
-
+		$apiKeys =json_decode($config["fantasyData"]);
 		$opts = array(
 			'http' => array(
 				'method' => "GET",
-				'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $config["fantasyData"]["NFL"], 'content' => "{body}")
+				'header' => "Content-Type: application/json\r\nOcp-Apim-Subscription-key: " . $apiKeys->$league, 'content' => "{body}")
 		);
 		$context = stream_context_create($opts);
 
