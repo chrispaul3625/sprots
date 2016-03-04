@@ -78,6 +78,11 @@ function getGames(string $league) {
 		// response from api
 		$response = file_get_contents("https://api.fantasydata.net/$league/v2/JSON/Games/{season}", false, $context);
 		$data = json_decode($response);
+
+		foreach($data as $game) {
+			$gameToInsert = new Game(null, $game->AwayTeamID, $game->HomeTeamID, $game->DateTime);
+			$gameToInsert->insert($pdo);
+		}
 	} catch (Exception $exception) {
 		echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 	} catch(TypeError $typeError) {
