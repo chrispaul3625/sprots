@@ -56,8 +56,6 @@ try {
 					$reply->date =$player;
 			}
 
-
-
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();

@@ -39,12 +39,12 @@ try {
 
 	//get the player based on the given field
 	if(empty($id) === false) {
-		$player = Player::getPlayerByPlayerId($pdo, $id);
-			$reply->data = $player;
+		$favoritePlayer = FavoritePlayer::getPlayerByProfileId($pdo, $id);
+			$reply->data = $favoritePlayer;
 
-	} elseif(empty($teamId) === false) {
-		$player = Player::getPlayerByPlayerTeamId($pdo, $playerTeamId);
-				$reply->date = $player;
+	} elseif(empty($playerId) === false) {
+		$favoritePlayer = FavoritePlayer::getPlayerByPlayerId($pdo, $playerId);
+				$reply->date = $favoritePlayer;
 	}
 
 
