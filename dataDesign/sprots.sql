@@ -122,3 +122,6 @@ CREATE TABLE playerStatistic (
 );
 
 INSERT INTO sport(sportName, sportLeague) VALUES("Football", "NFL");
+INSERT INTO sport(sportName, sportLeague) VALUES("Baseball", "MLB");
+INSERT INTO sport(sportName, sportLeague) VALUES("Hockey", "NHL");
+INSERT INTO sport(sportName, sportLeague) VALUES("Basketball", "NBA");
