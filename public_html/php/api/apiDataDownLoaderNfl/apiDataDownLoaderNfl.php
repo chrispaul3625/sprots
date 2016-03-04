@@ -62,7 +62,7 @@ try {
 	$context = stream_context_create($opts);
 
 	$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Schedules/$season", false, $context);
-	$reply->data = json_decode($response);
+	$data = json_decode($response);
 } catch (Exception $exception) {
 	echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 } catch(TypeError $typeError) {
@@ -93,7 +93,7 @@ try {
 	$context = stream_context_create($opts);
 
 	$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Players/$season", false, $context);
-	$reply->data = json_decode($response);
+	$data = json_decode($response);
 } catch (Exception $exception) {
 	echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 } catch(TypeError $typeError) {
@@ -122,7 +122,7 @@ foreach($reply->data as $player) {
 		$context = stream_context_create($opts);
 
 		$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Standings/$season", false, $context);
-		$reply->data = json_decode($response);
+		$data = json_decode($response);
 	} catch (Exception $exception) {
 		echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 	} catch(TypeError $typeError) {
