@@ -89,7 +89,7 @@ class Sport {
 	}
 
 	/**
-	 * accessor method for sport leage
+	 * accessor method for sport league
 	 *
 	 * @return string value of sport league
 	 */

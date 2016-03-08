@@ -34,10 +34,19 @@ try {
 	$data = json_decode($response);
 
 	$sport = Sport::getSportBySportLeague($pdo, "NFL")[0];
-
+	$stats = ["TeamID", "PlayerID", "City", "Name", "Conference", "Division","FullName", "StadiumID", "ByeWeek", "AverageDraftPosition", "AverageDraftPositionPPR","HeadCoach", "OffensiveCoordinator", "DefensiveCoordinator", "SpecialTeamsCoach", "OffensiveScheme", "DefensiveScheme", "UpcomingOpponent", "UpcomingOpponentRank ", "UpcomingOpponentPositionRank"];
 	foreach($data as $team) {
 		$teamToInsert = new Team(null, $sport->getSportId(), $team->TeamID, $team->Key, $team->City, $team->Name);
 		$teamToInsert->insert($pdo);
+		foreach($stats as $statName){
+			// if the stat exists grab it
+			$stat = Statistic::getStatisticByStatisticName($pdo, $statName);
+			if($stat === null){
+				// insert if it does not exists
+				$stat = new Statistic($pdo,$statName);
+				$stat->insert($pdo);
+			}
+		}
 	}
 } catch(Exception $exception) {
 	echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
@@ -60,10 +69,19 @@ try {
 	foreach($seasoning as $season) {
 		$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Schedules/$season", false, $context);
 		$data = json_decode($response);
-
+		$stats = ["SeasonType ", "Season", "Week", "Date", "AwayTeam", "HomeTeam","Channel", "PointSpread", "OverUnder", "StadiumID", "GeoLat","GeoLong", "ForecastTempLow", "ForecastTempHigh", "ForecastDescription", "ForecastWindChill", "ForecastWindSpeed", "AwayTeamMoneyLine", "HomeTeamMoneyLine "];
 		foreach($data as $game) {
 			$gameToInsert = new Team(null, $game->GameKey, $game->Date, $game->Week, $game->SeasonType);
 			$gameToInsert->insert($pdo);
+			foreach($stats as $statName) {
+				// if the stat exists grab it
+				$stat = Statistic::getStatisticByStatisticName($pdo, $statName);
+				if($stat === null) {
+					// insert if it does not exists
+					$stat = new Statistic($pdo, $statName);
+					$stat->insert($pdo);
+				}
+			}
 		}
 	}
 } catch
@@ -95,10 +113,19 @@ try {
 	$data = json_decode($response);
 
 	$sport = Sport::getSportBySportLeague($pdo, "NFL")[0];
-
+	$stats = ["PlayerID  ", "Team", "Number ", "FirstName ", "LastName", "Status ","Height ", "Weight", "BirthDate ", "College ", "Experience ","Active ", "PositionCategory ", "Name", "Age ", "ExperienceString ", "BirthDateString", "PhotoUrl ", "ByeWeek  ", "UpcomingGameOpponent ", "UpcomingGameWeek", "ShortName  ","AverageDraftPosition ", "DepthPositionCategory  ", "DepthPosition ", "DepthOrder  ", "DepthDisplayOrder ", "CurrentTeam  ", "HeightFeet  ", "UpcomingOpponentRank ", "UpcomingOpponentPositionRank ", "CurrentStatus"];
 	foreach($data as $player) {
 		$playerToInsert = new Player(null, $sport->getSportId(), $player->PlayerID, $player->team, $player->FirstName, $player->LastName);
 		$playerToInsert->insert($pdo);
+		foreach($stats as $statName) {
+			// if the stat exists grab it
+			$stat = Statistic::getStatisticByStatisticName($pdo, $statName);
+			if($stat === null) {
+				// insert if it does not exists
+				$stat = new Statistic($pdo, $statName);
+				$stat->insert($pdo);
+			}
+		}
 	}
 } catch(Exception $exception) {
 	echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
@@ -125,10 +152,19 @@ try {
 
 	$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Standings/$season", false, $context);
 	$data = json_decode($response);
-
+	$stats = ["SeasonType", "Season ", "Conference  ", "Division  ", "Team ", "Status ","Name", "Wins ", "Losses", "Ties ", "Percentage","PointsFor", "PointsAgainst", "NetPoints", "Touchdowns", "DivisionWins", "DivisionLosses", "ConferenceWins", "ConferenceLosses"];
 	foreach($data as $standing) {
 		$standingToInsert = new Standing(null, $standing->SeasonType, $standing->team, $standing->Name, $standing->LastName);
 		$standingToInsert->insert($pdo);
+		foreach($stats as $statName) {
+			// if the stat exists grab it
+			$stat = Statistic::getStatisticByStatisticName($pdo, $statName);
+			if($stat === null) {
+				// insert if it does not exists
+				$stat = new Statistic($pdo, $statName);
+				$stat->insert($pdo);
+			}
+		}
 	}
 } catch(Exception $exception) {
 	echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;

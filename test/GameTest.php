@@ -97,7 +97,6 @@ class GameTest extends SprotsTest {
 
 			// create a new Game and insert into mySQL
 			$game = new Game(null, $this->team->getTeamId(), $this->team2->getTeamId(), $this->VALID_GAMETIME);
-			//var_dump($game);
 			$game->insert($this->getPDO());
 
 			//grab data from mySQL and enforce the match
