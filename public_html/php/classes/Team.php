@@ -50,7 +50,7 @@ class Team {
 	 * @throws \TypeError if data types violate type hints
 	 */
 
-	public function __construct(int $newTeamId = null, int $newTeamSportId, int $newTeamApiId, string $newTeamCity, string $newTeamName) {
+	public function __construct(int $newTeamId = null, int $newTeamSportId, string $newTeamApiId, string $newTeamCity, string $newTeamName) {
 		try {
 			$this->setTeamId($newTeamId);
 			$this->setTeamApiId($newTeamApiId);
@@ -120,10 +120,15 @@ class Team {
 	 * @throws \RangeException if the $newTeamApiId is not positive
 	 * @throws \TypeError if $newTeamApiId is not an integer
 	 **/
-	public function setTeamApiId(int $newTeamApiId) {
+	public function setTeamApiId(string $newTeamApiId) {
 		// Verify the team id is positive
-		if($newTeamApiId <= 0) {
-			throw(new \RangeException("team api id is not positive"));
+		$newTeamApiId = trim($newTeamApiId);
+		$newTeamApiId = filter_var($newTeamApiId, FILTER_SANITIZE_STRING);
+		if(empty($newTeamApiId) === true) {
+			throw(new \InvalidArgumentException("team api id is empty"));
+		}
+		if(strlen($newTeamApiId) > 10) {
+			throw(new \InvalidArgumentException("team api id is emtpy"));
 		}
 		// Convert and store the team api id
 		$this->teamApiId = $newTeamApiId;
@@ -439,23 +444,23 @@ class Team {
 
 
 		// bind the team name to the place holder in the template
-		$teamName = "%$teamName%";
 		$parameters = array("teamName" => $teamName);
 		$statement->execute($parameters);
 
 		// build an array of Team Names
-		$teamNames = new \SplFixedArray($statement->rowCount());
+		$teams = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		While(($row = $statement->fetch()) !== false) {
 			try {
-				$teamName = new team($row["teamId"], $row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
-				$teamNames[$teamNames->key()] = $teamName;
+				$team = new Team($row["teamId"], $row["teamSportId"], $row["teamApiId"], $row["teamCity"], $row["teamName"]);
+				var_dump($team);
+				$teams[$teams->key()] = $team;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($teamNames);
+		return ($teams);
 
 	}
 

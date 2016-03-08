@@ -240,28 +240,26 @@ class Sport {
 		}
 
 		//create query template
-		$query = "SELECT sportId, sportLeague, sportName FROM sport WHERE sportLeague LIKE :sportLeague";
+		$query = "SELECT sportId, sportLeague, sportName FROM sport WHERE sportLeague = :sportLeague";
 		$statement = $pdo->prepare($query);
 
 		//bind the sport league to the place holder in the template
-		$sportLeague = "%$sportLeague%";
 		$parameters = array("sportLeague" => $sportLeague);
 		$statement->execute($parameters);
 
-		//build array of sport leagues
-		$sportLeagues = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$sportLeague = new Sport($row["sportId"], $row["sportLeague"], $row["sportName"]);
-				$sportLeagues[$sportLeagues->key()] = $sportLeague;
-				$sportLeagues->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+		//grab the sport from the db
+		try {
+			$sport = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$sport = new Sport($row["sportId"], $row["sportLeague"], $row["sportName"]);
 			}
-			return ($sportLeagues);
+		} catch(\Exception $exception) {
+			//if the row can't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
+		return ($sport);
 	}
 
 	/**

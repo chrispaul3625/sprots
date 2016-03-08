@@ -34,11 +34,11 @@ CREATE TABLE sport (
 CREATE TABLE team (
 	teamId    INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	teamSportId INT UNSIGNED              NOT NULL,
-	teamApiId INT UNSIGNED                NOT NULL,
+	teamApiId VARCHAR(10)                NOT NULL,
 	teamName  VARCHAR(32)                 NOT NULL,
 	teamCity  VARCHAR(50)                 NOT NULL,
 	INDEX (teamApiId),
-	UNIQUE (teamName),
+	INDEX (teamName),
 	FOREIGN KEY (teamSportId) REFERENCES sport (sportId),
 	PRIMARY KEY (teamId)
 );
