@@ -30,6 +30,17 @@ function getPlayers(string $league) {
 		$response = file_get_contents("https://api.fantasydata.net/$league/v2/JSON/Players", false, $context);
 		$data = json_decode($response);
 
+		$stats = ["Position", "PositionCategory", "Jersy", "Height", "Weight", "BirthDate", "BirthCity", "BirthState", "BirthCountry", "HighSchool", "College", "ProDebut", "Salary", "PhotoUrl", "InjuryStatus", "InjuryBodyPart", "InjuryStartDate", "InjuryNotes", "BatHand", "ThrowHand", "Catches", "Shoots"];
+
+		foreach($stats as $statisticName) {
+			$stat = Statistic::getStatisticByStatisticName($pdo, $statisticName);
+			if($stat === null) {
+				$stat = new Statistic($statisticId, $stat->$stats);
+				$stat->insert($pdo);
+			}
+
+			$playerStatisticToInsert = new PlayerStatistic(null, $statisticName->getPlayerId(), $statisticName->getPlayerTeamId(), $statisticName->getPlayerStatisticStatisticId(), $statisticName->) //????
+		}
 		$sport = Sport::getSportBySportLeague($pdo, $league);
 
 		foreach($data as $player) {
