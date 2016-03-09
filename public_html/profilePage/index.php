@@ -84,7 +84,7 @@ require_once("../php/templates/head-utils.php");
 					<div class="row">
 						<div class="col-md-4">
 							<div class="content-box">
-								<h2> Tab for Stats</h2>
+								<h2> Favorite Sport League Standing Table</h2>
 								Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
 								the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
 								of type and scrambled it to make a type specimen book. It has survived not only five centuries,
@@ -93,7 +93,7 @@ require_once("../php/templates/head-utils.php");
 				</div>
 						<div class="col-md-4">
 							<div class="content-box">
-								<h2> News Updates </h2>
+								<h2> Favorite Team Fixture Results for the Week </h2>
 								It is a long established fact that a reader will be distracted by the readable content of a page
 								when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
 								distribution of letters, as opposed to using 'Content here, content here', making it look like
@@ -104,7 +104,7 @@ require_once("../php/templates/head-utils.php");
 						</div>
 						<div class="col-md-4">
 							<div class="content-box">
-								<h2> Statistic Updates </h2>
+								<h2> Favorite Player Statistic Updates </h2>
 								Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
 								classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a
 								Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin
