@@ -21,14 +21,14 @@ $reply->status = 200;
 $reply->data = null;
 
 
-	//grab the mySQL connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
+//grab the mySQL connection
+$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 
 //sanitize inputs
 $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
 //sanitize and trim other fields
-$playerStatisticGameId= filter_input(INPUT_GET, "GameId", FILTER_SANITIZE_NUMBER_INT);
+$playerStatisticGameId = filter_input(INPUT_GET, "GameId", FILTER_SANITIZE_NUMBER_INT);
 $playerStatisticPlayerId = filter_input(INPUT_GET, "PlayerId", FILTER_SANITIZE_NUMBER_INT);
 $playerStatisticStatisticId = filter_input(INPUT_GET, "StatisticId", FILTER_SANITIZE_NUMBER_INT);
 $playerStatisticValue = filter_input(INPUT_GET, "Statistic Value", FILTER_SANITIZE_NUMBER_INT);
@@ -38,17 +38,17 @@ if($method === "GET") {
 	//set XSRF cookie
 	setXsrfCookie("/");
 	//get the playerStatistic based on the given field
-	} else if(empty($playerStatisticGameId) === false) {
-		$playerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameId($pdo, $playerStatisticGameId);
-		if($playerStatistic !== null && $playerStatistic->getGameId() === $_SESSION["playerStatistic"]->getGameId()) {
-			$reply->data = $playerStatistic;
-		}
-	} else if(empty($playerStatisticPlayerId) === false) {
+} else if(empty($playerStatisticGameId) === false) {
+	$playerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticGameId($pdo, $playerStatisticGameId);
+	if($playerStatistic !== null && $playerStatistic->getGameId() === $_SESSION["playerStatistic"]->getGameId()) {
+		$reply->data = $playerStatistic;
+	}
+} else if(empty($playerStatisticPlayerId) === false) {
 	$playerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticPlayerId($pdo, $playerStatisticPlayerId);
 	if($playerStatistic !== null && $playerStatistic->getPlayerId() === $_SESSION["playerStatistic"]->getPlayerId()) {
 		$reply->data = $playerStatistic;
-		}
-	} else if(empty($playerStatisticStatisticId) === false) {
+	}
+} else if(empty($playerStatisticStatisticId) === false) {
 	$playerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticStatisticId($pdo, $playerStatisticStatisticId);
 	if($playerStatistic !== null && $playerStatistic->getStatisticId() === $_SESSION["playerStatistic"]->getStatisticId()) {
 		$reply->data = $playerStatistic;

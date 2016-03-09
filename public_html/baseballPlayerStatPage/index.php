@@ -7,7 +7,7 @@ $CURRENT_DIR = __DIR__;
 $PAGE_TITLE = "Home";
 
 /*load head-utils.php - edit path as needed*/
-require_once("../php/templates/head-utils.php");
+require_once("../php/templates/head-utils.php");S
 ?>
 
 <html lang='en' xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
