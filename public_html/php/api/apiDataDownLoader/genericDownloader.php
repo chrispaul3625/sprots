@@ -72,15 +72,15 @@ function getPlayers(string $league) {
 						$statistic = $statistic[0];
 					}
 					$statisticValue = $statisticData->$statisticName;
-					if($statisticValue === null) {
-						$statisticValue = "";
+					if($statisticValue !== null) {
+//						$statisticValue = "";
+						$playerStatisticToInsert = new PlayerStatistic($game->getGameId(), $playerToInsert->getPlayerId(), $team->getTeamId(), $statistic->getStatisticId(), $statisticValue);
+						$playerStatisticToInsert->insert($pdo);
 					}
-					var_dump($statisticData);
-					var_dump($statisticName);
-					var_dump($statistic);
-					var_dump($statisticValue);
-					$playerStatisticToInsert = new PlayerStatistic($game->getGameId(), $playerToInsert->getPlayerId(), $team->getTeamId(), $statistic->getStatisticId(), $statisticValue);
-					$playerStatisticToInsert->insert($pdo);
+//					var_dump($statisticData);
+//					var_dump($statisticName);
+//					var_dump($statistic);
+//					var_dump($statisticValue);
 				}
 			} else {
 				echo "<p>* * * SIX OF THIRTEEN IS NOT A TEAM PLAYER * * *</p>" . PHP_EOL;
