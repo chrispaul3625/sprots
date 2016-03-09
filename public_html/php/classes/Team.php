@@ -50,7 +50,7 @@ class Team {
 	 * @throws \TypeError if data types violate type hints
 	 */
 
-	public function __construct(int $newTeamId = null, int $newTeamSportId, string $newTeamApiId, string $newTeamCity, string $newTeamName) {
+	public function __construct(int $newTeamId = null, int $newTeamSportId, int $newTeamApiId, string $newTeamCity, string $newTeamName) {
 		try {
 			$this->setTeamId($newTeamId);
 			$this->setTeamApiId($newTeamApiId);
