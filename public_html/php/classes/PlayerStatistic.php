@@ -43,14 +43,14 @@ class PlayerStatistic {
 	 * @param int $newPlayerStatisticPlayerId statistic id of the player
 	 * @param int $newPlayerStatisticTeamId statistic id of the player referencing team
 	 * @param int $newPlayerStatisticStatisticId name associated with team
-	 * @param int $newPlayerStatisticValue Value of the statistic
+	 * @param string $newPlayerStatisticValue Value of the statistic
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
 
-	public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatisticPlayerId, int $newPlayerStatisticTeamId, int $newPlayerStatisticStatisticId, int $newPlayerStatisticValue) {
+	public function __construct(int $newPlayerStatisticGameId, int $newPlayerStatisticPlayerId, int $newPlayerStatisticTeamId, int $newPlayerStatisticStatisticId, string $newPlayerStatisticValue) {
 		try {
 			$this->setPlayerStatisticGameId($newPlayerStatisticGameId);
 			$this->setPlayerStatisticPlayerId($newPlayerStatisticPlayerId);
@@ -198,20 +198,15 @@ class PlayerStatistic {
 	/**
 	 * mutator method for Player Statistic Value
 	 *
-	 * @param int $newPlayerStatisticValue value of statistic
+	 * @param string $newPlayerStatisticValue value of statistic
 	 * @throws \InvalidArgumentException if $newPlayerStatisticValue is not an integer or insecure
 	 * @throws \RangeException if $newPlayerStatisticValue is >32 characters
 	 * @throws \TypeError if $newPlayerStatisticValue is not an integer
 	 **/
 
-	public function setPlayerStatisticValue(int $newPlayerStatisticValue = null) {
-		// base case: if PlayerStatisticStatisticId is null, this is a new player statistic Statistic id without a MySQL assigned id (yet)
+	public function setPlayerStatisticValue(string $newPlayerStatisticValue) {
 		if($newPlayerStatisticValue === null) {
-			throw(new \InvalidArgumentException("Value cannot be null"));
-		}
-		// Verify the Player Statistic Statistic Id is positive
-		if($newPlayerStatisticValue <= 0) {
-			throw(new \RangeException("Player Statistic Player Id is not positive"));
+			throw(new \InvalidArgumentException("Player Statistic Value cannot be null"));
 		}
 		// Convert and store the Player Statistic Player Id
 		$this->playerStatisticValue = $newPlayerStatisticValue;

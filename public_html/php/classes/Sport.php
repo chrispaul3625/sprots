@@ -227,7 +227,7 @@ class Sport {
 	 *
 	 * @param \PDO $pdo connection object
 	 * @param string $sportLeague sport league to search for
-	 * @return \SplFixedArray SplFixedArray of sports found
+	 * @return Sport sport found
 	 * @throws \PDOException when db related errors occur
 	 * @throws \TypeError when variables are not correct data type
 	 **/
