@@ -14,11 +14,15 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 // Teams  Downloader for NFL
 try {
-	$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
-	if(empty($season) === true) {
-		$today = new \DateTime();
-		$season = $today->format("Y");
+	$week = null;
+	function (int $newWeek) {
+		for($i = 1; $i < 21; $i++) {
+			$i = newWeek;
+			$this->setWeek($newWeek);
+		}
 	}
+	$seasoning = ["2015", "2016"];
+	foreach($seasoning as $season) {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$config = readConfig("/etc/apache2/capstone-mysql/sprots.ini");
 	$apiKeys = json_decode($config["fantasyData"]);
@@ -34,7 +38,7 @@ try {
 
 	$stats = ["TeamID", "PlayerID", "City", "Name", "Conference", "Division","FullName", "StadiumID", "ByeWeek", "AverageDraftPosition", "AverageDraftPositionPPR","HeadCoach", "OffensiveCoordinator", "DefensiveCoordinator", "SpecialTeamsCoach", "OffensiveScheme", "DefensiveScheme", "UpcomingOpponent", "UpcomingOpponentRank ", "UpcomingOpponentPositionRank"];
 
-	$sport = Sport::getSportBySportLeague($pdo, "NFL")[0];
+	$sport = Sport::getSportBySportLeague($pdo, "NFL");
 
 	foreach($data as $team) {
 		$team = Team::getTeamByTeamApiId($pdo, $team->TeamID);
@@ -45,11 +49,10 @@ try {
 			if($game === null) {
 				$game = Game::getGameByGameSecondTeamId($pdo, $team->getTeamId());
 			}
-			//$gameDate = $game->getGameTime()->format("Y-m-d");
 
 			// response from api
 			//get team statistics by game
-			$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/GameStatsByWeek/{season}/{week}");
+			$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/GameStatsByWeek/$season/$");
 			$statisticData = json_decode($response);
 
 			//adds statistic to database
@@ -67,6 +70,7 @@ try {
 				}
 				$teamStatisticToInsert = new TeamStatistic($game->getGameId(), $teamToInsert->getTeamId(), $team->getTeamId(),$statistic->getStatisticId(), $statisticValue );
 				$teamStatisticToInsert->insert($pdo);
+				}
 			}
 		}
 	}
@@ -79,7 +83,6 @@ try {
 // Schedules Downloader for NFL
 try {
 	// grab the db connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$config = readConfig("/etc/apache2/capstone-mysql/sprots.ini");
 	$apiKeys = json_decode($config["fantasyData"]);
 	$opts = array(
@@ -117,11 +120,15 @@ try {
 
 //downloader for players NFL
 try {
-	$season = filter_input(INPUT_GET, "season", FILTER_SANITIZE_STRING);
-	if(empty($season) === true) {
-		$today = new \DateTime();
-		$season = $today->format("Y");
+	$week = null;
+	function (int $newWeek) {
+		for($i = 1; $i < 21; $i++) {
+			$i = newWeek;
+			$this->setWeek($newWeek);
+		}
 	}
+	$seasoning = ["2015", "2016"];
+	foreach($seasoning as $season) {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 	$config = readConfig("/etc/apache2/capstone-mysql/sprots.ini");
 	$apiKeys = json_decode($config["fantasyData"]);
@@ -142,18 +149,18 @@ try {
 
 	foreach($data as $player) {
 		$team = Team::getTeamByTeamApiId($pdo, $player->TeamID);
-		if($team !== null){
+		if($team !== null) {
 			$playerToInsert = new Player(null, $player->PlayerID, $team->getTeamId(), $sport->getSportId(), $player->FirstName . " " . $player->LastName);
 			$playerToInsert->insert($pdo);
 			$game = Game::getGameByGameFirstTeamId($pdo, $team->getTeamId());
 			if($game === null) {
 				$game = Game::getGameByGameSecondTeamId($pdo, $team->getTeamId());
 			}
-			//$gameDate = $game->getGameTime()->format("Y-m-d");
+
 
 			//get player statistic by game
 			//response from api
-			$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/PlayerGameStatsByPlayerID/{season}/{week}/{playerid}");
+			$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/PlayerGameStatsByPlayerID/$season/$week->getNewWeek()/$player->PlayerID");
 
 			$statisticData = json_decode($response);
 
@@ -163,18 +170,19 @@ try {
 				if($statistic === null || $statistic->getSize() <= 0) {
 					$statistic = new Statistic(null, $statisticName);
 					$statistic->insert($pdo);
-					}else{
+				} else {
 					$statistic = $statistic[0];
 				}
 				$statisticValue = $statisticData->$statisticName;
-				if($statisticValue === null);{
+				if($statisticValue === null) ;
+				{
 					$statisticValue = " ";
 				}
-				$playerStatisticToInsert = new PlayerStatistic($game->getGameId(), $player->getPlayerId(), $team->getGetTeamId(),$statistic->getStatisticId(),
+				$playerStatisticToInsert = new PlayerStatistic($game->getGameId(), $player->getPlayerId(), $team->getGetTeamId(), $statistic->getStatisticId(),
 					$statisticValue);
 				$playerStatisticToInsert->insert($pdo);
 				}
-
+			}
 		}
 	}
 } catch(Exception $exception) {
