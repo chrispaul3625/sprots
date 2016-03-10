@@ -5,7 +5,7 @@ $CURRENT_DIR = __DIR__;
 /*set page title here*/
 $PAGE_TITLE = "Schedules";
 /*load head-utils.php - edit path as needed*/
-require_once("../php/templates/head-utils.php");
+require_once(dirname(__DIR__)."/php/templates/head-utils.php");
 ?>
 
 <html lang='en' xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
@@ -34,8 +34,9 @@ require_once("../php/templates/head-utils.php");
 				  integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
 				  crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="../css/style.css">
-
-
+	</head>
+	<body class="sfooter">
+		<?php require_once (dirname(__DIR__)."/php/templates/header.php") ?>
 		<!--Navigation bar-->
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
@@ -73,8 +74,6 @@ require_once("../php/templates/head-utils.php");
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container-fluid -->
 		</nav>
-	</head>
-	<body class="sfooter">
 		<div class="sfooter-content">
 			<div class="container">
 				<div class="row">

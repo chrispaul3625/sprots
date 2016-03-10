@@ -36,46 +36,9 @@ require_once("php/templates/head-utils.php");
 				  crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="css/style.css">
 
-
-		<!--Navigation bar-->
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-							  data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">Sprots Logo</a>
-				</div>
-
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-						<li><a href="#">NFL</a></li><li><a href="#">NBA</a></li><li><a href="#">MLB</a></li><li><a href="#"></a></li>
-					</ul>
-					</li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#">Log In</a></li>
-					</ul>
-					<form class="navbar-form navbar-right" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
-					</li>
-					</ul>
-				</div><!-- /.navbar-collapse -->
-			</div><!-- /.container-fluid -->
-		</nav>
 	</head>
-	<body class="sfooter">
+	<body class="home-view" ng-controller="home-controller">
+		<?php require_once ("php/templates/header.php") ?>
 		<div class="sfooter-content">
 			<main>
 						<div class="col-md-6">
