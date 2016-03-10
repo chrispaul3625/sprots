@@ -11,6 +11,8 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
  * Time: 1:30 PM
  */
 
+$stats = ["AtBats", "Runs", "Hits", "Singles", "Doubles", "Triples", "HomeRuns", "RunsBattedin", "BattingAverage", "Outs", "Strikeouts", "Walks", "HitByPitch", "Sacrifices", "SacrificeFlies", "GroundIntoDoublePlay", "StolenBases", "CaughtStealing", "PitchesSeen", "OnBasePercentage", "SluggingPercentage", "OnBasePlusSlugging", "Errors", "Wins", "Losses", "Saves", "InningsPitchedDecimal", "TotalOutsPitched", "InningsPitchedFull", "InningsPitchedOuts", "EarnedRunAverage", "PitchingHits", "PitchingRuns", "PitchingEarnedRuns", "PitchingWalks", "PitchingStrikeouts", "PitchingHomeRuns", "PitchesThrown", "PitchesThrownStrikes", "WalksHitsPerInningsPitched", "PitchingBattingAverageAgainst", "GrandSlams", "Games", "Minutes", "Seconds", "FieldGoalsMade", "FieldGoalsAttempted", "FieldGoalsPercentage", "EffectiveFieldGoalsPercentage", "TwoPointersMade", "TwoPointersAttempted", "TwoPointersPercentage", "ThreePointersMade", "ThreePointersAttempted", "ThreePointersPercentage", "FreeThrowsMade", "FreeThrowsAttempted", "FreeThrowsPercentage", "OffensiveRebounds", "DefensiveRebounds", "Rebounds", "OffensiveReboundsPercentage", "DefensiveReboundsPercentage", "TotalReboundsPercentage", "Assists", "Steals", "BlockedShots", "Turnovers", "PersonalFouls", "Points", "TrueShootingAttempts", "TrueShootingPercentage", "PlayerEfficiencyRating", "AssistsPercentage", "StealsPercentage", "BlocksPercentage", "TurnOversPercentage", "UsageRatePercentage", "Goals", "Assists", "ShotsOnGoal", "PowerPlayGoals", "ShortHandedGoals", "EmptyNetGoals", "PowerPlayAssists", "ShortHandedAssists", "HatTricks", "ShootoutGoals", "PlusMinus", "PenaltyMinutes", "Blocks", "Hits", "Takeaways", "Giveaways", "FaceoffsWon", "FaceoffsLost", "Shifts", "GoaltendingMinutes", "GoaltendingSeconds", "GoaltendingShotsAgainst", "GoaltendingGoalsAgainst", "GoaltendingSaves", "GoaltendingWins", "GoaltendingLosses", "GoaltendingShutouts"];
+
 
 // this will make a call to the api, and pull all of the players, by active.
 function getPlayers(string $league) {
@@ -31,7 +33,7 @@ function getPlayers(string $league) {
 		$data = json_decode($response);
 
 //		$stats = ["Position", "PositionCategory", "Jersy", "Height", "Weight", "BirthDate", "BirthCity", "BirthState", "BirthCountry", "HighSchool", "College", "ProDebut", "Salary", "PhotoUrl", "InjuryStatus", "InjuryBodyPart", "InjuryStartDate", "InjuryNotes", "BatHand", "ThrowHand", "Catches", "Shoots"];
-		$stats = ["AtBats", "Runs", "Hits", "Singles", "Doubles", "Triples", "HomeRuns", "RunsBattedin", "BattingAverage", "Outs", "Strikeouts", "Walks", "HitByPitch", "Sacrifices", "SacrificeFlies", "GroundIntoDoublePlay", "StolenBases", "CaughtStealing", "PitchesSeen", "OnBasePercentage", "SluggingPercentage", "OnBasePlusSlugging", "Errors", "Wins", "Losses", "Saves", "InningsPitchedDecimal", "TotalOutsPitched", "InningsPitchedFull", "InningsPitchedOuts", "EarnedRunAverage", "PitchingHits", "PitchingRuns", "PitchingEarnedRuns", "PitchingWalks", "PitchingStrikeouts", "PitchingHomeRuns", "PitchesThrown", "PitchesThrownStrikes", "WalksHitsPerInningsPitched", "PitchingBattingAverageAgainst", "GrandSlams", "Games", "Minutes", "Seconds", "FieldGoalsMade", "FieldGoalsAttempted", "FieldGoalsPercentage", "EffectiveFieldGoalsPercentage", "TwoPointersMade", "TwoPointersAttempted", "TwoPointersPercentage", "ThreePointersMade", "ThreePointersAttempted", "ThreePointersPercentage", "FreeThrowsMade", "FreeThrowsAttempted", "FreeThrowsPercentage", "OffensiveRebounds", "DefensiveRebounds", "Rebounds", "OffensiveReboundsPercentage", "DefensiveReboundsPercentage", "TotalReboundsPercentage", "Assists", "Steals", "BlockedShots", "Turnovers", "PersonalFouls", "Points", "TrueShootingAttempts", "TrueShootingPercentage", "PlayerEfficiencyRating", "AssistsPercentage", "StealsPercentage", "BlocksPercentage", "TurnOversPercentage", "UsageRatePercentage", "Goals", "Assists", "ShotsOnGoal", "PowerPlayGoals", "ShortHandedGoals", "EmptyNetGoals", "PowerPlayAssists", "ShortHandedAssists", "HatTricks", "ShootoutGoals", "PlusMinus", "PenaltyMinutes", "Blocks", "Hits", "Takeaways", "Giveaways", "FaceoffsWon", "FaceoffsLost", "Shifts", "GoaltendingMinutes", "GoaltendingSeconds", "GoaltendingShotsAgainst", "GoaltendingGoalsAgainst", "GoaltendingSaves", "GoaltendingWins", "GoaltendingLosses", "GoaltendingShutouts"];
+
 
 		$sport = Sport::getSportBySportLeague($pdo, $league);
 		/*todo
@@ -59,11 +61,11 @@ function getPlayers(string $league) {
 				// Get player statistics by game
 				// response from api
 				$response = file_get_contents("https://api.fantasydata.net/$league/v2/JSON/PlayerGameStatsByPlayer/$gameDate/$player->PlayerID", false, $context);
-				var_dump($response);
+//				var_dump($response);
 				$statisticData = json_decode($response);
 
 				// Adds statistics to database
-				foreach($stats as $statisticName) {
+				foreach($GLOBALS['stats'] as $statisticName) {
 					$statistic = Statistic::getStatisticByStatisticName($pdo, $statisticName);
 					if($statistic === null || $statistic->getSize() <= 0) {
 						$statistic = new Statistic(null, $statisticName);
@@ -94,6 +96,10 @@ function getPlayers(string $league) {
 	}
 }
 
+/**
+ * @param string $league
+ * @param int $teamSportId
+ */
 function getTeams(string $league, int $teamSportId) {
 	try {
 		// grab the db connection
@@ -111,10 +117,42 @@ function getTeams(string $league, int $teamSportId) {
 		$response = file_get_contents("https://api.fantasydata.net/$league/v2/JSON/teams", false, $context);
 		$data = json_decode($response);
 
+		$sport = Sport::getSportBySportLeague($pdo, $league);
 		foreach($data as $team) {
-			$teamToInsert = new Team(null, $teamSportId, $team->TeamID, $team->City, $team->Name);
-			$teamToInsert->insert($pdo);
+			$team = new Team(null, $sport->getSportId(), $team->TeamID, $team->City, $team->Name);
+			$team->insert($pdo);
+
+			$game = Game::getGameByGameFirstTeamId($pdo, $team->getTeamId());
+			if($game === null) {
+				$game = Game::getGameByGameSecondTeamId($pdo, $team->getTeamId());
+			}
+			$gameDate = $game->getGameTime()->format("Y-m-d");
+
+			// get team statistics by game
+			// response from api
+			$response = file_get_contents("https://api.fantasydata.net/$league/v2/JSON/TeamGameStatsByDate/$gameDate");
+			$statisticData = json_decode($response);
+
+			// adds statistics to database
+			foreach($GLOBALS['stats'] as $statisticName) {
+				$statistic = Statistic::getStatisticByStatisticName($pdo, $statisticName);
+				if($statistic === null || $statistic->getSize() <= 0) {
+					$statistic = new Statistic(null, $statisticName);
+					$statistic->insert($pdo);
+				} else {
+					$statistic = $statistic[0];
+				}
+				$statisticValue = $statisticData->$statisticName;
+				if($statisticValue !== null) {
+//					$statisticValue = "";
+					$teamStatisticToInsert = new TeamStatistic($game->getGameId(), $team->getTeamId(), $statistic->getTeamStatisticStatisticId(), $statisticValue);
+					$teamStatisticToInsert->insert($pdo);
+				} else {
+					echo "<p> team statistics isn't working </p>" . PHP_EOL;
+				}
+			}
 		}
+
 	} catch(Exception $exception) {
 		echo "Something went wrong: " . $exception->getMessage() . PHP_EOL;
 	} catch(TypeError $typeError) {
