@@ -1,4 +1,4 @@
-app.controller('mainController', function($scope){
+app.controller('playerController', function($scope){
 	$scope.players = [
 		{
 			playerId: 56,
