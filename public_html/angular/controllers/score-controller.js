@@ -1,5 +1,5 @@
-app.controller('scheduleController', ["$scope", function($scope) {
-	$scope.schedules = [
+app.controller('scoreController', ["$scope", function($scope) {
+	$scope.scores = [
 		{
 			teamId: 56,
 			teamName: "Broncos",
@@ -8,8 +8,7 @@ app.controller('scheduleController', ["$scope", function($scope) {
 			teamId2: 65,
 			teamName2: "Cowboys",
 			teamCity2: "Dallas",
-			date:"03/12/2016"
-
+			result2: "14"
 		},
 		{
 			teamId: 32,
@@ -19,8 +18,7 @@ app.controller('scheduleController', ["$scope", function($scope) {
 			teamId2: 89,
 			teamName2: "Bears",
 			teamCity2: "Chicago",
-			date:"03/14/2016"
-
+			result2: "14"
 		},
 		{
 			teamId: 72,
@@ -30,7 +28,7 @@ app.controller('scheduleController', ["$scope", function($scope) {
 			teamId2: 21,
 			teamName2: "Dolphins",
 			teamCity2: "Miami",
-			date:"03/20/2016"
+			result2: "24"
 		}
 	];
 }]);
