@@ -13,7 +13,7 @@ $DEPTH_DIFFERENCE = $CURRENT_DEPTH - $ROOT_DEPTH;
 $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 ?>
 <!DOCTYPE html>
-<html lang="en" ng-app="NgTemplate">
+<html lang="en" ng-app="Sprots">
 	<head>
 		<!-- The 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<meta charset="utf-8"/>
@@ -32,10 +32,12 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<!-- Custom CSS  -->
 		<link rel="stylesheet" href="<?php echo $PREFIX;?>css/style.css" type="text/css"/>
 
-		<!--Angular JS-->\
+		<!--Angular JS-->
 		<?php $ANGULAR_VERSION = "1.5.0";?>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/<?php echo $ANGULAR_VERSION;?>/angular.min.js"></script>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/<?php echo $ANGULAR_VERSION;?>/angular-messages.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/<?php echo $ANGULAR_VERSION;?>/angular-route.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.1/ui-bootstrap-tpls.min.js"></script>
 
 		<!--Angular application files-->
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/app.js"></script>
@@ -43,6 +45,7 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/profile-controller.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/schedule-controller.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/sport-controller.js"></script>
+		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/player-controller.js"></script>
 
 		<title><?php echo $PAGE_TITLE;?></title>
 	</head>

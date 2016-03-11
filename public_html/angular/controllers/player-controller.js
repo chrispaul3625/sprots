@@ -1,4 +1,4 @@
-app.controller('playerController', function($scope){
+app.controller('playerController', ["$scope", function($scope) {
 	$scope.players = [
 		{
 			playerId: 56,
@@ -16,6 +16,6 @@ app.controller('playerController', function($scope){
 			playerCity: "Collective"
 		}
 	];
-});
+}]);
 
 
