@@ -12,7 +12,7 @@ require_once("autoload.php");
  * $author Jude Chavez <chavezjude7@gmail.com>
  *
  */
-class Player {
+class Player implements \JsonSerializable {
 	/**
 	 * Id for the Player; this is the primary key
 	 * @var int $PlayerId
@@ -456,10 +456,11 @@ class Player {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
-	public static function getAllPlayersByTeamId(\PDO $pdo) {
+	public static function getAllPlayersByTeamId(\PDO $pdo, int $playerTeamId) {
 		$query = "SELECT playerId, playerApiId, playerTeamId, playerSportId, playerName FROM player WHERE playerTeamId = :playerTeamId";
 		$statement = $pdo->prepare($query);
-		$statement->execute();
+		$parameters = ["playerTeamId" => $playerTeamId];
+		$statement->execute($parameters);
 
 		// build an array of Players
 		$players = new \SplFixedArray($statement->rowCount());
@@ -475,5 +476,9 @@ class Player {
 			}
 		}
 		return ($players);
+	}
+
+	public function jsonSerialize() {
+		return(get_object_vars($this));
 	}
 }
