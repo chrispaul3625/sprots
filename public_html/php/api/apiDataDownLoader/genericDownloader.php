@@ -11,7 +11,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
  * Time: 1:30 PM
  */
 
-$stats = ["AtBats", "Runs", "Hits", "Singles", "Doubles", "Triples", "HomeRuns", "RunsBattedin", "BattingAverage", "Outs", "Strikeouts", "Walks", "HitByPitch", "Sacrifices", "SacrificeFlies", "GroundIntoDoublePlay", "StolenBases", "CaughtStealing", "PitchesSeen", "OnBasePercentage", "SluggingPercentage", "OnBasePlusSlugging", "Errors", "Wins", "Losses", "Saves", "InningsPitchedDecimal", "TotalOutsPitched", "InningsPitchedFull", "InningsPitchedOuts", "EarnedRunAverage", "PitchingHits", "PitchingRuns", "PitchingEarnedRuns", "PitchingWalks", "PitchingStrikeouts", "PitchingHomeRuns", "PitchesThrown", "PitchesThrownStrikes", "WalksHitsPerInningsPitched", "PitchingBattingAverageAgainst", "GrandSlams", "Games", "Minutes", "Seconds", "FieldGoalsMade", "FieldGoalsAttempted", "FieldGoalsPercentage", "EffectiveFieldGoalsPercentage", "TwoPointersMade", "TwoPointersAttempted", "TwoPointersPercentage", "ThreePointersMade", "ThreePointersAttempted", "ThreePointersPercentage", "FreeThrowsMade", "FreeThrowsAttempted", "FreeThrowsPercentage", "OffensiveRebounds", "DefensiveRebounds", "Rebounds", "OffensiveReboundsPercentage", "DefensiveReboundsPercentage", "TotalReboundsPercentage", "Assists", "Steals", "BlockedShots", "Turnovers", "PersonalFouls", "Points", "TrueShootingAttempts", "TrueShootingPercentage", "PlayerEfficiencyRating", "AssistsPercentage", "StealsPercentage", "BlocksPercentage", "TurnOversPercentage", "UsageRatePercentage", "Goals", "Assists", "ShotsOnGoal", "PowerPlayGoals", "ShortHandedGoals", "EmptyNetGoals", "PowerPlayAssists", "ShortHandedAssists", "HatTricks", "ShootoutGoals", "PlusMinus", "PenaltyMinutes", "Blocks", "Hits", "Takeaways", "Giveaways", "FaceoffsWon", "FaceoffsLost", "Shifts", "GoaltendingMinutes", "GoaltendingSeconds", "GoaltendingShotsAgainst", "GoaltendingGoalsAgainst", "GoaltendingSaves", "GoaltendingWins", "GoaltendingLosses", "GoaltendingShutouts"];
+$GLOBALS["stats"] = ["AtBats", "Runs", "Hits", "Singles", "Doubles", "Triples", "HomeRuns", "RunsBattedin", "BattingAverage", "Outs", "Strikeouts", "Walks", "HitByPitch", "Sacrifices", "SacrificeFlies", "GroundIntoDoublePlay", "StolenBases", "CaughtStealing", "PitchesSeen", "OnBasePercentage", "SluggingPercentage", "OnBasePlusSlugging", "Errors", "Wins", "Losses", "Saves", "InningsPitchedDecimal", "TotalOutsPitched", "InningsPitchedFull", "InningsPitchedOuts", "EarnedRunAverage", "PitchingHits", "PitchingRuns", "PitchingEarnedRuns", "PitchingWalks", "PitchingStrikeouts", "PitchingHomeRuns", "PitchesThrown", "PitchesThrownStrikes", "WalksHitsPerInningsPitched", "PitchingBattingAverageAgainst", "GrandSlams", "Games", "Minutes", "Seconds", "FieldGoalsMade", "FieldGoalsAttempted", "FieldGoalsPercentage", "EffectiveFieldGoalsPercentage", "TwoPointersMade", "TwoPointersAttempted", "TwoPointersPercentage", "ThreePointersMade", "ThreePointersAttempted", "ThreePointersPercentage", "FreeThrowsMade", "FreeThrowsAttempted", "FreeThrowsPercentage", "OffensiveRebounds", "DefensiveRebounds", "Rebounds", "OffensiveReboundsPercentage", "DefensiveReboundsPercentage", "TotalReboundsPercentage", "Assists", "Steals", "BlockedShots", "Turnovers", "PersonalFouls", "Points", "TrueShootingAttempts", "TrueShootingPercentage", "PlayerEfficiencyRating", "AssistsPercentage", "StealsPercentage", "BlocksPercentage", "TurnOversPercentage", "UsageRatePercentage", "Goals", "Assists", "ShotsOnGoal", "PowerPlayGoals", "ShortHandedGoals", "EmptyNetGoals", "PowerPlayAssists", "ShortHandedAssists", "HatTricks", "ShootoutGoals", "PlusMinus", "PenaltyMinutes", "Blocks", "Hits", "Takeaways", "Giveaways", "FaceoffsWon", "FaceoffsLost", "Shifts", "GoaltendingMinutes", "GoaltendingSeconds", "GoaltendingShotsAgainst", "GoaltendingGoalsAgainst", "GoaltendingSaves", "GoaltendingWins", "GoaltendingLosses", "GoaltendingShutouts"];
 
 
 // this will make a call to the api, and pull all of the players, by active.
@@ -73,10 +73,8 @@ function getPlayers(string $league) {
 					} else {
 						$statistic = $statistic[0];
 					}
-					$statisticValue = $statisticData->$statisticName;
-					if($statisticValue !== null) {
-//						$statisticValue = "";
-						$playerStatisticToInsert = new PlayerStatistic($game->getGameId(), $playerToInsert->getPlayerId(), $team->getTeamId(), $statistic->getStatisticId(), $statisticValue);
+					if(empty($statisticData->$statisticName) === false) {
+						$playerStatisticToInsert = new PlayerStatistic($game->getGameId(), $playerToInsert->getPlayerId(), $team->getTeamId(), $statistic->getStatisticId(), $statisticData->$statisticName);
 						$playerStatisticToInsert->insert($pdo);
 					}
 //					var_dump($statisticData);
@@ -125,6 +123,9 @@ function getTeams(string $league, int $teamSportId) {
 			$game = Game::getGameByGameFirstTeamId($pdo, $team->getTeamId());
 			if($game === null) {
 				$game = Game::getGameByGameSecondTeamId($pdo, $team->getTeamId());
+				if($game === null) {
+					continue;
+				}
 			}
 			$gameDate = $game->getGameTime()->format("Y-m-d");
 
