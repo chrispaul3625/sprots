@@ -24,11 +24,32 @@ require_once(dirname(__DIR__)."/php/templates/head-utils.php");
 						<div class="content-box">
 							<div class="content-box" ng-controller="playerController">
 								<h2> Player Stats</h2>
-								<div ng-repeat="player in players">
+								<form class="form-inline inline pull-right" name="searchForm" id="searchForm">
+									<div class="form-group">
+										<label for="search">Search</label>
+										<div class="input-group">
+											<input type="text" class="form-control" ng-model="search" ng-change="switchPlayerArray();" />
+											<div class="input-group-addon">
+												<i class="fa fa-search" aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</form>
+								<div ng-repeat="player in filteredPlayers | filter: search">
 									<p> |Id {{ player.playerId }} |
 										{{player.playerName}} |
 										{{player.playerCity}} |
+									</p>
 						</div>
+								<uib-pagination
+									ng-model="currentPage"
+									total-items="players.length"
+									items-per-page="pageSize"
+									max-size="numPages"
+									boundary-links="true"
+									ng-disabled="searching"
+									ng-hide="searching">
+								</uib-pagination>
 					</div>
 				</div>
 			</div>
