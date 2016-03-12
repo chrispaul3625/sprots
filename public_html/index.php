@@ -55,14 +55,7 @@ require_once("php/templates/head-utils.php");
 	</div>
 	</main>
 
+<?php require_once ("php/templates/footer.php")?>
 
-	<footer class="container">
-		<div class="col-md-12">
-			<div class="content-box">
-			</div>
-		</div>
-		<h2> Footer </h2>
-		&copy; Sprots 2016
-	</footer>
 </body>
 </html>

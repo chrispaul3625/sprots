@@ -12,7 +12,7 @@ require_once("autoload.php");
  * $author Jude Chavez <chavezjude7@gmail.com>
  *
  */
-class Player {
+class Player implements \JsonSerializable {
 	/**
 	 * Id for the Player; this is the primary key
 	 * @var int $PlayerId
@@ -446,6 +446,10 @@ class Player {
 			}
 		}
 		return ($players);
+	}
+
+	public function jsonSerialize() {
+		return(get_object_vars($this));
 	}
 }
 

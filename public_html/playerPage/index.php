@@ -3,7 +3,7 @@
 /*grab current directory*/
 $CURRENT_DIR = __DIR__;
 /*set page title here*/
-$PAGE_TITLE = "Sports";
+$PAGE_TITLE = "Player Stats";
 /*load head-utils.php - edit path as needed*/
 require_once(dirname(__DIR__)."/php/templates/head-utils.php");
 ?>
@@ -25,24 +25,14 @@ require_once(dirname(__DIR__)."/php/templates/head-utils.php");
 							<div class="content-box" ng-controller="playerController">
 								<h2> Player Stats</h2>
 								<div ng-repeat="player in players">
-									<p> {{ player.playerId }}
-										{{player.playerName}}
-										{{player.playerCity}}
+									<p> |Id {{ player.playerId }} |
+										{{player.playerName}} |
+										{{player.playerCity}} |
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<footer class="container">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="content-box">
-					</div>
-				</div>
-			</div>
-
-			<h2> Footer </h2>
-			There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc
-		</footer>
+		<?php require_once(dirname(__DIR__)."/php/templates/footer.php") ?>
 	</body>

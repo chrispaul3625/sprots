@@ -6,6 +6,8 @@ require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
 require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
+use Edu\Cnm\Sprots\Player;
+
 //verify the xsrf challenge
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
@@ -21,7 +23,7 @@ try {
 		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 
 		//determine which HTTP method was used
-		$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $SERVER["REQUEST_METHOD"];
+		$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 		//sanitize inputs
 		$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
@@ -54,6 +56,8 @@ try {
 			} elseif(empty($playerName)=== false) {
 				$player = Player::getPlayerByPlayerName($pdo, $playerName);
 					$reply->date =$player;
+			} else {
+				$reply->data = Player::getAllPlayers($pdo)->toArray();
 			}
 
 } catch(Exception $exception) {

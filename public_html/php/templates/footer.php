@@ -1,13 +1,9 @@
-<footer class="p-y-4">
-<div class="container">
-	<div class="row">
-		<div class="col-md-6 m-b-2">
-			branding here
-		</div>
-		<div class="col-md-6 m-b-2 text-right-md-up">
-			links here
+<footer class="container">
+	<div class="col-md-12">
+		<div class="content-box">
 		</div>
 	</div>
-</div>
+	<h2> Footer </h2>
+	&copy; Sprots 2016
 </footer>
 
