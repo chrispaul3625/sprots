@@ -49,6 +49,23 @@ CREATE TABLE player (
 	playerSportId     INT UNSIGNED                NOT NULL,
 	playerTeamId      INT UNSIGNED                NOT NULL,
 	playerName  VARCHAR(100)                 NOT NULL,
+	playerStatus VARCHAR(50) NOT NULL,
+	playerTeam VARCHAR(10) NOT NULL,
+	playerJersy INT UNSIGNED NOT NULL,
+	playerPosition VARCHAR(10) NOT NULL,
+	playerHeight INT UNSIGNED NOT NULL,
+	playerWeight INT UNSIGNED NOT NULL,
+	playerBirthDate DATETIME NOT NULL,
+	playerBirthCity VARCHAR(50) NOT NULL,
+	playerBirthState VARCHAR(50) NOT NULL,
+	playerBirthCountry VARCHAR(50) NOT NULL,
+	playerHighSchool VARCHAR(50) NOT NULL,
+	playerCollege VARCHAR(50) NOT NULL,
+	playerSalary INT UNSIGNED NOT NULL,
+	playerPhotoUrl VARCHAR(250) NOT NULL,
+	playerInjuryStatus VARCHAR(50) NOT NULL,
+	playerInjuryBodyPart VARCHAR(50) NOT NULL,
+	playerInjuryNotes VARCHAR(250) NOT NULL,
 	INDEX (playerApiId),
 	UNIQUE (playerId),
 	FOREIGN KEY (playerSportId) REFERENCES sport (sportId),
@@ -121,7 +138,7 @@ CREATE TABLE playerStatistic (
 	FOREIGN KEY (playerStatisticGameId) REFERENCES game (gameId)
 );
 
-INSERT INTO sport(sportName, sportLeague) VALUES("Football", "NFL");
-INSERT INTO sport(sportName, sportLeague) VALUES("Baseball", "MLB");
 INSERT INTO sport(sportName, sportLeague) VALUES("Hockey", "NHL");
+INSERT INTO sport(sportName, sportLeague) VALUES("Baseball", "MLB");
 INSERT INTO sport(sportName, sportLeague) VALUES("Basketball", "NBA");
+INSERT INTO sport(sportName, sportLeague) VALUES("Football", "NFL");

@@ -24,20 +24,105 @@ class Player implements \JsonSerializable {
 	 */
 	private $playerApiId;
 	/**
-	 * Player is unique to Team Player cannot be on >1 teams
-	 * @var int $playerTeamId
-	 */
-	private $playerTeamId;
-	/**
 	 * Id associated with sport
 	 * @var int $playerSportId
 	 */
 	private $playerSportId;
 	/**
+	 * Player is unique to Team Player cannot be on >1 teams
+	 * @var int $playerTeamId
+	 */
+	private $playerTeamId;
+	/**
 	 * is unique Player
 	 * @var string $PlayerName
 	 */
 	private $playerName;
+	/**
+	 *  the status of the player
+	 * @var string $playerStatus
+	 */
+	private $playerStatus;
+	/*
+	 * name of the team that the player is on
+	 * @var string $playerTeam
+	 */
+	private $playerTeam;
+	/*
+	 *  number of the players jersy
+	 * @var int $playerJersy
+	 */
+	private $playerJersy;
+	/*
+	 * the position that the player plays
+	 * @var string $playerPosition
+	 */
+	private $playerPosition;
+	/*
+	 * the height of the player
+	 * @var int $playerHeight
+	 */
+	private $playerHeight;
+	/*
+	 * the weight of the player
+	 * @var int $playerWeight
+	 */
+	private $playerWeight;
+	/*
+	 * the birthdate of the player
+	 * @var  \DateTime $playerBirthDate
+	 */
+	private $playerBirthDate;
+	/*
+	 * the city the player was born in
+	 * @var string $playerBirthCity
+	 */
+	private $playerBirthCity;
+	/*
+	 * the state the player was born in
+	 * @var string $playerBirthState
+	 */
+	private $playerBirthState;
+	/*
+	 * the country the player was born in
+	 * @var string playerBirthCountry
+	 */
+	private $playerBirthCountry;
+	/*
+	 * the highschool that the player went to
+	 * @var string $playerHighSchool
+	 */
+	private $playerHighSchool;
+	/*
+	 * the college that the player went to
+	 * @var string $playerCollege
+	 */
+	private $playerCollege;
+	/*
+	 * the salary of the player
+	 * @var int $playerSalary
+	 */
+	private $playerSalary;
+	/*
+	 * the url of the players photo
+	 * @var string $playerPhotoUrl
+	 */
+	private $playerPhotoUrl;
+	/*
+	 * the players injury status
+	 * @var string $playerInjuryStatus
+	 */
+	private $playerInjuryStatus;
+	/*
+	 * teh body part that was injured
+	 * @var string $playerInjuryBodyPart
+	 */
+	private $playerInjuryBodyPart;
+	/*
+	 * the notes on the players injury
+	 * @var string $playerInjuryNotes
+	 */
+	private $playerInjuryNotes;
 
 
 	/**
@@ -53,12 +138,12 @@ class Player implements \JsonSerializable {
 	 */
 
 
-	public function __construct(int $newPlayerId = null, int $newPlayerApiId, int $newPlayerTeamId, int $newPlayerSportId, string $newPlayerName) {
+	public function __construct(int $newPlayerId = null, int $newPlayerApiId, int $newPlayerSportId, int $newPlayerTeamId,  string $newPlayerName) {
 		try {
 			$this->setPlayerId($newPlayerId);
 			$this->setPlayerApiId($newPlayerApiId);
-			$this->setPlayerTeamId($newPlayerTeamId);
 			$this->setPlayerSportId($newPlayerSportId);
+			$this->setPlayerTeamId($newPlayerTeamId);
 			$this->setPlayerName($newPlayerName);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the exception to the caller
