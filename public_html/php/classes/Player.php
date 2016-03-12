@@ -43,82 +43,82 @@ class Player implements \JsonSerializable {
 	 * @var string $playerStatus
 	 */
 	private $playerStatus;
-	/*
+	/**
 	 * name of the team that the player is on
 	 * @var string $playerTeam
 	 */
 	private $playerTeam;
-	/*
+	/**
 	 *  number of the players jersy
 	 * @var int $playerJersy
 	 */
 	private $playerJersy;
-	/*
+	/**
 	 * the position that the player plays
 	 * @var string $playerPosition
 	 */
 	private $playerPosition;
-	/*
+	/**
 	 * the height of the player
 	 * @var int $playerHeight
 	 */
 	private $playerHeight;
-	/*
+	/**
 	 * the weight of the player
 	 * @var int $playerWeight
 	 */
 	private $playerWeight;
-	/*
+	/**
 	 * the birthdate of the player
 	 * @var  \DateTime $playerBirthDate
 	 */
 	private $playerBirthDate;
-	/*
+	/**
 	 * the city the player was born in
 	 * @var string $playerBirthCity
 	 */
 	private $playerBirthCity;
-	/*
+	/**
 	 * the state the player was born in
 	 * @var string $playerBirthState
 	 */
 	private $playerBirthState;
-	/*
+	/**
 	 * the country the player was born in
 	 * @var string playerBirthCountry
 	 */
 	private $playerBirthCountry;
-	/*
+	/**
 	 * the highschool that the player went to
 	 * @var string $playerHighSchool
 	 */
 	private $playerHighSchool;
-	/*
+	/**
 	 * the college that the player went to
 	 * @var string $playerCollege
 	 */
 	private $playerCollege;
-	/*
+	/**
 	 * the salary of the player
 	 * @var int $playerSalary
 	 */
 	private $playerSalary;
-	/*
+	/**
 	 * the url of the players photo
 	 * @var string $playerPhotoUrl
 	 */
 	private $playerPhotoUrl;
-	/*
+	/**
 	 * the players injury status
 	 * @var string $playerInjuryStatus
 	 */
 	private $playerInjuryStatus;
-	/*
+	/**
 	 * teh body part that was injured
 	 * @var string $playerInjuryBodyPart
 	 */
 	private $playerInjuryBodyPart;
-	/*
+	/**
 	 * the notes on the players injury
 	 * @var string $playerInjuryNotes
 	 */
@@ -138,7 +138,7 @@ class Player implements \JsonSerializable {
 	 */
 
 
-	public function __construct(int $newPlayerId = null, int $newPlayerApiId, int $newPlayerSportId, int $newPlayerTeamId,  string $newPlayerName) {
+	public function __construct(int $newPlayerId = null, int $newPlayerApiId, int $newPlayerTeamId, int $newPlayerSportId, string $newPlayerName) {
 		try {
 			$this->setPlayerId($newPlayerId);
 			$this->setPlayerApiId($newPlayerApiId);
