@@ -37,13 +37,14 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 
 		<!--Angular JS-->
 		<?php $ANGULAR_VERSION = "1.5.0";?>
-		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/<?php echo $ANGULAR_VERSION;?>/angular.min.js"></script>
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/<?php echo $ANGULAR_VERSION;?>/angular-messages.js"></script>
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/<?php echo $ANGULAR_VERSION;?>/angular-route.js"></script>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/<?php echo $ANGULAR_VERSION;?>/angular.min.js"></script>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/<?php echo $ANGULAR_VERSION;?>/angular-messages.min.js"></script>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/<?php echo $ANGULAR_VERSION;?>/angular-route.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.4/ui-bootstrap-tpls.min.js"></script>
 
 		<!--Angular application files-->
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/app.js"></script>
+		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/route-config.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/services/player-service.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/home-controller.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/profile-controller.js"></script>

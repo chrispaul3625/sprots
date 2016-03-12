@@ -3,24 +3,30 @@ app.config(function($routeProvider, $locationProvider) {
 	$routeProvider
 	// route for the home page
 		.when('/', {
-			controller: 'mainController',
+			controller: 'homeController',
 			templateUrl: 'angular/pages/home.php'
 		})
 
+		// route for the player page
+		.when('/player/', {
+			controller: 'playerController',
+			templateUrl: 'angular/pages/player.php'
+		})
+
 		// route for the sport page
-		.when('/sport', {
+		.when('/sport/', {
 			controller: 'sportController',
 			templateUrl: 'angular/pages/sport.php'
 		})
 
 		// route for the profile page
-		.when('/profile', {
+		.when('/profile/', {
 			controller: 'profileController',
 			templateUrl: 'angular/pages/profile.php'
 		})
 
 		// route for the schedule page
-		.when('/schedule', {
+		.when('/schedule/', {
 			controller: 'scheduleController',
 			templateUrl: 'angular/pages/schedule.php'
 		})

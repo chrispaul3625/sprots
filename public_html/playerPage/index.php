@@ -36,9 +36,9 @@ require_once(dirname(__DIR__)."/php/templates/head-utils.php");
 									</div>
 								</form>
 								<div ng-repeat="player in filteredPlayers | filter: search">
-									<p> |Id {{ player.playerId }} |
-										{{player.playerName}} |
-										{{player.playerCity}} |
+									<p> Id {{ player.playerId }}
+										{{player.playerName}}
+										{{player.playerCity}}
 									</p>
 						</div>
 								<uib-pagination

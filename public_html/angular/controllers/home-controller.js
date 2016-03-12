@@ -1,6 +1,2 @@
-app.controller('mainController', function($scope){
-
-});
-
-
-
+app.controller('homeController', ["$scope", function($scope) {
+}]);
