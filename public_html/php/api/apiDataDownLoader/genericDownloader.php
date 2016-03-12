@@ -61,7 +61,6 @@ function getPlayers(string $league) {
 				// Get player statistics by game
 				// response from api
 				$response = file_get_contents("https://api.fantasydata.net/$league/v2/JSON/PlayerGameStatsByPlayer/$gameDate/$player->PlayerID", false, $context);
-//				var_dump($response);
 				$statisticData = json_decode($response);
 
 				// Adds statistics to database
@@ -115,11 +114,13 @@ function getTeams(string $league, int $teamSportId) {
 		$response = file_get_contents("https://api.fantasydata.net/$league/v2/JSON/teams", false, $context);
 		$data = json_decode($response);
 
+		// Places team in designated sport, and populates teams in team db with response from api
 		$sport = Sport::getSportBySportLeague($pdo, $league);
 		foreach($data as $team) {
 			$team = new Team(null, $sport->getSportId(), $team->TeamID, $team->City, $team->Name);
 			$team->insert($pdo);
 
+			// get team statistics by game
 			$game = Game::getGameByGameFirstTeamId($pdo, $team->getTeamId());
 			if($game === null) {
 				$game = Game::getGameByGameSecondTeamId($pdo, $team->getTeamId());
@@ -129,7 +130,6 @@ function getTeams(string $league, int $teamSportId) {
 			}
 			$gameDate = $game->getGameTime()->format("Y-m-d");
 
-			// get team statistics by game
 			// response from api
 			$response = file_get_contents("https://api.fantasydata.net/$league/v2/JSON/TeamGameStatsByDate/$gameDate");
 			$statisticData = json_decode($response);

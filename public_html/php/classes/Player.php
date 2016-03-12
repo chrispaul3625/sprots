@@ -12,7 +12,7 @@ require_once("autoload.php");
  * $author Jude Chavez <chavezjude7@gmail.com>
  *
  */
-class Player implements \JsonSerializable {
+class Player {
 	/**
 	 * Id for the Player; this is the primary key
 	 * @var int $PlayerId
@@ -373,8 +373,6 @@ class Player implements \JsonSerializable {
 	}
 
 
-
-
 	/**
 	 * gets the Player by playerName
 	 *
@@ -432,7 +430,7 @@ class Player implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// build an array of teams
+		// build an array of Players
 		$players = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
@@ -448,10 +446,34 @@ class Player implements \JsonSerializable {
 		return ($players);
 	}
 
-	public function jsonSerialize() {
-		return(get_object_vars($this));
+
+	/**
+	 * gets all Players by teamId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of players found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	public static function getAllPlayersByTeamId(\PDO $pdo) {
+		$query = "SELECT playerId, playerApiId, playerTeamId, playerSportId, playerName FROM player WHERE playerTeamId = :playerTeamId";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of Players
+		$players = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$player = new Player($row["playerId"], $row["playerApiId"], $row["playerTeamId"], $row["playerSportId"], $row["playerName"]);
+				$players[$players->key()] = $player;
+				$players->next();
+			} Catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($players);
 	}
 }
-
-
-
