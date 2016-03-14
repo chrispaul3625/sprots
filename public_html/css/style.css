@@ -87,7 +87,7 @@ html, body {
 }
 
 #services {
-	background-color: forestgreen;
+	background-color: olivedrab;
 	color: white;
 }
 #services .glyphicon {
@@ -128,4 +128,12 @@ footer .glyphicon {
 }
 footer .glyphicon:hover {
 	color: white;
+}
+
+header {
+	background: black;
+}
+
+body {
+	background: darkolivegreen;
 }
