@@ -23,13 +23,13 @@
 			</div>
 			<uib-pagination
 				ng-model="pagination.currentPage"
-				total-items="players.length"
+				total-items="schedule.length"
 				items-per-page="pagination.pageSize"
 				max-size="pagination.numPages"
 				boundary-links="true"
 				ng-disabled="pagination.searching"
 				ng-hide="pagination.searching"
-				ng-change="switchPlayerArray();">
+				ng-change="switchScheduleArray();">
 			</uib-pagination>
 		</div>
 	</div>
