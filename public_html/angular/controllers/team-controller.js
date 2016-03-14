@@ -2,38 +2,41 @@ app.controller('teamController', ["$scope", "teamService", function($scope, team
 	$scope.teams = [];
 
 	// pagination & search variables
-	$scope.filteredTeams = [];
-	$scope.currentPage = 1;
-	$scope.pageSize = 10;
-	$scope.numPages = 5;
-	$scope.searching = false;
+	$scope.pagination = {
+		filteredTeams: [],
+		currentPage: -1,
+		pageSize: 10,
+		numPages: 5,
+		search: "",
+		searching: false
+	};
 
-	$scope.getAllTeams = function () {
+
+	$scope.getAllTeams = function() {
 		teamService.all()
-			.then(function (result) {
-				if (result.data.status === 200) {
+			.then(function(result) {
+				if(result.data.status === 200) {
 					$scope.teams = result.data.data;
-					$scope.$watch("currentPage + pageSize", function() {
-						var begin = ($scope.currentPage - 1) * $scope.pageSize;
-						var end = begin + $scope.pageSize;
-						$scope.filteredTeams = $scope.teams.slice(begin, end);
-					});
+					$scope.switchTeamArray();
 				}
 			});
 	};
 
 	$scope.switchTeamArray = function() {
-		if($scope.search !== undefined && $scope.search !== "") {
-			$scope.searching = true;
-			$scope.currentPage = -1;
-			$scope.filteredTeams = $scope.teams;
+		if($scope.pagination.search !== undefined && $scope.pagination.search !== "") {
+			$scope.pagination.searching = true;
+			$scope.pagination.currentPage = -1;
+			$scope.paginationfilteredTeams = $scope.teams;
 		} else {
-			$scope.searching = false;
-			$scope.currentPage = 1;
+			$scope.pagination.searching = false;
+			var begin = ($scope.pagination.currentPage - 1) * $scope.pagination.pageSize;
+			var end = begin + $scope.pagination.pageSize;
+			$scope.pagination.filteredTeams = $scope.teams.slice(begin, end);
 		}
 	};
 
-	if ($scope.teams.length === 0) {
-		$scope.teams = $scope.getAllteams();
+	if($scope.teams.length === 0) {
+		$scope.team = $scope.getAllTeams();
+		$scope.pagination.currentPage = 1;
 	}
 }]);
