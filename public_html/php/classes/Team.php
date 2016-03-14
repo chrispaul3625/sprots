@@ -8,7 +8,7 @@ require_once("autoload.php");
  *
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
-class Team {
+class Team implements \JsonSerializable {
 
 
 	/**
@@ -494,6 +494,8 @@ class Team {
 		}
 		return ($teams);
 	}
-
+	public function jsonSerialize() {
+		return(get_object_vars($this));
+	}
 
 }

@@ -13,6 +13,12 @@ app.config(function($routeProvider, $locationProvider) {
 			templateUrl: 'angular/pages/player.php'
 		})
 
+		// route for the team page
+		.when('/team/', {
+			controller: 'teamController',
+			templateUrl: 'angular/pages/team.php'
+		})
+
 		// route for the sport page
 		.when('/sport/', {
 			controller: 'sportController',
