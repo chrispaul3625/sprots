@@ -1,6 +1,6 @@
 <?php
 /**
- * This API is to collect Player data from FantasyData
+ * This is the internal API for Favorite Player Class
  */
 require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
 require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";

@@ -43,14 +43,14 @@ class Team implements \JsonSerializable {
 	 *
 	 * @param int|null $newTeamId id of the team that is being created
 	 * @param int $newTeamSportId Id that is associated with the sport
-	 * @param int $newTeamApiId Api id that is associated with team
+	 * @param string $newTeamApiId Api id that is associated with team
 	 * @param string $newTeamCity city associated with team
 	 * @param string $newTeamName name associated with team
 	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate type hints
 	 */
 
-	public function __construct(int $newTeamId = null, int $newTeamSportId, int $newTeamApiId, string $newTeamCity, string $newTeamName) {
+	public function __construct(int $newTeamId = null, int $newTeamSportId, $newTeamApiId, string $newTeamCity, string $newTeamName) {
 		try {
 			$this->setTeamId($newTeamId);
 			$this->setTeamApiId($newTeamApiId);
@@ -120,7 +120,7 @@ class Team implements \JsonSerializable {
 	 * @throws \RangeException if the $newTeamApiId is not positive
 	 * @throws \TypeError if $newTeamApiId is not an integer
 	 **/
-	public function setTeamApiId(string $newTeamApiId) {
+	public function setTeamApiId($newTeamApiId) {
 		// Verify the team id is positive
 		$newTeamApiId = trim($newTeamApiId);
 		$newTeamApiId = filter_var($newTeamApiId, FILTER_SANITIZE_STRING);
@@ -340,16 +340,14 @@ class Team implements \JsonSerializable {
 	 * gets the Team by teamApiId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $teamApiId team Api id to search for
+	 * @param int|string $teamApiId team Api id to search for
 	 * @return Team|null Team found or null if not found
 	 * @throws \PDOException when mySql related errors occur
 	 * @throws \TypeError when variable are not the correct data type
 	 */
-	public static function getTeamByTeamApiId(\PDO $pdo, int $teamApiId) {
+	public static function getTeamByTeamApiId(\PDO $pdo, $teamApiId) {
 		// sanitize the teamApiId before searching
-		if($teamApiId <= 0) {
-			throw(new \PDOException("team Api id is not positive"));
-		}
+		$teamApiId = filter_var($teamApiId, FILTER_SANITIZE_STRING);
 		// Create query template
 		$query = "SELECT teamId,  teamSportId, teamApiId, teamCity, teamName FROM team WHERE teamApiId = :teamApiId";
 		$statement = $pdo->prepare($query);
