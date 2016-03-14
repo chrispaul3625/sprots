@@ -28,20 +28,21 @@
 					</div>
 				</div>
 			</form>
-			<div ng-repeat="player in filteredPlayers | filter: search">
+			<div ng-repeat="player in pagination.filteredPlayers | filter: search">
 				<p> Id {{ player.playerId }}
 					{{player.playerName}}
 					{{player.playerCity}}
 				</p>
 			</div>
 			<uib-pagination
-				ng-model="currentPage"
+				ng-model="pagination.currentPage"
 				total-items="players.length"
-				items-per-page="pageSize"
-				max-size="numPages"
+				items-per-page="pagination.pageSize"
+				max-size="pagination.numPages"
 				boundary-links="true"
-				ng-disabled="searching"
-				ng-hide="searching">
+				ng-disabled="pagination.searching"
+				ng-hide="pagination.searching"
+				ng-change="switchPlayerArray();">
 			</uib-pagination>
 		</div>
 	</div>
