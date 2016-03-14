@@ -47,9 +47,9 @@ function getPlayers(string $league) {
 		// Adds players to database
 		foreach($data as $player) {
 			$team = Team::getTeamByTeamApiId($pdo, $player->TeamID);
-			if($team !== null) {
-				$playerToInsert = new Player(null, $player->PlayerID, $team->getTeamId(), $sport->getSportId(), $player->FirstName . " " . $player->LastName);
-				$playerToInsert->insert($pdo);
+				if($team !== null) {
+					$playerToInsert = new Player(null, $player->PlayerID, $team->getTeamId(), $sport->getSportId(), $player->FirstName . " " . $player->LastName);
+					$playerToInsert->insert($pdo);
 
 				$game = Game::getGameByGameFirstTeamId($pdo, $team->getTeamId());
 				if($game === null) {
