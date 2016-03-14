@@ -44,7 +44,7 @@ try {
 
 
 
-	//get the player based on the given field
+	//get the Sport based on the given field
 	if(empty($id) === false) {
 		$sport = Sport::getSportBySportId($pdo, $id);
 		$reply->data = $sport;
