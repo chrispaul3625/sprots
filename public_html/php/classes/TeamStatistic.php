@@ -44,7 +44,7 @@ class TeamStatistic {
 	 * @throws \Exception if some other exception occurs
 	 **/
 
-	public function __construct(int $newTeamStatisticGameId, int $newTeamStatisticTeamId, int $newTeamStatisticStatisticId, int $newTeamStatisticValue) {
+	public function __construct(int $newTeamStatisticGameId, int $newTeamStatisticTeamId, int $newTeamStatisticStatisticId, string $newTeamStatisticValue) {
 		try {
 			$this->setTeamStatisticGameId($newTeamStatisticGameId);
 			$this->setTeamStatisticTeamId($newTeamStatisticTeamId);
@@ -169,7 +169,7 @@ class TeamStatistic {
 	 * @throws \TypeError if $newTeamStatisticValue is not an integer
 	 **/
 
-	public function setTeamStatisticValue(int $newTeamStatisticValue = null) {
+	public function setTeamStatisticValue(string $newTeamStatisticValue = null) {
 		// base case: if PlayerStatisticStatisticId is null, this is a new player statistic Statistic id without a MySQL assigned id (yet)
 		if($newTeamStatisticValue === null) {
 			throw(new \InvalidArgumentException("Value cannot be null"));

@@ -96,7 +96,7 @@ CREATE TABLE statistic (
 
 CREATE TABLE teamStatistic (
 	teamStatisticTeamId      INT UNSIGNED NOT NULL,
-	teamStatisticValue       VARCHAR(32)  NOT NULL,
+	teamStatisticValue       VARCHAR(250)  NOT NULL,
 	teamStatisticStatisticId INT UNSIGNED NOT NULL,
 	teamStatisticGameId      INT UNSIGNED NOT NULL,
 	INDEX (teamStatisticTeamId),
