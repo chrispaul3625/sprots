@@ -140,7 +140,7 @@ try {
 		$urlglue = $basePath . "/controllers/emailConfirmation?emailActivation=" . $profile->getProfileEmail();
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
 		$message = <<< EOF
-		<h1>You've been registered for Sprots, the best in up to date professional sport statistics!</h1>
+		<h1>You've been registered for Sprots, the best in up to date professional Sport statistics!</h1>
 		<p>Visit the following URL to set a new password and complete the registration process: </p>
 		<a href="$confirmLink">$confirmLink</a></p>
 EOF;
