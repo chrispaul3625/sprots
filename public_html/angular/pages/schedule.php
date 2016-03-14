@@ -8,7 +8,7 @@
 				<div class="form-group">
 					<label for="search">Search</label>
 					<div class="input-group">
-						<input type="text" class="form-control" ng-model="pagination.search" ng-change="switchSchduleArray();"/>
+						<input type="text" class="form-control" ng-model="pagination.search" ng-change="switchScheduleArray();"/>
 						<div class="input-group-addon">
 							<i class="fa fa-search" aria-hidden="true"></i>
 						</div>

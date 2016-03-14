@@ -15,7 +15,7 @@ app.controller('scheduleController', ["$scope", "scheduleService", function($sco
 		scheduleService.all()
 			.then(function (result) {
 				if (result.data.status === 200) {
-					$scope.scheduls = result.data.data;
+					$scope.schedules = result.data.data;
 					$scope.switchScheduleArray();
 				}
 			});
