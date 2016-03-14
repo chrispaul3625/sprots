@@ -40,7 +40,7 @@ try {
 
 
 
-	//get the player based on the given field
+	//get the team based on the given field
 	if(empty($id) === false) {
 		$team = Team::getTeamByTeamId($pdo, $id);
 		$reply->data = $team;
