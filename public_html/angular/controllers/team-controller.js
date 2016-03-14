@@ -11,7 +11,6 @@ app.controller('teamController', ["$scope", "teamService", function($scope, team
 		searching: false
 	};
 
-
 	$scope.getAllTeams = function() {
 		teamService.all()
 			.then(function(result) {
