@@ -1,4 +1,4 @@
-app.controller('scheduleController', ["$scope", function($scope) {
+app.controller('scheduleController', ["$scope", "scheduleService", function($scope, scheduleService) {
 	$scope.schedules = [];
 
 	// pagination & search variables
