@@ -35,10 +35,10 @@ try {
 		$sport = Sport::getSportBySportLeague($pdo, "NFL");
 
 		foreach($data as $teamData) {
-			$team = Team::getTeamByTeamApiId($pdo, $teamData->Key);
-			if($team === null) {
-				$team = new Team(null, $sport->getSportId(), $teamData->Key, $teamData->City, $teamData->Name);
-				$team->insert($pdo);
+			$team = Team::getTeamByTeamApiId($pdo, $teamData->TeamID);
+			if($team !== null) {
+				$teamToInsert = new Team(null, $team->getTeamId(), $sport->getSportId(), $team->getTeamCity(), $team->getTeamName());
+				$teamToInsert->insert($pdo);
 				$game = Game::getGameByGameFirstTeamId($pdo, $team->getTeamId());
 				if($game === null) {
 					$game = Game::getGameByGameSecondTeamId($pdo, $team->getTeamId());
@@ -59,12 +59,9 @@ try {
 						} else {
 							$statistic = $statistic[0];
 						}
-						$statisticValue = null;
-						if(empty($statisticData->$statisticName) === false) {
-							$statisticValue = $statisticData->$statisticName;
-						}
+						$statisticValue = $statisticData->$statisticName;
 						if($statisticValue !== null) {
-							$teamStatisticToInsert = new TeamStatistic($game->getGameId(), $team->getTeamId(), $team->getTeamId(), $statistic->getStatisticId(), $statisticValue);
+							$teamStatisticToInsert = new TeamStatistic($game->getGameId(), $teamToInsert->getTeamId(), $team->getTeamId(), $statistic->getStatisticId(), $statisticValue);
 							$teamStatisticToInsert->insert($pdo);
 						}
 					}
@@ -97,10 +94,10 @@ try {
 		$data = json_decode($response);
 
 		foreach($data as $game) {
-			$badDate = str_replace("T", " ", $game->Date);
+			$badDate = str_replace("T", " ", $game->DateTime);
 			if(empty($badDate) === false) {
-				$teamChavez = Team::getTeamByTeamApiId($pdo, $game->AwayTeam);
-				$teamPaul = Team::getTeamByTeamApiId($pdo, $game->HomeTeam);
+				$teamChavez = Team::getTeamByTeamApiId($pdo, $game->AwayTeamID);
+				$teamPaul = Team::getTeamByTeamApiId($pdo, $game->HomeTeamID);
 				if($teamChavez !== null && $teamPaul !== null) {
 					$gameToInsert = new Game(null, $teamChavez->getTeamId(), $teamPaul->getTeamId(), $badDate);
 					$gameToInsert->insert($pdo);
@@ -180,4 +177,3 @@ try {
 } catch(TypeError $typeError) {
 	echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 }
-
