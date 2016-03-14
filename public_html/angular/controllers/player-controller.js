@@ -7,6 +7,7 @@ app.controller('playerController', ["$scope", "playerService", function($scope, 
 		currentPage: -1,
 		pageSize: 10,
 		numPages: 5,
+		search: "",
 		searching: false
 	};
 
@@ -21,7 +22,7 @@ app.controller('playerController', ["$scope", "playerService", function($scope, 
 	};
 
 	$scope.switchPlayerArray = function() {
-		if($scope.search !== undefined && $scope.search !== "") {
+		if($scope.pagination.search !== undefined && $scope.pagination.search !== "") {
 			$scope.pagination.searching = true;
 			$scope.pagination.currentPage = -1;
 			$scope.pagination.filteredPlayers = $scope.players;

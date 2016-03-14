@@ -12,11 +12,14 @@ require_once("php/templates/head-utils.php");
 	<?php require_once("php/templates/header.php") ?>
 
 
+
 	<main class="container">
 		<div ng-view></div>
+
 	</main>
+	<div class="sfooter-content">
 
-<?php require_once ("php/templates/footer.php")?>
-
+	</div>
 </body>
+<?php require_once ("php/templates/footer.php")?>
 </html>

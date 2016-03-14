@@ -21,14 +21,14 @@
 				<div class="form-group">
 					<label for="search">Search</label>
 					<div class="input-group">
-						<input type="text" class="form-control" ng-model="search" ng-change="switchPlayerArray();"/>
+						<input type="text" class="form-control" ng-model="pagination.search" ng-change="switchPlayerArray();"/>
 						<div class="input-group-addon">
 							<i class="fa fa-search" aria-hidden="true"></i>
 						</div>
 					</div>
 				</div>
 			</form>
-			<div ng-repeat="player in pagination.filteredPlayers | filter: search">
+			<div ng-repeat="player in pagination.filteredPlayers | filter: pagination.search">
 				<p> Id {{ player.playerId }}
 					{{player.playerName}}
 					{{player.playerCity}}
