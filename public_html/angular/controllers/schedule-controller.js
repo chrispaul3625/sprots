@@ -1,37 +1,42 @@
 app.controller('scheduleController', ["$scope", function($scope) {
-	$scope.schedules = [
-		{
-			teamId: 56,
-			teamName: "Broncos",
-			teamCity: "Denver",
-			result: "30",
-			teamId2: 89,
-			teamName2: "Bears",
-			teamCity2: "Chicago",
+	$scope.schedules = [];
 
-			date:"03/17/2016"
+	// pagination & search variables
+	$scope.pagination = {
+		filteredSchedules: [],
+		currentPage: -1,
+		pageSize: 10,
+		numPages: 5,
+		search: "",
+		searching: false
+	};
 
-		},
-		{
-			teamId: 32,
-			teamName: "Seahawks",
-			teamCity: "Seattle",
-			result: "28",
-			teamId2: 65,
-			teamName2: "Cowboys",
-			teamCity2: "Dallas",
-			date:"03/18/2016"
+	$scope.getAllSchedules = function() {
+		scheduleService.all()
+			.then(function (result) {
+				if (result.data.status === 200) {
+					$scope.scheduls = result.data.data;
+					$scope.switchScheduleArray();
+				}
+			});
 
-		},
-		{
-			teamId: 72,
-			teamName: "Packers",
-			teamCity: "Green Bay",
-			result: "16",
-			teamId2: 22,
-			teamName2: "Chargers",
-			teamCity2: "San Diego",
-			date:"03/20/2016"
+	};
+	$scope.switchScheduleArray = function() {
+		if($scope.pagination.search !== undefined && $scope.pagination.search !== "") {
+			$scope.pagination.searching = true;
+			$scope.pagination.currentPage = -1;
+			$scope.pagination.filteredSchedules = $scope.schedules;
+		} else {
+			$scope.pagination.searching = false;
+			var begin = ($scope.pagination.currentPage - 1) * $scope.pagination.pageSize;
+			var end = begin + $scope.pagination.pageSize;
+			$scope.pagination.filteredSchedules = $scope.schedules.slice(begin, end);
 		}
-	];
+	};
+
+	if ($scope.schedules.length === 0) {
+		$scope.schedules = $scope.getAllSchedules();
+		$scope.pagination.currentPage = 1;
+	}
 }]);
+
