@@ -177,3 +177,4 @@ try {
 } catch(TypeError $typeError) {
 	echo "Something went wrong: " . $typeError->getMessage() . PHP_EOL;
 }
+
