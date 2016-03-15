@@ -22,10 +22,18 @@ $reply->data = null;
 
 
 //grab the mySQL connection
+try{
 $pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 
+	//determine which HTTP method was used
+	$method = arry_key_exist("HTTP_X_HTTP_METHOD",$_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+
 //sanitize inputs
-$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+//make sure the id is valid for methods that require it
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
+		throw(new InvalidArgumentException("id can not be empty or negitive", 405));
+	}
 
 //sanitize and trim other fields
 $teamStatisticGameId= filter_input(INPUT_GET, "GameId", FILTER_SANITIZE_NUMBER_INT);
@@ -52,12 +60,15 @@ if($method === "GET") {
 	$teamStatistic = TeamStatistic::getTeamStatisticByTeamStatisticStatisticId($pdo, $teamStatisticStatisticId);
 	if($teamStatistic !== null && $teamStatistic->getStatisticId() === $_SESSION["teamStatistic"]->getStatisticId()) {
 		$reply->data = $teamStatistic;
+		}
 	}
+
+}catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
 }
 header("Content-type: application/json");
 if($reply->data === null) {
 	unset($reply->data);
 }
 echo json_encode($reply);
-
-
