@@ -14,7 +14,7 @@
 <div id="about" class="pad-section">
 	<div class="container">
 		<div class="row-2">
-			<div class="col-sm-6 text-center">
+			<div class="col-sm-6 col-sm-offset-3">
 				<h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet.</h2>
 				<p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum metus et ligula venenatis, at rhoncus nisi molestie. Pellentesque porttitor elit suscipit massa laoreet metus.</p>
 			</div>
@@ -89,8 +89,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 text-center">
-				<h3>Sign up</h3>
-				<h4>er nah?</h4>
+				<h3>Sign Up</h3>
+				<button class="btn btn-default btn-lg">Go!</button>
 			</div>
 		</div>
 	</div>
