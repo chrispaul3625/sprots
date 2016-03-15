@@ -95,13 +95,13 @@ CREATE TABLE statistic (
 );
 
 CREATE TABLE teamStatistic (
-	teamStatisticTeamId      INT UNSIGNED NOT NULL,
-	teamStatisticValue       VARCHAR(250)  NOT NULL,
-	teamStatisticStatisticId INT UNSIGNED NOT NULL,
 	teamStatisticGameId      INT UNSIGNED NOT NULL,
+	teamStatisticTeamId      INT UNSIGNED NOT NULL,
+	teamStatisticStatisticId INT UNSIGNED NOT NULL,
+	teamStatisticValue       VARCHAR(250)  NOT NULL,
+	INDEX (teamStatisticGameId),
 	INDEX (teamStatisticTeamId),
 	INDEX (teamStatisticStatisticId),
-	INDEX (teamStatisticGameId),
 	FOREIGN KEY (teamStatisticTeamId) REFERENCES team (teamId),
 	FOREIGN KEY (teamStatisticStatisticId) REFERENCES statistic (statisticId),
 	FOREIGN KEY (teamStatisticGameId) REFERENCES game (gameId)
