@@ -34,7 +34,7 @@ try {
 
 	//sanitize and trim other fields
 	$teamId = filter_input(INPUT_GET, "teamId", FILTER_VALIDATE_INT);
-	$teamApiId = filter_input(INPUT_GET, "teamApiId", FILTER_VALIDATE_INT);
+	$teamApiId = filter_input(INPUT_GET, "teamApiId", FILTER_SANITIZE_STRING);
 	$teamCity = filter_input(INPUT_GET, "teamCity", FILTER_SANITIZE_STRING);
 	$teamName = filter_input(INPUT_GET, "teamName", FILTER_SANITIZE_STRING);
 
