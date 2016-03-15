@@ -119,6 +119,8 @@ try {
 		$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/Players/$season", false, $context);
 		$data = json_decode($response);
 		$stats = ["PlayerID  ", "Team", "Number ", "FirstName ", "LastName", "Status ", "Height ", "Weight", "BirthDate ", "College ", "Experience ", "Active ", "PositionCategory ", "Name", "Age ", "ExperienceString ", "BirthDateString", "PhotoUrl ", "ByeWeek  ", "UpcomingGameOpponent ", "UpcomingGameWeek", "ShortName  ", "AverageDraftPosition ", "DepthPositionCategory  ", "DepthPosition ", "DepthOrder  ", "DepthDisplayOrder ", "CurrentTeam  ", "HeightFeet  ", "UpcomingOpponentRank ", "UpcomingOpponentPositionRank ", "CurrentStatus"];
+
+
 		$sport = Sport::getSportBySportLeague($pdo, "NFL");
 		foreach($data as $player) {
 			$team = Team::getTeamByTeamApiId($pdo, $player->TeamID);
@@ -134,6 +136,7 @@ try {
 				for($week = 1; $week <= 21; $week++) {
 					$response = file_get_contents("https://api.fantasydata.net/nfl/v2/JSON/PlayerGameStatsByPlayerID/$season/$week/$player->PlayerID", false, $context);
 					$statisticData = json_decode($response);
+
 					//adds statistic to database
 					foreach($stats as $statisticName) {
 						$statistic = Statistic::getStatisticByStatisticName($pdo, $statisticName);
@@ -143,10 +146,9 @@ try {
 						} else {
 							$statistic = $statistic[0];
 						}
-						$statisticValue = $statisticData->$statisticName;
-						if($statisticValue !== null) {
-							$playerStatisticToInsert = new PlayerStatistic($game->getGameId(), $playerToInsert->getPlayerId(), $team->getTeamId(), $statistic->getStatisticId(),
-								$statisticValue);
+
+						if(empty($statisticData->$statisticName)=== false) {
+							$playerStatisticToInsert = new PlayerStatistic($game->getGameId(), $playerToInsert->getPlayerId(), $team->getTeamId(), $statistic->getStatisticId(), $statisticData->$statisticName);
 							$playerStatisticToInsert->insert($pdo);
 						}
 					}
