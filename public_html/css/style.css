@@ -78,10 +78,12 @@ html, body {
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	color: white;
+
 }
 
 #about {
-
+	color: white;
 }
 
 #services {
@@ -120,6 +122,7 @@ html, body {
 }
 footer {
 	padding: 20px 0;
+	color: white;
 }
 footer .glyphicon {
 	color: white;
@@ -157,4 +160,10 @@ body {
 
 .jumbotron {
 	background-image: url("../images/grass.jpg");
+	color: white;
+}
+
+.sfooter-content-2 {
+	background-color: olivedrab;
+	color: white;
 }

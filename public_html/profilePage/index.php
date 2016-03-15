@@ -40,11 +40,13 @@ require_once(dirname(__DIR__)."/php/templates/head-utils.php");
 		<?php require_once (dirname(__DIR__)."/php/templates/header.php") ?>
 
 		<div class="jumbotron">
-			<h1>Profile</h1>
-			<p>Hello World!</p>
+			<div class="container">
+				<h1>Profile</h1>
+				<p>Hello World!</p>
+			</div>
 		</div>
 
-		<div class="sfooter-content">
+		<div class="sfooter-content-2">
 			<main>
 				<div class="container">
 					<div class="row">
