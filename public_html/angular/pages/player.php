@@ -33,21 +33,17 @@
 					<tbody>
 						<tr>
 							<th>Player Name </th>
-							<th>Player City</th>
 						</tr>
 
 						<tr ng-repeat="player in pagination.filteredPlayers | filter: pagination.search">
 							<td>
-								<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">
+								<p ng-click="flipPlayerCollapsed($index);">
 									{{ player.playerName }}
-								</button>
-								<hr>
-				<span ubi-collapse="isCollapsed">
-				<span class="well well-sm"> some content </span>
-				</span>
+								</p>
+								<p uib-collapse="isPlayerCollapsed($index);">
+				<span> some content </span>
+				</p>
 
-							</td>
-							<td>{{ player.playerCity }}</td>
 						</tr>
 					</tbody>
 				</table>
