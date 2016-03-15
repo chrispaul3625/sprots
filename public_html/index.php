@@ -9,12 +9,13 @@ $PAGE_TITLE = "Home";
 require_once("php/templates/head-utils.php");
 ?>
 
-
 <body class="sfooter">
-	<?php require_once("php/templates/header.php") ?>
-	<main class="container">
-		<div ng-view></div>
-	</main>
+	<div class="sfooter-content">
+		<?php require_once("php/templates/header.php") ?>
+		<main class="container">
+			<div ng-view></div>
+		</main>
+	</div>
+	<?php require_once ("php/templates/footer.php")?>
 </body>
-<?php require_once ("php/templates/footer.php")?>
 </html>

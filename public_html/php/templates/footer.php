@@ -1,9 +1,10 @@
-<footer class="container">
-	<div class="col-md-12">
-		<div class="content-box">
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				&copy; Sprots 2016
+			</div>
 		</div>
 	</div>
-	<h2> Footer </h2>
-	&copy; Sprots 2016
 </footer>
 
