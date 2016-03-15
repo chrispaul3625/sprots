@@ -154,3 +154,7 @@ body {
 .row-2 {
 	text-align: center;
 }
+
+.jumbotron {
+	background-image: url("../images/grass.jpg");
+}
