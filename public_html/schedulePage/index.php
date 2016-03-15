@@ -35,6 +35,7 @@ require_once(dirname(__DIR__)."/php/templates/head-utils.php");
 				  crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="../css/style.css">
 	</head>
+
 	<body class="sfooter">
 		<?php require_once (dirname(__DIR__)."/php/templates/header.php") ?>
 		<!--Navigation bar-->
