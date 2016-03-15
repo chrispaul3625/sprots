@@ -52,6 +52,7 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/services/team-service.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/services/schedule-service.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/services/signup-service.js"></script>
+		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/services/login-service.js"></script>
 <!--		controllers here -->
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/home-controller.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/profile-controller.js"></script>
@@ -61,7 +62,8 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/score-controller.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/position-controller.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/team-controller.js"></script>
-		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/singup-controller.js"></script>
+		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/signup-controller.js"></script>
+		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/login-service.js"></script>
 
 
 

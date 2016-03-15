@@ -37,6 +37,12 @@ app.config(function($routeProvider, $locationProvider) {
 			templateUrl: 'angular/pages/schedule.php'
 		})
 
+		/*route for the login page
+		.when('/', {
+		controller: 'loginController',
+		templateUrl:'angular/pages/login.php'
+		})*/
+
 		.otherwise({
 			redirectTo: "/"
 		});
