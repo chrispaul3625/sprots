@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-2">
+	<div class="col-md-3">
 		<div class="content-box">
 			<h2> Favorited Teams </h2>
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
@@ -11,7 +11,7 @@
 		</div>
 	</div>
 
-	<div class="col-md-10">
+	<div class="col-md-9">
 		<div class="alert alert-info" ng-if="teams.length === 0">
 			<i class="fa fa-spinner fa-pulse" aria-hidden="true"></i> Loading teams&hellip;
 		</div>
