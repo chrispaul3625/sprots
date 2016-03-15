@@ -1,4 +1,4 @@
-app.controller('playerController', ["$scope", "playerService", function($scope, playerService) {
+app.controller('playerController', ["$scope", "playerService", "playerStatsService", function($scope, playerService, playerStatsService) {
 	$scope.players = [];
 
 	// pagination & search variables
@@ -20,7 +20,15 @@ app.controller('playerController', ["$scope", "playerService", function($scope, 
 				}
 			});
 	};
-
+	$scope.getAllPlayerStatistics = function () {
+		playerService.all()
+			.then(function (result) {
+				if (result.data.status === 200) {
+					$scope.players = result.data.data;
+					$scope.switchPlayerArray();
+				}
+			});
+	};
 	$scope.switchPlayerArray = function() {
 		if($scope.pagination.search !== undefined && $scope.pagination.search !== "") {
 			$scope.pagination.searching = true;

@@ -28,12 +28,13 @@ $pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
 //sanitize and trim other fields
-$playerStatisticGameId = filter_input(INPUT_GET, "GameId", FILTER_SANITIZE_NUMBER_INT);
-$playerStatisticPlayerId = filter_input(INPUT_GET, "PlayerId", FILTER_SANITIZE_NUMBER_INT);
-$playerStatisticStatisticId = filter_input(INPUT_GET, "StatisticId", FILTER_SANITIZE_NUMBER_INT);
-$playerStatisticValue = filter_input(INPUT_GET, "Statistic Value", FILTER_SANITIZE_NUMBER_INT);
+$playerStatisticGameId = filter_input(INPUT_GET, "gameId", FILTER_SANITIZE_NUMBER_INT);
+$playerStatisticPlayerId = filter_input(INPUT_GET, "playerId", FILTER_SANITIZE_NUMBER_INT);
+$playerStatisticStatisticId = filter_input(INPUT_GET, "statisticId", FILTER_SANITIZE_NUMBER_INT);
+$playerStatisticValue = filter_input(INPUT_GET, "statisticValue", FILTER_SANITIZE_NUMBER_INT);
 
 //handle REST calls, while only allowing administrators to access database-modifying methods
+//FIXME: define the method
 if($method === "GET") {
 	//set XSRF cookie
 	setXsrfCookie("/");
@@ -44,10 +45,9 @@ if($method === "GET") {
 		$reply->data = $playerStatistic;
 	}
 } else if(empty($playerStatisticPlayerId) === false) {
-	$playerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticPlayerId($pdo, $playerStatisticPlayerId);
-	if($playerStatistic !== null && $playerStatistic->getPlayerId() === $_SESSION["playerStatistic"]->getPlayerId()) {
-		$reply->data = $playerStatistic;
-	}
+	$playerStatistics = PlayerStatistic::getPlayerStatisticByPlayerStatisticPlayerId($pdo, $playerStatisticPlayerId)->toArray();
+	$reply->data = $playerStatistic;
+
 } else if(empty($playerStatisticStatisticId) === false) {
 	$playerStatistic = PlayerStatistic::getPlayerStatisticByPlayerStatisticStatisticId($pdo, $playerStatisticStatisticId);
 	if($playerStatistic !== null && $playerStatistic->getStatisticId() === $_SESSION["playerStatistic"]->getStatisticId()) {
