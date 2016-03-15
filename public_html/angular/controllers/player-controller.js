@@ -33,12 +33,11 @@ app.controller('playerController', ["$scope", "playerService", "playerStatsServi
 				}
 			});
 	};
-	$scope.getAllPlayerStatistics = function () {
-		playerService.all()
+	$scope.getAllPlayersStatisticsForId = function (playerId) {
+		playerStatsService.getAllPlayersStatisticsForId(playerId)
 			.then(function (result) {
 				if (result.data.status === 200) {
-					$scope.players = result.data.data;
-					$scope.switchPlayerArray();
+					$scope.playerStats.playerId = result.data.data;
 				}
 			});
 	};
