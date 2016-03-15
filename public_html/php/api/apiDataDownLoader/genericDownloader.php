@@ -142,7 +142,10 @@ function getTeams(string $league, int $teamSportId) {
 				} else {
 					$statistic = $statistic[0];
 				}
-				$statisticValue = $statisticData->$statisticName;
+				$statisticValue = null;
+				if(empty($statisticData->$statisticName) === false) {
+					$statisticValue = $statisticData->$statisticName;
+				}
 				if($statisticValue !== null) {
 //					$statisticValue = "";
 					$teamStatisticToInsert = new TeamStatistic($game->getGameId(), $team->getTeamId(), $statistic->getTeamStatisticStatisticId(), $statisticValue);
