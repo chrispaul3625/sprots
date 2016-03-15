@@ -36,8 +36,8 @@
 						<li>
 							<a href="#" ng-click="openLogin();">Log In</a>
 						</li>
-						<li ng-click="openSignupModal();">
-							<a href="#">Sign Up</a>
+						<li>
+							<a href="#" ng-click="openSignup();">Sign Up</a>
 						</li>
 					</ul>
 					<form class="navbar-form navbar-right" role="search">

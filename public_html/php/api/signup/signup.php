@@ -8,7 +8,7 @@
  */
 
 // auto loader
-require_once(dirname(dirname(dirname(__DIR__)) . "/php/classes/atoloder.php"));
+require_once(dirname(dirname(dirname(__DIR__)) . "/php/classes/autoloader.php"));
 // imports xsrf
 require_once(dirname(dirname(__DIR__) . "/lib/xsrf.php"));
 // a security file that's on the schools server, that Dylan created, so it'll show not found.
@@ -29,32 +29,43 @@ try {
 
 	// connect to the db
 	$pdo = connectToEncryptedMySql("/etc/apache2/capstone-mysql/sprots.ini");
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	// convert POSTed JSON to an object
-	$requestContent = file_get_contents("php://input");
-	$requestObject = json_decode($requestContent);
+	if($method === "POST") {
+		// convert POSTed JSON to an object
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
 
-	// make sure form is filled out fully, to prevent db issues
-	if(empty($requestObject->profileUserName) === true) {
-		throw(new InvalidArgumentException("Must chose a user name", 405));
+		// make sure form is filled out fully, to prevent db issues
+		if(empty($requestObject->profileName) === true) {
+			throw(new InvalidArgumentException("Must chose a user name", 405));
+		}
+		if(empty($requestObject->profileEmail) === true) {
+			throw(new InvalidArgumentException("Must use a valid email", 405));
+		}
+		if(empty($requestObject->profilePassword) === true) {
+			throw(new InvalidArgumentException("password cannot be empty", 405));
+		}
+
+		// sanitize the email
+		$profileSalt = bin2hex(openssl_random_pseudo_bytes(32));
+		$profileEmailActivation = bin2hex(openssl_random_pseudo_bytes(8));
+
+		// create the hash
+		$profileHash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profileSalt, 262144, 128);
+
+		// create a new Profile, and insert into db
+		$profile = new Profile(null, $requestObject->profileEmail, $profileEmailActivation, $profile->insert($pdo));
+		$reply->message = "A new Profile has been created";
+	} else {
+		throw(new InvalidArgumentException("Invalid HTTP method"));
 	}
-	if(empty($requestObject->profileEmail) === true) {
-		throw(new InvalidArgumentException("Must use a valid email", 405));
-	}
-	if(empty($requestObject->profilePassword) === true) {
-		throw(new InvalidArgumentException("password cannot be empty", 405));
-	}
-
-	// sanitize the email
-	$profileSalt = bin2hex(openssl_random_pseudo_bytes(32));
-	$profileEmailActivation = bin2hex(openssl_random_pseudo_bytes(8));
-
-	// create the hash
-	$profileHash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profileSalt, 262144, 128);
-
-	// create a new Profile, and insert into db
-	$profile = new Profile(null, $requestObject->profileEmail, $profileEmailActivation, $profile->insert($pdo);
-	$reply->message = "A new Profile has been created";
+} catch(\Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+} catch(\TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
-
-// create Swift Message
+header("Content-type: application/json");
+echo json_encode($reply);

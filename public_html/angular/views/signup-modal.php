@@ -3,7 +3,7 @@
 </div>
 
 <div class="modal-body">
-	<form id="signupForm" name="signupForm">
+	<form ng-submit="ok();" id="signupForm" name="signupForm">
 		<!--first name-->
 		<div class="form-group" ng-class="{ 'has-error' : signupForm.profileFirstName.$touched && signupForm.profileFirstName.$invalid }">
 		<h5>
@@ -16,29 +16,12 @@
 				<div class="input-group-addon">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 				</div>
-				<input type="text" class="form-control" id="profileFirstName" name="profileFirstName" placeholder="First Name"
+				<input type="text" class="form-control" id="profileFirstName" name="profileName" placeholder="Name"
 						 ng-model="signupData.profileFirstName" ng-required="true"/>
 			</div>
 			<div class="alert alert-danger" role="alert" ng-messages="signupForm.profileFirstName.$error"
 				  ng-if="signupForm.profileFirstName.$touched" ng-hide="signupForm.profileFirstName.$valid">
 				<p ng-message="required">Please enter your first name</p>
-			</div>
-		</div>
-
-		<div class="form-group" ng-class="{ 'has-error' : signupForm.profileLasttName.$touched && signupForm.profileLasttName.$invalid }">
-			<!--last name-->
-			<label class="control-label sr-only" for="profileLastName">Last Name</label>
-
-			<div class="input-group">
-				<div class="input-group-addon">
-					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-				</div>
-				<input type="text" class="form-control" id="profileLastName" name="profileLastName" placeholder="Last Name"
-						 ng-model="signupData.profileLastName" ng-required="true"/>
-			</div>
-			<div class="alert alert-danger" role="alert" ng-messages="signupForm.profileLastName.$error"
-				  ng-if="signupForm.profileLastName.$touched" ng-hide="signupForm.profileLastName.$valid">
-				<p ng-message="required">Please enter your last name</p>
 			</div>
 		</div>
 
@@ -74,7 +57,7 @@
 				<div class="input-group-addon">
 					<i class="fa fa-key" aria-hidden="true"></i>
 				</div>
-				<input type="password" class="form-control" id="password" name="password" placeholder="Password&hellip;"
+				<input type="password" class="form-control" id="profilePassword" name="profilePassword" placeholder="Password&hellip;"
 						 ng-model="signupData.password" ng-minlength="8" ng-required="true"/>
 			</div>
 			<div class="alert alert-danger" role="alert" ng-messages="signupForm.password.$error"
