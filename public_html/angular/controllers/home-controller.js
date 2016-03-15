@@ -19,9 +19,9 @@ app.controller('homeController', ["$scope", "$window", "$uibModal", "loginServic
 			loginService.login(loginData)
 				.then(function(reply) {
 					if(reply.data.status === 200) {
-						console.log("yay! teh login!");
+						console.log("yay! you're logged in!");
 						// NOTE: only the login should use $window; use $location anywhere else
-						$window.location.href = "angular/pages/home.php"
+						$window.location.href = "angular/pages/profile.php"
 					} else {
 						console.log("Tacos Findley shall never see the light here");
 					}
