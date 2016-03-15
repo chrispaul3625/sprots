@@ -30,23 +30,31 @@ try {
 	// connect to the db
 	$pdo = connectToEncryptedMySql("/etc/apache2/capstone-mysql/sprots.ini");
 
-	// convert JSON to an object
-	$requestContent = file_get_contents("php://input");
-	$requestObject = json_decode($requestContent);
+	//determine which HTTP method was used
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	// sanitize the email, and search by profileEmail
-	$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
-	$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
+	if($method === "POST") {
 
-	if($profile !== null) {
-		$profileHash = hash_pbkdf2("sha512", $requestObject->password, $profile->getProfileSalt(), 262144, 128);
-		if($profileHash === $profile->getProfileHash()) {
-			$_SESSION["Profile"] = $profile;
-			$reply->status = 200;
-			$reply->message = "Successfully logged in";
-		} else {
-			throw(new InvalidArgumentException("email or password is invalid", 401));
+		// convert JSON to an object
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		// sanitize the email, and search by profileEmail
+		$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
+		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
+
+		if($profile !== null) {
+			$profileHash = hash_pbkdf2("sha512", $requestObject->password, $profile->getProfileSalt(), 262144, 128);
+			if($profileHash === $profile->getProfileHash()) {
+				$_SESSION["Profile"] = $profile;
+				$reply->status = 200;
+				$reply->message = "Successfully logged in";
+			} else {
+				throw(new InvalidArgumentException("email or password is invalid", 401));
+			}
 		}
+	} else {
+		throw (new \Exception("Invalid HTTP method"));
 	}
 	// create an exception to pass back to the REST caller
 }  catch(Exception $exception) {
