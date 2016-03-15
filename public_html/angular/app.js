@@ -1,2 +1,2 @@
-var app = angular.module("Sprots", ["ngRoute", "ui.bootstrap", "ngRoute"]);
+var app = angular.module("Sprots", ["ngRoute", "ui.bootstrap"]);
 

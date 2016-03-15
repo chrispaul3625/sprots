@@ -1,5 +1,5 @@
 
-<header>
+<header ng-controller="homeController">
 	<div class="container">
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
@@ -33,8 +33,8 @@
 					</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li ng-click="openLogin();">
-							<a href="#">Log In</a>
+						<li>
+							<a href="#" ng-click="openLogin();">Log In</a>
 						</li>
 						<li ng-click="openSignupModal();">
 							<a href="#">Sign Up</a>

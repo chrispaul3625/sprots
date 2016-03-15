@@ -4,24 +4,24 @@ app.controller('homeController', ["$scope", "$window", "$uibModal", "loginServic
 
 	$scope.openLogin = function() {
 		var loginInstance = $uibModal.open({
-			templateUrl: "angular/pages/login.php",
+			templateUrl: "angular/pages/login-modal.php",
 			controller: "LoginModal",
 			resolve: {
 				loginData: function(){
-					//console.log("The problem cannot be resolved");
+					console.log("The problem cannot be resolved");
 					return($scope.loginData);
 				}
 			}
 		});
 		loginInstance.result.then(function(loginData) {
-			//console.log(loginData);
+			console.log(loginData);
 			$scope.loginData = loginData;
 			loginService.login(loginData)
 				.then(function(reply) {
 					if(reply.data.status === 200) {
-						//console.log("yay! teh login!");
+						console.log("yay! teh login!");
 						// NOTE: only the login should use $window; use $location anywhere else
-						$window.location.href = 'angular/pages/home.php'
+						$window.location.href = "angular/pages/home.php/"
 					} else {
 						//console.log("Tacos Findley shall never see the light here");
 					}
