@@ -1,4 +1,3 @@
-
 <header ng-controller="homeController">
 	<div class="container">
 		<nav class="navbar navbar-inverse">
@@ -12,26 +11,26 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Sprots Logo</a>
+					<a class="navbar-brand" href="index">Sprots Logo</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="../index.php">Home <span class="sr-only">(current)</span></a></li>
 						<li>
-							<a href="../sportPage/index.php">NFL</a>
+							<a href="index">Home</a></li>
+						<li>
+							<a href="sport">NFL</a>
 						</li>
 						<li>
-							<a href="../sportPage/index.php">NBA</a></li>
+							<a href="sport">NBA</a></li>
 						<li>
-							<a href="../sportPage/index.php">MLB</a></li>
+							<a href="sport">MLB</a></li>
 						<li>
-							<a href="../sportPage/index.php">NHL</a>
+							<a href="sport">NHL</a>
 						</li>
 					</ul>
-					</li>
-					</ul>
+
 					<ul class="nav navbar-nav navbar-right">
 						<li>
 							<a href="#" ng-click="openLogin();">Log In</a>
