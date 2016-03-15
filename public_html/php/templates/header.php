@@ -19,12 +19,26 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="../index.php">Home <span class="sr-only">(current)</span></a></li>
-						<li><a href="../sportPage/index.php">NFL</a></li><li><a href="../sportPage/index.php">NBA</a></li><li><a href="../sportPage/index.php">MLB</a></li><li><a href="../sportPage/index.php">NHL</a></li>
+						<li>
+							<a href="../sportPage/index.php">NFL</a>
+						</li>
+						<li>
+							<a href="../sportPage/index.php">NBA</a></li>
+						<li>
+							<a href="../sportPage/index.php">MLB</a></li>
+						<li>
+							<a href="../sportPage/index.php">NHL</a>
+						</li>
 					</ul>
 					</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#">Log In</a></li>
+						<li>
+							<a href="#">Log In</a>
+						</li>
+						<li ng-click="openSignupModal();">
+							<a href="#">Sign Up</a>
+						</li>
 					</ul>
 					<form class="navbar-form navbar-right" role="search">
 						<div class="form-group">
