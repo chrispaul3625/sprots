@@ -33,7 +33,7 @@
 					</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li>
+						<li ng-click="openLogin();">
 							<a href="#">Log In</a>
 						</li>
 						<li ng-click="openSignupModal();">

@@ -1,7 +1,7 @@
 <form class="form-inline" id="modalLoginForm" name="modalLoginForm" ng-submit="ok();" novalidate>
 	<div class="form-group">
 
-		<label for="emailLoginEmail" class="sr-only">Email: </label>
+		<label for="loginEmail" class="sr-only">Email: </label>
 		<div class="input-group">
 			<div class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span>
 			</div>
