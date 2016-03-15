@@ -28,12 +28,31 @@
 					</div>
 				</div>
 			</form>
-			<div ng-repeat="player in pagination.filteredPlayers | filter: pagination.search">
-				<p> Id {{ player.playerId }}
-					{{player.playerName}}
-					{{player.playerCity}}
-				</p>
-			</div>
+<!--			<div ng-controller="CollapseDemoCtrl">-->
+				<table class="table table-bordered table-hover table-responsive table-word-wrap">
+					<tbody>
+						<tr>
+							<th>Player Name </th>
+							<th>Player City</th>
+						</tr>
+
+						<tr ng-repeat="player in pagination.filteredPlayers | filter: pagination.search">
+							<td>
+								<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">
+									{{ player.playerName }}
+								</button>
+								<hr>
+				<span ubi-collapse="isCollapsed">
+				<span class="well well-sm"> some content </span>
+				</span>
+
+							</td>
+							<td>{{ player.playerCity }}</td>
+						</tr>
+					</tbody>
+				</table>
+
+		</div>
 			<uib-pagination
 				ng-model="pagination.currentPage"
 				total-items="players.length"

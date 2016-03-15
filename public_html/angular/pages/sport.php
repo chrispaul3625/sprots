@@ -16,7 +16,7 @@
 			<i class="fa fa-spinner fa-pulse" aria-hidden="true"></i> Loading teams&hellip;
 		</div>
 		<div class="content-box" ng-if="teams.length > 0">
-			<h2> Team Positions</h2>
+			<h2> Team List</h2>
 			<form class="form-inline inline pull-right" name="searchForm" id="searchForm">
 				<div class="form-group">
 					<label for="search">Search</label>
@@ -28,11 +28,18 @@
 					</div>
 				</div>
 			</form>
-			<div ng-repeat="team in pagination.filteredTeams | filter: pagination.search">
-				<p> Id {{ team.teamId }}
-					{{team.teamName}}
-					{{team.teamCity}}
-				</p>
+			<table class="table table-bordered table-hover table-responsive table-word-wrap">
+				<tbody>
+					<tr>
+						<th>Team City </th>
+						<th>Team Name</th>
+					</tr>
+					<tr ng-repeat="team in pagination.filteredTeams | filter: pagination.search">
+						<td>{{ team.teamCity }}</td>
+							<td>{{ team.teamName }}</td>
+					</tr>
+				</tbody>
+			</table>
 			</div>
 			<uib-pagination
 				ng-model="pagination.currentPage"

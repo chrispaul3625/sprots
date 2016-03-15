@@ -1,5 +1,6 @@
-app.controller('playerController', ["$scope", "playerService", "playerStatsService", function($scope, playerService, playerStatsService) {
+app.controller('playerController', ["$scope", "playerService", "playerStatsService", function($scope, playerService) {
 	$scope.players = [];
+	$scope.playerCollapse = true;
 
 	// pagination & search variables
 	$scope.pagination = {

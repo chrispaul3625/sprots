@@ -1,5 +1,5 @@
 app.constant("PLAYER_ENDPOINT", "php/api/Player/PlayerStatistic");
-app.services("playerStatsServices", function($http, PLAYER_ENDPOINT) {
+app.service("playerStatsService", function($http, PLAYER_ENDPOINT) {
 	function getAllPlayerStatistics(){
 		return(PLAYER_ENDPOINT);
 	}
