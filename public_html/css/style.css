@@ -57,6 +57,11 @@ body { width: 100%;}
 	flex: 1 0 auto;
 }
 
+/* navbar background */
+nav.navbar.navbar-inverse {
+	background: transparent;
+	padding-top: 10px;
+}
 
 /* general styles */
 
