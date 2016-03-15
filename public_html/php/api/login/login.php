@@ -8,7 +8,7 @@
  */
 
 // auto loader
-require_once(dirname(dirname(dirname(__DIR__)) . "/php/classes/atoloder.php"));
+require_once(dirname(dirname(dirname(__DIR__)) . "/php/classes/autoloder.php"));
 // imports xsrf
 require_once(dirname(dirname(__DIR__) . "/lib/xsrf.php"));
 // a security file that's on the schools server, that Dylan created, so it'll show not found.
