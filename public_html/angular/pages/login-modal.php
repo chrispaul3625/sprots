@@ -1,4 +1,4 @@
-<div ng-controller="LoginModal">
+<div>
 	<div class="modal-header">
 		<h4 class="modal-title" id="myModalLabel">Log In</h4>
 	</div>
