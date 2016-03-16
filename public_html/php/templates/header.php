@@ -11,7 +11,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Sprots Logo</a>
+					<img class="navbar-brand" src="images/sprotslogo.png"/>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
