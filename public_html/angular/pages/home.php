@@ -2,7 +2,7 @@
 	<div id="home" class="home">
 		<div class="text-vcenter">
 			<h1>Welcome!</h1>
-			<h3>Find your Sport</h3>
+			<h3>Find your Sport!</h3>
 			<a href="#about" class="btn btn-default btn-lg">Continue</a>
 		</div>
 	</div>
@@ -15,8 +15,8 @@
 	<div class="container">
 		<div class="row-2">
 			<div class="col-sm-6 col-sm-offset-3">
-				<h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet.</h2>
-				<p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum metus et ligula venenatis, at rhoncus nisi molestie. Pellentesque porttitor elit suscipit massa laoreet metus.</p>
+				<h2>Welcome Sports Fans!</h2>
+				<p class="lead">Sprots is fast becoming <em>the</em> go to site for avid sports fans!  Here you will find news and statistics about your favorite teams and players.</p>
 			</div>
 		</div>
 	</div>
@@ -31,23 +31,23 @@
 		<div class="row text-center">
 			<div class="col-sm-3 col-xs-6">
 				<i class="glyphicon glyphicon-cloud"> </i>
-				<h4>Service 1</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet. Donec in sem cras amet.</p>
+				<h4>Team Statistics</h4>
+				<p>If you like fantasy leagues, Sprots is for you, as you can research every player in the league and pick the best!</p>
 			</div>
 			<div class="col-sm-3 col-xs-6">
 				<i class="glyphicon glyphicon-leaf"> </i>
-				<h4>Service 2</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet. Donec in sem cras amet.</p>
+				<h4>Player Statistics</h4>
+				<p>Follow your favorite teams on Sprots!  We bring you the latest news and stats for your team and every player in the league!</p>
 			</div>
 			<div class="col-sm-3 col-xs-6">
 				<i class="glyphicon glyphicon-phone-alt"> </i>
-				<h4>Service 3</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet. Donec in sem cras amet.</p>
+				<h4>Latest News</h4>
+				<p>Sprots offers an exciting new site for sports fans and delivers the latest news and statistics for your team!</p>
 			</div>
 			<div class="col-sm-3 col-xs-6">
 				<i class="glyphicon glyphicon-bullhorn"> </i>
-				<h4>Service 4</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet. Donec in sem cras amet.</p>
+				<h4>Sport Wagering</h4>
+				<p>If you like to wager on sporting events, you'll find Sprots an invaluable tool!</p>
 			</div>
 		</div>
 	</div>
@@ -65,7 +65,7 @@
 						<h2 class="panel-title">Additional information</h2>
 					</div>
 					<div class="panel-body lead">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit adipiscing blandit. Aliquam placerat, velit a fermentum fermentum, mi felis vehicula justo, a dapibus quam augue non massa. Duis euismod, augue et tempus consequat, lorem mauris porttitor quam, consequat ultricies mauris mi a metus. Phasellus congue, leo sed ultricies tristique, nunc libero tempor ligula, at varius mi nibh in nisi. Aliquam erat volutpat. Maecenas rhoncus, neque facilisis rhoncus tempus, elit ligula varius dui, quis amet.
+						Sprots was developed by a team of crack programmers with one goal in mind: to create the best sports website on the internet!
 					</div>
 				</div>
 			</div>
@@ -75,7 +75,7 @@
 						<h2 class="panel-title">Additional information</h2>
 					</div>
 					<div class="panel-body lead">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit adipiscing blandit. Aliquam placerat, velit a fermentum fermentum, mi felis vehicula justo, a dapibus quam augue non massa. Duis euismod, augue et tempus consequat, lorem mauris porttitor quam, consequat ultricies mauris mi a metus. Phasellus congue, leo sed ultricies tristique, nunc libero tempor ligula, at varius mi nibh in nisi. Aliquam erat volutpat. Maecenas rhoncus, neque facilisis rhoncus tempus, elit ligula varius dui, quis amet.
+						Create your profile today and start following your favorite players as they perform on the field!  We offer all NBA, NFL, MLB, and NHL teams and players!  Coming soon will be MLS, UFC and more!
 					</div>
 				</div>
 			</div>
@@ -89,7 +89,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 text-center">
-				<h3>Sign Up</h3>
+				<h3>Sign Up!</h3>
 				<button class="btn btn-default btn-lg">Go!</button>
 			</div>
 		</div>
