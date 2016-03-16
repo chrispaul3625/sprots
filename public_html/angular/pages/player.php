@@ -1,9 +1,13 @@
 <div class="row">
-	<div class="col-md-2">
+	<div  class="col-md-2 border">
 		<div class="content-box">
 			<h2> Favorited Teams </h2>
-			<button><img src="images/Pittsburgh_Steelers_logo.svg.png" class="img-responsive">
-			Pittsburg Steelers</button>
+			<p><button><img src="images/Pittsburgh_Steelers_logo.svg.png" class="img-responsive">
+			Pittsburg Steelers</button></p>
+			<p><button><img src="images/Dallas_Cowboys.svg.png" class="img-responsive">
+				Dallas Cowboys</button></p>
+			<p><button><img src="images/Boston_Bruins_1948.gif" class="img-responsive">
+				Boston Bruins</button></p>
 		</div>
 	</div>
 

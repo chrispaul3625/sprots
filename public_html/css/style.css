@@ -215,3 +215,6 @@ th:hover, tr:hover, td:hover {
 a {
 	color: white;
 }
+button {
+	color: olivedrab;
+}
