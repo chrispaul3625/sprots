@@ -10,7 +10,7 @@ require_once("autoload.php");
  * @author Dominic Cuneo < cueno94@gmail.com
  *
  */
-class Game {
+class Game implements \JsonSerializable{
 	use ValidateDate;
 	/**
 	 * id for gameId primary key
@@ -430,5 +430,8 @@ class Game {
 			}
 		}
 		return ($games);
+	}
+	public function jsonSerialize() {
+		return(get_object_vars($this));
 	}
 }

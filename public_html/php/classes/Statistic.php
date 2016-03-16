@@ -10,7 +10,7 @@ require_once("autoload.php");
  *
  * @author Dominic Cuneo< cuneo94@gmail.com
  */
-class Statistic {
+class Statistic implements \JsonSerializable{
 	/**
 	 * id for statistic primary key
 	 * @var int $statisticId
@@ -277,4 +277,7 @@ class Statistic {
 			}
 			return($statistics);
 		}
+	public function jsonSerialize() {
+		return(get_object_vars($this));
+	}
 }

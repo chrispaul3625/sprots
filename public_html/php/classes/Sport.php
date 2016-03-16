@@ -8,7 +8,7 @@ require_once("autoload.php");
  *
  * @author Dom Kratos <mr.kratos85@gmail.com>
  */
-class Sport {
+class Sport implements \JsonSerializable{
 	/**
 	 * id for the sport
 	 * @var int $sportId
@@ -397,6 +397,8 @@ class Sport {
 		}
 		return ($allSportNames);
 	}
-
+	public function jsonSerialize() {
+		return(get_object_vars($this));
+	}
 
 }

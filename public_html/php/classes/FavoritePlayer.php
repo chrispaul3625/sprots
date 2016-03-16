@@ -6,7 +6,7 @@ require_once("autoload.php");
 
 //This is the class for users to select favorite player(s)//
 
-class FavoritePlayer {
+class FavoritePlayer implements \JsonSerializable{
 
 	/**
 	 * Id for this FavoritePlayer class, this is the foreign key
@@ -247,5 +247,7 @@ class FavoritePlayer {
 		}
 		return ($favoritePlayers);
 	}
-
+	public function jsonSerialize() {
+		return(get_object_vars($this));
+	}
 } //end of class
