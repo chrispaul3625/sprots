@@ -64,7 +64,6 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/score-controller.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/position-controller.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/team-controller.js"></script>
-		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/signup-controller.js"></script>
 
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/playerStats-controller.js"></script>
 

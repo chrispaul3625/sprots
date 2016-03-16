@@ -1,7 +1,7 @@
 <div class="modal-header">
 	<h2>Sign Up!</h2>
 </div>
-
+<div ng-controller="SignupModal">
 <div class="modal-body">
 	<form ng-submit="ok();" id="signupForm" name="signupForm">
 		<!--first name-->
@@ -87,6 +87,7 @@
 			</div>
 		</div>
 </div>
+	</div>
 <div class="modal-footer">
 	<button type="submit" class="btn btn-primary" ng-click="ok();" ng-disabled="signupForm.$invalid"><i
 			class="fa fa-check" aria-hidden="true"></i>Submit
