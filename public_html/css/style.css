@@ -115,7 +115,7 @@ html, body {
 	color: white;
 	width: 100%;
 }
-#services .glyphicon {
+#services .fa {
 	border: 2px solid white;
 	border-radius: 50%;
 	display: inline-block;
@@ -197,5 +197,21 @@ body {
 }
 
 .content-box {
+	color: white;
+}
+
+.navbar-brand {
+	color: green;
+}
+
+#bs-example-navbar-collapse-1 {
+	color: white;
+}
+
+th:hover, tr:hover, td:hover {
+	color: green;
+}
+
+a {
 	color: white;
 }

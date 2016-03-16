@@ -30,22 +30,22 @@
 		<h2 class="text-center">Follow your favorite sports and teams!</h2> <hr />
 		<div class="row text-center">
 			<div class="col-sm-3 col-xs-6">
-				<i class="glyphicon glyphicon-cloud"> </i>
+				<i class="fa fa-bar-chart"> </i>
 				<h4>Team Statistics</h4>
 				<p>If you like fantasy leagues, Sprots is for you, as you can research every player in the league and pick the best!</p>
 			</div>
 			<div class="col-sm-3 col-xs-6">
-				<i class="glyphicon glyphicon-leaf"> </i>
+				<i class="fa fa-area-chart"> </i>
 				<h4>Player Statistics</h4>
 				<p>Follow your favorite teams on Sprots!  We bring you the latest news and stats for your team and every player in the league!</p>
 			</div>
 			<div class="col-sm-3 col-xs-6">
-				<i class="glyphicon glyphicon-phone-alt"> </i>
+				<i class="fa fa-rss"> </i>
 				<h4>Latest News</h4>
 				<p>Sprots offers an exciting new site for sports fans and delivers the latest news and statistics for your team!</p>
 			</div>
 			<div class="col-sm-3 col-xs-6">
-				<i class="glyphicon glyphicon-bullhorn"> </i>
+				<i class="fa fa-trophy"> </i>
 				<h4>Sport Wagering</h4>
 				<p>If you like to wager on sporting events, you'll find Sprots an invaluable tool!</p>
 			</div>

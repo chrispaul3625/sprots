@@ -1,3 +1,4 @@
+
 <header ng-controller="homeController">
 	<div class="container">
 		<nav class="navbar-navbar">
@@ -19,6 +20,8 @@
 					<ul class="nav navbar-nav">
 						<li>
 							<a href="index">Home</a></li>
+						<li>
+							<a href="player">Player</a></li>
 						<li>
 							<a href="sport">NFL</a>
 						</li>
