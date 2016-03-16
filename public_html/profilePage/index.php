@@ -42,7 +42,7 @@ require_once(dirname(__DIR__)."/php/templates/head-utils.php");
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Profile</h1>
-				<p>Hello World!</p>
+				<p>Hello Sports Fans!</p>
 			</div>
 		</div>
 
