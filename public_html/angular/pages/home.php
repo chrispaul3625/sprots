@@ -65,7 +65,7 @@
 						<h2 class="panel-title">Additional information</h2>
 					</div>
 					<div class="panel-body lead">
-						Sprots was developed by a team of crack programmers with one goal in mind: to create the best sports website on the internet!
+						Sprots is a great site for fantasy leagues.  We bring you all the statistics you need to pick the best players.
 					</div>
 				</div>
 			</div>
