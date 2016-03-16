@@ -75,7 +75,7 @@
 						<h2 class="panel-title">Additional information</h2>
 					</div>
 					<div class="panel-body lead">
-						Create your profile today and start following your favorite players as they perform on the field!  We offer all NBA, NFL, MLB, and NHL teams and players!  Coming soon will be MLS, UFC and more!
+						Create your profile today and start following your favorite players as they perform on the field!  We offer all NBA, NFL, MLB, and NHL teams and players!  And coming soon: MLS, UFC and more!
 					</div>
 				</div>
 			</div>
