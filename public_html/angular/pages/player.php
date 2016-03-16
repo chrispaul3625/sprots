@@ -2,8 +2,11 @@
 	<div class="col-md-2">
 		<div class="content-box">
 			<h2> Favorited Teams </h2>
-			Follow your favorite teams here and see various updates about them!
+			<img src="../../images/" Denver Broncos
+			Washington Redskins
+			San Francisco 49'ers
 		</div>
+	</div>
 	</div>
 <!--	<pre>{{ playerCollapse | json }}</pre>-->
 	<div class="col-md-10">
@@ -32,20 +35,19 @@
 					</tr>
 
 					<tr ng-repeat="player in pagination.filteredPlayers | filter: pagination.search">
-						<td>
-							<p ng-click="flipPlayerCollapsed($index);">
+						<td ng-click="flipPlayerCollapsed($index);">
+							<p>
 								{{ player.playerName }}
 							</p>
-							<p uib-collapse="isPlayerCollapsed($index);">
-								<span>yay! content!</span>
-<!--							<pre>{{ playerStats[$index] | json }}</pre>-->
-							</p>
+							<ul uib-collapse="isPlayerCollapsed($index);">
+								<li ng-repeat="stat in playerStats[$index]">{{ statistics[stat.playerStatisticStatisticId].statisticName }}: {{ stat.playerStatisticValue }}</li>
+							</ul>
+
 						</td>
 					</tr>
 				</tbody>
 			</table>
 
-		</div>
 		<uib-pagination
 			ng-model="pagination.currentPage"
 			total-items="players.length"

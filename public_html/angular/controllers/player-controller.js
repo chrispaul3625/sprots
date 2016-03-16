@@ -1,7 +1,8 @@
-app.controller('playerController', ["$scope", "playerService", "playerStatsService", function($scope, playerService, playerStatsService) {
+app.controller('playerController', ["$scope", "playerService", "playerStatsService", "statisticService", function($scope, playerService, playerStatsService, statisticService) {
 	$scope.players = [];
 	$scope.playerCollapse = {};
 	$scope.playerStats = {};
+	$scope.statistics = {};
 
 	// pagination & search variables
 	$scope.pagination = {
@@ -30,6 +31,17 @@ app.controller('playerController', ["$scope", "playerService", "playerStatsServi
 					}
 				});
 		}
+	};
+
+	$scope.getAllStatistics = function() {
+		statisticService.all()
+			.then(function(result) {
+				if(result.data.status === 200) {
+					result.data.data.forEach(function(statistic) {
+						$scope.statistics[statistic.statisticId] = statistic;
+					});
+				}
+			});
 	};
 
 	$scope.getAllPlayers = function () {
@@ -67,6 +79,7 @@ app.controller('playerController', ["$scope", "playerService", "playerStatsServi
 
 	if ($scope.players.length === 0) {
 		$scope.getAllPlayers();
+		$scope.getAllStatistics();
 		$scope.pagination.currentPage = 1;
 	}
 }]);
