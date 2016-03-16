@@ -1,7 +1,7 @@
 <?php
 
-require_once (dirname(__DIR__,2) . "/classes/autoload.php");
-require_once (dirname(__DIR__,2) . "/lib/xsrf.php");
+require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
+require_once(dirname(__DIR__, 2) . "/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 //require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/vendor/autoload.php");
 
@@ -14,7 +14,7 @@ use Edu\Cnm\Sprots\Statistic;
  */
 
 //verify the xsrf challenge
-if(session_status() !== PHP_SESSION_ACTIVE){
+if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
 
@@ -23,12 +23,11 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
-try{
+try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprots.ini");
 
-
 	//determine which HTTP method was used
-	$method = array_key_exists("HTTP_X_HTTP_METHOD",$_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize inputs
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
@@ -36,7 +35,6 @@ try{
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new InvalidArgumentException("id can not be empty or negitive", 405));
 	}
-
 
 	//Sanitize and trim other fields
 	$statisticId = filter_input(INPUT_GET, "statisticId", FILTER_VALIDATE_INT);
@@ -46,7 +44,7 @@ try{
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie("/");
-		//get the volunteer based on the given field
+
 		if(empty($id) === false) {
 			$statistic = Statistic::getStatisticByStatisticId($pdo, $id);
 			if($statistic !== null && $statistic->getStatisticId() === $_SESSION["statistic"]->getStatisticId()) {
@@ -60,7 +58,13 @@ try{
 		}
 	}
 
-}catch(Exception $exception) {
+	if($method === "GET") {
+		setXsrfCookie("/");
+		$statistics = Statistic::getAllStatistic($pdo)->toArray();
+		$reply->data = $statistics;
+	}
+
+} catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 }
