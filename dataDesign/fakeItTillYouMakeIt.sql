@@ -1,0 +1,1 @@
+INSERT INTO teamStatistic(teamStatisticGameId, teamStatisticTeamId, teamStatisticStatisticId, teamStatisticValue) SELECT playerStatisticGameId, playerStatisticTeamId, playerStatisticStatisticId, playerStatisticValue FROM playerStatistic;
