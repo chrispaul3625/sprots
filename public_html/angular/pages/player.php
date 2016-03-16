@@ -2,13 +2,11 @@
 	<div class="col-md-2">
 		<div class="content-box">
 			<h2> Favorited Teams </h2>
-			<img src="../../images/" Denver Broncos
-			Washington Redskins
-			San Francisco 49'ers
+			<button><img src="images/Pittsburgh_Steelers_logo.svg.png" class="img-responsive">
+			Pittsburg Steelers</button>
 		</div>
 	</div>
-	</div>
-<!--	<pre>{{ playerCollapse | json }}</pre>-->
+
 	<div class="col-md-10">
 		<div class="alert alert-info" ng-if="players.length === 0">
 			<i class="fa fa-spinner fa-pulse" aria-hidden="true"></i> Loading players&hellip;
@@ -61,5 +59,5 @@
 		</uib-pagination>
 	</div>
 </div>
-</div>
+
 
