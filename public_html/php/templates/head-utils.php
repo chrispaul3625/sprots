@@ -54,6 +54,7 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/services/signup-service.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/services/login-service.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/services/playerStats-service.js"></script>
+		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/services/teamStats-service.js"></script>
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/services/statistic-service.js"></script>
 <!--		controllers here -->
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/home-controller.js"></script>
@@ -66,6 +67,7 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/team-controller.js"></script>
 
 		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/playerStats-controller.js"></script>
+		<script type="text/javascript" src="<?php echo $PREFIX;?>angular/controllers/teamStats-controller.js"></script>
 
 
 

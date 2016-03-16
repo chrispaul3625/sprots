@@ -34,12 +34,21 @@
 			<table class="table table-bordered table-hover table-responsive table-word-wrap">
 				<tbody>
 					<tr>
-						<th>Team City </th>
+<!--						<th>Team City </th>-->
 						<th>Team Name</th>
 					</tr>
 					<tr ng-repeat="team in pagination.filteredTeams | filter: pagination.search">
-						<td>{{ team.teamCity }}</td>
-							<td>{{ team.teamName }}</td>
+						<td ng-click="flipTeamCollapsed($index);">
+							<p>
+								{{ team.teamName }}
+							</p>
+							<ul uib-collapse="isTeamCollapsed($index);">
+								<li ng-repeat="stat in teamStats[$index]">{{ statistics[stat.teamStatisticStatisticId].statisticName }}: {{ stat.teamStatisticValue }}</li>
+							</ul>
+
+						</td>
+<!--						<td>{{ team.teamCity }}</td>-->
+<!--							<td>{{ team.teamName }}</td>-->
 					</tr>
 				</tbody>
 			</table>

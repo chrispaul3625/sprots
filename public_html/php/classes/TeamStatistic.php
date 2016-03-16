@@ -366,42 +366,35 @@ class TeamStatistic implements \JsonSerializable{
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
-	public static function getTeamStatisticByTeamStatisticTeamId(\PDO $pdo, int $teamStatisticGameId, int $teamStatisticTeamId, int $teamStatisticStatisticId) {
+	public static function getTeamStatisticByTeamStatisticTeamId(\PDO $pdo, int $teamStatisticTeamId) {
 		// sanitize the player statistic statistic id before searching
-		if($teamStatisticGameId <= 0) {
-			throw (new \PDOException("team statistic game id is not positive"));
-		}
-
 		if($teamStatisticTeamId <= 0) {
 			throw (new \PDOException("team statistic game id is not positive"));
 		}
-
-		if($teamStatisticStatisticId <= 0) {
-			throw (new \PDOException("team statistic game id is not positive"));
-		}
 		// create query template
-		$query = "SELECT teamStatisticGameId, teamStatisticTeamId, teamStatisticStatisticId, teamStatisticValue FROM teamStatistic WHERE teamStatisticGameId = :teamStatisticGameId AND teamStatisticTeamId = :teamStatisticTeamId AND teamStatisticStatisticId = :teamStatisticStatisticId";
+		$query = "SELECT teamStatisticGameId, teamStatisticTeamId, teamStatisticStatisticId, teamStatisticValue FROM teamStatistic WHERE teamStatisticTeamId = :teamStatisticTeamId";
 		$statement = $pdo->prepare($query);
 
 
 		//Search based on Game, player, team, statistic ids
-		$parameters = ["teamStatisticGameId" => $teamStatisticGameId, "teamStatisticTeamId" => $teamStatisticTeamId,"teamStatisticStatisticId" => $teamStatisticStatisticId ];
+		$parameters = ["teamStatisticTeamId" => $teamStatisticTeamId];
 		$statement->execute($parameters);
 
 
-		//Grab the them from mySQL
-		try {
-			$teamStatistic = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
+		// build an array of Player Statistics
+		$teamStatistics = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
 				$teamStatistic = new TeamStatistic($row["teamStatisticGameId"], $row["teamStatisticTeamId"], $row["teamStatisticStatisticId"], $row["teamStatisticValue"]);
+				$teamStatistics[$teamStatistics->key()] = $teamStatistic;
+				$teamStatistics->next();
+			} Catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		} catch(\Exception $exception) {
-			//If the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($teamStatistic);
+		return ($teamStatistics);
 	}
 
 
