@@ -8,6 +8,8 @@
 				Dallas Cowboys</button></p>
 			<p><button><img src="images/Boston_Bruins_1948.gif" class="img-responsive">
 				Boston Bruins</button></p>
+			<p><button><img src="images/BostonRedSox_CapLogo.svg.png" class="img-responsive">
+					Boston Red Sox</button></p>
 		</div>
 	</div>
 
