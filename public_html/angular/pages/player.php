@@ -3,14 +3,14 @@
 	<div  class="col-md-2 border">
 		<div class="content-box">
 			<h2> Favorited Teams </h2>
-			<p><button><img src="images/Pittsburgh_Steelers_logo.svg.png" class="img-responsive">
-			Pittsburg Steelers</button></p>
-			<p><button><img src="images/Dallas_Cowboys.svg.png" class="img-responsive">
-				Dallas Cowboys</button></p>
-			<p><button><img src="images/Boston_Bruins_1948.gif" class="img-responsive">
-				Boston Bruins</button></p>
-			<p><button><img src="images/BostonRedSox_CapLogo.svg.png" class="img-responsive">
-					Boston Red Sox</button></p>
+			<p><img src="images/Pittsburgh_Steelers_logo.svg.png" class="img-responsive">
+				<button>Pittsburg Steelers</button></p>
+			<p><img src="images/Dallas_Cowboys.svg.png" class="img-responsive">
+				<button>Dallas Cowboys</button></p>
+			<p><img src="images/Boston_Bruins_1948.gif" class="img-responsive">
+				<button>Boston Bruins</button></p>
+			<p><img src="images/BostonRedSox_CapLogo.svg.png" class="img-responsive">
+				<button>Boston Red Sox</button></p>
 		</div>
 	</div>
 
