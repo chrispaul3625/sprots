@@ -1,6 +1,7 @@
-app.controller('playerController', ["$scope", "playerService", "playerStatsService", function($scope, playerService) {
+app.controller('playerController', ["$scope", "playerService", "playerStatsService", function($scope, playerService, playerStatsService) {
 	$scope.players = [];
 	$scope.playerCollapse = {};
+	$scope.playerStats = {};
 
 	// pagination & search variables
 	$scope.pagination = {
@@ -18,6 +19,17 @@ app.controller('playerController', ["$scope", "playerService", "playerStatsServi
 
 	$scope.flipPlayerCollapsed = function(index) {
 		$scope.playerCollapse[index] = !($scope.playerCollapse[index]);
+		if($scope.playerStats[index] === undefined) {
+			//console.log($scope.playerStats[index]);
+			playerStatsService.getAllPlayersStatisticsForId($scope.players[index].playerId)
+				.then(function(result) {
+					console.log(result);
+					if(result.data.status === 200) {
+						$scope.playerStats[index] = result.data.data;
+						console.log(result.data.data);
+					}
+				});
+		}
 	};
 
 	$scope.getAllPlayers = function () {
@@ -25,7 +37,6 @@ app.controller('playerController', ["$scope", "playerService", "playerStatsServi
 			.then(function (result) {
 				if (result.data.status === 200) {
 					$scope.players = result.data.data;
-					console.log($scope.players);
 					for(index in $scope.players) {
 						$scope.playerCollapse[index] = true;
 					}
@@ -55,7 +66,7 @@ app.controller('playerController', ["$scope", "playerService", "playerStatsServi
 	};
 
 	if ($scope.players.length === 0) {
-		$scope.players = $scope.getAllPlayers();
+		$scope.getAllPlayers();
 		$scope.pagination.currentPage = 1;
 	}
 }]);

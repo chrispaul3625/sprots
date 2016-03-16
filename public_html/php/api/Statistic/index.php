@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
-require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
+require_once (dirname(__DIR__,2) . "/classes/autoload.php");
+require_once (dirname(__DIR__,2) . "/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/vendor/autoload.php");
 
@@ -26,7 +26,7 @@ try{
 
 
 	//determine which HTTP method was used
-	$method = arry_key_exist("HTTP_X_HTTP_METHOD",$_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	$method = array_key_exists("HTTP_X_HTTP_METHOD",$_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize inputs
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);

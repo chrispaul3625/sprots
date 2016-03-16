@@ -1,4 +1,4 @@
-app.controller('playerController', ["$scope", "playerService", "playerStatsService", function($scope, playerService, playerStatsService) {
+app.controller('playerStatsController', ["$scope", "playerService", "playerStatsService", function($scope, playerService, playerStatsService) {
 	$scope.players = [];
 	$scope.playerStats = {};
 

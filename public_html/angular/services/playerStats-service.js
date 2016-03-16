@@ -1,12 +1,12 @@
-app.constant("PLAYER_ENDPOINT", "php/api/Player/PlayerStatistic");
-app.service("playerStatsService", function($http, PLAYER_ENDPOINT) {
+app.constant("PLAYERSTATISTIC_ENDPOINT", "php/api/PlayerStatistic/");
+app.service("playerStatsService", function($http, PLAYERSTATISTIC_ENDPOINT) {
 	function getAllPlayerStatistics(){
-		return(PLAYER_ENDPOINT);
+		return(PLAYERSTATISTIC_ENDPOINT);
 	}
 
-	function getAllPlayersStatisticsForId(playerId) {
-		return(getAllPlayerStatistics() + "&playerId=" + playerId);
-	}
+	this.getAllPlayersStatisticsForId = function(playerId) {
+		return($http.get(getAllPlayerStatistics() + "?playerId=" + playerId));
+	};
 
 	this.all = function() {
 		return($http.get(getAllPlayerStatistics()));

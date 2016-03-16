@@ -7,7 +7,7 @@ require_once("autoload.php");
  * Player Statistics, This will be a player stat that is being pulled from APIs.
  * @author Chris Paul <chrispaul3625@gmail.com>
  **/
-class PlayerStatistic {
+class PlayerStatistic implements \JsonSerializable {
 
 	use ValidateDate;
 	/**
@@ -578,4 +578,7 @@ class PlayerStatistic {
 	}
 
 
+	public function jsonSerialize() {
+		return(get_object_vars($this));
+	}
 }
