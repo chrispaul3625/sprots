@@ -190,6 +190,7 @@ body {
 .sfooter-content-2 {
 	background-image: url("../images/grass.jpg");
 	color: white;
+	height: 900px;
 }
 
 .navbar-navbar {
@@ -217,4 +218,8 @@ a {
 }
 button {
 	color: olivedrab;
+}
+tbody{
+	background: grey;
+	color: black;
 }
