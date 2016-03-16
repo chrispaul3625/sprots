@@ -26,6 +26,7 @@
 						</div>
 					</div>
 				</div>
+
 			</form>
 			<!--			<div ng-controller="CollapseDemoCtrl">-->
 			<table class="table table-bordered table-hover table-responsive table-word-wrap">
